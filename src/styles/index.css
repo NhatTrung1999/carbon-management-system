@@ -1,7 +1,13 @@
 @import "tailwindcss";
 
 @layer base {
-    .login-language option {
-        @apply bg-gray-800 text-white
-    }
+  .login-language option {
+    @apply bg-gray-800 text-white;
+  }
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  color: #fff;
 }
