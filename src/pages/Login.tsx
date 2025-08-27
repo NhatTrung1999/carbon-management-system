@@ -4,14 +4,19 @@ import { useEffect, useRef, useState } from "react";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 
+import { useNavigate } from "react-router-dom";
+import Loading from "../components/common/Loading";
+
 const validationSchema = Yup.object().shape({
   username: Yup.string().required("Please do not leave it blank!"),
   password: Yup.string().required("Please do not leave it blank!"),
 });
 
 const Login = () => {
+  const navigate = useNavigate();
   const elementRef = useRef(null) as any;
   const [distanceFromTop, setDistanceFromTop] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   const formik = useFormik({
     initialValues: {
@@ -22,6 +27,8 @@ const Login = () => {
     validationSchema,
     onSubmit: (data) => {
       console.log(data);
+
+      navigate("/");
     },
   });
 
@@ -39,12 +46,23 @@ const Login = () => {
     return () => {
       window.removeEventListener("resize", calculateDistanceFromTop);
     };
+  }, [loading]);
+
+  //Loading
+  useEffect(() => {
+    setTimeout(() => setLoading(false), 3000);
   }, []);
+
+  if (loading) {
+    return <Loading />;
+  }
+
+  //Loading
 
   return (
     <div className="min-h-screen flex">
       <div className="flex-1 bg-[url('https://wallpapercave.com/wp/wp12404757.jpg')] bg-center bg-cover flex">
-        <div className="flex-1 bg-gray/50 backdrop-blur-xl flex flex-col pl-14 pr-4 py-30 justify-between hidden lg:flex">
+        <div className="flex-1 bg-gray/50 backdrop-blur-xl flex-col pl-14 pr-4 py-30 justify-between hidden lg:flex">
           <div>
             <div className="xl:max-w-3xl text-[6vw] font-extrabold text-transparent bg-[url('https://wallpapercave.com/wp/wp12404757.jpg')] bg-clip-text bg-center">
               Carbon
@@ -92,7 +110,7 @@ const Login = () => {
                       name="username"
                       className="block w-full px-3 py-1.5 text-base outline-none"
                       value={formik.values.username}
-                      onChange={(e) => formik.handleChange(e.target.value)}
+                      onChange={formik.handleChange}
                       autoComplete="off"
                     />
                     <div className="p-2 border-l border-white/20">
@@ -117,7 +135,7 @@ const Login = () => {
                       name="password"
                       className="block w-full px-3 py-1.5 text-base outline-none"
                       value={formik.values.password}
-                      onChange={(e) => formik.handleChange(e.target.value)}
+                      onChange={formik.handleChange}
                       autoComplete="off"
                     />
                     <div className="p-2 border-l border-white/20">
@@ -141,7 +159,8 @@ const Login = () => {
                   </div>
                   <select
                     value={formik.values.language}
-                    onChange={(e) => formik.handleChange(e.target.value)}
+                    onChange={formik.handleChange}
+                    name="language"
                     className="block w-full border border-white/20 rounded-md bg-black/5 px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-white/10 login-language"
                   >
                     <option value="Vietnamese">Vietnamese</option>
