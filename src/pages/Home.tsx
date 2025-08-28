@@ -1,12 +1,8 @@
-import { useState, useEffect } from "react";
-import LogoImage from "../assets/images/logo.png";
+import { useState, useEffect } from 'react';
+import Loading from '../components/common/Loading';
 
-import { FaUser } from "react-icons/fa";
-import { FaEarthAmericas } from "react-icons/fa6";
-import { MdKeyboardArrowRight } from "react-icons/md";
-import Loading from "../components/common/Loading";
-
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
+import Header from '../components/common/Header';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -21,28 +17,12 @@ const Home = () => {
   }
 
   const onDashboardPage = () => {
-    navigate("/dashboard");
+    navigate('/dashboard');
   };
 
   return (
     <div className="min-h-screen bg-[url('https://images.pexels.com/photos/192136/pexels-photo-192136.jpeg')] bg-center bg-cover box-sizing p-5">
-      <div className="flex flex-row justify-between items-center">
-        <div>
-          <img src={LogoImage} className="w-[200px] object-cover" alt="logo" />
-        </div>
-        <div className="flex flex-row gap-5 text-white">
-          <div className="flex flex-row gap-3 cursor-pointer font-bold">
-            <FaEarthAmericas size={23} />
-            <span>Languages</span>
-          </div>
-          <div className="flex flex-row gap-3 cursor-pointer font-bold">
-            <FaUser size={23} />
-            <span>Administrator</span>
-            <MdKeyboardArrowRight size={23} />
-          </div>
-        </div>
-      </div>
-
+      <Header />
       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/3 w-full lg:w-1/2">
         <div className="text-white  box-sizing p-10 pb-24 bg-gray/50 backdrop-blur-xl flex flex-col justify-between">
           <div className="text-[2vw] font-extrabold">

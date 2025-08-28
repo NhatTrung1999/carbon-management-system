@@ -7,6 +7,8 @@ import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import Loading from "../components/common/Loading";
 
+import { LANGUAGES } from "../utils/constanst";
+
 const validationSchema = Yup.object().shape({
   username: Yup.string().required("Please do not leave it blank!"),
   password: Yup.string().required("Please do not leave it blank!"),
@@ -163,16 +165,18 @@ const Login = () => {
                     name="language"
                     className="block w-full border border-white/20 rounded-md bg-black/5 px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-white/10 login-language"
                   >
-                    <option value="Vietnamese">Vietnamese</option>
-                    <option value="English">English</option>
-                    <option value="Chinese">Chinese</option>
+                    {LANGUAGES.map((itemLanguages, indexLanguages) => (
+                      <option value={itemLanguages.value} key={indexLanguages}>
+                        {itemLanguages.name}
+                      </option>
+                    ))}
                   </select>
                 </div>
               </div>
               <div>
                 <button
                   type="submit"
-                  className="flex w-full justify-center rounded-md bg-[#c1d7a1] px-3 py-1.5 text-lg font-semibold text-white hover:bg-[#9dc369] cursor-pointer"
+                  className="flex w-full justify-center rounded-md bg-[#FF9119] px-3 py-1.5 text-lg font-semibold text-white hover:bg-[#f67804] cursor-pointer"
                 >
                   Login
                 </button>

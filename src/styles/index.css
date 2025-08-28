@@ -15,3 +15,8 @@ body {
   padding: 0;
   color: var(--color-primary);
 }
+
+ul,
+li {
+  list-style-type: none;
+}
