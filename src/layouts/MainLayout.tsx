@@ -1,11 +1,12 @@
-import { Outlet } from 'react-router';
-import Header from '../components/common/Header';
-import Sidebar from '../components/common/Sidebar';
-import { useEffect, useState } from 'react';
-import Loading from '../components/common/Loading';
+import { Outlet } from "react-router";
+import Header from "../components/common/Header";
+import Sidebar from "../components/common/Sidebar";
+import { useEffect, useState } from "react";
+import Loading from "../components/common/Loading";
 
 const MainLayout = () => {
   const [loading, setLoading] = useState(true);
+  const [isOpenSideBar, setIsOpenSideBar] = useState(false);
 
   useEffect(() => {
     setTimeout(() => setLoading(false), 3000);
@@ -18,8 +19,15 @@ const MainLayout = () => {
     <div className="relative">
       <Header />
       <div className="flex h-screen">
-        <Sidebar />
-        <div className="flex-1 ml-[320px] pt-[70px]">
+        <Sidebar
+          isOpenSideBar={isOpenSideBar}
+          setIsOpenSideBar={setIsOpenSideBar}
+        />
+        <div
+          className={`${
+            isOpenSideBar ? "pl-[150px]" : "pl-[350px]"
+          } flex-1 pt-[80px] z-5 transition-all duration-300 ease-in-out overflow-hidden`}
+        >
           <Outlet />
         </div>
       </div>
