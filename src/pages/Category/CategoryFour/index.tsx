@@ -1,25 +1,25 @@
 import { Fragment } from 'react';
 import Breadcrumb from '../../../components/common/Breadcrumb';
 import Typography from '../../../components/common/Typography';
-import Card from '../../../components/common/Card';
 import { BreadcrumbData } from '../../../types/breadcrumb';
 
-const UserManagement = () => {
+const CategoryFour = () => {
   return (
     <Fragment>
       <Breadcrumb
-        items={BreadcrumbData('Carbon Management System', 'User Management')}
+        items={BreadcrumbData('Carbon Management System', 'Category four')}
       />
 
-      
       <Typography
-        name="User Management"
+        name="Category four"
+        className="block text-xs font-semibold text-[#081c1b]"
+      />
+      <Typography
+        name="Upstream transportation & distributio"
         className="text-3xl bg-gradient-to-r from-[#081c1b] via-[#3f4a42] to-[#636e61] inline-block text-transparent bg-clip-text mb-3"
       />
-
-      <Card>sdfasdasdasd</Card>
     </Fragment>
   );
 };
 
-export default UserManagement;
+export default CategoryFour;

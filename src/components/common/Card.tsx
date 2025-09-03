@@ -1,13 +1,10 @@
-import React from "react";
-
-interface ICardProps {
-  children?: React.ReactNode;
-  className?: string;
-}
+import type { ICardProps } from "../../types/card";
 
 const Card = ({ className, children }: ICardProps) => {
   return (
-    <div className={`bg-white shadow-lg p-6 ${className}`}>{children}</div>
+    <div className={`bg-white shadow-lg p-6 rounded-lg ${className}`}>
+      {children}
+    </div>
   );
 };
 

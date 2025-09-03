@@ -6,15 +6,15 @@ import Login from "../pages/Login";
 
 import Home from "../pages/Home";
 import NotFound from "../pages/NotFound";
-import PurchasedGoodsService from "../pages/Category/PurchasedGoodsService";
-import UpstreamTransportationAndDistribution from "../pages/Category/UpstreamTransportationAndDistribution";
-import WasteGeneratedInOperations from "../pages/Category/WasteGeneratedInOperations";
-import BusinessTravel from "../pages/Category/BusinessTravel";
-import EmployeeCommuting from "../pages/Category/EmployeeCommuting";
-import DownstreamTransportationAndDistribution from "../pages/Category/DownstreamTransportationAndDistribution";
-import EndOfLifeTreatmentOfSoldProducts from "../pages/Category/EndOfLifeTreatmentOfSoldProducts";
+import CategoryOne from "../pages/Category/CategoryOne";
+import CategoryFour from "../pages/Category/CategoryFour";
+import CategoryFive from "../pages/Category/CategoryFive";
+import CategorySix from "../pages/Category/CategorySix";
+import CategorySeven from "../pages/Category/CategorySeven";
+import CategoryNineAndCategoryTwelvePage from "../pages/Category/CategoryNineAndCategoryTwelve";
 import UserManagement from "../pages/SystemSettings/UserManagement";
 import FileManagement from "../pages/SystemSettings/FileManagement";
+
 
 const AppRoutes = () => {
   return (
@@ -27,33 +27,29 @@ const AppRoutes = () => {
         <Route
           index
           element={
-            <Navigate to={"/dashboard/purchased-goods-service"} replace />
+            <Navigate to={"/dashboard/category-one"} replace />
           }
         />
         <Route
-          path="/dashboard/purchased-goods-service"
-          element={<PurchasedGoodsService />}
+          path="/dashboard/category-one"
+          element={<CategoryOne/>}
         />
         <Route
-          path="/dashboard/upstream-transportation-and-distribution"
-          element={<UpstreamTransportationAndDistribution />}
+          path="/dashboard/category-four"
+          element={<CategoryFour />}
         />
         <Route
-          path="/dashboard/waste-generated-in-operations"
-          element={<WasteGeneratedInOperations />}
+          path="/dashboard/category-five"
+          element={<CategoryFive />}
         />
-        <Route path="/dashboard/business-travel" element={<BusinessTravel />} />
+        <Route path="/dashboard/category-six" element={<CategorySix />} />
         <Route
-          path="/dashboard/employee-commuting"
-          element={<EmployeeCommuting />}
-        />
-        <Route
-          path="/dashboard/downstream-transportation-and-distribution"
-          element={<DownstreamTransportationAndDistribution />}
+          path="/dashboard/category-seven"
+          element={<CategorySeven />}
         />
         <Route
-          path="/dashboard/end‑of‑life-treatment-of-sold-products"
-          element={<EndOfLifeTreatmentOfSoldProducts />}
+          path="/dashboard/category-nine-and-category-twelve"
+          element={<CategoryNineAndCategoryTwelvePage />}
         />
         <Route path="/dashboard/user-management" element={<UserManagement />} />
         <Route path="/dashboard/file-management" element={<FileManagement />} />
