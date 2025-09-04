@@ -1,10 +1,10 @@
-import { Link, useLocation } from 'react-router';
+import { Link, useLocation } from "react-router";
 
-import { MENU_SIDEBAR } from '../../utils/constanst';
+import { MENU_SIDEBAR } from "../../utils/constanst";
 
-import { IoIosArrowForward } from 'react-icons/io';
-import { IoIosArrowBack } from 'react-icons/io';
-import { useState } from 'react';
+import { IoIosArrowForward } from "react-icons/io";
+import { IoIosArrowBack } from "react-icons/io";
+import { useState } from "react";
 
 type Props = {
   isOpenSideBar: boolean;
@@ -16,7 +16,7 @@ const Sidebar = ({ isOpenSideBar, setIsOpenSideBar }: Props) => {
   const [activePath, setActivePath] = useState<string>(location.pathname);
   return (
     <div
-      className={`${isOpenSideBar ? 'w-[120px]' : 'w-xs'} 
+      className={`${isOpenSideBar ? "w-[120px]" : "w-xs"} 
       bg-white fixed z-10 left-0 top-0 bottom-0 pt-[70px] border-gray-200 shadow-xl transition-all duration-300 ease-in-out`}
     >
       <div>
@@ -24,7 +24,7 @@ const Sidebar = ({ isOpenSideBar, setIsOpenSideBar }: Props) => {
           <div key={indexParent}>
             <div
               className={`${
-                isOpenSideBar ? 'text-[16px]' : ''
+                isOpenSideBar ? "text-[16px]" : ""
               } font-semibold mt-4 mb-3 px-5`}
               key={indexParent}
             >
@@ -35,19 +35,22 @@ const Sidebar = ({ isOpenSideBar, setIsOpenSideBar }: Props) => {
                 <li
                   className={`px-10 py-3 cursor-pointer text-base ${
                     itemChild.path === activePath
-                      ? 'bg-gray-100 border-l-4 border-primary'
-                      : ''
+                      ? "bg-gray-100 border-l-4 border-primary text-[#1d2d29]"
+                      : ""
                   }`}
                   onClick={() => setActivePath(itemChild.path)}
                 >
                   <div
                     className={`${
-                      isOpenSideBar ? 'justify-center' : ''
+                      isOpenSideBar ? "justify-center" : ""
                     } flex items-center gap-3`}
                   >
                     <span>{itemChild.icon}</span>
                     {!isOpenSideBar && (
-                      <span className="flex-1 whitespace-nowrap truncate" title={itemChild.text}>
+                      <span
+                        className="flex-1 whitespace-nowrap truncate"
+                        title={itemChild.text}
+                      >
                         {itemChild.text}
                       </span>
                     )}
