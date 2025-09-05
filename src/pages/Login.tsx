@@ -1,17 +1,19 @@
-import { GrLanguage } from "react-icons/gr";
-import { FaUser, FaLock } from "react-icons/fa6";
-import { useEffect, useRef, useState } from "react";
-import * as Yup from "yup";
-import { useFormik } from "formik";
+import { GrLanguage } from 'react-icons/gr';
+import { FaUser, FaLock } from 'react-icons/fa6';
+import { useEffect, useRef, useState } from 'react';
+import * as Yup from 'yup';
+import { useFormik } from 'formik';
 
-import { useNavigate } from "react-router-dom";
-import Loading from "../components/common/Loading";
+import { useNavigate } from 'react-router-dom';
+import Loading from '../components/common/Loading';
 
-import { LANGUAGES } from "../utils/constanst";
+import { LANGUAGES } from '../utils/constanst';
+import { useAppDispatch } from '../app/hooks';
+import { login } from '../features/authSlice';
 
 const validationSchema = Yup.object().shape({
-  username: Yup.string().required("Please do not leave it blank!"),
-  password: Yup.string().required("Please do not leave it blank!"),
+  userid: Yup.string().required('Please do not leave it blank!'),
+  password: Yup.string().required('Please do not leave it blank!'),
 });
 
 const Login = () => {
@@ -19,18 +21,19 @@ const Login = () => {
   const elementRef = useRef(null) as any;
   const [distanceFromTop, setDistanceFromTop] = useState(0);
   const [loading, setLoading] = useState(true);
+  const dispatch = useAppDispatch();
 
   const formik = useFormik({
     initialValues: {
-      username: "",
-      password: "",
-      language: "Vietnamese",
+      userid: '',
+      password: '',
+      language: 'Vietnamese',
     },
     validationSchema,
-    onSubmit: (data) => {
-      console.log(data);
-
-      navigate("/");
+    onSubmit: async (data) => {
+      const { userid, password } = data;
+      await dispatch(login({ userid, password }));
+      // navigate("/");
     },
   });
 
@@ -43,10 +46,10 @@ const Login = () => {
     };
 
     calculateDistanceFromTop();
-    window.addEventListener("resize", calculateDistanceFromTop);
+    window.addEventListener('resize', calculateDistanceFromTop);
 
     return () => {
-      window.removeEventListener("resize", calculateDistanceFromTop);
+      window.removeEventListener('resize', calculateDistanceFromTop);
     };
   }, [loading]);
 
@@ -103,15 +106,15 @@ const Login = () => {
             >
               <div>
                 <label htmlFor="" className="block text-base font-medium">
-                  Username
+                  UserId
                 </label>
                 <div className="mt-2">
                   <div className="flex items-center gap-3 bg-white/5 rounded-md outline-1 -outline-offset-1 outline-white/10 border border-white/20">
                     <input
                       type="text"
-                      name="username"
+                      name="userid"
                       className="block w-full px-3 py-1.5 text-base outline-none"
-                      value={formik.values.username}
+                      value={formik.values.userid}
                       onChange={formik.handleChange}
                       autoComplete="off"
                     />
@@ -120,8 +123,8 @@ const Login = () => {
                     </div>
                   </div>
                   <div className="text-red-600 text-xs">
-                    {formik.errors.username && formik.touched.username
-                      ? formik.errors.username
+                    {formik.errors.userid && formik.touched.userid
+                      ? formik.errors.userid
                       : null}
                   </div>
                 </div>
