@@ -11,15 +11,16 @@ export interface AuthState {
 
 export const login = createAsyncThunk(
   'auth/login',
-  async ({ userid, password, factory }: LoginPayload) => {
+  async ({ userid, password, factory }: LoginPayload, { rejectWithValue }) => {
     try {
       const { data } = await authApi.login({ userid, password, factory });
       const token = data.access_token;
       sessionStorage.setItem('token', token);
 
       return { token, user: data.payload };
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      // console.log(error);
+      return rejectWithValue(error.response.data.message || 'Login failed!');
     }
   }
 );
@@ -34,7 +35,15 @@ const initialState: AuthState = {
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {},
+  reducers: {
+    logout: (state) => {
+      state.loading = false;
+      state.token = null;
+      state.user = null;
+      state.error = null;
+      sessionStorage.removeItem('token');
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(login.pending, (state) => {
@@ -42,7 +51,7 @@ export const authSlice = createSlice({
       })
       .addCase(login.fulfilled, (state, action) => {
         state.loading = false;
-        state.token = action.payload?.token
+        state.token = action.payload?.token;
         state.user = action.payload?.user;
       })
       .addCase(login.rejected, (state, action) => {
@@ -51,5 +60,7 @@ export const authSlice = createSlice({
       });
   },
 });
+
+export const { logout } = authSlice.actions;
 
 export default authSlice.reducer;

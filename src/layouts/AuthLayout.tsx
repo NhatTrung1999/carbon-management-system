@@ -1,7 +1,13 @@
-import { Outlet } from 'react-router'
+import { Navigate, Outlet } from 'react-router';
 
 const AuthLayout = () => {
-  return <Outlet />
-}
+  const token = sessionStorage.getItem('token');
 
-export default AuthLayout
+  if (token) {
+    return <Navigate to={'/'} replace />;
+  }
+
+  return <Outlet />;
+};
+
+export default AuthLayout;

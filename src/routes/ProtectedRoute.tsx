@@ -1,9 +1,7 @@
 import { Navigate, Outlet } from 'react-router';
-import { useAppSelector } from '../app/hooks';
-import type { RootState } from '../app/store';
 
 const ProtectedRoute = () => {
-  const { token } = useAppSelector((state: RootState) => state.auth);
+  const token = sessionStorage.getItem('token')
 
   return token ? <Outlet /> : <Navigate to="/login" replace />;
 };

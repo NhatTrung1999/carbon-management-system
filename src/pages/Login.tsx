@@ -10,6 +10,7 @@ import Loading from '../components/common/Loading';
 import { LANGUAGES } from '../utils/constanst';
 import { useAppDispatch } from '../app/hooks';
 import { login } from '../features/authSlice';
+import Swal from 'sweetalert2';
 
 const validationSchema = Yup.object().shape({
   userid: Yup.string().required('Please do not leave it blank!'),
@@ -23,6 +24,7 @@ const Login = () => {
   const [loading, setLoading] = useState(true);
   const dispatch = useAppDispatch();
 
+
   const formik = useFormik({
     initialValues: {
       userid: '',
@@ -32,8 +34,18 @@ const Login = () => {
     validationSchema,
     onSubmit: async (data) => {
       const { userid, password } = data;
-      await dispatch(login({ userid, password }));
-      // navigate("/");
+      let result = await dispatch(login({ userid, password }));
+      if (login.fulfilled.match(result)) {
+        navigate('/');
+      } else {
+        Swal.fire({
+          title: 'Login failed!',
+          text: result.payload as string,
+          icon: 'error',
+          confirmButtonText: 'Close',
+          confirmButtonColor: '#ff0000'
+        });
+      }
     },
   });
 
