@@ -3,7 +3,7 @@ import Input from '../../common/Input';
 
 const Search = () => {
   return (
-    <div className="grid grid-cols-5 gap-5 mb-5">
+    <div className="grid grid-cols-3 gap-3">
       <div>
         <Input
           label="UserID"
@@ -12,6 +12,7 @@ const Search = () => {
           customClassNameInput="outline-none"
         />
       </div>
+
       <div>
         <Input
           label="FullName"
@@ -20,7 +21,9 @@ const Search = () => {
           customClassNameInput="outline-none"
         />
       </div>
-      <div className='self-end'>
+
+      <div>
+        <div className='block whitespace-nowrap text-sm font-medium invisible'>dfgg</div>
         <Button
           label="Search"
           type="button"
