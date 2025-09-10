@@ -6,35 +6,12 @@ import Table from "../../../components/SystemSettings/FileManagement/Table";
 import Typography from "../../../components/common/Typography";
 import Breadcrumb from "../../../components/common/Breadcrumb";
 import Search from "../../../components/SystemSettings/FileManagement/Search";
+import { HEADER, type IFileManagement } from "../../../types/filemanagement";
 
 const FileManagement = () => {
-  const HEADER = [
-    {
-      name: "Module",
-      state: "Module",
-      sort: true,
-    },
-    {
-      name: "File Name",
-      state: "File_Name",
-      sort: true,
-    },
-    {
-      name: "Status",
-      state: "Status",
-      sort: true,
-    },
-    {
-      name: "Created by User",
-      state: "CreatedAt",
-      sort: true,
-    },
-    {
-      name: "Date Recorded by User",
-      state: "CreatedDate",
-      sort: true,
-    },
-  ];
+  const [getFileManagementData, setGetFileManagementData] = useState<
+    IFileManagement[] | any
+  >([]);
 
   const [activeSort, setActiveSort] = useState({
     sortField: HEADER[0].state,
@@ -52,9 +29,10 @@ const FileManagement = () => {
         className="text-3xl bg-gradient-to-r from-[#081c1b] via-[#3f4a42] to-[#636e61] inline-block text-transparent bg-clip-text mb-3"
       />
       <Card className="relative">
-        <Search />
+        <Search setGetFileManagementData={setGetFileManagementData} />
         <Table
           header={HEADER}
+          data={getFileManagementData}
           activeSort={activeSort}
           setActiveSort={setActiveSort}
         />

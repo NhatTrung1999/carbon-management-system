@@ -12,7 +12,7 @@ const axiosConfig = axios.create({
 axiosConfig.interceptors.request.use(
   function (config) {
     const accessToken: { accessToken: string } = {
-      accessToken: storage.get('accessToken'),
+      accessToken: storage.get('token'),
     };
 
     if (accessToken) {

@@ -1,10 +1,15 @@
+import { useEffect } from "react";
 import { useFormik } from "formik";
 import Button from "../../common/Button";
 import Input from "../../common/Input";
-import { useEffect } from "react";
-import categoryNineAndCategoryTwelveApi from "../../../api/categorynineandcategorytwelve";
+import fileManagementApi from "../../../api/filemanagement";
+import type { IFileManagement } from "../../../types/filemanagement";
 
-const Search = () => {
+type Props = {
+  setGetFileManagementData: (data: IFileManagement[]) => void;
+};
+
+const Search = ({ setGetFileManagementData }: Props) => {
   const formik = useFormik({
     initialValues: {
       module: "",
@@ -12,19 +17,36 @@ const Search = () => {
     },
     onSubmit: async (data) => {
       try {
-        const response = await categoryNineAndCategoryTwelveApi.getData({
+        const response = await fileManagementApi.getData({
           module: data.module,
           file_name: data.file_name,
         });
-        console.log(response);
+        if (response.data.statusCode === 200) {
+          setGetFileManagementData(response.data.data);
+        }
       } catch (error: any) {
         console.log(error);
       }
     },
   });
 
+  const getData = async () => {
+    try {
+      const response = await fileManagementApi.getData({
+        module: formik.values.module,
+        file_name: formik.values.file_name,
+      });
+
+      if (response.data.statusCode === 200) {
+        setGetFileManagementData(response.data.data);
+      }
+    } catch (error: any) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
-    console.log(123);
+    getData();
   }, []);
 
   return (

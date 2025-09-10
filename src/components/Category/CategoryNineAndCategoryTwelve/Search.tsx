@@ -5,7 +5,11 @@ import Input from "../../common/Input";
 import ExcelIcon from "../../../assets/images/excel-icon.png";
 import { useEffect } from "react";
 
-const Search = () => {
+type Props = {
+  setGetCatNineAndTwelveData: any;
+};
+
+const Search = ({ setGetCatNineAndTwelveData }: Props) => {
   const formik = useFormik({
     initialValues: {
       Date: new Date().toISOString().slice(0, 10),

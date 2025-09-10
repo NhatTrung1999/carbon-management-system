@@ -1,22 +1,23 @@
 import { useState } from "react";
+import { useAppSelector } from "../../../app/hooks";
 
-interface IBody {
-  UserID: string;
-  FullName: string;
-  Email: string;
-  Permission: string;
-  Status: string;
-  CreatedAt: string;
-  CreatedDate: string;
-  UpdatedAt: string;
-  UpdatedDate: string;
-}
+// interface IBody {
+//   UserID: string;
+//   FullName: string;
+//   Email: string;
+//   Permission: string;
+//   Status: string;
+//   CreatedAt: string;
+//   CreatedDate: string;
+//   UpdatedAt: string;
+//   UpdatedDate: string;
+// }
 
 const header: string[] = [
   "UserID",
-  "FullName",
+  "Name",
   "Email",
-  "Permission",
+  "Role",
   "Status",
   "CreatedAt",
   "CreatedDate",
@@ -24,209 +25,9 @@ const header: string[] = [
   "UpdatedDate",
 ];
 
-const body: IBody[] = [
-  {
-    UserID: "31759",
-    FullName: "Nguyen Van A",
-    Email: "nguyenvana@gmail.com",
-    Permission: "user",
-    Status: "active",
-    CreatedAt: "admin",
-    CreatedDate: "2024-12-12T14:17:00.000Z",
-    UpdatedAt: "admin",
-    UpdatedDate: "2024-12-12T14:17:00.000Z",
-  },
-  {
-    UserID: "31759",
-    FullName: "Nguyen Van A",
-    Email: "nguyenvana@gmail.com",
-    Permission: "user",
-    Status: "active",
-    CreatedAt: "admin",
-    CreatedDate: "2024-12-12T14:17:00.000Z",
-    UpdatedAt: "admin",
-    UpdatedDate: "2024-12-12T14:17:00.000Z",
-  },
-  {
-    UserID: "31759",
-    FullName: "Nguyen Van A",
-    Email: "nguyenvana@gmail.com",
-    Permission: "user",
-    Status: "active",
-    CreatedAt: "admin",
-    CreatedDate: "2024-12-12T14:17:00.000Z",
-    UpdatedAt: "admin",
-    UpdatedDate: "2024-12-12T14:17:00.000Z",
-  },
-  {
-    UserID: "31759",
-    FullName: "Nguyen Van A",
-    Email: "nguyenvana@gmail.com",
-    Permission: "user",
-    Status: "active",
-    CreatedAt: "admin",
-    CreatedDate: "2024-12-12T14:17:00.000Z",
-    UpdatedAt: "admin",
-    UpdatedDate: "2024-12-12T14:17:00.000Z",
-  },
-  {
-    UserID: "31759",
-    FullName: "Nguyen Van A",
-    Email: "nguyenvana@gmail.com",
-    Permission: "user",
-    Status: "active",
-    CreatedAt: "admin",
-    CreatedDate: "2024-12-12T14:17:00.000Z",
-    UpdatedAt: "admin",
-    UpdatedDate: "2024-12-12T14:17:00.000Z",
-  },
-  {
-    UserID: "31759",
-    FullName: "Nguyen Van A",
-    Email: "nguyenvana@gmail.com",
-    Permission: "user",
-    Status: "active",
-    CreatedAt: "admin",
-    CreatedDate: "2024-12-12T14:17:00.000Z",
-    UpdatedAt: "admin",
-    UpdatedDate: "2024-12-12T14:17:00.000Z",
-  },
-  {
-    UserID: "31759",
-    FullName: "Nguyen Van A",
-    Email: "nguyenvana@gmail.com",
-    Permission: "user",
-    Status: "active",
-    CreatedAt: "admin",
-    CreatedDate: "2024-12-12T14:17:00.000Z",
-    UpdatedAt: "admin",
-    UpdatedDate: "2024-12-12T14:17:00.000Z",
-  },
-  {
-    UserID: "31759",
-    FullName: "Nguyen Van A",
-    Email: "nguyenvana@gmail.com",
-    Permission: "user",
-    Status: "active",
-    CreatedAt: "admin",
-    CreatedDate: "2024-12-12T14:17:00.000Z",
-    UpdatedAt: "admin",
-    UpdatedDate: "2024-12-12T14:17:00.000Z",
-  },
-  {
-    UserID: "31759",
-    FullName: "Nguyen Van A",
-    Email: "nguyenvana@gmail.com",
-    Permission: "user",
-    Status: "active",
-    CreatedAt: "admin",
-    CreatedDate: "2024-12-12T14:17:00.000Z",
-    UpdatedAt: "admin",
-    UpdatedDate: "2024-12-12T14:17:00.000Z",
-  },
-  {
-    UserID: "31759",
-    FullName: "Nguyen Van A",
-    Email: "nguyenvana@gmail.com",
-    Permission: "user",
-    Status: "active",
-    CreatedAt: "admin",
-    CreatedDate: "2024-12-12T14:17:00.000Z",
-    UpdatedAt: "admin",
-    UpdatedDate: "2024-12-12T14:17:00.000Z",
-  },
-  {
-    UserID: "31759",
-    FullName: "Nguyen Van A",
-    Email: "nguyenvana@gmail.com",
-    Permission: "user",
-    Status: "active",
-    CreatedAt: "admin",
-    CreatedDate: "2024-12-12T14:17:00.000Z",
-    UpdatedAt: "admin",
-    UpdatedDate: "2024-12-12T14:17:00.000Z",
-  },
-  {
-    UserID: "31759",
-    FullName: "Nguyen Van A",
-    Email: "nguyenvana@gmail.com",
-    Permission: "user",
-    Status: "active",
-    CreatedAt: "admin",
-    CreatedDate: "2024-12-12T14:17:00.000Z",
-    UpdatedAt: "admin",
-    UpdatedDate: "2024-12-12T14:17:00.000Z",
-  },
-  {
-    UserID: "31759",
-    FullName: "Nguyen Van A",
-    Email: "nguyenvana@gmail.com",
-    Permission: "user",
-    Status: "active",
-    CreatedAt: "admin",
-    CreatedDate: "2024-12-12T14:17:00.000Z",
-    UpdatedAt: "admin",
-    UpdatedDate: "2024-12-12T14:17:00.000Z",
-  },
-  {
-    UserID: "31759",
-    FullName: "Nguyen Van A",
-    Email: "nguyenvana@gmail.com",
-    Permission: "user",
-    Status: "active",
-    CreatedAt: "admin",
-    CreatedDate: "2024-12-12T14:17:00.000Z",
-    UpdatedAt: "admin",
-    UpdatedDate: "2024-12-12T14:17:00.000Z",
-  },
-  {
-    UserID: "31759",
-    FullName: "Nguyen Van A",
-    Email: "nguyenvana@gmail.com",
-    Permission: "user",
-    Status: "active",
-    CreatedAt: "admin",
-    CreatedDate: "2024-12-12T14:17:00.000Z",
-    UpdatedAt: "admin",
-    UpdatedDate: "2024-12-12T14:17:00.000Z",
-  },
-  {
-    UserID: "31759",
-    FullName: "Nguyen Van A",
-    Email: "nguyenvana@gmail.com",
-    Permission: "user",
-    Status: "active",
-    CreatedAt: "admin",
-    CreatedDate: "2024-12-12T14:17:00.000Z",
-    UpdatedAt: "admin",
-    UpdatedDate: "2024-12-12T14:17:00.000Z",
-  },
-  {
-    UserID: "31759",
-    FullName: "Nguyen Van A",
-    Email: "nguyenvana@gmail.com",
-    Permission: "user",
-    Status: "active",
-    CreatedAt: "admin",
-    CreatedDate: "2024-12-12T14:17:00.000Z",
-    UpdatedAt: "admin",
-    UpdatedDate: "2024-12-12T14:17:00.000Z",
-  },
-  {
-    UserID: "31759",
-    FullName: "Nguyen Van A",
-    Email: "nguyenvana@gmail.com",
-    Permission: "user",
-    Status: "active",
-    CreatedAt: "admin",
-    CreatedDate: "2024-12-12T14:17:00.000Z",
-    UpdatedAt: "admin",
-    UpdatedDate: "2024-12-12T14:17:00.000Z",
-  },
-];
-
 const Table = () => {
   const [activeRow, setActiveRow] = useState<number | null>(null);
+  const {users} = useAppSelector(state => state.user)
 
   return (
     <div className="max-h-[600px] overflow-y-auto">
@@ -241,7 +42,7 @@ const Table = () => {
           </tr>
         </thead>
         <tbody>
-          {body.map((data: any, index) => (
+          {users.map((data: any, index) => (
             <tr
               key={index}
               className={`cursor-pointer ${
