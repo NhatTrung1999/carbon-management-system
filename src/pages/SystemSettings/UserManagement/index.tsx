@@ -7,14 +7,14 @@ import Table from '../../../components/SystemSettings/UserManagement/Table';
 import Search from '../../../components/SystemSettings/UserManagement/Search';
 import ActionButton from '../../../components/SystemSettings/UserManagement/ActionButton';
 import { useAppDispatch } from '../../../app/hooks';
-import { getAll } from '../../../features/userSlice';
-// import Modal from '../../../components/SystemSettings/UserManagement/Modal';
+import { getSearch } from '../../../features/userSlice';
+import ModalUser from '../../../components/SystemSettings/UserManagement/ModalUser';
 
 const UserManagement = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(getAll());
+    dispatch(getSearch({}));
   }, []);
 
   return (
@@ -35,6 +35,7 @@ const UserManagement = () => {
         </div>
         <Table />
       </Card>
+      {false && <ModalUser />}
     </Fragment>
   );
 };

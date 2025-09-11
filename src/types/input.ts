@@ -9,4 +9,5 @@ export interface InputProps {
   customClassNameInput?: string;
   readonly?: boolean;
   autoComplete?: string;
+  placeholder?: string
 }

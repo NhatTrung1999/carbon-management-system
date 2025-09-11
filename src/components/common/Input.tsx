@@ -12,6 +12,7 @@ const Input = (props: InputProps) => {
     customClassNameInput,
     readonly,
     autoComplete = "off",
+    placeholder
   } = props;
 
   return (
@@ -26,9 +27,10 @@ const Input = (props: InputProps) => {
         name={name}
         value={value}
         onChange={onChange}
-        className={`w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block p-2.5 ${customClassNameInput}`}
+        className={`w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block p-2.5 outline-none ${customClassNameInput}`}
         autoComplete={autoComplete}
         readOnly={readonly}
+        placeholder={placeholder}
       />
       <div className="text-red-600 text-xs">{helperText}</div>
     </>
