@@ -69,39 +69,39 @@ export const HEADER = [
     state: "Port_Of_Arrival",
     sort: true,
   },
-  {
-    name: "Land Transport Distance",
-    state: "Land_Transport_Distance",
-    sort: true,
-  },
-  {
-    name: "Sea Transport Distance",
-    state: "Sea_Transport_Distance",
-    sort: true,
-  },
-  {
-    name: "Air Transport Distance",
-    state: "Air_Transport_Distance",
-    sort: true,
-  },
+  // {
+  //   name: "Land Transport Distance",
+  //   state: "Land_Transport_Distance",
+  //   sort: true,
+  // },
+  // {
+  //   name: "Sea Transport Distance",
+  //   state: "Sea_Transport_Distance",
+  //   sort: true,
+  // },
+  // {
+  //   name: "Air Transport Distance",
+  //   state: "Air_Transport_Distance",
+  //   sort: true,
+  // },
   {
     name: "Transport Method",
     state: "Transport_Method",
     sort: true,
   },
-  {
-    name: "Land Transport Ton-Kilometers",
-    state: "Land_Transport_Ton_Kilometers",
-    sort: true,
-  },
-  {
-    name: "Sea Transport Ton-Kilometers",
-    state: "Sea_Transport_Ton_Kilometers",
-    sort: true,
-  },
-  {
-    name: "Air Transport Ton-Kilometers",
-    state: "Air_Transport_Ton_Kilometers",
-    sort: true,
-  },
+  // {
+  //   name: "Land Transport Ton-Kilometers",
+  //   state: "Land_Transport_Ton_Kilometers",
+  //   sort: true,
+  // },
+  // {
+  //   name: "Sea Transport Ton-Kilometers",
+  //   state: "Sea_Transport_Ton_Kilometers",
+  //   sort: true,
+  // },
+  // {
+  //   name: "Air Transport Ton-Kilometers",
+  //   state: "Air_Transport_Ton_Kilometers",
+  //   sort: true,
+  // },
 ];

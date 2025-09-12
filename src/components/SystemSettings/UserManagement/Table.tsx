@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { useAppSelector } from "../../../app/hooks";
+import { useAppSelector } from '../../../app/hooks';
 
 // interface IBody {
 //   UserID: string;
@@ -14,20 +13,26 @@ import { useAppSelector } from "../../../app/hooks";
 // }
 
 const header: string[] = [
-  "UserID",
-  "Name",
-  "Email",
-  "Role",
-  "Status",
-  "CreatedAt",
-  "CreatedDate",
-  "UpdatedAt",
-  "UpdatedDate",
+  'UserID',
+  'Name',
+  'Email',
+  'Role',
+  'Status',
+  'CreatedAt',
+  'CreatedDate',
+  'UpdatedAt',
+  'UpdatedDate',
 ];
 
-const Table = () => {
-  const [activeRow, setActiveRow] = useState<number | null>(null);
-  const {users} = useAppSelector(state => state.user)
+interface Props {
+  activeRow: string | null;
+  setActiveRow: (value: string | null) => void;
+  setItem: (value: any) => void;
+}
+
+const Table = ({ activeRow, setActiveRow, setItem }: Props) => {
+  // const [activeRow, setActiveRow] = useState<number | null>(null);
+  const { users } = useAppSelector((state) => state.user);
 
   return (
     <div className="max-h-[600px] overflow-y-auto">
@@ -46,9 +51,12 @@ const Table = () => {
             <tr
               key={index}
               className={`cursor-pointer ${
-                activeRow === index ? "bg-[#a7baa4] text-white" : ""
+                activeRow === data.ID ? 'bg-[#a7baa4] text-white' : ''
               }`}
-              onClick={() => setActiveRow(index === activeRow ? null : index)}
+              onClick={() => {
+                setActiveRow(data.ID === activeRow ? null : data.ID);
+                setItem(data)
+              }}
             >
               {header.map((item, indexx) => (
                 <td

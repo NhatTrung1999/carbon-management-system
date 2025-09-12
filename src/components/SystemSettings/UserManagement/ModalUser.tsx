@@ -9,6 +9,7 @@ import * as Yup from 'yup';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { v4 as uuidv4 } from 'uuid';
 import { addUser } from '../../../features/userSlice';
+import type { Item } from '../../../types/users';
 
 const validationSchema = Yup.object().shape({
   userid: Yup.string().required('Please do not leave it blank!'),
@@ -18,39 +19,58 @@ const validationSchema = Yup.object().shape({
   status: Yup.string().required('Please do not leave it blank!'),
 });
 
-const ModalUser = () => {
+const ModalUser = ({
+  mode,
+  isOpen,
+  item,
+  setIsOpen,
+}: {
+  mode: string;
+  isOpen: boolean;
+  item: Item | null | undefined;
+  setIsOpen: (value: boolean) => void;
+}) => {
   const { user } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
 
+  console.log(item, user);
+
   const formik = useFormik({
     initialValues: {
-      userid: '',
-      name: '',
-      email: '',
-      role: '',
-      status: '',
+      userid: item?.UserID || '',
+      name: item?.Name || '',
+      email: item?.Email || '',
+      role: item?.Role || '',
+      status: item?.Status || '',
     },
     validationSchema,
+    enableReinitialize: true,
     onSubmit: async (data) => {
       const { userid, email, name, role, status } = data;
-      dispatch(
-        addUser({
-          id: uuidv4(),
-          userid,
-          email,
-          name,
-          role,
-          status,
-          createdAt: user?.UserID,
-        })
-      );
+      if (mode === 'add') {
+        dispatch(
+          addUser({
+            id: uuidv4(),
+            userid,
+            email,
+            name,
+            role,
+            status,
+            createdAt: user?.UserID,
+          })
+        );
+      } else {
+        console.log('edit');
+      }
     },
   });
 
   return (
-    <Modal>
+    <Modal isOpen={isOpen}>
       <form onSubmit={formik.handleSubmit}>
-        <ModalHeader>Add User</ModalHeader>
+        <ModalHeader setOpenModal={() => setIsOpen(false)}>
+          {mode === 'add' ? 'Add User' : 'Edit User'}
+        </ModalHeader>
         <ModalBody>
           <div className="grid grid-cols-2 gap-5">
             <div>
@@ -61,6 +81,7 @@ const ModalUser = () => {
                 placeholder="Please enter your userid..."
                 value={formik.values.userid}
                 onChange={formik.handleChange}
+                disabled={mode === 'edit' ? true : false}
               />
               <div className="text-red-600 text-xs">
                 {formik.errors.userid && formik.touched.userid
@@ -136,7 +157,7 @@ const ModalUser = () => {
             </div>
           </div>
         </ModalBody>
-        <ModalFooter />
+        <ModalFooter setOpenModal={() => setIsOpen(false)} />
       </form>
     </Modal>
   );

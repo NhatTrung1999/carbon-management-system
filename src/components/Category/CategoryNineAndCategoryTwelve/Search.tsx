@@ -1,15 +1,11 @@
-import { useFormik } from "formik";
-import Button from "../../common/Button";
-import Input from "../../common/Input";
+import { useFormik } from 'formik';
+import Button from '../../common/Button';
+import Input from '../../common/Input';
 
-import ExcelIcon from "../../../assets/images/excel-icon.png";
-import { useEffect } from "react";
+import ExcelIcon from '../../../assets/images/excel-icon.png';
+import { useEffect } from 'react';
 
-type Props = {
-  setGetCatNineAndTwelveData: any;
-};
-
-const Search = ({ setGetCatNineAndTwelveData }: Props) => {
+const Search = () => {
   const formik = useFormik({
     initialValues: {
       Date: new Date().toISOString().slice(0, 10),
@@ -36,10 +32,10 @@ const Search = ({ setGetCatNineAndTwelveData }: Props) => {
     >
       <div>
         <Input
-          label={"Date"}
+          label={'Date'}
           type="date"
           name="Date"
-          classNameLabel={"mb-2"}
+          classNameLabel={'mb-2'}
           value={formik.values.Date}
           onChange={formik.handleChange}
         />

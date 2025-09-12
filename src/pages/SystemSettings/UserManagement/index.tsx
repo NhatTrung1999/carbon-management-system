@@ -1,4 +1,4 @@
-import { Fragment, useEffect } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import Breadcrumb from '../../../components/common/Breadcrumb';
 import Typography from '../../../components/common/Typography';
 import Card from '../../../components/common/Card';
@@ -9,13 +9,40 @@ import ActionButton from '../../../components/SystemSettings/UserManagement/Acti
 import { useAppDispatch } from '../../../app/hooks';
 import { getSearch } from '../../../features/userSlice';
 import ModalUser from '../../../components/SystemSettings/UserManagement/ModalUser';
+import { Toast } from '../../../utils/Toast';
+import type { Item } from '../../../types/users';
+
+
 
 const UserManagement = () => {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [activeRow, setActiveRow] = useState<string | null>(null);
+  const [mode, setMode] = useState<string>('add');
+  const [item, setItem] = useState<Item | null>();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(getSearch({}));
   }, []);
+
+  const handleAddUser = () => {
+    setIsOpen(true);
+    setActiveRow(null);
+    setItem(null);
+    setMode('add');
+  };
+
+  const handleEditUser = () => {
+    if (activeRow) {
+      setIsOpen(true);
+      setMode('edit');
+    } else {
+      Toast.fire({
+        icon: 'warning',
+        title: 'Please choose row',
+      });
+    }
+  };
 
   return (
     <Fragment>
@@ -31,11 +58,23 @@ const UserManagement = () => {
       <Card className="relative">
         <div className="mb-5 grid grid-cols-2">
           <Search />
-          <ActionButton />
+          <ActionButton
+            handleAddUser={handleAddUser}
+            handleEditUser={handleEditUser}
+          />
         </div>
-        <Table />
+        <Table
+          activeRow={activeRow}
+          setActiveRow={setActiveRow}
+          setItem={setItem}
+        />
       </Card>
-      {false && <ModalUser />}
+      <ModalUser
+        mode={mode}
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        item={item}
+      />
     </Fragment>
   );
 };

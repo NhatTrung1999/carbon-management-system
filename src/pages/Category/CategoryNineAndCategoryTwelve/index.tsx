@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import Breadcrumb from "../../../components/common/Breadcrumb";
 import Typography from "../../../components/common/Typography";
 import { BreadcrumbData } from "../../../types/breadcrumb";
@@ -8,17 +8,22 @@ import Search from "../../../components/Category/CategoryNineAndCategoryTwelve/S
 import Table from "../../../components/Category/CategoryNineAndCategoryTwelve/Table";
 import {
   HEADER,
-  type ICategoryNineAndCategoryTwelve,
 } from "../../../types/categorynineandcategorytwelve";
+import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import { getDataCat9AndCat12 } from "../../../features/categorySlice";
 
 const CategoryNineAndCategoryTwelvePage = () => {
-  const [getCatNineAndTwelveData, setGetCatNineAndTwelveData] = useState<
-    ICategoryNineAndCategoryTwelve | any
-  >([]);
+  const { cat9andcat12 } = useAppSelector(state => state.category)
+  const dispatch = useAppDispatch()
   const [activeSort, setActiveSort] = useState({
     sortField: HEADER[0].state,
     sortOrder: "asc",
   });
+
+  useEffect(() => {
+    dispatch(getDataCat9AndCat12('2025-09-11'))
+  }, [])
+
 
   return (
     <Fragment>
@@ -39,12 +44,12 @@ const CategoryNineAndCategoryTwelvePage = () => {
       />
 
       <Card>
-        <Search setGetCatNineAndTwelveData={setGetCatNineAndTwelveData} />
+        <Search />
         <Table
           header={HEADER}
           activeSort={activeSort}
           setActiveSort={setActiveSort}
-          data={getCatNineAndTwelveData}
+          data={cat9andcat12}
         />
       </Card>
     </Fragment>

@@ -1,6 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import usersApi from '../api/users';
-import type { SearchPayload, UserPayload } from '../types/users';
+import type {
+  SearchPayload,
+  UpdateUserPayload,
+  UserPayload,
+} from '../types/users';
 
 interface UserState {
   users: any[];
@@ -33,6 +37,29 @@ export const addUser = createAsyncThunk(
   }
 );
 
+export const updateUser = createAsyncThunk(
+  'user/update-user',
+  async (payload: UpdateUserPayload, { rejectWithValue }) => {
+    try {
+      const res = await usersApi.updateUser(payload);
+      console.log(res);
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
+export const deleteUser = createAsyncThunk(
+  'user/delete-user',
+  async (id: string, { rejectWithValue }) => {
+    try {
+      await usersApi.deleteUser(id);
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
 const initialState: UserState = {
   users: [],
   loading: false,
@@ -54,6 +81,21 @@ export const userSlice = createSlice({
         state.users = action.payload;
       })
       .addCase(getSearch.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      });
+
+    //add
+    builder
+      .addCase(addUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(addUser.fulfilled, (state, action) => {
+        state.loading = false;
+        console.log(action.payload);
+      })
+      .addCase(addUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       });

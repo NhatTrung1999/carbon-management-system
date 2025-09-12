@@ -1,4 +1,4 @@
-import { type InputProps } from "../../types/input";
+import { type InputProps } from '../../types/input';
 
 const Input = (props: InputProps) => {
   const {
@@ -11,8 +11,9 @@ const Input = (props: InputProps) => {
     classNameLabel,
     customClassNameInput,
     readonly,
-    autoComplete = "off",
-    placeholder
+    autoComplete = 'off',
+    placeholder,
+    disabled,
   } = props;
 
   return (
@@ -31,6 +32,7 @@ const Input = (props: InputProps) => {
         autoComplete={autoComplete}
         readOnly={readonly}
         placeholder={placeholder}
+        disabled={disabled}
       />
       <div className="text-red-600 text-xs">{helperText}</div>
     </>

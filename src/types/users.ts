@@ -22,3 +22,13 @@ export interface SearchPayload {
   userid?: string;
   name?: string;
 }
+
+export interface Item {
+  ID: string;
+  UserID: string;
+  Name: string;
+  Email: string;
+  Role: string;
+  Status: string;
+  UpdatedAt: string;
+}
