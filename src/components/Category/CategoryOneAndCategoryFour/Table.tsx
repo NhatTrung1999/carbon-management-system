@@ -13,16 +13,10 @@ type Props = {
   };
   setActiveSort: (data: any) => void;
   data: ICat9AndCat12[];
-  tableRef: RefObject<HTMLDivElement | null>;
+  tableRef?: RefObject<HTMLDivElement | null>;
 };
 
-const Table = ({
-  header,
-  activeSort,
-  setActiveSort,
-  data,
-  tableRef,
-}: Props) => {
+const Table = ({ header, activeSort, setActiveSort, data }: Props) => {
   const handleSorting = (sortField: string, sortOrder: string): void => {
     setActiveSort({ sortField, sortOrder });
   };
@@ -52,7 +46,7 @@ const Table = ({
     );
 
   return (
-    <div className="max-h-[600px] overflow-y-auto" ref={tableRef}>
+    <div className="max-h-[600px] overflow-y-auto">
       <table className="w-full text-left min-w-max">
         <thead className="bg-[#636e61] text-sm sticky top-0 text-white">
           <tr>

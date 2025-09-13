@@ -1,36 +1,70 @@
-import { Fragment, useEffect, useState } from "react";
-import Breadcrumb from "../../../components/common/Breadcrumb";
-import Typography from "../../../components/common/Typography";
-import { BreadcrumbData } from "../../../types/breadcrumb";
+import { Fragment, useEffect, useRef, useState } from 'react';
+import Breadcrumb from '../../../components/common/Breadcrumb';
+import Typography from '../../../components/common/Typography';
+import { BreadcrumbData } from '../../../types/breadcrumb';
 
-import Card from "../../../components/common/Card";
-import Search from "../../../components/Category/CategoryNineAndCategoryTwelve/Search";
-import Table from "../../../components/Category/CategoryNineAndCategoryTwelve/Table";
+import Card from '../../../components/common/Card';
+import Search from '../../../components/Category/CategoryNineAndCategoryTwelve/Search';
+import Table from '../../../components/Category/CategoryNineAndCategoryTwelve/Table';
+import { HEADER } from '../../../types/categorynineandcategorytwelve';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import {
-  HEADER,
-} from "../../../types/categorynineandcategorytwelve";
-import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import { getDataCat9AndCat12 } from "../../../features/categorySlice";
+  getDataCat9AndCat12,
+  reseCat9AndCat12,
+} from '../../../features/categorySlice';
 
 const CategoryNineAndCategoryTwelvePage = () => {
-  const { cat9andcat12 } = useAppSelector(state => state.category)
-  const dispatch = useAppDispatch()
+  const {
+    cat9andcat12,
+    offset,
+    hasMore,
+    loading,
+    date: Date,
+  } = useAppSelector((state) => state.category);
+  const tableRef = useRef<HTMLDivElement | null>(null);
+  const dispatch = useAppDispatch();
   const [activeSort, setActiveSort] = useState({
     sortField: HEADER[0].state,
-    sortOrder: "asc",
+    sortOrder: 'asc',
   });
+  const limit = 20;
 
   useEffect(() => {
-    dispatch(getDataCat9AndCat12('2025-09-11'))
-  }, [])
+    dispatch(reseCat9AndCat12());
+    dispatch(getDataCat9AndCat12({ date: Date, offset, limit }));
+  }, [dispatch]);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const container = tableRef.current;
+      if (!container || loading || !hasMore) return;
+
+      const { scrollTop, scrollHeight, clientHeight } = container;
+
+      if (scrollTop + clientHeight >= scrollHeight - 10) {
+        // console.log('Scrolled to bottom, load more data...');
+        // const nextOffset = cat9andcat12.length
+        dispatch(getDataCat9AndCat12({ date: Date, offset: offset, limit }));
+      }
+    };
+    const container = tableRef.current;
+    if (container) {
+      container.addEventListener('scroll', handleScroll);
+    }
+
+    return () => {
+      if (container) {
+        container.removeEventListener('scroll', handleScroll);
+      }
+    };
+  }, [offset, hasMore, loading, dispatch]);
 
   return (
     <Fragment>
       <Breadcrumb
         items={BreadcrumbData(
-          "Carbon Management System",
-          "Category Nine & Category Twelve"
+          'Carbon Management System',
+          'Category Nine & Category Twelve'
         )}
       />
 
@@ -46,6 +80,7 @@ const CategoryNineAndCategoryTwelvePage = () => {
       <Card>
         <Search />
         <Table
+          tableRef={tableRef}
           header={HEADER}
           activeSort={activeSort}
           setActiveSort={setActiveSort}

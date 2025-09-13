@@ -6,8 +6,8 @@ import Login from '../pages/Login';
 
 import Home from '../pages/Home';
 import NotFound from '../pages/NotFound';
-import CategoryOne from '../pages/Category/CategoryOne';
-import CategoryFour from '../pages/Category/CategoryFour';
+// import CategoryOne from '../pages/Category/CategoryOne';
+// import CategoryFour from '../pages/Category/CategoryFour';
 import CategoryFive from '../pages/Category/CategoryFive';
 import CategorySix from '../pages/Category/CategorySix';
 import CategorySeven from '../pages/Category/CategorySeven';
@@ -15,6 +15,7 @@ import CategoryNineAndCategoryTwelvePage from '../pages/Category/CategoryNineAnd
 import UserManagement from '../pages/SystemSettings/UserManagement';
 import FileManagement from '../pages/SystemSettings/FileManagement';
 import ProtectedRoute from './ProtectedRoute';
+import CategoryOneAndCategoryFour from '../pages/Category/CategoryOneAndCategoryFour';
 
 const AppRoutes = () => {
   return (
@@ -27,10 +28,10 @@ const AppRoutes = () => {
         <Route path="/dashboard" element={<MainLayout />}>
           <Route
             index
-            element={<Navigate to={'/dashboard/category-one'} replace />}
+            element={<Navigate to={'/dashboard/category-one-and-category-four'} replace />}
           />
-          <Route path="/dashboard/category-one" element={<CategoryOne />} />
-          <Route path="/dashboard/category-four" element={<CategoryFour />} />
+          <Route path="/dashboard/category-one-and-category-four" element={<CategoryOneAndCategoryFour />} />
+          {/* <Route path="/dashboard/category-four" element={<CategoryFour />} /> */}
           <Route path="/dashboard/category-five" element={<CategoryFive />} />
           <Route path="/dashboard/category-six" element={<CategorySix />} />
           <Route path="/dashboard/category-seven" element={<CategorySeven />} />

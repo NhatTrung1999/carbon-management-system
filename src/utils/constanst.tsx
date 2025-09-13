@@ -1,5 +1,5 @@
 import CategoryOne from '../assets/images/purchased-goods-service.png';
-import CategoryFour from '../assets/images/upstream-transportation-and-distribution.png';
+// import CategoryFour from '../assets/images/upstream-transportation-and-distribution.png';
 import CategoryFive from '../assets/images/waste-generated-in-operations.png';
 import CategorySix from '../assets/images/business-travel.png';
 import CategorySeven from '../assets/images/employee-commuting.png';
@@ -30,42 +30,42 @@ const MENU_SIDEBAR = [
     sidebarItem: [
       {
         // text: "Purchased goods & Service",
-        text: 'Category One',
+        text: 'Cat1 & Cat 4',
         // path: "/dashboard/purchased-goods-service",
-        path: '/dashboard/category-one',
+        path: '/dashboard/category-one-and-category-four',
         icon: <img src={CategoryOne} className="size-6" />,
       },
-      {
-        // text: "Upstream transportation & distribution",
-        text: 'Category Four',
-        // path: "/dashboard/upstream-transportation-and-distribution",
-        path: '/dashboard/category-four',
-        icon: <img src={CategoryFour} className="size-6" />,
-      },
+      // {
+      //   // text: "Upstream transportation & distribution",
+      //   text: 'Cat4',
+      //   // path: "/dashboard/upstream-transportation-and-distribution",
+      //   path: '/dashboard/category-four',
+      //   icon: <img src={CategoryFour} className="size-6" />,
+      // },
       {
         // text: "Waste generated in operations",
-        text: 'Category Five',
+        text: 'Cat5',
         // path: "/dashboard/waste-generated-in-operations",
         path: '/dashboard/category-five',
         icon: <img src={CategoryFive} className="size-6" />,
       },
       {
         // text: "Business travel",
-        text: 'Category Six',
+        text: 'Cat6',
         // path: "/dashboard/business-travel",
         path: '/dashboard/category-six',
         icon: <img src={CategorySix} className="size-6" />,
       },
       {
         // text: "Employee commuting",
-        text: 'Category Seven',
+        text: 'Cat7',
         // path: "/dashboard/employee-commuting",
         path: '/dashboard/category-seven',
         icon: <img src={CategorySeven} className="size-6" />,
       },
       {
         // text: "Downstream transportation & distribution",
-        text: 'Category Nine & Category Twelve',
+        text: 'Cat9 & Cat12',
         // path: "/dashboard/downstream-transportation-and-distribution",
         path: '/dashboard/category-nine-and-category-twelve',
         icon: <img src={CategoryNineAndCategoryTwelve} className="size-6" />,

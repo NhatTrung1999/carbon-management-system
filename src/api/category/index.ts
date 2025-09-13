@@ -1,8 +1,16 @@
 import axiosConfig from '../../lib/axiosConfig';
 
 const categoryApi = {
-  getDataCat9AndCat12: async ({ date }: { date: string }) => {
-    const url = `cat9-and-cat12/get-data?Date=${date}`;
+  getDataCat9AndCat12: async ({
+    date,
+    offset,
+    limit,
+  }: {
+    date: string;
+    offset: number;
+    limit: number;
+  }) => {
+    const url = `cat9-and-cat12/get-data?Date=${date}&offset=${offset}&limit=${limit}`;
     const res = await axiosConfig.get(url);
     return res.data;
   },
