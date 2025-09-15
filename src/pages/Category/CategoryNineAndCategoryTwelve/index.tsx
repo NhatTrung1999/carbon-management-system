@@ -6,12 +6,12 @@ import { BreadcrumbData } from '../../../types/breadcrumb';
 import Card from '../../../components/common/Card';
 import Search from '../../../components/Category/CategoryNineAndCategoryTwelve/Search';
 import Table from '../../../components/Category/CategoryNineAndCategoryTwelve/Table';
-import { HEADER } from '../../../types/categorynineandcategorytwelve';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import {
   getDataCat9AndCat12,
   reseCat9AndCat12,
 } from '../../../features/categorySlice';
+import { HEADER } from '../../../types/cat9andcat12';
 
 const CategoryNineAndCategoryTwelvePage = () => {
   const {

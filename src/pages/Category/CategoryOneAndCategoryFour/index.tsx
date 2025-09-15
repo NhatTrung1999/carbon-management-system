@@ -6,7 +6,8 @@ import Typography from "../../../components/common/Typography";
 import Card from "../../../components/common/Card";
 import Search from "../../../components/Category/CategoryOneAndCategoryFour/Search";
 import Table from "../../../components/Category/CategoryOneAndCategoryFour/Table";
-import { HEADER } from "../../../types/categorynineandcategorytwelve";
+import { HEADER } from "../../../types/cat1andcat4";
+
 
 const CategoryOneAndCategoryFour = () => {
     const [activeSort, setActiveSort] = useState({

@@ -4,7 +4,7 @@ import {
   type PayloadAction,
 } from '@reduxjs/toolkit';
 import categoryApi from '../api/category';
-import type { ICat9AndCat12, ICat9AndCat12Res } from '../types/category';
+import type { ICat9AndCat12, ICat9AndCat12Res } from '../types/cat9andcat12';
 
 interface CategoryState {
   cat9andcat12: ICat9AndCat12[];

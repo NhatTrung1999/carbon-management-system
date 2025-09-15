@@ -2,7 +2,7 @@ import { TiArrowSortedDown } from 'react-icons/ti';
 import { TiArrowSortedUp } from 'react-icons/ti';
 import type { TableHeaderProps } from '../../../types/table';
 import NoData from '../../../assets/images/no-data.png';
-import type { ICat9AndCat12 } from '../../../types/category';
+import type { ICat9AndCat12 } from '../../../types/cat9andcat12';
 import type { RefObject } from 'react';
 
 type Props = {
