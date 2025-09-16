@@ -6,24 +6,30 @@ import { BreadcrumbData } from '../../../types/breadcrumb';
 import Table from '../../../components/SystemSettings/UserManagement/Table';
 import Search from '../../../components/SystemSettings/UserManagement/Search';
 import ActionButton from '../../../components/SystemSettings/UserManagement/ActionButton';
-import { useAppDispatch } from '../../../app/hooks';
-import { getSearch } from '../../../features/userSlice';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
+import { deleteUser, getSearch } from '../../../features/userSlice';
 import ModalUser from '../../../components/SystemSettings/UserManagement/ModalUser';
 import { Toast } from '../../../utils/Toast';
-import type { Item } from '../../../types/users';
-
-
+import { HEADER, type IUserManagement } from '../../../types/usermanagement';
+import Swal from 'sweetalert2';
 
 const UserManagement = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [activeRow, setActiveRow] = useState<string | null>(null);
   const [mode, setMode] = useState<string>('add');
-  const [item, setItem] = useState<Item | null>();
+  const [item, setItem] = useState<IUserManagement | null>();
+
+  const [activeSort, setActiveSort] = useState({
+    sortField: HEADER[0].state,
+    sortOrder: 'asc',
+  });
+
+  const { users } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(getSearch({}));
-  }, []);
+  }, [dispatch]);
 
   const handleAddUser = () => {
     setIsOpen(true);
@@ -36,6 +42,35 @@ const UserManagement = () => {
     if (activeRow) {
       setIsOpen(true);
       setMode('edit');
+    } else {
+      Toast.fire({
+        icon: 'warning',
+        title: 'Please choose row',
+      });
+    }
+  };
+
+  const handleDeleteUser = () => {
+    if (activeRow) {
+      Swal.fire({
+        // title: 'Are you sure?',
+        text: 'Do you want to this data?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire({
+            title: 'Deleted!',
+            text: 'Your file has been deleted.',
+            icon: 'success',
+          });
+          dispatch(deleteUser(item?.ID as string));
+          dispatch(getSearch({}));
+        }
+      });
     } else {
       Toast.fire({
         icon: 'warning',
@@ -61,9 +96,14 @@ const UserManagement = () => {
           <ActionButton
             handleAddUser={handleAddUser}
             handleEditUser={handleEditUser}
+            handleDeleteUser={handleDeleteUser}
           />
         </div>
         <Table
+          header={HEADER}
+          activeSort={activeSort}
+          setActiveSort={setActiveSort}
+          data={users}
           activeRow={activeRow}
           setActiveRow={setActiveRow}
           setItem={setItem}

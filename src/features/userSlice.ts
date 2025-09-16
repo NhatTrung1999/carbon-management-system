@@ -30,7 +30,8 @@ export const addUser = createAsyncThunk(
   async (payload: UserPayload, { rejectWithValue }) => {
     try {
       const res = await usersApi.addUser(payload);
-      console.log(res);
+      // console.log(res);
+      return res;
     } catch (error) {
       return rejectWithValue(error);
     }
@@ -93,7 +94,8 @@ export const userSlice = createSlice({
       })
       .addCase(addUser.fulfilled, (state, action) => {
         state.loading = false;
-        console.log(action.payload);
+        state.users = [...state.users, action.payload.data];
+        // console.log(action.payload);
       })
       .addCase(addUser.rejected, (state, action) => {
         state.loading = false;

@@ -16,6 +16,7 @@ export const login = createAsyncThunk(
       const { data } = await authApi.login({ userid, password, factory });
       const token = data.access_token;
       sessionStorage.setItem('token', token);
+      sessionStorage.setItem('user', data.payload);
 
       return { token, user: data.payload };
     } catch (error: any) {
@@ -26,7 +27,7 @@ export const login = createAsyncThunk(
 );
 
 const initialState: AuthState = {
-  user: null,
+  user: sessionStorage.getItem('user'),
   token: sessionStorage.getItem('token'),
   loading: false,
   error: null,
@@ -42,6 +43,7 @@ export const authSlice = createSlice({
       state.user = null;
       state.error = null;
       sessionStorage.removeItem('token');
+      sessionStorage.removeItem('user');
     },
   },
   extraReducers: (builder) => {
@@ -51,8 +53,8 @@ export const authSlice = createSlice({
       })
       .addCase(login.fulfilled, (state, action) => {
         state.loading = false;
-        state.token = action.payload?.token;
-        state.user = action.payload?.user;
+        state.token = action.payload?.token || sessionStorage.getItem('token');
+        state.user = action.payload?.user || sessionStorage.getItem('user');
       })
       .addCase(login.rejected, (state, action) => {
         state.loading = false;

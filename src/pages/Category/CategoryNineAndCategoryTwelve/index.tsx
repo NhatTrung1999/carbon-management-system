@@ -42,8 +42,6 @@ const CategoryNineAndCategoryTwelvePage = () => {
       const { scrollTop, scrollHeight, clientHeight } = container;
 
       if (scrollTop + clientHeight >= scrollHeight - 10) {
-        // console.log('Scrolled to bottom, load more data...');
-        // const nextOffset = cat9andcat12.length
         dispatch(getDataCat9AndCat12({ date: Date, offset: offset, limit }));
       }
     };

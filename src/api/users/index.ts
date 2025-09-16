@@ -22,6 +22,7 @@ const usersApi = {
     return res.data;
   },
   updateUser: async (payload: UpdateUserPayload) => {
+    console.log(payload);
     const res = await axiosConfig.patch('users/update-user', payload);
     return res.data;
   },

@@ -4,6 +4,7 @@ import type { TableHeaderProps } from '../../../types/table';
 import NoData from '../../../assets/images/no-data.png';
 import type { ICat9AndCat12 } from '../../../types/cat9andcat12';
 import type { RefObject } from 'react';
+import { formatDate } from '../../../utils/formatDate';
 
 type Props = {
   header: TableHeaderProps[];
@@ -90,13 +91,17 @@ const Table = ({
               {data.map((item, index) => (
                 <tr key={index}>
                   <td className="box-border px-3 py-3">{item.No}</td>
-                  <td className="box-border px-3 py-3">{item.Date}</td>
+                  <td className="box-border px-3 py-3">
+                    {formatDate(item.Date)}
+                  </td>
                   <td className="box-border px-3 py-3">
                     {item.Invoice_Number}
                   </td>
                   <td className="box-border px-3 py-3">{item.Article_Name}</td>
                   <td className="box-border px-3 py-3">{item.Quantity}</td>
-                  <td className="box-border px-3 py-3">{item.Gross_Weight}</td>
+                  <td className="box-border px-3 py-3">
+                    {item.Gross_Weight ? item.Gross_Weight.toFixed(2) : ""}
+                  </td>
                   <td className="box-border px-3 py-3">{item.Customer_ID}</td>
                   <td className="box-border px-3 py-3">
                     {item.Local_Land_Transportation}

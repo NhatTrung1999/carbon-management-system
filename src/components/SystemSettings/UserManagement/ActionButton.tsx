@@ -3,9 +3,14 @@ import Button from '../../common/Button';
 interface Props {
   handleAddUser: () => void;
   handleEditUser: () => void;
+  handleDeleteUser: () => void;
 }
 
-const ActionButton = ({ handleAddUser, handleEditUser }: Props) => {
+const ActionButton = ({
+  handleAddUser,
+  handleEditUser,
+  handleDeleteUser,
+}: Props) => {
   return (
     <div className="flex items-end gap-2 justify-end">
       <Button
@@ -24,6 +29,7 @@ const ActionButton = ({ handleAddUser, handleEditUser }: Props) => {
         label="Delete"
         type="button"
         className="block text-white bg-[#ca1120] font-medium rounded-lg text-sm px-5 py-2.5 cursor-pointer hover:opacity-75"
+        onClick={handleDeleteUser}
       />
     </div>
   );

@@ -8,8 +8,9 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { v4 as uuidv4 } from 'uuid';
-import { addUser } from '../../../features/userSlice';
+import { addUser, getSearch, updateUser } from '../../../features/userSlice';
 import type { Item } from '../../../types/users';
+import { useEffect } from 'react';
 
 const validationSchema = Yup.object().shape({
   userid: Yup.string().required('Please do not leave it blank!'),
@@ -32,11 +33,9 @@ const ModalUser = ({
 }) => {
   const { user } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
-
-  console.log(item, user);
-
   const formik = useFormik({
     initialValues: {
+      id: item?.ID || '',
       userid: item?.UserID || '',
       name: item?.Name || '',
       email: item?.Email || '',
@@ -46,7 +45,7 @@ const ModalUser = ({
     validationSchema,
     enableReinitialize: true,
     onSubmit: async (data) => {
-      const { userid, email, name, role, status } = data;
+      const { userid, email, name, role, status, id } = data;
       if (mode === 'add') {
         dispatch(
           addUser({
@@ -56,14 +55,41 @@ const ModalUser = ({
             name,
             role,
             status,
-            createdAt: user?.UserID,
+            createdAt: user?.UserID || '',
           })
         );
       } else {
-        console.log('edit');
+        dispatch(
+          updateUser({
+            id,
+            userid,
+            email,
+            name,
+            role,
+            status,
+            updatedAt: user?.UserID || '',
+          })
+        );
       }
+      dispatch(getSearch({}));
+      setIsOpen(false);
     },
   });
+
+  useEffect(() => {
+    if (isOpen && mode === 'add') {
+      formik.resetForm({
+        values: {
+          id: '',
+          userid: '',
+          name: '',
+          email: '',
+          role: '',
+          status: '',
+        },
+      });
+    }
+  }, [isOpen, mode]);
 
   return (
     <Modal isOpen={isOpen}>
@@ -73,6 +99,12 @@ const ModalUser = ({
         </ModalHeader>
         <ModalBody>
           <div className="grid grid-cols-2 gap-5">
+            <Input
+              name="id"
+              type="hidden"
+              placeholder="Please enter your userid..."
+              value={formik.values.id}
+            />
             <div>
               <Input
                 name="userid"
