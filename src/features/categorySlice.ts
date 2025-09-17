@@ -38,7 +38,7 @@ export const getDataCat9AndCat12 = createAsyncThunk(
 const initialState: CategoryState = {
   cat9andcat12: [],
   loading: false,
-  date: '',
+  date: new Date().toISOString().slice(0, 10),
   error: null,
   offset: 0,
   hasMore: true,

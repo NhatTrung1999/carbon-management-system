@@ -79,6 +79,7 @@ import type { TableHeaderProps } from '../../../types/table';
 import type { IUserManagement } from '../../../types/usermanagement';
 import { TiArrowSortedDown } from 'react-icons/ti';
 import { TiArrowSortedUp } from 'react-icons/ti';
+import { formatDate } from '../../../utils/formatDate';
 
 type Props = {
   header: TableHeaderProps[];
@@ -173,15 +174,15 @@ const Table = ({
                     setItem(item);
                   }}
                 >
-                  <td className="box-border px-6 py-6">{item.UserID}</td>
-                  <td className="box-border px-6 py-6">{item.Name}</td>
-                  <td className="box-border px-6 py-6">{item.Email}</td>
-                  <td className="box-border px-6 py-6">{item.Role}</td>
-                  <td className="box-border px-6 py-6">{item.Status}</td>
-                  <td className="box-border px-6 py-6">{item.CreatedAt}</td>
-                  <td className="box-border px-6 py-6">{item.CreatedDate}</td>
-                  <td className="box-border px-6 py-6">{item.UpdatedAt}</td>
-                  <td className="box-border px-6 py-6">{item.UpdatedDate}</td>
+                  <td className="box-border px-4 py-4">{item.UserID}</td>
+                  <td className="box-border px-4 py-4">{item.Name}</td>
+                  <td className="box-border px-4 py-4">{item.Email}</td>
+                  <td className="box-border px-4 py-4">{item.Role}</td>
+                  <td className="box-border px-4 py-4">{item.Status}</td>
+                  <td className="box-border px-4 py-4">{item.CreatedAt}</td>
+                  <td className="box-border px-4 py-4">{formatDate(item.CreatedDate)}</td>
+                  <td className="box-border px-4 py-4">{item.UpdatedAt}</td>
+                  <td className="box-border px-4 py-4">{formatDate(item.UpdatedDate)}</td>
                 </tr>
               ))}
             </>
