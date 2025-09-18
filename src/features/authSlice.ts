@@ -16,18 +16,16 @@ export const login = createAsyncThunk(
       const { data } = await authApi.login({ userid, password, factory });
       const token = data.access_token;
       sessionStorage.setItem('token', token);
-      sessionStorage.setItem('user', data.payload);
-
+      sessionStorage.setItem('user', JSON.stringify(data.payload));
       return { token, user: data.payload };
     } catch (error: any) {
-      // console.log(error);
       return rejectWithValue(error.response.data.message || 'Login failed!');
     }
   }
 );
 
 const initialState: AuthState = {
-  user: sessionStorage.getItem('user'),
+  user: JSON.parse(sessionStorage.getItem('user') ?? 'null'),
   token: sessionStorage.getItem('token'),
   loading: false,
   error: null,
@@ -54,7 +52,9 @@ export const authSlice = createSlice({
       .addCase(login.fulfilled, (state, action) => {
         state.loading = false;
         state.token = action.payload?.token || sessionStorage.getItem('token');
-        state.user = action.payload?.user || sessionStorage.getItem('user');
+        state.user =
+          action.payload?.user ||
+          JSON.parse(sessionStorage.getItem('user') ?? 'null');
       })
       .addCase(login.rejected, (state, action) => {
         state.loading = false;

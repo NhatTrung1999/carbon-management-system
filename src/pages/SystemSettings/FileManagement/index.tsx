@@ -6,14 +6,14 @@ import Table from '../../../components/SystemSettings/FileManagement/Table';
 import Typography from '../../../components/common/Typography';
 import Breadcrumb from '../../../components/common/Breadcrumb';
 import Search from '../../../components/SystemSettings/FileManagement/Search';
-import { HEADER, type IFileManagement } from '../../../types/filemanagement';
+import { HEADER } from '../../../types/filemanagement';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { getData } from '../../../features/fileSlice';
 
 const FileManagement = () => {
-  const [getFileManagementData, setGetFileManagementData] = useState<
-    IFileManagement[] | any
-  >([]);
+  // const [getFileManagementData, setGetFileManagementData] = useState<
+  //   IFileManagement[] | any
+  // >([]);
   const { file } = useAppSelector((state) => state.file);
 
   const [activeSort, setActiveSort] = useState({
@@ -39,7 +39,7 @@ const FileManagement = () => {
         className="text-3xl bg-gradient-to-r from-[#081c1b] via-[#3f4a42] to-[#636e61] inline-block text-transparent bg-clip-text mb-3"
       />
       <Card className="relative">
-        <Search setGetFileManagementData={setGetFileManagementData} />
+        <Search />
         <Table
           header={HEADER}
           data={file}

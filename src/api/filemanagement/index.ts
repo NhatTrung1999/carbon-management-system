@@ -12,6 +12,17 @@ const fileManagementApi = {
     const res = await axiosConfig.get(url);
     return res.data;
   },
+  generateFileExcel: async ({
+    module,
+    date,
+  }: {
+    module: string;
+    date: string;
+  }) => {
+    const url = `filemanagement/generate-file-excel?Module=${module}&Date=${date}`;
+    const res = await axiosConfig.get(url);
+    return res.data;
+  },
   downloadFile: async (id: string) => {
     const url = `filemanagement/download/${id}`;
     const res = await axiosConfig.get(url, { responseType: 'blob' });

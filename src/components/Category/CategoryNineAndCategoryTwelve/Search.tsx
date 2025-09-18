@@ -3,20 +3,21 @@ import Button from '../../common/Button';
 import Input from '../../common/Input';
 
 import ExcelIcon from '../../../assets/images/excel-icon.png';
-import { useEffect } from 'react';
-import { useAppDispatch } from '../../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import {
   getDataCat9AndCat12,
   reseCat9AndCat12,
   setDate,
 } from '../../../features/categorySlice';
+import { generateFileExcel } from '../../../features/fileSlice';
 
 const Search = () => {
+  const { date } = useAppSelector((state) => state.category);
   const dispatch = useAppDispatch();
 
   const formik = useFormik({
     initialValues: {
-      Date: new Date().toISOString().slice(0, 10),
+      Date: date,
     },
     onSubmit: async (data) => {
       try {
@@ -31,10 +32,11 @@ const Search = () => {
     },
   });
 
-  useEffect(() => {}, []);
 
   //Export Excel
-  const onExportExcel = async () => {};
+  const onExportExcel = async () => {
+    dispatch(generateFileExcel({ module: 'Cat9AndCat12', date }));
+  };
   //Export Excel
 
   return (

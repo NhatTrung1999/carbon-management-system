@@ -23,6 +23,21 @@ export const getData = createAsyncThunk(
   }
 );
 
+export const generateFileExcel = createAsyncThunk(
+  'file/generate-file-excel',
+  async (
+    { module, date }: { module: string; date: string },
+    { rejectWithValue }
+  ) => {
+    try {
+      const res = await fileManagementApi.generateFileExcel({ module, date });
+      console.log(res);
+    } catch (error: any) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
 const initialState: IFileState = {
   file: [],
   loading: false,

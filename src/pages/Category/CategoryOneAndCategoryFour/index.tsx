@@ -1,26 +1,23 @@
-import { Fragment, useState } from "react";
-import { BreadcrumbData } from "../../../types/breadcrumb";
+import { Fragment, useState } from 'react';
+import { BreadcrumbData } from '../../../types/breadcrumb';
 
-import Breadcrumb from "../../../components/common/Breadcrumb";
-import Typography from "../../../components/common/Typography";
-import Card from "../../../components/common/Card";
-import Search from "../../../components/Category/CategoryOneAndCategoryFour/Search";
-import Table from "../../../components/Category/CategoryOneAndCategoryFour/Table";
-import { HEADER } from "../../../types/cat1andcat4";
-
+import Breadcrumb from '../../../components/common/Breadcrumb';
+import Typography from '../../../components/common/Typography';
+import Card from '../../../components/common/Card';
+import Search from '../../../components/Category/CategoryOneAndCategoryFour/Search';
+import Table from '../../../components/Category/CategoryOneAndCategoryFour/Table';
+import { HEADER } from '../../../types/cat1andcat4';
 
 const CategoryOneAndCategoryFour = () => {
-    const [activeSort, setActiveSort] = useState({
-        sortField: HEADER[0].state,
-        sortOrder: 'asc',
-      });
+
+  const [activeSort, setActiveSort] = useState({
+    sortField: HEADER[0].state,
+    sortOrder: 'asc',
+  });
   return (
     <Fragment>
       <Breadcrumb
-        items={BreadcrumbData(
-          "Carbon Management System",
-          "Cat1 & Cat4"
-        )}
+        items={BreadcrumbData('Carbon Management System', 'Cat1 & Cat4')}
       />
 
       <Typography
@@ -35,7 +32,7 @@ const CategoryOneAndCategoryFour = () => {
       <Card>
         <Search />
         <Table
-        //   tableRef={tableRef}
+          //   tableRef={tableRef}
           header={HEADER}
           activeSort={activeSort}
           setActiveSort={setActiveSort}
@@ -43,7 +40,7 @@ const CategoryOneAndCategoryFour = () => {
         />
       </Card>
     </Fragment>
-  )
-}
+  );
+};
 
-export default CategoryOneAndCategoryFour
+export default CategoryOneAndCategoryFour;

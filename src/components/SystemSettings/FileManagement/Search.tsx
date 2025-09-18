@@ -1,53 +1,50 @@
-import { useEffect } from "react";
-import { useFormik } from "formik";
-import Button from "../../common/Button";
-import Input from "../../common/Input";
-import fileManagementApi from "../../../api/filemanagement";
-import type { IFileManagement } from "../../../types/filemanagement";
+import { useFormik } from 'formik';
+import Button from '../../common/Button';
+import Input from '../../common/Input';
+import { useAppDispatch } from '../../../app/hooks';
+import { getData } from '../../../features/fileSlice';
 
-type Props = {
-  setGetFileManagementData: (data: IFileManagement[]) => void;
-};
-
-const Search = ({ setGetFileManagementData }: Props) => {
+const Search = () => {
+  const dispatch = useAppDispatch();
   const formik = useFormik({
     initialValues: {
-      module: "",
-      file_name: "",
+      module: '',
+      file_name: '',
     },
     onSubmit: async (data) => {
       try {
-        const response = await fileManagementApi.getData({
-          module: data.module,
-          file_name: data.file_name,
-        });
-        if (response.data.statusCode === 200) {
-          setGetFileManagementData(response.data.data);
-        }
+        // const response = await fileManagementApi.getData({
+        //   module: data.module,
+        //   file_name: data.file_name,
+        // });
+        // if (response.data.statusCode === 200) {
+        //   setGetFileManagementData(response.data.data);
+        // }
+        dispatch(getData({ module: data.module, file_name: data.file_name }));
       } catch (error: any) {
         console.log(error);
       }
     },
   });
 
-  const getData = async () => {
-    try {
-      const response = await fileManagementApi.getData({
-        module: formik.values.module,
-        file_name: formik.values.file_name,
-      });
+  // const getData = async () => {
+  //   try {
+  //     const response = await fileManagementApi.getData({
+  //       module: formik.values.module,
+  //       file_name: formik.values.file_name,
+  //     });
 
-      if (response.data.statusCode === 200) {
-        setGetFileManagementData(response.data.data);
-      }
-    } catch (error: any) {
-      console.log(error);
-    }
-  };
+  //     if (response.data.statusCode === 200) {
+  //       setGetFileManagementData(response.data.data);
+  //     }
+  //   } catch (error: any) {
+  //     console.log(error);
+  //   }
+  // };
 
-  useEffect(() => {
-    getData();
-  }, []);
+  // useEffect(() => {
+  //   getData();
+  // }, []);
 
   return (
     <form
@@ -56,20 +53,20 @@ const Search = ({ setGetFileManagementData }: Props) => {
     >
       <div>
         <Input
-          label={"Module"}
+          label={'Module'}
           type="text"
           name="module"
-          classNameLabel={"mb-2"}
+          classNameLabel={'mb-2'}
           value={formik.values.module}
           onChange={formik.handleChange}
         />
       </div>
       <div>
         <Input
-          label={"File Name"}
+          label={'File Name'}
           type="text"
           name="file_name"
-          classNameLabel={"mb-2"}
+          classNameLabel={'mb-2'}
           value={formik.values.file_name}
           onChange={formik.handleChange}
         />
