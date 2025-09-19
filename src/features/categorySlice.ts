@@ -11,23 +11,21 @@ interface CategoryState {
   loading: boolean;
   date: string;
   error: string | null;
-  offset: number;
+  page: number;
   hasMore: boolean;
 }
 
 export const getDataCat9AndCat12 = createAsyncThunk(
   'category/cat9-and-cat12',
   async (
-    { date, offset, limit }: { date: string; offset: number; limit: number },
+    { date, page }: { date: string; page: number },
     { rejectWithValue }
   ) => {
     try {
       const res = await categoryApi.getDataCat9AndCat12({
         date,
-        offset,
-        limit,
+        page,
       });
-      // console.log(res);
       return res;
     } catch (error) {
       return rejectWithValue(error);
@@ -40,7 +38,7 @@ const initialState: CategoryState = {
   loading: false,
   date: new Date().toISOString().slice(0, 10),
   error: null,
-  offset: 0,
+  page: 1,
   hasMore: true,
 };
 
@@ -50,10 +48,8 @@ export const categorySlice = createSlice({
   reducers: {
     reseCat9AndCat12: (state) => {
       state.cat9andcat12 = [];
-      state.offset = 0;
-      state.loading = false;
+      state.page = 1;
       state.hasMore = true;
-      state.error = null;
     },
     setDate: (state, action) => {
       state.date = action.payload;
@@ -69,33 +65,35 @@ export const categorySlice = createSlice({
         getDataCat9AndCat12.fulfilled,
         (state, action: PayloadAction<ICat9AndCat12Res[]>) => {
           state.loading = false;
-          if (state.offset === 0) {
+          if (state.page === 1) {
             state.cat9andcat12 = [];
           }
-          const newData = action.payload.map((item, index) => ({
-            No: `${state.cat9andcat12.length + index + 1}`,
-            Date: item.INV_DATE,
-            Invoice_Number: item.INV_NO,
-            Article_Name: item.STYLE_NAME,
-            Quantity: item.Qty,
-            Gross_Weight: item.GW,
-            Customer_ID: item.CUSTID,
-            Local_Land_Transportation: item.LocalLandTransportation,
-            Port_Of_Departure: item.Place_Delivery,
-            Port_Of_Arrival: item.Country,
-            Land_Transport_Distance: item.Land_Transport_Distance || '',
-            Sea_Transport_Distance: item.Sea_Transport_Distance || '',
-            Air_Transport_Distance: item.Air_Transport_Distance || '',
-            Transport_Method: item.TransportMethod,
-            Air_Transport_Ton_Kilometers:
-              item.Air_Transport_Ton_Kilometers || '',
-            Sea_Transport_Ton_Kilometers:
-              item.Sea_Transport_Ton_Kilometers || '',
-            Land_Transport_Ton_Kilometers:
-              item.Land_Transport_Ton_Kilometers || '',
-          }));
+          const newData: ICat9AndCat12[] = action.payload.map(
+            (item, index) => ({
+              No: `${state.cat9andcat12.length + index + 1}`,
+              Date: item.INV_DATE,
+              Invoice_Number: item.INV_NO,
+              Article_Name: item.STYLE_NAME,
+              Quantity: item.Qty,
+              Gross_Weight: item.GW,
+              Customer_ID: item.CUSTID,
+              Local_Land_Transportation: item.LocalLandTransportation,
+              Port_Of_Departure: item.Place_Delivery,
+              Port_Of_Arrival: item.Country,
+              Land_Transport_Distance: item.Land_Transport_Distance || '',
+              Sea_Transport_Distance: item.Sea_Transport_Distance || '',
+              Air_Transport_Distance: item.Air_Transport_Distance || '',
+              Transport_Method: item.TransportMethod,
+              Air_Transport_Ton_Kilometers:
+                item.Air_Transport_Ton_Kilometers || '',
+              Sea_Transport_Ton_Kilometers:
+                item.Sea_Transport_Ton_Kilometers || '',
+              Land_Transport_Ton_Kilometers:
+                item.Land_Transport_Ton_Kilometers || '',
+            })
+          );
           state.cat9andcat12 = [...state.cat9andcat12, ...newData];
-          state.offset += action.payload.length;
+          state.page += 1;
           state.hasMore = action.payload.length >= 20;
         }
       )

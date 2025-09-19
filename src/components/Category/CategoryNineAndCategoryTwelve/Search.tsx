@@ -12,7 +12,7 @@ import {
 import { generateFileExcel } from '../../../features/fileSlice';
 
 const Search = () => {
-  const { date } = useAppSelector((state) => state.category);
+  const { date, page } = useAppSelector((state) => state.category);
   const dispatch = useAppDispatch();
 
   const formik = useFormik({
@@ -20,18 +20,16 @@ const Search = () => {
       Date: date,
     },
     onSubmit: async (data) => {
-      try {
-        dispatch(setDate(data.Date));
-        dispatch(reseCat9AndCat12());
-        dispatch(
-          getDataCat9AndCat12({ date: data.Date, offset: 0, limit: 20 })
-        );
-      } catch (error: any) {
-        console.log(error);
-      }
+      console.log(data);
+      // try {
+      // dispatch(setDate(data.Date));
+      // dispatch(reseCat9AndCat12());
+      // dispatch(getDataCat9AndCat12({ date: data.Date, page }));
+      // } catch (error: any) {
+      //   console.log(error);
+      // }
     },
   });
-
 
   //Export Excel
   const onExportExcel = async () => {

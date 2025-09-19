@@ -8,7 +8,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { v4 as uuidv4 } from 'uuid';
-import { addUser, getSearch, updateUser } from '../../../features/userSlice';
+import { addUser, updateUser } from '../../../features/userSlice';
 import type { Item } from '../../../types/users';
 import { useEffect } from 'react';
 
@@ -70,8 +70,8 @@ const ModalUser = ({
             updatedAt: user?.UserID || '',
           })
         );
+        // dispatch(getSearch({}));
       }
-      dispatch(getSearch({}));
       setIsOpen(false);
     },
   });

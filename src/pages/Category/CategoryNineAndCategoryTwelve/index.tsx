@@ -16,7 +16,7 @@ import { HEADER } from '../../../types/cat9andcat12';
 const CategoryNineAndCategoryTwelvePage = () => {
   const {
     cat9andcat12,
-    offset,
+    page,
     hasMore,
     loading,
     date: Date,
@@ -27,35 +27,40 @@ const CategoryNineAndCategoryTwelvePage = () => {
     sortField: HEADER[0].state,
     sortOrder: 'asc',
   });
-  const limit = 20;
+
+  // console.log(offset);
 
   useEffect(() => {
     dispatch(reseCat9AndCat12());
-    dispatch(getDataCat9AndCat12({ date: Date, offset, limit }));
-  }, [dispatch]);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const container = tableRef.current;
-      if (!container || loading || !hasMore) return;
-
-      const { scrollTop, scrollHeight, clientHeight } = container;
-
-      if (scrollTop + clientHeight >= scrollHeight - 10) {
-        dispatch(getDataCat9AndCat12({ date: Date, offset: offset, limit }));
-      }
-    };
-    const container = tableRef.current;
-    if (container) {
-      container.addEventListener('scroll', handleScroll);
-    }
+    dispatch(getDataCat9AndCat12({ date: '2025-09-18', page: 1 }));
 
     return () => {
-      if (container) {
-        container.removeEventListener('scroll', handleScroll);
-      }
+      dispatch(reseCat9AndCat12());
     };
-  }, [offset, hasMore, loading, dispatch]);
+  }, [dispatch]);
+
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     const container = tableRef.current;
+  //     if (!container || loading || !hasMore) return;
+
+  //     const { scrollTop, scrollHeight, clientHeight } = container;
+
+  //     if (scrollTop + clientHeight >= scrollHeight - 10) {
+  //       dispatch(getDataCat9AndCat12({ date: Date, page }));
+  //     }
+  //   };
+  //   const container = tableRef.current;
+  //   if (container) {
+  //     container.addEventListener('scroll', handleScroll);
+  //   }
+
+  //   return () => {
+  //     if (container) {
+  //       container.removeEventListener('scroll', handleScroll);
+  //     }
+  //   };
+  // }, [page, hasMore, loading, dispatch]);
 
   return (
     <Fragment>

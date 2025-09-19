@@ -10,8 +10,8 @@ import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { deleteUser, getSearch } from '../../../features/userSlice';
 import ModalUser from '../../../components/SystemSettings/UserManagement/ModalUser';
 import { Toast } from '../../../utils/Toast';
-import { HEADER, type IUserManagement } from '../../../types/usermanagement';
 import Swal from 'sweetalert2';
+import { HEADER, type IUserManagement } from '../../../types/users';
 
 const UserManagement = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -29,7 +29,7 @@ const UserManagement = () => {
 
   useEffect(() => {
     dispatch(getSearch({}));
-  }, [dispatch]);
+  }, []);
 
   const handleAddUser = () => {
     setIsOpen(true);
@@ -61,14 +61,14 @@ const UserManagement = () => {
         cancelButtonColor: '#d33',
         confirmButtonText: 'Yes',
       }).then((result) => {
+        // console.log(result.isConfirmed);
         if (result.isConfirmed) {
+          dispatch(deleteUser(item?.ID as string));
           Swal.fire({
             title: 'Deleted!',
             text: 'Your file has been deleted.',
             icon: 'success',
           });
-          dispatch(deleteUser(item?.ID as string));
-          dispatch(getSearch({}));
         }
       });
     } else {

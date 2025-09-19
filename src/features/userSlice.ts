@@ -17,7 +17,6 @@ export const getSearch = createAsyncThunk(
   async (payload: SearchPayload, { rejectWithValue }) => {
     try {
       const res = await usersApi.getSearch(payload);
-      // console.log(res);
       return res;
     } catch (error: any) {
       return rejectWithValue('');
@@ -43,7 +42,7 @@ export const updateUser = createAsyncThunk(
   async (payload: UpdateUserPayload, { rejectWithValue }) => {
     try {
       const res = await usersApi.updateUser(payload);
-      console.log(res);
+      return res;
     } catch (error) {
       return rejectWithValue(error);
     }
@@ -54,7 +53,8 @@ export const deleteUser = createAsyncThunk(
   'user/delete-user',
   async (id: string, { rejectWithValue }) => {
     try {
-      await usersApi.deleteUser(id);
+      const res = await usersApi.deleteUser(id);
+      return res;
     } catch (error) {
       return rejectWithValue(error);
     }
@@ -95,9 +95,38 @@ export const userSlice = createSlice({
       .addCase(addUser.fulfilled, (state, action) => {
         state.loading = false;
         state.users = [...state.users, action.payload.data];
-        // console.log(action.payload);
       })
       .addCase(addUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      });
+
+    //update
+    builder
+      .addCase(updateUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.users = action.payload.data;
+      })
+      .addCase(updateUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      });
+
+    //delete
+    builder
+      .addCase(deleteUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(deleteUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.users = action.payload.data;
+      })
+      .addCase(deleteUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       });
