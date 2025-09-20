@@ -6,7 +6,8 @@ import ExcelIcon from '../../../assets/images/excel-icon.png';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import {
   getDataCat9AndCat12,
-  reseCat9AndCat12,
+  getDataCat9AndCat12Test,
+  resetCat9AndCat12,
   setDate,
 } from '../../../features/categorySlice';
 import { generateFileExcel } from '../../../features/fileSlice';
@@ -20,11 +21,11 @@ const Search = () => {
       Date: date,
     },
     onSubmit: async (data) => {
-      console.log(data);
+      // console.log(data, page);
       // try {
-      // dispatch(setDate(data.Date));
+      dispatch(setDate(data.Date));
       // dispatch(reseCat9AndCat12());
-      // dispatch(getDataCat9AndCat12({ date: data.Date, page }));
+      dispatch(getDataCat9AndCat12Test({ date: data.Date, page: 1 }));
       // } catch (error: any) {
       //   console.log(error);
       // }

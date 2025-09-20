@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 import { useAppDispatch } from '../../../app/hooks';
 import {
   getDataCat9AndCat12,
-  reseCat9AndCat12,
+  resetCat9AndCat12,
   setDate,
 } from '../../../features/categorySlice';
 
@@ -19,15 +19,16 @@ const Search = () => {
       Date: new Date().toISOString().slice(0, 10),
     },
     onSubmit: async (data) => {
-      try {
-        dispatch(setDate(data.Date));
-        dispatch(reseCat9AndCat12());
-        dispatch(
-          getDataCat9AndCat12({ date: data.Date, offset: 0, limit: 20 })
-        );
-      } catch (error: any) {
-        console.log(error);
-      }
+      console.log(data);
+      // try {
+      //   dispatch(setDate(data.Date));
+      //   dispatch(resetCat9AndCat12());
+      //   dispatch(
+      //     getDataCat9AndCat12({ date: data.Date, page: 0 })
+      //   );
+      // } catch (error: any) {
+      //   console.log(error);
+      // }
     },
   });
 

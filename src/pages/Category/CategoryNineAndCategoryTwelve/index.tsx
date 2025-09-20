@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useRef, useState } from 'react';
+import { Fragment, useCallback, useEffect, useRef, useState } from 'react';
 import Breadcrumb from '../../../components/common/Breadcrumb';
 import Typography from '../../../components/common/Typography';
 import { BreadcrumbData } from '../../../types/breadcrumb';
@@ -9,9 +9,10 @@ import Table from '../../../components/Category/CategoryNineAndCategoryTwelve/Ta
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import {
   getDataCat9AndCat12,
-  reseCat9AndCat12,
+  getDataCat9AndCat12Test,
+  resetCat9AndCat12,
 } from '../../../features/categorySlice';
-import { HEADER } from '../../../types/cat9andcat12';
+import { HEADER, type ICat9AndCat12 } from '../../../types/cat9andcat12';
 
 const CategoryNineAndCategoryTwelvePage = () => {
   const {
@@ -28,16 +29,21 @@ const CategoryNineAndCategoryTwelvePage = () => {
     sortOrder: 'asc',
   });
 
-  // console.log(offset);
 
   useEffect(() => {
-    dispatch(reseCat9AndCat12());
-    dispatch(getDataCat9AndCat12({ date: '2025-09-18', page: 1 }));
-
+    // dispatch(reseCat9AndCat12());
+    dispatch(getDataCat9AndCat12Test({ date: Date, page: 1 }));
     return () => {
-      dispatch(reseCat9AndCat12());
+      dispatch(resetCat9AndCat12());
     };
-  }, [dispatch]);
+  }, []);
+
+  // useEffect(() => {
+  //   if (!loading && cat9andcat12 && cat9andcat12.length > 0) {
+  //     setData((prev) => [...prev, ...cat9andcat12]);
+  //   }
+  //   console.log(cat9andcat12.length, cat9andcat12, loading);
+  // }, [data, loading]);
 
   // useEffect(() => {
   //   const handleScroll = () => {
@@ -47,7 +53,8 @@ const CategoryNineAndCategoryTwelvePage = () => {
   //     const { scrollTop, scrollHeight, clientHeight } = container;
 
   //     if (scrollTop + clientHeight >= scrollHeight - 10) {
-  //       dispatch(getDataCat9AndCat12({ date: Date, page }));
+  //       // console.log(page);
+  //       dispatch(getDataCat9AndCat12Test({ date: Date, page: page + 1 }));
   //     }
   //   };
   //   const container = tableRef.current;
@@ -61,6 +68,7 @@ const CategoryNineAndCategoryTwelvePage = () => {
   //     }
   //   };
   // }, [page, hasMore, loading, dispatch]);
+  // console.log(page);
 
   return (
     <Fragment>
