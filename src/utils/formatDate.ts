@@ -1,6 +1,8 @@
 import dayjs from 'dayjs';
 
-export const formatDate = (iso: string) => {
-  const formatted = dayjs(iso).format('YYYY-MM-DD');
-  return formatted;
+export const formatDate = (time?: string | null) => {
+  if (!time) return '';
+  const date = dayjs(time);
+  if (!date.isValid()) return '';
+  return date.format('YYYY-MM-DD');
 };

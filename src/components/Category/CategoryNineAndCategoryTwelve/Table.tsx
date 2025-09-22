@@ -3,7 +3,7 @@ import { TiArrowSortedUp } from 'react-icons/ti';
 import type { TableHeaderProps } from '../../../types/table';
 import NoData from '../../../assets/images/no-data.png';
 import type { ICat9AndCat12 } from '../../../types/cat9andcat12';
-import type { RefObject } from 'react';
+import type { RefObject, UIEventHandler } from 'react';
 import { formatDate } from '../../../utils/formatDate';
 
 type Props = {
@@ -15,6 +15,7 @@ type Props = {
   setActiveSort: (data: any) => void;
   data: ICat9AndCat12[];
   tableRef: RefObject<HTMLDivElement | null>;
+  onScroll: UIEventHandler<HTMLDivElement>
 };
 
 const Table = ({
@@ -23,6 +24,7 @@ const Table = ({
   setActiveSort,
   data,
   tableRef,
+  onScroll
 }: Props) => {
   const handleSorting = (sortField: string, sortOrder: string): void => {
     setActiveSort({ sortField, sortOrder });
@@ -53,7 +55,7 @@ const Table = ({
     );
 
   return (
-    <div className="max-h-[600px] overflow-y-auto" ref={tableRef}>
+    <div className="max-h-[600px] overflow-y-auto" ref={tableRef} onScroll={onScroll}>
       <table className="w-full text-left min-w-max">
         <thead className="bg-[#636e61] text-sm sticky top-0 text-white">
           <tr>

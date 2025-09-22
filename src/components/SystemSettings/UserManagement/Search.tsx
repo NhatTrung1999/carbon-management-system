@@ -4,7 +4,14 @@ import Input from '../../common/Input';
 import { useAppDispatch } from '../../../app/hooks';
 import { getSearch } from '../../../features/userSlice';
 
-const Search = () => {
+type Props = {
+  activeSort: {
+    sortField: string;
+    sortOrder: string;
+  };
+};
+
+const Search = ({ activeSort }: Props) => {
   const dispatch = useAppDispatch();
 
   const formik = useFormik({
@@ -14,7 +21,14 @@ const Search = () => {
     },
     onSubmit: (data) => {
       const { userid, name } = data;
-      dispatch(getSearch({ userid, name }));
+      dispatch(
+        getSearch({
+          userid,
+          name,
+          sortField: activeSort.sortField,
+          sortOrder: activeSort.sortOrder,
+        })
+      );
     },
   });
 

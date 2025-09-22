@@ -4,16 +4,18 @@ import Input from '../../common/Input';
 
 import ExcelIcon from '../../../assets/images/excel-icon.png';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import {
-  getDataCat9AndCat12,
-  getDataCat9AndCat12Test,
-  resetCat9AndCat12,
-  setDate,
-} from '../../../features/categorySlice';
+import { getData, resetData, setDate } from '../../../features/categorySlice';
 import { generateFileExcel } from '../../../features/fileSlice';
 
-const Search = () => {
-  const { date, page } = useAppSelector((state) => state.category);
+type Props = {
+  activeSort: {
+    sortField: string;
+    sortOrder: string;
+  };
+};
+
+const Search = ({ activeSort }: Props) => {
+  const { date } = useAppSelector((state) => state.category);
   const dispatch = useAppDispatch();
 
   const formik = useFormik({
@@ -22,13 +24,22 @@ const Search = () => {
     },
     onSubmit: async (data) => {
       // console.log(data, page);
-      // try {
-      dispatch(setDate(data.Date));
-      // dispatch(reseCat9AndCat12());
-      dispatch(getDataCat9AndCat12Test({ date: data.Date, page: 1 }));
-      // } catch (error: any) {
-      //   console.log(error);
-      // }
+      try {
+        dispatch(resetData());
+        dispatch(setDate(data.Date));
+        dispatch(
+          getData({
+            date: data.Date,
+            page: 1,
+            sortField: activeSort.sortField,
+            sortOrder: activeSort.sortOrder,
+          })
+        );
+        // dispatch(reseCat9AndCat12());
+        // dispatch(getDataCat9AndCat12Test({ date: data.Date, page: 1 }));
+      } catch (error: any) {
+        console.log(error);
+      }
     },
   });
 

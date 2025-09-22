@@ -23,6 +23,8 @@ export interface UpdateUserPayload {
 export interface SearchPayload {
   userid?: string;
   name?: string;
+  sortField?: string;
+  sortOrder?: string;
 }
 
 export interface Item {

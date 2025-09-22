@@ -28,8 +28,13 @@ const UserManagement = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(getSearch({}));
-  }, []);
+    dispatch(
+      getSearch({
+        sortField: activeSort.sortField,
+        sortOrder: activeSort.sortOrder,
+      })
+    );
+  }, [activeSort]);
 
   const handleAddUser = () => {
     setIsOpen(true);
@@ -92,7 +97,7 @@ const UserManagement = () => {
 
       <Card className="relative">
         <div className="mb-5 grid grid-cols-2">
-          <Search />
+          <Search activeSort={activeSort} />
           <ActionButton
             handleAddUser={handleAddUser}
             handleEditUser={handleEditUser}

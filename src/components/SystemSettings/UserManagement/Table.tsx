@@ -76,10 +76,11 @@
 
 // export default Table;
 import type { TableHeaderProps } from '../../../types/table';
-import type { IUserManagement } from '../../../types/usermanagement';
+// import type { IUserManagement } from '../../../types/usermanagement';
 import { TiArrowSortedDown } from 'react-icons/ti';
 import { TiArrowSortedUp } from 'react-icons/ti';
 import { formatDate } from '../../../utils/formatDate';
+import type { IUserManagement } from '../../../types/users';
 
 type Props = {
   header: TableHeaderProps[];

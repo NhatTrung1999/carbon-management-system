@@ -5,11 +5,11 @@ import Input from '../../common/Input';
 import ExcelIcon from '../../../assets/images/excel-icon.png';
 import { useEffect } from 'react';
 import { useAppDispatch } from '../../../app/hooks';
-import {
-  getDataCat9AndCat12,
-  resetCat9AndCat12,
-  setDate,
-} from '../../../features/categorySlice';
+// import {
+//   getDataCat9AndCat12,
+//   resetCat9AndCat12,
+//   setDate,
+// } from '../../../features/categorySlice';
 
 const Search = () => {
   const dispatch = useAppDispatch();

@@ -7,21 +7,13 @@ import Card from '../../../components/common/Card';
 import Search from '../../../components/Category/CategoryNineAndCategoryTwelve/Search';
 import Table from '../../../components/Category/CategoryNineAndCategoryTwelve/Table';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import {
-  getDataCat9AndCat12,
-  getDataCat9AndCat12Test,
-  resetCat9AndCat12,
-} from '../../../features/categorySlice';
-import { HEADER, type ICat9AndCat12 } from '../../../types/cat9andcat12';
+import { HEADER } from '../../../types/cat9andcat12';
+import { getData, resetData } from '../../../features/categorySlice';
 
 const CategoryNineAndCategoryTwelvePage = () => {
-  const {
-    cat9andcat12,
-    page,
-    hasMore,
-    loading,
-    date: Date,
-  } = useAppSelector((state) => state.category);
+  const { cat9andcat12, page, hasMore, loading, date } = useAppSelector(
+    (state) => state.category
+  );
   const tableRef = useRef<HTMLDivElement | null>(null);
   const dispatch = useAppDispatch();
   const [activeSort, setActiveSort] = useState({
@@ -29,46 +21,36 @@ const CategoryNineAndCategoryTwelvePage = () => {
     sortOrder: 'asc',
   });
 
-
   useEffect(() => {
-    // dispatch(reseCat9AndCat12());
-    dispatch(getDataCat9AndCat12Test({ date: Date, page: 1 }));
-    return () => {
-      dispatch(resetCat9AndCat12());
-    };
-  }, []);
+    dispatch(resetData());
+    dispatch(
+      getData({
+        date,
+        page: 1,
+        sortField: activeSort.sortField,
+        sortOrder: activeSort.sortOrder,
+      })
+    );
+  }, [dispatch, activeSort]);
 
-  // useEffect(() => {
-  //   if (!loading && cat9andcat12 && cat9andcat12.length > 0) {
-  //     setData((prev) => [...prev, ...cat9andcat12]);
-  //   }
-  //   console.log(cat9andcat12.length, cat9andcat12, loading);
-  // }, [data, loading]);
+  const onScroll = useCallback(() => {
+    const el = tableRef.current;
+    if (!el || loading || !hasMore) return;
+    const bottomReached =
+      el.scrollTop + el.clientHeight >= el.scrollHeight - 20;
+    if (bottomReached) {
+      dispatch(
+        getData({
+          date,
+          page,
+          sortField: activeSort.sortField,
+          sortOrder: activeSort.sortOrder,
+        })
+      );
+    }
+  }, [dispatch, loading, hasMore, page]);
 
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     const container = tableRef.current;
-  //     if (!container || loading || !hasMore) return;
-
-  //     const { scrollTop, scrollHeight, clientHeight } = container;
-
-  //     if (scrollTop + clientHeight >= scrollHeight - 10) {
-  //       // console.log(page);
-  //       dispatch(getDataCat9AndCat12Test({ date: Date, page: page + 1 }));
-  //     }
-  //   };
-  //   const container = tableRef.current;
-  //   if (container) {
-  //     container.addEventListener('scroll', handleScroll);
-  //   }
-
-  //   return () => {
-  //     if (container) {
-  //       container.removeEventListener('scroll', handleScroll);
-  //     }
-  //   };
-  // }, [page, hasMore, loading, dispatch]);
-  // console.log(page);
+  console.log(activeSort);
 
   return (
     <Fragment>
@@ -89,8 +71,9 @@ const CategoryNineAndCategoryTwelvePage = () => {
       />
 
       <Card>
-        <Search />
+        <Search activeSort={activeSort} />
         <Table
+          onScroll={onScroll}
           tableRef={tableRef}
           header={HEADER}
           activeSort={activeSort}

@@ -6,14 +6,10 @@ import type {
 } from '../../types/users';
 
 const usersApi = {
-  getAll: async () => {
-    const res = await axiosConfig.get('users');
-    return res.data;
-  },
   getSearch: async (payload: SearchPayload) => {
-    const { userid = '', name = '' } = payload;
+    const { userid = '', name = '', sortField, sortOrder } = payload;
     const res = await axiosConfig.get(
-      `users/get-search?userid=${userid}&name=${name}`
+      `users/get-search?userid=${userid}&name=${name}&sortField=${sortField}&sortOrder=${sortOrder}`
     );
     return res.data;
   },
