@@ -23,7 +23,6 @@ const Search = ({ activeSort }: Props) => {
       Date: date,
     },
     onSubmit: async (data) => {
-      // console.log(data, page);
       try {
         dispatch(resetData());
         dispatch(setDate(data.Date));
@@ -35,8 +34,6 @@ const Search = ({ activeSort }: Props) => {
             sortOrder: activeSort.sortOrder,
           })
         );
-        // dispatch(reseCat9AndCat12());
-        // dispatch(getDataCat9AndCat12Test({ date: data.Date, page: 1 }));
       } catch (error: any) {
         console.log(error);
       }

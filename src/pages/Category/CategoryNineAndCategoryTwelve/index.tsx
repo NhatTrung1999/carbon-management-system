@@ -50,7 +50,6 @@ const CategoryNineAndCategoryTwelvePage = () => {
     }
   }, [dispatch, loading, hasMore, page]);
 
-  console.log(activeSort);
 
   return (
     <Fragment>

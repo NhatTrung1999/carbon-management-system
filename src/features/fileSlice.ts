@@ -10,11 +10,26 @@ interface IFileState {
 export const getData = createAsyncThunk(
   'file/get-data',
   async (
-    { module, file_name }: { module: string; file_name: string },
+    {
+      module,
+      file_name,
+      sortField,
+      sortOrder,
+    }: {
+      module: string;
+      file_name: string;
+      sortField: string;
+      sortOrder: string;
+    },
     { rejectWithValue }
   ) => {
     try {
-      const res = await fileManagementApi.getData({ module, file_name });
+      const res = await fileManagementApi.getData({
+        module,
+        file_name,
+        sortField,
+        sortOrder,
+      });
       // console.log(res);
       return res;
     } catch (error: any) {

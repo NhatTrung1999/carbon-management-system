@@ -5,6 +5,7 @@ import type { IFileManagement } from '../../../types/filemanagement';
 import { formatDate } from '../../../utils/formatDate';
 import fileManagementApi from '../../../api/filemanagement';
 import { Toast } from '../../../utils/Toast';
+import { FaCircleCheck } from 'react-icons/fa6';
 
 type Props = {
   header: TableHeaderProps[];
@@ -73,7 +74,7 @@ const Table = ({ header, activeSort, setActiveSort, data }: Props) => {
           <tr>
             {header.map((item, index) => (
               <th className="px-4 py-4 whitespace-break-spaces" key={index}>
-                <div className="flex flex-row gap-6 items-center">
+                <div className="flex flex-row gap-6 items-center justify-between">
                   <span>{item.name}</span>
                   {item.sort && (
                     <span className="flex flex-col cursor-pointer">
@@ -101,12 +102,22 @@ const Table = ({ header, activeSort, setActiveSort, data }: Props) => {
                 <tr
                   key={index}
                   onClick={() => handleDownloadFile(item.ID, item.File_Name)}
-                  className="cursor-pointer hover:bg-gray-300"
+                  className="cursor-pointer hover:bg-gray-300 font-medium"
                 >
                   <td className="box-border px-4 py-4">{item.Module}</td>
                   <td className="box-border px-4 py-4">{item.File_Name}</td>
                   <td className="box-border px-4 py-4">
-                    {item.Status ? 'Done' : 'Pending'}
+                    {false ? (
+                      <div className="text-green-500 flex items-center gap-2">
+                        <FaCircleCheck className='size-4' />
+                        Done
+                      </div>
+                    ) : (
+                      <div className="text-blue-500 flex items-center gap-2">
+                        <div className="animate-spin border-4 border-blue-400 border-t-blue-500 rounded-full size-4"></div>
+                        Pending...
+                      </div>
+                    )}
                   </td>
                   <td className="box-border px-4 py-4">{item.CreatedAt}</td>
                   <td className="box-border px-4 py-4">

@@ -4,11 +4,15 @@ const fileManagementApi = {
   getData: async ({
     module,
     file_name,
+    sortField,
+    sortOrder,
   }: {
     module: string;
     file_name: string;
+    sortField: string;
+    sortOrder: string;
   }) => {
-    const url = `filemanagement/get-data?Module=${module}&File_Name=${file_name}`;
+    const url = `filemanagement/get-data?Module=${module}&File_Name=${file_name}&sortField=${sortField}&sortOrder=${sortOrder}`;
     const res = await axiosConfig.get(url);
     return res.data;
   },

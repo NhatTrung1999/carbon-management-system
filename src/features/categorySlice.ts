@@ -109,9 +109,10 @@ export const categorySlice = createSlice({
       })
       .addCase(getData.fulfilled, (state, action) => {
         state.loading = false;
-        if (state.page === 2) {
-          state.page = 1;
-        }
+        console.log(state.page, action.payload.page);
+        // if (state.page === 2) {
+        //   state.page = 1;
+        // }
         const existingKeys = new Set(
           state.cat9andcat12.map((item) => item.Invoice_Number)
         );

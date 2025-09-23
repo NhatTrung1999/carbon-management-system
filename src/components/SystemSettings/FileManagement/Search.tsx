@@ -4,7 +4,14 @@ import Input from '../../common/Input';
 import { useAppDispatch } from '../../../app/hooks';
 import { getData } from '../../../features/fileSlice';
 
-const Search = () => {
+type Props = {
+  activeSort: {
+    sortField: string;
+    sortOrder: string;
+  };
+};
+
+const Search = ({ activeSort }: Props) => {
   const dispatch = useAppDispatch();
   const formik = useFormik({
     initialValues: {
@@ -20,7 +27,14 @@ const Search = () => {
         // if (response.data.statusCode === 200) {
         //   setGetFileManagementData(response.data.data);
         // }
-        dispatch(getData({ module: data.module, file_name: data.file_name }));
+        dispatch(
+          getData({
+            module: data.module,
+            file_name: data.file_name,
+            sortField: activeSort.sortField,
+            sortOrder: activeSort.sortOrder,
+          })
+        );
       } catch (error: any) {
         console.log(error);
       }

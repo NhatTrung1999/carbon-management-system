@@ -24,9 +24,15 @@ const FileManagement = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(getData({ module: '', file_name: '' }));
-  }, []);
-
+    dispatch(
+      getData({
+        module: '',
+        file_name: '',
+        sortField: activeSort.sortField,
+        sortOrder: activeSort.sortOrder,
+      })
+    );
+  }, [activeSort]);
 
   return (
     <Fragment>
@@ -39,7 +45,7 @@ const FileManagement = () => {
         className="text-3xl bg-gradient-to-r from-[#081c1b] via-[#3f4a42] to-[#636e61] inline-block text-transparent bg-clip-text mb-3"
       />
       <Card className="relative">
-        <Search />
+        <Search activeSort={activeSort} />
         <Table
           header={HEADER}
           data={file}
