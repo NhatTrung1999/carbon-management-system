@@ -6,6 +6,8 @@ import { formatDate } from '../../../utils/formatDate';
 import fileManagementApi from '../../../api/filemanagement';
 import { Toast } from '../../../utils/Toast';
 import { FaCircleCheck } from 'react-icons/fa6';
+import { useEffect } from 'react';
+import { useSocket } from '../../../hooks/useSocket';
 
 type Props = {
   header: TableHeaderProps[];
@@ -18,6 +20,7 @@ type Props = {
 };
 
 const Table = ({ header, activeSort, setActiveSort, data }: Props) => {
+  const socketRef = useSocket(import.meta.env.VITE_URLS);
   const handleSorting = (sortField: string, sortOrder: string): void => {
     setActiveSort({ sortField, sortOrder });
   };
@@ -67,6 +70,18 @@ const Table = ({ header, activeSort, setActiveSort, data }: Props) => {
     }
   };
 
+  useEffect(() => {
+    if (!socketRef.current) return;
+
+    socketRef.current.on('file-excel-done', (data) => {
+      console.log(`File-excel-done: ${data}`);
+    });
+
+    return () => {
+      socketRef.current?.off('file-excel-done');
+    };
+  }, [socketRef]);
+
   return (
     <div className="max-h-[600px] overflow-y-auto">
       <table className="w-full text-left min-w-max">
@@ -107,9 +122,9 @@ const Table = ({ header, activeSort, setActiveSort, data }: Props) => {
                   <td className="box-border px-4 py-4">{item.Module}</td>
                   <td className="box-border px-4 py-4">{item.File_Name}</td>
                   <td className="box-border px-4 py-4">
-                    {false ? (
+                    {item.Status ? (
                       <div className="text-green-500 flex items-center gap-2">
-                        <FaCircleCheck className='size-4' />
+                        <FaCircleCheck className="size-4" />
                         Done
                       </div>
                     ) : (
