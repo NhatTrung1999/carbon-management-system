@@ -23,9 +23,9 @@ export const useSocket = (
       console.log(`Disconnected from server`);
     });
 
-    return () => {
-      socket.disconnect();
-    };
+    // return () => {
+    //   socket.disconnect();
+    // };
   }, [url]);
 
   return socketRef;

@@ -8,6 +8,8 @@ import { Toast } from '../../../utils/Toast';
 import { FaCircleCheck } from 'react-icons/fa6';
 import { useEffect } from 'react';
 import { useSocket } from '../../../hooks/useSocket';
+import { useAppDispatch } from '../../../app/hooks';
+import { getData } from '../../../features/fileSlice';
 
 type Props = {
   header: TableHeaderProps[];
@@ -21,6 +23,7 @@ type Props = {
 
 const Table = ({ header, activeSort, setActiveSort, data }: Props) => {
   const socketRef = useSocket(import.meta.env.VITE_URLS);
+  const dispatch = useAppDispatch();
   const handleSorting = (sortField: string, sortOrder: string): void => {
     setActiveSort({ sortField, sortOrder });
   };
@@ -70,15 +73,45 @@ const Table = ({ header, activeSort, setActiveSort, data }: Props) => {
     }
   };
 
+  const handleStatus = (item: IFileManagement) => {
+    if (item.Status) {
+      handleDownloadFile(item.ID, item.File_Name);
+    } else {
+      Toast.fire({
+        title: 'File excel is still pending!',
+        icon: 'warning',
+      });
+    }
+  };
+
   useEffect(() => {
     if (!socketRef.current) return;
 
     socketRef.current.on('file-excel-done', (data) => {
-      console.log(`File-excel-done: ${data}`);
+      Toast.fire({
+        title: data,
+        icon: 'success',
+      });
+      dispatch(
+        getData({
+          file_name: '',
+          module: '',
+          sortField: activeSort.sortField,
+          sortOrder: activeSort.sortOrder,
+        })
+      );
     });
+
+    socketRef.current.on('file-excel-error', (data) => {
+      Toast.fire({
+        title: data,
+        icon: 'success',
+      });
+    })
 
     return () => {
       socketRef.current?.off('file-excel-done');
+      socketRef.current?.off('file-excel-error');
     };
   }, [socketRef]);
 
@@ -116,7 +149,7 @@ const Table = ({ header, activeSort, setActiveSort, data }: Props) => {
               {data.map((item, index) => (
                 <tr
                   key={index}
-                  onClick={() => handleDownloadFile(item.ID, item.File_Name)}
+                  onClick={() => handleStatus(item)}
                   className="cursor-pointer hover:bg-gray-300 font-medium"
                 >
                   <td className="box-border px-4 py-4">{item.Module}</td>

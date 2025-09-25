@@ -10,7 +10,7 @@ import { IoLogOutOutline } from 'react-icons/io5';
 import FlagVN from '../../assets/images/flag-vn.png';
 import FlagEN from '../../assets/images/flag-us.png';
 import FlagTW from '../../assets/images/flag-tw.png';
-import { useAppDispatch } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { logout } from '../../features/authSlice';
 
 const Header = () => {
@@ -19,6 +19,7 @@ const Header = () => {
   const [isShow, setIsShow] = useState<boolean>(false);
   const [isShowLanguage, setIsShowLanguage] = useState<boolean>(false);
   const dispatch = useAppDispatch();
+  const {user} = useAppSelector(state => state.auth)
 
   const onHomePage = () => {
     navigate('/');
@@ -38,6 +39,8 @@ const Header = () => {
     dispatch(logout());
     navigate('/login');
   };
+
+  console.log(user);
 
   return (
     <div
@@ -95,11 +98,11 @@ const Header = () => {
               onClick={onShow}
             >
               <FaUser size={23} />
-              <span className="select-none">Administrator</span>
+              <span className="select-none">{user?.Name}</span>
               {/* <MdKeyboardArrowRight size={23} /> */}
             </div>
             <div
-              className={`absolute top-8 bg-white text-primary w-full px-3 py-2 shadow-md rounded-md transition-all duration-300 origin-top ${
+              className={`absolute top-8 right-0 w-[200px] bg-white text-primary px-3 py-2 shadow-md rounded-md transition-all duration-300 origin-top ${
                 isShow
                   ? 'opacity-100 scale-100'
                   : 'opacity-0 scale-95 pointer-events-none'

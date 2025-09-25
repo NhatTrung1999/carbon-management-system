@@ -6,6 +6,7 @@ import ExcelIcon from '../../../assets/images/excel-icon.png';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { getData, resetData, setDate } from '../../../features/categorySlice';
 import { generateFileExcel } from '../../../features/fileSlice';
+import { Toast } from '../../../utils/Toast';
 
 type Props = {
   activeSort: {
@@ -42,7 +43,19 @@ const Search = ({ activeSort }: Props) => {
 
   //Export Excel
   const onExportExcel = async () => {
-    dispatch(generateFileExcel({ module: 'Cat9AndCat12', date }));
+    const result = await dispatch(
+      generateFileExcel({ module: 'Cat9AndCat12', date })
+    );
+    if (generateFileExcel.fulfilled.match(result)) {
+      const { statusCode, message } = result.payload as {
+        statusCode: number;
+        message: string;
+      };
+      Toast.fire({
+        title: message,
+        icon: statusCode === 200 ? 'success' : 'error',
+      });
+    }
   };
   //Export Excel
 

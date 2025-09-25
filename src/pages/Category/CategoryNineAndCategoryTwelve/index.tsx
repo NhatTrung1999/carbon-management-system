@@ -15,6 +15,7 @@ const CategoryNineAndCategoryTwelvePage = () => {
     (state) => state.category
   );
   const tableRef = useRef<HTMLDivElement | null>(null);
+  const didFetch = useRef(false);
   const dispatch = useAppDispatch();
   const [activeSort, setActiveSort] = useState({
     sortField: HEADER[0].state,
@@ -22,6 +23,8 @@ const CategoryNineAndCategoryTwelvePage = () => {
   });
 
   useEffect(() => {
+    if (didFetch.current) return;
+    didFetch.current = true;
     dispatch(resetData());
     dispatch(
       getData({
@@ -31,7 +34,7 @@ const CategoryNineAndCategoryTwelvePage = () => {
         sortOrder: activeSort.sortOrder,
       })
     );
-  }, [dispatch, activeSort]);
+  }, [dispatch, activeSort, date]);
 
   const onScroll = useCallback(() => {
     const el = tableRef.current;
@@ -48,8 +51,7 @@ const CategoryNineAndCategoryTwelvePage = () => {
         })
       );
     }
-  }, [dispatch, loading, hasMore, page]);
-
+  }, [dispatch, loading, hasMore, page, date, activeSort]);
 
   return (
     <Fragment>

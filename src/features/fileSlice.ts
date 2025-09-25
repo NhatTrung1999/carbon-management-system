@@ -46,7 +46,7 @@ export const generateFileExcel = createAsyncThunk(
   ) => {
     try {
       const res = await fileManagementApi.generateFileExcel({ module, date });
-      console.log(res);
+      return res
     } catch (error: any) {
       return rejectWithValue(error);
     }
