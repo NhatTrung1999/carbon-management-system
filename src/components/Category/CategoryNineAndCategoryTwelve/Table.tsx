@@ -68,7 +68,7 @@ const Table = ({
           <tr>
             {header.map((item, index) => (
               <th className="px-4 py-4 whitespace-break-spaces" key={index}>
-                <div className="flex flex-row gap-6 items-center">
+                <div className="flex flex-row gap-6 items-center justify-between">
                   <span>{item.name}</span>
                   {item.sort && (
                     <span className="flex flex-col cursor-pointer">

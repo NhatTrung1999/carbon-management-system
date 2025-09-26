@@ -58,7 +58,6 @@ const UserManagement = () => {
   const handleDeleteUser = () => {
     if (activeRow) {
       Swal.fire({
-        // title: 'Are you sure?',
         text: 'Do you want to this data?',
         icon: 'warning',
         showCancelButton: true,
@@ -66,7 +65,6 @@ const UserManagement = () => {
         cancelButtonColor: '#d33',
         confirmButtonText: 'Yes',
       }).then((result) => {
-        // console.log(result.isConfirmed);
         if (result.isConfirmed) {
           dispatch(deleteUser(item?.ID as string));
           Swal.fire({

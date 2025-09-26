@@ -2,8 +2,8 @@ import { TiArrowSortedDown } from 'react-icons/ti';
 import { TiArrowSortedUp } from 'react-icons/ti';
 import type { TableHeaderProps } from '../../../types/table';
 import NoData from '../../../assets/images/no-data.png';
-import type { ICat9AndCat12 } from '../../../types/cat9andcat12';
 import type { RefObject } from 'react';
+import type { ICat5Data } from '../../../types/cat5';
 
 type Props = {
   header: TableHeaderProps[];
@@ -12,7 +12,7 @@ type Props = {
     sortOrder: string;
   };
   setActiveSort: (data: any) => void;
-  data: ICat9AndCat12[];
+  data: ICat5Data[];
   tableRef?: RefObject<HTMLDivElement | null>;
 };
 
@@ -83,44 +83,28 @@ const Table = ({ header, activeSort, setActiveSort, data }: Props) => {
             <>
               {data.map((item, index) => (
                 <tr key={index}>
-                  <td className="box-border px-3 py-3">{item.No}</td>
-                  <td className="box-border px-3 py-3">{item.Date}</td>
                   <td className="box-border px-3 py-3">
-                    {item.Invoice_Number}
+                    {item.Waste_disposal_date}
                   </td>
-                  <td className="box-border px-3 py-3">{item.Article_Name}</td>
-                  <td className="box-border px-3 py-3">{item.Quantity}</td>
-                  <td className="box-border px-3 py-3">{item.Gross_Weight}</td>
-                  <td className="box-border px-3 py-3">{item.Customer_ID}</td>
+                  <td className="box-border px-3 py-3">{item.Vender_Name}</td>
                   <td className="box-border px-3 py-3">
-                    {item.Local_Land_Transportation}
+                    {item.Waste_collection_address}
                   </td>
                   <td className="box-border px-3 py-3">
-                    {item.Port_Of_Departure}
+                    {item.Transportation_Distance_km}
                   </td>
                   <td className="box-border px-3 py-3">
-                    {item.Port_Of_Arrival}
+                    {item.The_type_of_waste}
+                  </td>
+                  <td className="box-border px-3 py-3">{item.Waste_type}</td>
+                  <td className="box-border px-3 py-3">
+                    {item.Waste_Treatment_method}
                   </td>
                   <td className="box-border px-3 py-3">
-                    {item.Land_Transport_Distance}
+                    {item.Weight_of_waste_treated_Unit_kg}
                   </td>
                   <td className="box-border px-3 py-3">
-                    {item.Sea_Transport_Distance}
-                  </td>
-                  <td className="box-border px-3 py-3">
-                    {item.Air_Transport_Distance}
-                  </td>
-                  <td className="box-border px-3 py-3">
-                    {item.Transport_Method}
-                  </td>
-                  <td className="box-border px-3 py-3">
-                    {item.Land_Transport_Ton_Kilometers}
-                  </td>
-                  <td className="box-border px-3 py-3">
-                    {item.Sea_Transport_Ton_Kilometers}
-                  </td>
-                  <td className="box-border px-3 py-3">
-                    {item.Air_Transport_Ton_Kilometers}
+                    {item.TKT_Ton_km}
                   </td>
                 </tr>
               ))}
