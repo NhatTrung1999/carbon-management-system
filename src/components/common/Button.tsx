@@ -11,7 +11,7 @@ const Button = (props: ButtonProps) => {
     >
       {imgSrc && (
         <span style={{ width: "24px" }}>
-          <img src={imgSrc} />
+          <img src={imgSrc} className="w-10" />
         </span>
       )}
       {label}

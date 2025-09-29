@@ -19,7 +19,7 @@ const Header = () => {
   const [isShow, setIsShow] = useState<boolean>(false);
   const [isShowLanguage, setIsShowLanguage] = useState<boolean>(false);
   const dispatch = useAppDispatch();
-  const {user} = useAppSelector(state => state.auth)
+  const { user } = useAppSelector((state) => state.auth);
 
   const onHomePage = () => {
     navigate('/');
@@ -39,8 +39,6 @@ const Header = () => {
     dispatch(logout());
     navigate('/login');
   };
-
-  console.log(user);
 
   return (
     <div

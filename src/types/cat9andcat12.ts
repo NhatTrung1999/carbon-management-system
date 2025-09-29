@@ -1,4 +1,4 @@
-export interface ICat9AndCat12 {
+export interface ICat9AndCat12Data {
   No: number;
   Date: string;
   Invoice_Number: string;

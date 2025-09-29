@@ -2,7 +2,7 @@ import { TiArrowSortedDown } from 'react-icons/ti';
 import { TiArrowSortedUp } from 'react-icons/ti';
 import type { TableHeaderProps } from '../../../types/table';
 import NoData from '../../../assets/images/no-data.png';
-import type { ICat9AndCat12 } from '../../../types/cat9andcat12';
+import type { ICat9AndCat12Data } from '../../../types/cat9andcat12';
 import type { RefObject, UIEventHandler } from 'react';
 import { formatDate } from '../../../utils/formatDate';
 import { useAppSelector } from '../../../app/hooks';
@@ -14,7 +14,7 @@ type Props = {
     sortOrder: string;
   };
   setActiveSort: (data: any) => void;
-  data: ICat9AndCat12[];
+  data: ICat9AndCat12Data[];
   tableRef: RefObject<HTMLDivElement | null>;
   onScroll: UIEventHandler<HTMLDivElement>;
 };

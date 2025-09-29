@@ -3,39 +3,64 @@ import Button from '../../common/Button';
 import Input from '../../common/Input';
 
 import ExcelIcon from '../../../assets/images/excel-icon.png';
-import { useEffect } from 'react';
-// import { useAppDispatch } from '../../../app/hooks';
-// import {
-//   getDataCat9AndCat12,
-//   resetCat9AndCat12,
-//   setDate,
-// } from '../../../features/categorySlice';
+import {
+  getDataCat5,
+  resetDataCat5,
+  setDate,
+} from '../../../features/categorySlice';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
+import { generateFileExcel } from '../../../features/fileSlice';
+import { Toast } from '../../../utils/Toast';
 
-const Search = () => {
-  // const dispatch = useAppDispatch();
+type Props = {
+  activeSort: {
+    sortField: string;
+    sortOrder: string;
+  };
+};
+
+const Search = ({ activeSort }: Props) => {
+  const { date } = useAppSelector((state) => state.category);
+  const dispatch = useAppDispatch();
 
   const formik = useFormik({
     initialValues: {
       Date: new Date().toISOString().slice(0, 10),
     },
     onSubmit: async (data) => {
-      console.log(data);
-      // try {
-      //   dispatch(setDate(data.Date));
-      //   dispatch(resetCat9AndCat12());
-      //   dispatch(
-      //     getDataCat9AndCat12({ date: data.Date, page: 0 })
-      //   );
-      // } catch (error: any) {
-      //   console.log(error);
-      // }
+      try {
+        dispatch(resetDataCat5());
+        dispatch(setDate(data.Date));
+        dispatch(
+          getDataCat5({
+            date: data.Date,
+            page: 1,
+            sortField: activeSort.sortField,
+            sortOrder: activeSort.sortOrder,
+          })
+        );
+      } catch (error: any) {
+        console.log(error);
+      }
     },
   });
 
-  useEffect(() => {}, []);
-
   //Export Excel
-  const onExportExcel = async () => {};
+  const onExportExcel = async () => {
+    const result = await dispatch(
+      generateFileExcel({ module: 'Cat5', date })
+    );
+    if (generateFileExcel.fulfilled.match(result)) {
+      const { statusCode, message } = result.payload as {
+        statusCode: number;
+        message: string;
+      };
+      Toast.fire({
+        title: message,
+        icon: statusCode === 200 ? 'success' : 'error',
+      });
+    }
+  };
   //Export Excel
 
   return (

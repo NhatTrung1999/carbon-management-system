@@ -8,7 +8,7 @@ import Search from '../../../components/Category/CategoryNineAndCategoryTwelve/S
 import Table from '../../../components/Category/CategoryNineAndCategoryTwelve/Table';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { HEADER } from '../../../types/cat9andcat12';
-import { getData, resetData } from '../../../features/categorySlice';
+import { getDataCat9AndCat12, resetDataCat9AndCat12 } from '../../../features/categorySlice';
 
 const CategoryNineAndCategoryTwelvePage = () => {
   const { cat9andcat12, page, hasMore, loading, date } = useAppSelector(
@@ -25,9 +25,9 @@ const CategoryNineAndCategoryTwelvePage = () => {
   useEffect(() => {
     if (didFetch.current) return;
     didFetch.current = true;
-    dispatch(resetData());
+    dispatch(resetDataCat9AndCat12());
     dispatch(
-      getData({
+      getDataCat9AndCat12({
         date,
         page: 1,
         sortField: activeSort.sortField,
@@ -43,7 +43,7 @@ const CategoryNineAndCategoryTwelvePage = () => {
       el.scrollTop + el.clientHeight >= el.scrollHeight - 20;
     if (bottomReached) {
       dispatch(
-        getData({
+        getDataCat9AndCat12({
           date,
           page,
           sortField: activeSort.sortField,
