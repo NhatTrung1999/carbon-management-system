@@ -11,7 +11,7 @@ import {
 } from '../../../features/categorySlice';
 import { generateFileExcel } from '../../../features/fileSlice';
 import { Toast } from '../../../utils/Toast';
-import ModalPortCode from './ModalPortCode';
+// import ModalPortCode from './ModalPortCode';
 
 type Props = {
   activeSort: {
@@ -86,11 +86,6 @@ const Search = ({ activeSort }: Props) => {
             type="submit"
             className="block text-white bg-[#FF9119] hover:bg-[#FF9119]/80 focus:ring-4 focus:outline-none focus:ring-[#FF9119]/50 font-medium rounded-lg text-sm px-5 py-2.5 dark:hover:bg-[#FF9119]/80 dark:focus:ring-[#FF9119]/40 cursor-pointer"
           />
-          <Button
-            label="Port Code"
-            type="button"
-            className="block text-white bg-[#6fbbfa] hover:bg-[#6fbbfa]/80 focus:ring-4 focus:outline-none focus:ring-[#6fbbfa]/50 font-medium rounded-lg text-sm px-5 py-2.5 dark:hover:bg-[#6fbbfa]/80 dark:focus:ring-[#6fbbfa]/40 cursor-pointer"
-          />
           <button
             type="button"
             className="flex flex-row gap-2 items-center cursor-pointer"
@@ -105,7 +100,7 @@ const Search = ({ activeSort }: Props) => {
           </button>
         </div>
       </form>
-      <ModalPortCode />
+      {/* <ModalPortCode /> */}
     </>
   );
 };

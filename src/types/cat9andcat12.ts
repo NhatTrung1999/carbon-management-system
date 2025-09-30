@@ -18,26 +18,12 @@ export interface ICat9AndCat12Data {
   Air_Transport_Ton_Kilometers: number;
 }
 
-// export interface ICat9AndCat12Response {
-//   No: number;
-//   Date: string;
-//   Invoice_Number: string;
-//   Article_Name: string;
-//   Quantity: number;
-//   Gross_Weight: number;
-//   Customer_ID: string;
-//   Local_Land_Transportation: string;
-//   Port_Of_Departure: string;
-//   Port_Of_Arrival: string;
-//   Land_Transport_Distance: number;
-//   Sea_Transport_Distance: number;
-//   Air_Transport_Distance: number;
-//   Transport_Method: string
-//   Land_Transport_Ton_Kilometers: number;
-//   Sea_Transport_Ton_Kilometers: number;
-//   Air_Transport_Ton_Kilometers: number;
-// }
-
+export interface IPortCodeData {
+  CustomerNumber: string;
+  PortCode: string
+  CreatedAt: string
+  CreatedDate: string
+}
 
 export const HEADER = [
   {
@@ -123,6 +109,29 @@ export const HEADER = [
   {
     name: 'Air Transport Ton-Kilometers',
     state: 'Air_Transport_Ton_Kilometers',
+    sort: true,
+  },
+];
+
+export const HEADER_PORTCODE = [
+  {
+    name: 'CustomerNumber',
+    state: 'CustomerNumber',
+    sort: true,
+  },
+  {
+    name: 'PortCode',
+    state: 'PortCode',
+    sort: true,
+  },
+  {
+    name: 'CreatedAt',
+    state: 'CreatedAt',
+    sort: true,
+  },
+  {
+    name: 'CreatedDate',
+    state: 'CreatedDate',
     sort: true,
   },
 ];

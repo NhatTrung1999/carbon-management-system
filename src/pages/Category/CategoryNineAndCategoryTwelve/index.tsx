@@ -4,11 +4,16 @@ import Typography from '../../../components/common/Typography';
 import { BreadcrumbData } from '../../../types/breadcrumb';
 
 import Card from '../../../components/common/Card';
-import Search from '../../../components/Category/CategoryNineAndCategoryTwelve/Search';
-import Table from '../../../components/Category/CategoryNineAndCategoryTwelve/Table';
+
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { HEADER } from '../../../types/cat9andcat12';
-import { getDataCat9AndCat12, resetDataCat9AndCat12 } from '../../../features/categorySlice';
+import { HEADER, HEADER_PORTCODE } from '../../../types/cat9andcat12';
+import {
+  getDataCat9AndCat12,
+  resetDataCat9AndCat12,
+} from '../../../features/categorySlice';
+import Tabs from '../../../components/common/Tabs';
+import Cat9AndCat12 from './Cat9AndCat12';
+import PortCode from './PortCode';
 
 const CategoryNineAndCategoryTwelvePage = () => {
   const { cat9andcat12, page, hasMore, loading, date } = useAppSelector(
@@ -72,14 +77,26 @@ const CategoryNineAndCategoryTwelvePage = () => {
       />
 
       <Card>
-        <Search activeSort={activeSort} />
-        <Table
-          onScroll={onScroll}
-          tableRef={tableRef}
-          header={HEADER}
-          activeSort={activeSort}
-          setActiveSort={setActiveSort}
-          data={cat9andcat12}
+        <Tabs
+          tabs={[
+            {
+              label: 'Cat9AndCat12',
+              content: (
+                <Cat9AndCat12
+                  activeSort={activeSort}
+                  onScroll={onScroll}
+                  tableRef={tableRef}
+                  setActiveSort={setActiveSort}
+                  data={cat9andcat12}
+                  header={HEADER}
+                />
+              ),
+            },
+            {
+              label: 'Port Code',
+              content: <PortCode header={HEADER_PORTCODE} data={[]} />,
+            },
+          ]}
         />
       </Card>
     </Fragment>
