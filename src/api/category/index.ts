@@ -26,6 +26,7 @@ const categoryApi = {
     });
     return res.data;
   },
+  importExcelPortCode: async () => {},
 };
 
 export default categoryApi;

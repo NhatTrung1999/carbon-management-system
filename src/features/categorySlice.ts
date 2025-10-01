@@ -14,39 +14,6 @@ interface CategoryState {
   hasMore: boolean;
 }
 
-// export const getDataCat9AndCat12 = createAsyncThunk(
-//   'category/cat9-and-cat12',
-//   async (
-//     { date, page }: { date: string; page: number },
-//     { rejectWithValue }
-//   ) => {
-//     try {
-//       const res = await categoryApi.getDataCat9AndCat12({
-//         date,
-//         page,
-//       });
-//       return res;
-//     } catch (error) {
-//       return rejectWithValue(error);
-//     }
-//   }
-// );
-
-// export const getDataCat9AndCat12Test = createAsyncThunk(
-//   'category/cat9-and-cat12-test',
-//   async (
-//     { date, page }: { date: string; page?: number },
-//     { rejectWithValue }
-//   ) => {
-//     try {
-//       const res = await categoryApi.getDataCat9AndCat12Test({ date, page });
-//       return res;
-//     } catch (error: any) {
-//       return rejectWithValue(error);
-//     }
-//   }
-// );
-
 const initialState: CategoryState = {
   cat9andcat12: [],
   cat5: [],
@@ -91,6 +58,13 @@ export const getDataCat9AndCat12 = createAsyncThunk(
     } catch (error: any) {
       return rejectWithValue(error || '');
     }
+  }
+);
+
+export const importExcelPortCode = createAsyncThunk(
+  'category/import-excel-port-code',
+  async (file: File) => {
+    console.log(file);
   }
 );
 

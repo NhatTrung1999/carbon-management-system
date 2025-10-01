@@ -8,6 +8,7 @@ import {
   type IPortCodeData,
 } from '../../../types/cat9andcat12';
 import NoData from '../../../assets/images/no-data.png';
+import { IoClose } from 'react-icons/io5';
 
 type Props = {
   header: TableHeaderProps[];
@@ -15,7 +16,6 @@ type Props = {
 };
 
 const PortCode = ({ header, data }: Props) => {
-
   const [activeSort, setActiveSort] = useState({
     sortField: HEADER_PORTCODE[0].state,
     sortOrder: 'asc',
@@ -49,6 +49,10 @@ const PortCode = ({ header, data }: Props) => {
       </div>
     );
 
+  const handleImportExcel = () => {
+    console.log(123);
+  };
+
   return (
     <>
       <div className="mb-5">
@@ -57,6 +61,7 @@ const PortCode = ({ header, data }: Props) => {
           type="button"
           className="bg-green-500 hover:bg-green-500/80 cursor-pointer flex items-center gap-2"
           imgSrc={ExcelIcon}
+          onClick={handleImportExcel}
         />
       </div>
       <div className="max-h-[500px] overflow-y-auto relative">
@@ -108,6 +113,30 @@ const PortCode = ({ header, data }: Props) => {
             )}
           </tbody>
         </table>
+      </div>
+
+      <div className="fixed inset-0 z-20 flex justify-center items-center">
+        <div className="bg-white max-w-xl w-full min-h-[250px] shadow-xl border border-gray-100 flex flex-col">
+          <div className="h-[70px] bg-amber-200 flex items-center justify-between px-2">
+            <h1 className="font-semibold text-xl">Port Code</h1>
+            <div className="cursor-pointer">
+              <IoClose size={25} />
+            </div>
+          </div>
+          <div className="flex-1 flex justify-center items-center">
+            <label
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              htmlFor="file_input"
+            >
+              Upload file
+            </label>
+            <input
+              className=" w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+              id="file_input"
+              type="file"
+            />
+          </div>
+        </div>
       </div>
     </>
   );
