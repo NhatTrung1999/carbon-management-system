@@ -16,9 +16,8 @@ import Cat9AndCat12 from './Cat9AndCat12';
 import PortCode from './PortCode';
 
 const CategoryNineAndCategoryTwelvePage = () => {
-  const { cat9andcat12, page, hasMore, loading, date } = useAppSelector(
-    (state) => state.category
-  );
+  const { cat9andcat12, portCode, page, hasMore, loading, date } =
+    useAppSelector((state) => state.category);
   const tableRef = useRef<HTMLDivElement | null>(null);
   const didFetch = useRef(false);
   const dispatch = useAppDispatch();
@@ -94,7 +93,7 @@ const CategoryNineAndCategoryTwelvePage = () => {
             },
             {
               label: 'Port Code',
-              content: <PortCode header={HEADER_PORTCODE} data={[]} />,
+              content: <PortCode header={HEADER_PORTCODE} data={portCode} />,
             },
           ]}
         />

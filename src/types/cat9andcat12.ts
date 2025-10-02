@@ -19,10 +19,18 @@ export interface ICat9AndCat12Data {
 }
 
 export interface IPortCodeData {
+  Id: string;
   CustomerNumber: string;
-  PortCode: string
-  CreatedAt: string
-  CreatedDate: string
+  CustomerName: string;
+  TWCustomerName: string;
+  Country: string;
+  PortCode: string;
+  CreatedAt: string;
+  CreatedFactory: string;
+  CreatedDate: string;
+  UpdatedAt: string;
+  UpdatedFactory: string;
+  UpdatedDate: string;
 }
 
 export const HEADER = [

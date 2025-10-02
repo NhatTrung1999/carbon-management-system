@@ -2,13 +2,15 @@ import Button from '../../../components/common/Button';
 import ExcelIcon from '../../../assets/images/excel-icon.png';
 import type { TableHeaderProps } from '../../../types/table';
 import { TiArrowSortedDown, TiArrowSortedUp } from 'react-icons/ti';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   HEADER_PORTCODE,
   type IPortCodeData,
 } from '../../../types/cat9andcat12';
 import NoData from '../../../assets/images/no-data.png';
-import { IoClose } from 'react-icons/io5';
+import ModalPortCode from '../../../components/Category/CategoryNineAndCategoryTwelve/ModalPortCode';
+import { useAppDispatch } from '../../../app/hooks';
+import { getPortCode } from '../../../features/categorySlice';
 
 type Props = {
   header: TableHeaderProps[];
@@ -16,10 +18,16 @@ type Props = {
 };
 
 const PortCode = ({ header, data }: Props) => {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
   const [activeSort, setActiveSort] = useState({
     sortField: HEADER_PORTCODE[0].state,
     sortOrder: 'asc',
   });
+
+  useEffect(() => {
+    dispatch(getPortCode());
+  }, []);
 
   const handleSorting = (sortField: string, sortOrder: string): void => {
     setActiveSort({ sortField, sortOrder });
@@ -50,7 +58,7 @@ const PortCode = ({ header, data }: Props) => {
     );
 
   const handleImportExcel = () => {
-    console.log(123);
+    setIsOpen(true);
   };
 
   return (
@@ -115,29 +123,7 @@ const PortCode = ({ header, data }: Props) => {
         </table>
       </div>
 
-      <div className="fixed inset-0 z-20 flex justify-center items-center">
-        <div className="bg-white max-w-xl w-full min-h-[250px] shadow-xl border border-gray-100 flex flex-col">
-          <div className="h-[70px] bg-amber-200 flex items-center justify-between px-2">
-            <h1 className="font-semibold text-xl">Port Code</h1>
-            <div className="cursor-pointer">
-              <IoClose size={25} />
-            </div>
-          </div>
-          <div className="flex-1 flex justify-center items-center">
-            <label
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              htmlFor="file_input"
-            >
-              Upload file
-            </label>
-            <input
-              className=" w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-              id="file_input"
-              type="file"
-            />
-          </div>
-        </div>
-      </div>
+      {isOpen && <ModalPortCode setIsOpen={setIsOpen} />}
     </>
   );
 };

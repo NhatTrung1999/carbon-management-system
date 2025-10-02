@@ -26,7 +26,25 @@ const categoryApi = {
     });
     return res.data;
   },
-  importExcelPortCode: async () => {},
+  getPortCode: async () => {
+    const res = await axiosConfig.get('cat9-and-cat12/get-port-code');
+    return res.data;
+  },
+  importExcelPortCode: async (file: File) => {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const res = await axiosConfig.post(
+      'cat9-and-cat12/import-excel-port-code',
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }
+    );
+    return res.data;
+  },
 };
 
 export default categoryApi;

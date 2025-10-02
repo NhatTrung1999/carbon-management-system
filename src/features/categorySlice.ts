@@ -1,11 +1,16 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import {
+  createAsyncThunk,
+  createSlice,
+  type PayloadAction,
+} from '@reduxjs/toolkit';
 import categoryApi from '../api/category';
-import type { ICat9AndCat12Data } from '../types/cat9andcat12';
+import type { ICat9AndCat12Data, IPortCodeData } from '../types/cat9andcat12';
 import type { ICat5Data } from '../types/cat5';
 
 interface CategoryState {
   cat9andcat12: ICat9AndCat12Data[];
   cat5: ICat5Data[];
+  portCode: IPortCodeData[];
   loading: boolean;
   date: string;
   error: string | null;
@@ -17,6 +22,7 @@ interface CategoryState {
 const initialState: CategoryState = {
   cat9andcat12: [],
   cat5: [],
+  portCode: [],
   loading: false,
   date: new Date().toISOString().slice(0, 10),
   error: null,
@@ -63,8 +69,27 @@ export const getDataCat9AndCat12 = createAsyncThunk(
 
 export const importExcelPortCode = createAsyncThunk(
   'category/import-excel-port-code',
-  async (file: File) => {
-    console.log(file);
+  async (file: File, { rejectWithValue }) => {
+    try {
+      const res = await categoryApi.importExcelPortCode(file);
+      return res as { message: string; records: IPortCodeData[] };
+    } catch (error: any) {
+      return rejectWithValue(
+        error?.response?.data?.message || 'Import failed!'
+      );
+    }
+  }
+);
+
+export const getPortCode = createAsyncThunk(
+  'category/get-port-code',
+  async (_, { rejectWithValue }) => {
+    try {
+      const res = await categoryApi.getPortCode();
+      return res as IPortCodeData[];
+    } catch (error: any) {
+      return rejectWithValue(error?.response?.data?.message || 'Get failed!');
+    }
   }
 );
 
@@ -173,6 +198,46 @@ export const categorySlice = createSlice({
         // state.hasMore = action.payload.hasMore;
       })
       .addCase(getDataCat5.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      });
+    // import excel port code
+    builder
+      .addCase(importExcelPortCode.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(
+        importExcelPortCode.fulfilled,
+        (
+          state,
+          action: PayloadAction<{ message: string; records: IPortCodeData[] }>
+        ) => {
+          const { records } = action.payload;
+          state.loading = false;
+          state.portCode = records;
+          // console.log(action.payload);
+        }
+      )
+      .addCase(importExcelPortCode.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      });
+
+    //get port code
+    builder
+      .addCase(getPortCode.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(
+        getPortCode.fulfilled,
+        (state, action: PayloadAction<IPortCodeData[]>) => {
+          state.loading = false;
+          state.portCode = action.payload;
+        }
+      )
+      .addCase(getPortCode.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       });
