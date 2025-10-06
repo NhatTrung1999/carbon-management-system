@@ -12,7 +12,7 @@ interface CategoryState {
   cat5: ICat5Data[];
   portCode: IPortCodeData[];
   loading: boolean;
-  date: string;
+  // date: string;
   error: string | null;
   page: number;
   limit: number;
@@ -24,7 +24,7 @@ const initialState: CategoryState = {
   cat5: [],
   portCode: [],
   loading: false,
-  date: new Date().toISOString().slice(0, 10),
+  // date: new Date().toISOString().slice(0, 10),
   error: null,
   page: 1,
   limit: 20,
@@ -83,9 +83,12 @@ export const importExcelPortCode = createAsyncThunk(
 
 export const getPortCode = createAsyncThunk(
   'category/get-port-code',
-  async (_, { rejectWithValue }) => {
+  async (
+    { sortField, sortOrder }: { sortField: string; sortOrder: string },
+    { rejectWithValue }
+  ) => {
     try {
-      const res = await categoryApi.getPortCode();
+      const res = await categoryApi.getPortCode(sortField, sortOrder);
       return res as IPortCodeData[];
     } catch (error: any) {
       return rejectWithValue(error?.response?.data?.message || 'Get failed!');
@@ -145,9 +148,9 @@ export const categorySlice = createSlice({
       state.hasMore = true;
       state.error = null;
     },
-    setDate: (state, action) => {
-      state.date = action.payload;
-    },
+    // setDate: (state, action) => {
+    //   state.date = action.payload;
+    // },
   },
   extraReducers: (builder) => {
     builder
@@ -244,7 +247,7 @@ export const categorySlice = createSlice({
   },
 });
 
-export const { resetDataCat9AndCat12, resetDataCat5, setDate } =
+export const { resetDataCat9AndCat12, resetDataCat5 } =
   categorySlice.actions;
 
 export default categorySlice.reducer;

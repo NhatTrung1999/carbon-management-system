@@ -11,6 +11,7 @@ import NoData from '../../../assets/images/no-data.png';
 import ModalPortCode from '../../../components/Category/CategoryNineAndCategoryTwelve/ModalPortCode';
 import { useAppDispatch } from '../../../app/hooks';
 import { getPortCode } from '../../../features/categorySlice';
+import { formatDate } from '../../../utils/formatDate';
 
 type Props = {
   header: TableHeaderProps[];
@@ -26,8 +27,13 @@ const PortCode = ({ header, data }: Props) => {
   });
 
   useEffect(() => {
-    dispatch(getPortCode());
-  }, []);
+    dispatch(
+      getPortCode({
+        sortField: activeSort.sortField,
+        sortOrder: activeSort.sortOrder,
+      })
+    );
+  }, [activeSort]);
 
   const handleSorting = (sortField: string, sortOrder: string): void => {
     setActiveSort({ sortField, sortOrder });
@@ -114,7 +120,9 @@ const PortCode = ({ header, data }: Props) => {
                     </td>
                     <td className="box-border px-3 py-3">{item.PortCode}</td>
                     <td className="box-border px-3 py-3">{item.CreatedAt}</td>
-                    <td className="box-border px-3 py-3">{item.CreatedDate}</td>
+                    <td className="box-border px-3 py-3">
+                      {formatDate(item.CreatedDate)}
+                    </td>
                   </tr>
                 ))}
               </>

@@ -26,8 +26,10 @@ const categoryApi = {
     });
     return res.data;
   },
-  getPortCode: async () => {
-    const res = await axiosConfig.get('cat9-and-cat12/get-port-code');
+  getPortCode: async (sortField: string, sortOrder: string) => {
+    const res = await axiosConfig.get('cat9-and-cat12/get-port-code', {
+      params: { sortField, sortOrder },
+    });
     return res.data;
   },
   importExcelPortCode: async (file: File) => {

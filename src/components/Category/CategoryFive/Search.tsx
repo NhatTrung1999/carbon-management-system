@@ -6,9 +6,9 @@ import ExcelIcon from '../../../assets/images/excel-icon.png';
 import {
   getDataCat5,
   resetDataCat5,
-  setDate,
+  // setDate,
 } from '../../../features/categorySlice';
-import { useAppDispatch, useAppSelector } from '../../../app/hooks';
+import { useAppDispatch } from '../../../app/hooks';
 import { generateFileExcel } from '../../../features/fileSlice';
 import { Toast } from '../../../utils/Toast';
 
@@ -20,7 +20,7 @@ type Props = {
 };
 
 const Search = ({ activeSort }: Props) => {
-  const { date } = useAppSelector((state) => state.category);
+  // const { date } = useAppSelector((state) => state.category);
   const dispatch = useAppDispatch();
 
   const formik = useFormik({
@@ -30,7 +30,7 @@ const Search = ({ activeSort }: Props) => {
     onSubmit: async (data) => {
       try {
         dispatch(resetDataCat5());
-        dispatch(setDate(data.Date));
+        // dispatch(setDate(data.Date));
         dispatch(
           getDataCat5({
             date: data.Date,
@@ -48,7 +48,7 @@ const Search = ({ activeSort }: Props) => {
   //Export Excel
   const onExportExcel = async () => {
     const result = await dispatch(
-      generateFileExcel({ module: 'Cat5', date })
+      generateFileExcel({ module: 'Cat5', date: '' })
     );
     if (generateFileExcel.fulfilled.match(result)) {
       const { statusCode, message } = result.payload as {

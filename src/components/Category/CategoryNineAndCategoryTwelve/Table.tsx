@@ -59,7 +59,7 @@ const Table = ({
 
   return (
     <div
-      className="max-h-[600px] overflow-y-auto relative"
+      className="max-h-[500px] overflow-y-auto relative"
       ref={tableRef}
       onScroll={onScroll}
     >

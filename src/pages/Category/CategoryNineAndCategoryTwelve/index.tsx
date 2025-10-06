@@ -16,8 +16,9 @@ import Cat9AndCat12 from './Cat9AndCat12';
 import PortCode from './PortCode';
 
 const CategoryNineAndCategoryTwelvePage = () => {
-  const { cat9andcat12, portCode, page, hasMore, loading, date } =
-    useAppSelector((state) => state.category);
+  const { cat9andcat12, portCode, page, hasMore, loading } = useAppSelector(
+    (state) => state.category
+  );
   const tableRef = useRef<HTMLDivElement | null>(null);
   const didFetch = useRef(false);
   const dispatch = useAppDispatch();
@@ -25,6 +26,12 @@ const CategoryNineAndCategoryTwelvePage = () => {
     sortField: HEADER[0].state,
     sortOrder: 'asc',
   });
+  const [dateFrom, setDateFrom] = useState<string>(
+    new Date().toISOString().slice(0, 10)
+  );
+  const [dateTo, setDateTo] = useState<string>(
+    new Date().toISOString().slice(0, 10)
+  );
 
   useEffect(() => {
     if (didFetch.current) return;
@@ -32,13 +39,14 @@ const CategoryNineAndCategoryTwelvePage = () => {
     dispatch(resetDataCat9AndCat12());
     dispatch(
       getDataCat9AndCat12({
-        date,
+        date: '',
         page: 1,
         sortField: activeSort.sortField,
         sortOrder: activeSort.sortOrder,
       })
     );
-  }, [dispatch, activeSort, date]);
+  }, [dispatch, activeSort]);
+  // }, [dispatch, activeSort, date]);
 
   const onScroll = useCallback(() => {
     const el = tableRef.current;
@@ -48,14 +56,15 @@ const CategoryNineAndCategoryTwelvePage = () => {
     if (bottomReached) {
       dispatch(
         getDataCat9AndCat12({
-          date,
+          date: '',
           page,
           sortField: activeSort.sortField,
           sortOrder: activeSort.sortOrder,
         })
       );
     }
-  }, [dispatch, loading, hasMore, page, date, activeSort]);
+  }, [dispatch, loading, hasMore, page, activeSort]);
+  // }, [dispatch, loading, hasMore, page, date, activeSort]);
 
   return (
     <Fragment>
@@ -85,6 +94,10 @@ const CategoryNineAndCategoryTwelvePage = () => {
                   activeSort={activeSort}
                   onScroll={onScroll}
                   tableRef={tableRef}
+                  dateFrom={dateFrom}
+                  setDateFrom={setDateFrom}
+                  dateTo={dateTo}
+                  setDateTo={setDateTo}
                   setActiveSort={setActiveSort}
                   data={cat9andcat12}
                   header={HEADER}

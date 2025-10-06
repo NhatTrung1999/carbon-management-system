@@ -17,7 +17,7 @@ const CategoryFive = () => {
     sortField: HEADER[0].state,
     sortOrder: 'asc',
   });
-  const { date, cat5, page, loading, hasMore } = useAppSelector(
+  const {  cat5, page, loading, hasMore } = useAppSelector(
     (state) => state.category
   );
   const dispatch = useAppDispatch();
@@ -28,13 +28,14 @@ const CategoryFive = () => {
     dispatch(resetDataCat5());
     dispatch(
       getDataCat5({
-        date,
+        date: '',
         page: 1,
         sortField: activeSort.sortField,
         sortOrder: activeSort.sortOrder,
       })
     );
-  }, [dispatch, activeSort, date]);
+  }, [dispatch, activeSort]);
+  // }, [dispatch, activeSort, date]);
 
   const onScroll = useCallback(() => {
     const el = tableRef.current;
@@ -44,14 +45,15 @@ const CategoryFive = () => {
     if (bottomReached) {
       dispatch(
         getDataCat5({
-          date,
+          date: '',
           page,
           sortField: activeSort.sortField,
           sortOrder: activeSort.sortOrder,
         })
       );
     }
-  }, [dispatch, loading, hasMore, page, date, activeSort]);
+  }, [dispatch, loading, hasMore, page, activeSort]);
+  // }, [dispatch, loading, hasMore, page, date, activeSort]);
 
   return (
     <Fragment>

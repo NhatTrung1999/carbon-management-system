@@ -10,6 +10,10 @@ type Props = {
     sortField: string;
     sortOrder: string;
   };
+  dateFrom: string;
+  setDateFrom: (dateVal: string) => void;
+  dateTo: string;
+  setDateTo: (dateVal: string) => void;
   setActiveSort: (data: any) => void;
   data: ICat9AndCat12Data[];
   tableRef: RefObject<HTMLDivElement | null>;
@@ -20,13 +24,23 @@ const Cat9AndCat12 = ({
   activeSort,
   onScroll,
   tableRef,
+  dateFrom,
+  setDateFrom,
+  dateTo,
+  setDateTo,
   setActiveSort,
   data,
-  header
+  header,
 }: Props) => {
   return (
     <>
-      <Search activeSort={activeSort} />
+      <Search
+        dateFrom={dateFrom}
+        setDateFrom={setDateFrom}
+        dateTo={dateTo}
+        setDateTo={setDateTo}
+        activeSort={activeSort}
+      />
       <Table
         onScroll={onScroll}
         tableRef={tableRef}

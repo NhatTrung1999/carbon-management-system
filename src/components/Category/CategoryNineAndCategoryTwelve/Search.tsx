@@ -3,14 +3,14 @@ import Button from '../../common/Button';
 import Input from '../../common/Input';
 
 import ExcelIcon from '../../../assets/images/excel-icon.png';
-import { useAppDispatch, useAppSelector } from '../../../app/hooks';
+import { useAppDispatch } from '../../../app/hooks';
 import {
   getDataCat9AndCat12,
   resetDataCat9AndCat12,
-  setDate,
 } from '../../../features/categorySlice';
 import { generateFileExcel } from '../../../features/fileSlice';
 import { Toast } from '../../../utils/Toast';
+import Select from '../../common/Select';
 // import ModalPortCode from './ModalPortCode';
 
 type Props = {
@@ -18,23 +18,34 @@ type Props = {
     sortField: string;
     sortOrder: string;
   };
+  dateFrom: string;
+  setDateFrom: (dateVal: string) => void;
+  dateTo: string;
+  setDateTo: (dateVal: string) => void;
 };
 
-const Search = ({ activeSort }: Props) => {
-  const { date } = useAppSelector((state) => state.category);
+const Search = ({
+  activeSort,
+  dateFrom,
+  setDateFrom,
+  dateTo,
+  setDateTo,
+}: Props) => {
   const dispatch = useAppDispatch();
 
   const formik = useFormik({
     initialValues: {
-      Date: date,
+      dateFrom: dateFrom,
+      dateTo: dateTo,
+      factory: ''
     },
     onSubmit: async (data) => {
       try {
         dispatch(resetDataCat9AndCat12());
-        dispatch(setDate(data.Date));
+        // setDate(data.Date);
         dispatch(
           getDataCat9AndCat12({
-            date: data.Date,
+            date: '',
             page: 1,
             sortField: activeSort.sortField,
             sortOrder: activeSort.sortOrder,
@@ -49,7 +60,7 @@ const Search = ({ activeSort }: Props) => {
   //Export Excel
   const onExportExcel = async () => {
     const result = await dispatch(
-      generateFileExcel({ module: 'Cat9AndCat12', date })
+      generateFileExcel({ module: 'Cat9AndCat12', date: '' })
     );
     if (generateFileExcel.fulfilled.match(result)) {
       const { statusCode, message } = result.payload as {
@@ -67,20 +78,49 @@ const Search = ({ activeSort }: Props) => {
   return (
     <>
       <form
-        className="mb-5 grid grid-cols-8 gap-3"
+        className="mb-5 grid grid-cols-4 gap-3"
         onSubmit={formik.handleSubmit}
       >
-        <div>
-          <Input
-            label={'Date'}
-            type="date"
-            name="Date"
-            classNameLabel={'mb-2'}
-            value={formik.values.Date}
-            onChange={formik.handleChange}
-          />
+        <div className="flex items-center gap-2">
+          <div>
+            <Input
+              label={'Date From'}
+              type="date"
+              name="DateFrom"
+              classNameLabel={'mb-2'}
+              value={formik.values.dateFrom}
+              onChange={formik.handleChange}
+            />
+          </div>
+          <div>
+            <Input
+              label={'Date To'}
+              type="date"
+              name="DateTo"
+              classNameLabel={'mb-2'}
+              value={formik.values.dateTo}
+              onChange={formik.handleChange}
+            />
+          </div>
+          <div>
+            <Select
+              label={'Factory'}
+              name={'Factory'}
+              classNameLabel='mb-2'
+              value={formik.values.factory}
+              onChange={formik.handleChange}
+              isShowAllSelect={true}
+              showAllSelect={true}
+              options={[
+                { name: 'LYV', value: 'LYV' },
+                { name: 'LHG', value: 'LHG' },
+                { name: 'LVL', value: 'LVL' },
+                { name: 'LYM', value: 'LYM' },
+              ]}
+            />
+          </div>
         </div>
-        <div className="flex flex-row gap-2 mt-[29px]">
+        <div className="flex flex-row gap-2 mt-[29px] ml-2">
           <Button
             label="Search"
             type="submit"
@@ -100,7 +140,6 @@ const Search = ({ activeSort }: Props) => {
           </button>
         </div>
       </form>
-      {/* <ModalPortCode /> */}
     </>
   );
 };
