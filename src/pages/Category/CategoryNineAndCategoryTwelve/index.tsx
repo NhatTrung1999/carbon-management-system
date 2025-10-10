@@ -39,7 +39,8 @@ const CategoryNineAndCategoryTwelvePage = () => {
     dispatch(resetDataCat9AndCat12());
     dispatch(
       getDataCat9AndCat12({
-        date: '',
+        dateFrom,
+        dateTo,
         page: 1,
         sortField: activeSort.sortField,
         sortOrder: activeSort.sortOrder,
@@ -56,7 +57,8 @@ const CategoryNineAndCategoryTwelvePage = () => {
     if (bottomReached) {
       dispatch(
         getDataCat9AndCat12({
-          date: '',
+          dateFrom,
+          dateTo,
           page,
           sortField: activeSort.sortField,
           sortOrder: activeSort.sortOrder,

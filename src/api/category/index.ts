@@ -2,7 +2,8 @@ import axiosConfig from '../../lib/axiosConfig';
 
 const categoryApi = {
   getDataCat9AndCat12: async (
-    date: string,
+    dateFrom: string,
+    dateTo: string,
     page: number,
     sortField: string,
     sortOrder: string
@@ -10,7 +11,7 @@ const categoryApi = {
     const res = await axiosConfig.get(
       'cat9-and-cat12/get-data-cat9-and-cat12',
       {
-        params: { date, page, limit: 20, sortField, sortOrder },
+        params: { dateFrom, dateTo, page, limit: 20, sortField, sortOrder },
       }
     );
     return res.data;

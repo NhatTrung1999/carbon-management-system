@@ -37,15 +37,19 @@ const Search = ({
     initialValues: {
       dateFrom: dateFrom,
       dateTo: dateTo,
-      factory: ''
+      factory: '',
     },
     onSubmit: async (data) => {
+      console.log(data);
       try {
         dispatch(resetDataCat9AndCat12());
         // setDate(data.Date);
+        setDateFrom(data.dateFrom);
+        setDateTo(data.dateTo);
         dispatch(
           getDataCat9AndCat12({
-            date: '',
+            dateFrom: data.dateFrom,
+            dateTo: data.dateTo,
             page: 1,
             sortField: activeSort.sortField,
             sortOrder: activeSort.sortOrder,
@@ -86,7 +90,7 @@ const Search = ({
             <Input
               label={'Date From'}
               type="date"
-              name="DateFrom"
+              name="dateFrom"
               classNameLabel={'mb-2'}
               value={formik.values.dateFrom}
               onChange={formik.handleChange}
@@ -96,7 +100,7 @@ const Search = ({
             <Input
               label={'Date To'}
               type="date"
-              name="DateTo"
+              name="dateTo"
               classNameLabel={'mb-2'}
               value={formik.values.dateTo}
               onChange={formik.handleChange}
@@ -105,8 +109,8 @@ const Search = ({
           <div>
             <Select
               label={'Factory'}
-              name={'Factory'}
-              classNameLabel='mb-2'
+              name={'factory'}
+              classNameLabel="mb-2"
               value={formik.values.factory}
               onChange={formik.handleChange}
               isShowAllSelect={true}

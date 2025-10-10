@@ -35,12 +35,14 @@ export const getDataCat9AndCat12 = createAsyncThunk(
   'category/cat9-and-cat12',
   async (
     {
-      date,
+      dateFrom,
+      dateTo,
       page,
       sortField,
       sortOrder,
     }: {
-      date: string;
+      dateFrom: string;
+      dateTo: string;
       page: number;
       sortField: string;
       sortOrder: string;
@@ -49,7 +51,8 @@ export const getDataCat9AndCat12 = createAsyncThunk(
   ) => {
     try {
       const res = await categoryApi.getDataCat9AndCat12(
-        date,
+        dateFrom,
+        dateTo,
         page,
         sortField,
         sortOrder
