@@ -11,29 +11,50 @@ import {
 import { useAppDispatch } from '../../../app/hooks';
 import { generateFileExcel } from '../../../features/fileSlice';
 import { Toast } from '../../../utils/Toast';
+import Select from '../../common/Select';
 
 type Props = {
   activeSort: {
     sortField: string;
     sortOrder: string;
   };
+  dateFrom: string;
+  setDateFrom: (dateVal: string) => void;
+  dateTo: string;
+  setDateTo: (dateVal: string) => void;
+  factory: string;
+  setFactory: (factoryVal: string) => void;
 };
 
-const Search = ({ activeSort }: Props) => {
-  // const { date } = useAppSelector((state) => state.category);
+const Search = ({
+  activeSort,
+  dateFrom,
+  setDateFrom,
+  dateTo,
+  setDateTo,
+  factory,
+  setFactory,
+}: Props) => {
   const dispatch = useAppDispatch();
 
   const formik = useFormik({
     initialValues: {
-      Date: new Date().toISOString().slice(0, 10),
+      dateFrom: dateFrom,
+      dateTo: dateTo,
+      factory: factory,
     },
     onSubmit: async (data) => {
       try {
         dispatch(resetDataCat5());
         // dispatch(setDate(data.Date));
+        setDateFrom(data.dateFrom);
+        setDateTo(data.dateTo);
+        setFactory(data.factory);
         dispatch(
           getDataCat5({
-            date: data.Date,
+            dateFrom,
+            dateTo,
+            factory,
             page: 1,
             sortField: activeSort.sortField,
             sortOrder: activeSort.sortOrder,
@@ -65,18 +86,47 @@ const Search = ({ activeSort }: Props) => {
 
   return (
     <form
-      className="mb-5 grid grid-cols-8 gap-3"
+      className="mb-5 grid grid-cols-4 gap-3"
       onSubmit={formik.handleSubmit}
     >
-      <div>
-        <Input
-          label={'Date'}
-          type="date"
-          name="Date"
-          classNameLabel={'mb-2'}
-          value={formik.values.Date}
-          onChange={formik.handleChange}
-        />
+      <div className="flex items-center gap-2">
+        <div>
+          <Input
+            label={'Date From'}
+            type="date"
+            name="dateFrom"
+            classNameLabel={'mb-2'}
+            value={formik.values.dateFrom}
+            onChange={formik.handleChange}
+          />
+        </div>
+        <div>
+          <Input
+            label={'Date To'}
+            type="date"
+            name="dateTo"
+            classNameLabel={'mb-2'}
+            value={formik.values.dateTo}
+            onChange={formik.handleChange}
+          />
+        </div>
+        <div>
+          <Select
+            label={'Factory'}
+            name={'factory'}
+            classNameLabel="mb-2"
+            value={formik.values.factory}
+            onChange={formik.handleChange}
+            isShowAllSelect={true}
+            showAllSelect={true}
+            options={[
+              { name: 'LYV', value: 'LYV' },
+              { name: 'LHG', value: 'LHG' },
+              { name: 'LVL', value: 'LVL' },
+              { name: 'LYM', value: 'LYM' },
+            ]}
+          />
+        </div>
       </div>
       <div className="flex flex-row gap-2 mt-[29px]">
         <Button

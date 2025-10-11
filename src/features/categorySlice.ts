@@ -37,12 +37,14 @@ export const getDataCat9AndCat12 = createAsyncThunk(
     {
       dateFrom,
       dateTo,
+      factory,
       page,
       sortField,
       sortOrder,
     }: {
       dateFrom: string;
       dateTo: string;
+      factory: string;
       page: number;
       sortField: string;
       sortOrder: string;
@@ -53,6 +55,7 @@ export const getDataCat9AndCat12 = createAsyncThunk(
       const res = await categoryApi.getDataCat9AndCat12(
         dateFrom,
         dateTo,
+        factory,
         page,
         sortField,
         sortOrder
@@ -103,12 +106,16 @@ export const getDataCat5 = createAsyncThunk(
   'category/cat5',
   async (
     {
-      date,
+      dateFrom,
+      dateTo,
+      factory,
       page,
       sortField,
       sortOrder,
     }: {
-      date: string;
+      dateFrom: string;
+      dateTo: string;
+      factory: string;
       page: number;
       sortField: string;
       sortOrder: string;
@@ -117,7 +124,9 @@ export const getDataCat5 = createAsyncThunk(
   ) => {
     try {
       const res = await categoryApi.getDataCat5(
-        date,
+        dateFrom,
+        dateTo,
+        factory,
         page,
         sortField,
         sortOrder
@@ -250,7 +259,6 @@ export const categorySlice = createSlice({
   },
 });
 
-export const { resetDataCat9AndCat12, resetDataCat5 } =
-  categorySlice.actions;
+export const { resetDataCat9AndCat12, resetDataCat5 } = categorySlice.actions;
 
 export default categorySlice.reducer;

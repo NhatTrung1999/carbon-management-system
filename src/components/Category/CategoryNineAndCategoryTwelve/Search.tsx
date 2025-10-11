@@ -22,6 +22,8 @@ type Props = {
   setDateFrom: (dateVal: string) => void;
   dateTo: string;
   setDateTo: (dateVal: string) => void;
+  factory: string;
+  setFactory: (factoryVal: string) => void;
 };
 
 const Search = ({
@@ -30,6 +32,8 @@ const Search = ({
   setDateFrom,
   dateTo,
   setDateTo,
+  factory,
+  setFactory
 }: Props) => {
   const dispatch = useAppDispatch();
 
@@ -37,7 +41,7 @@ const Search = ({
     initialValues: {
       dateFrom: dateFrom,
       dateTo: dateTo,
-      factory: '',
+      factory: factory,
     },
     onSubmit: async (data) => {
       console.log(data);
@@ -46,10 +50,12 @@ const Search = ({
         // setDate(data.Date);
         setDateFrom(data.dateFrom);
         setDateTo(data.dateTo);
+        setFactory(data.factory)
         dispatch(
           getDataCat9AndCat12({
             dateFrom: data.dateFrom,
             dateTo: data.dateTo,
+            factory,
             page: 1,
             sortField: activeSort.sortField,
             sortOrder: activeSort.sortOrder,

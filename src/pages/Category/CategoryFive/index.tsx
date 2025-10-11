@@ -17,7 +17,16 @@ const CategoryFive = () => {
     sortField: HEADER[0].state,
     sortOrder: 'asc',
   });
-  const {  cat5, page, loading, hasMore } = useAppSelector(
+
+  const [dateFrom, setDateFrom] = useState<string>(
+    new Date().toISOString().slice(0, 10)
+  );
+  const [dateTo, setDateTo] = useState<string>(
+    new Date().toISOString().slice(0, 10)
+  );
+
+  const [factory, setFactory] = useState<string>('LYV');
+  const { cat5, page, loading, hasMore } = useAppSelector(
     (state) => state.category
   );
   const dispatch = useAppDispatch();
@@ -28,7 +37,9 @@ const CategoryFive = () => {
     dispatch(resetDataCat5());
     dispatch(
       getDataCat5({
-        date: '',
+        dateFrom,
+        dateTo,
+        factory,
         page: 1,
         sortField: activeSort.sortField,
         sortOrder: activeSort.sortOrder,
@@ -45,7 +56,9 @@ const CategoryFive = () => {
     if (bottomReached) {
       dispatch(
         getDataCat5({
-          date: '',
+          dateFrom,
+          dateTo,
+          factory,
           page,
           sortField: activeSort.sortField,
           sortOrder: activeSort.sortOrder,
@@ -70,7 +83,15 @@ const CategoryFive = () => {
         className="text-3xl bg-gradient-to-r from-[#081c1b] via-[#3f4a42] to-[#636e61] inline-block text-transparent bg-clip-text mb-3"
       />
       <Card>
-        <Search activeSort={activeSort} />
+        <Search
+          activeSort={activeSort}
+          dateFrom={dateFrom}
+          setDateFrom={setDateFrom}
+          dateTo={dateTo}
+          setDateTo={setDateTo}
+          factory={factory}
+          setFactory={setFactory}
+        />
         <Table
           onScroll={onScroll}
           tableRef={tableRef}

@@ -33,6 +33,8 @@ const CategoryNineAndCategoryTwelvePage = () => {
     new Date().toISOString().slice(0, 10)
   );
 
+  const [factory, setFactory] = useState<string>('LYV');
+
   useEffect(() => {
     if (didFetch.current) return;
     didFetch.current = true;
@@ -41,6 +43,7 @@ const CategoryNineAndCategoryTwelvePage = () => {
       getDataCat9AndCat12({
         dateFrom,
         dateTo,
+        factory,
         page: 1,
         sortField: activeSort.sortField,
         sortOrder: activeSort.sortOrder,
@@ -59,6 +62,7 @@ const CategoryNineAndCategoryTwelvePage = () => {
         getDataCat9AndCat12({
           dateFrom,
           dateTo,
+          factory,
           page,
           sortField: activeSort.sortField,
           sortOrder: activeSort.sortOrder,
@@ -100,6 +104,8 @@ const CategoryNineAndCategoryTwelvePage = () => {
                   setDateFrom={setDateFrom}
                   dateTo={dateTo}
                   setDateTo={setDateTo}
+                  factory={factory}
+                  setFactory={setFactory}
                   setActiveSort={setActiveSort}
                   data={cat9andcat12}
                   header={HEADER}

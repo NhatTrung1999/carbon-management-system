@@ -4,6 +4,7 @@ import type { TableHeaderProps } from '../../../types/table';
 import NoData from '../../../assets/images/no-data.png';
 import type { RefObject } from 'react';
 import type { ICat7Data } from '../../../types/cat7';
+import { useAppSelector } from '../../../app/hooks';
 
 type Props = {
   header: TableHeaderProps[];
@@ -16,7 +17,15 @@ type Props = {
   tableRef?: RefObject<HTMLDivElement | null>;
 };
 
-const Table = ({ header, activeSort, setActiveSort, data }: Props) => {
+const Table = ({
+  header,
+  activeSort,
+  setActiveSort,
+  data,
+  tableRef,
+}: // onScroll,
+Props) => {
+  const { loading } = useAppSelector((state) => state.category);
   const handleSorting = (sortField: string, sortOrder: string): void => {
     setActiveSort({ sortField, sortOrder });
   };
@@ -46,7 +55,11 @@ const Table = ({ header, activeSort, setActiveSort, data }: Props) => {
     );
 
   return (
-    <div className="max-h-[600px] overflow-y-auto">
+    <div
+      className="max-h-[600px] overflow-y-auto relative"
+      ref={tableRef}
+      // onScroll={onScroll}
+    >
       <table className="w-full text-left min-w-max">
         <thead className="bg-[#636e61] text-sm sticky top-0 text-white">
           <tr>
@@ -64,8 +77,36 @@ const Table = ({ header, activeSort, setActiveSort, data }: Props) => {
             ))}
           </tr>
         </thead>
-        <tbody>
-          {data.length === 0 ? (
+        <tbody className="h-[70px]">
+          {data.length > 0 &&
+            data.map((item, index) => (
+              <tr key={index}>
+                <td className="box-border px-3 py-3">{item.Staff_ID}</td>
+                <td className="box-border px-3 py-3">
+                  {item.Residential_address}
+                </td>
+                <td className="box-border px-3 py-3">
+                  {item.Main_transportation_type}
+                </td>
+                <td className="box-border px-3 py-3">{item.km}</td>
+                <td className="box-border px-3 py-3">
+                  {item.Number_of_working_days}
+                </td>
+                <td className="box-border px-3 py-3">{item.PKT_p_km}</td>
+              </tr>
+            ))}
+          {loading &&
+            data.length > 0 &&
+            Array.from({ length: 1 }).map((_, i) => (
+              <tr key={`skeleton-${i}`} className="animate-pulse">
+                {header.map((_, colIndex) => (
+                  <td key={colIndex} className="box-border px-3 py-3">
+                    <div className="h-4 bg-gray-200 rounded"></div>
+                  </td>
+                ))}
+              </tr>
+            ))}
+          {!loading && data.length === 0 && (
             <tr>
               <td
                 colSpan={header.length}
@@ -79,28 +120,15 @@ const Table = ({ header, activeSort, setActiveSort, data }: Props) => {
                 </div>
               </td>
             </tr>
-          ) : (
-            <>
-              {data.map((item, index) => (
-                <tr key={index}>
-                  <td className="box-border px-3 py-3">{item.Staff_ID}</td>
-                  <td className="box-border px-3 py-3">
-                    {item.Residential_address}
-                  </td>
-                  <td className="box-border px-3 py-3">
-                    {item.Main_transportation_type}
-                  </td>
-                  <td className="box-border px-3 py-3">{item.km}</td>
-                  <td className="box-border px-3 py-3">
-                    {item.Number_of_working_days}
-                  </td>
-                  <td className="box-border px-3 py-3">{item.PKT_p_km}</td>
-                </tr>
-              ))}
-            </>
           )}
         </tbody>
       </table>
+
+      {loading && data.length === 0 && (
+        <div className="absolute left-1/2 transform -translate-x-1/2 flex justify-center w-full top-22">
+          <div className="animate-spin border-4 border-gray-300 border-t-[#636e61] rounded-full w-10 h-10"></div>
+        </div>
+      )}
     </div>
   );
 };

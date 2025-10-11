@@ -13,6 +13,15 @@ const CategorySeven = () => {
     sortOrder: 'asc',
   });
 
+  const [dateFrom, setDateFrom] = useState<string>(
+    new Date().toISOString().slice(0, 10)
+  );
+  const [dateTo, setDateTo] = useState<string>(
+    new Date().toISOString().slice(0, 10)
+  );
+
+  const [factory, setFactory] = useState<string>('LYV');
+
   return (
     <Fragment>
       <Breadcrumb
@@ -28,7 +37,15 @@ const CategorySeven = () => {
         className="text-3xl bg-gradient-to-r from-[#081c1b] via-[#3f4a42] to-[#636e61] inline-block text-transparent bg-clip-text mb-3"
       />
       <Card>
-        <Search />
+        <Search
+          activeSort={activeSort}
+          dateFrom={dateFrom}
+          setDateFrom={setDateFrom}
+          dateTo={dateTo}
+          setDateTo={setDateTo}
+          factory={factory}
+          setFactory={setFactory}
+        />
         <Table
           header={HEADER}
           activeSort={activeSort}
