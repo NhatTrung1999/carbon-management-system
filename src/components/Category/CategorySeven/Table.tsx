@@ -2,7 +2,7 @@ import { TiArrowSortedDown } from 'react-icons/ti';
 import { TiArrowSortedUp } from 'react-icons/ti';
 import type { TableHeaderProps } from '../../../types/table';
 import NoData from '../../../assets/images/no-data.png';
-import type { RefObject } from 'react';
+import type { RefObject, UIEventHandler } from 'react';
 import type { ICat7Data } from '../../../types/cat7';
 import { useAppSelector } from '../../../app/hooks';
 
@@ -15,6 +15,7 @@ type Props = {
   setActiveSort: (data: any) => void;
   data: ICat7Data[];
   tableRef?: RefObject<HTMLDivElement | null>;
+  onScroll: UIEventHandler<HTMLDivElement>;
 };
 
 const Table = ({
@@ -23,7 +24,8 @@ const Table = ({
   setActiveSort,
   data,
   tableRef,
-}: // onScroll,
+  onScroll
+}: 
 Props) => {
   const { loading } = useAppSelector((state) => state.category);
   const handleSorting = (sortField: string, sortOrder: string): void => {
@@ -58,7 +60,7 @@ Props) => {
     <div
       className="max-h-[600px] overflow-y-auto relative"
       ref={tableRef}
-      // onScroll={onScroll}
+      onScroll={onScroll}
     >
       <table className="w-full text-left min-w-max">
         <thead className="bg-[#636e61] text-sm sticky top-0 text-white">

@@ -5,12 +5,8 @@ import Input from '../../common/Input';
 import ExcelIcon from '../../../assets/images/excel-icon.png';
 import { useEffect } from 'react';
 import Select from '../../common/Select';
-// import { useAppDispatch } from '../../../app/hooks';
-// import {
-//   getDataCat9AndCat12,
-//   resetCat9AndCat12,
-//   setDate,
-// } from '../../../features/categorySlice';
+import { useAppDispatch } from '../../../app/hooks';
+import { getDataCat7, resetDataCat7 } from '../../../features/categorySlice';
 
 type Props = {
   activeSort: {
@@ -26,15 +22,15 @@ type Props = {
 };
 
 const Search = ({
-  // activeSort,
+  activeSort,
   dateFrom,
-  // setDateFrom,
+  setDateFrom,
   dateTo,
-  // setDateTo,
+  setDateTo,
   factory,
-}: // setFactory,
-Props) => {
-  // const dispatch = useAppDispatch();
+  setFactory,
+}: Props) => {
+  const dispatch = useAppDispatch();
 
   const formik = useFormik({
     initialValues: {
@@ -43,16 +39,24 @@ Props) => {
       factory: factory,
     },
     onSubmit: async (data) => {
-      console.log(data);
-      // try {
-      //   dispatch(setDate(data.Date));
-      //   dispatch(resetCat9AndCat12());
-      //   dispatch(
-      //     getDataCat9AndCat12({ date: data.Date, page: 0 })
-      //   );
-      // } catch (error: any) {
-      //   console.log(error);
-      // }
+      try {
+        dispatch(resetDataCat7());
+        setDateFrom(data.dateFrom);
+        setDateTo(data.dateTo);
+        setFactory(data.factory);
+        dispatch(
+          getDataCat7({
+            dateFrom,
+            dateTo,
+            factory,
+            page: 1,
+            sortField: activeSort.sortField,
+            sortOrder: activeSort.sortOrder,
+          })
+        );
+      } catch (error: any) {
+        console.log(error);
+      }
     },
   });
 
@@ -67,7 +71,7 @@ Props) => {
       className="mb-5 grid grid-cols-4 gap-3"
       onSubmit={formik.handleSubmit}
     >
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-1">
         <div>
           <Input
             label={'Date From'}
@@ -122,7 +126,7 @@ Props) => {
             alt="excel-icon"
             className="w-10 object-contain"
           />
-          <span className="whitespace-nowrap">Import Excel</span>
+          <span className="whitespace-nowrap">Export Excel</span>
         </button>
       </div>
     </form>

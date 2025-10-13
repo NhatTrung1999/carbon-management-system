@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useRef, useState } from 'react';
 import Breadcrumb from '../../../components/common/Breadcrumb';
 import { BreadcrumbData } from '../../../types/breadcrumb';
 import Typography from '../../../components/common/Typography';
@@ -6,12 +6,28 @@ import Card from '../../../components/common/Card';
 import Search from '../../../components/Category/CategorySix/Search';
 import Table from '../../../components/Category/CategorySix/Table';
 import { HEADER } from '../../../types/cat6';
+import { useAppSelector } from '../../../app/hooks';
 
 const CategorySix = () => {
+  const tableRef = useRef<HTMLDivElement | null>(null);
+  const didFetch = useRef(false);
   const [activeSort, setActiveSort] = useState({
     sortField: HEADER[0].state,
     sortOrder: 'asc',
   });
+
+  const { cat7, page, loading, hasMore } = useAppSelector(
+    (state) => state.category
+  );
+
+  const [dateFrom, setDateFrom] = useState<string>(
+    new Date().toISOString().slice(0, 10)
+  );
+  const [dateTo, setDateTo] = useState<string>(
+    new Date().toISOString().slice(0, 10)
+  );
+
+  const [factory, setFactory] = useState<string>('LYV');
 
   return (
     <Fragment>
@@ -29,12 +45,22 @@ const CategorySix = () => {
       />
 
       <Card>
-        <Search />
+        <Search
+          activeSort={activeSort}
+          dateFrom={dateFrom}
+          setDateFrom={setDateFrom}
+          dateTo={dateTo}
+          setDateTo={setDateTo}
+          factory={factory}
+          setFactory={setFactory}
+        />
         <Table
           header={HEADER}
           activeSort={activeSort}
           setActiveSort={setActiveSort}
           data={[]}
+          tableRef={tableRef}
+          onScroll={() => console.log(123)}
         />
       </Card>
     </Fragment>

@@ -2,9 +2,9 @@ export interface ICat7Data {
   Staff_ID: string;
   Residential_address: string;
   Main_transportation_type: string;
-  km: string;
-  Number_of_working_days: string;
-  PKT_p_km: string;
+  km: number;
+  Number_of_working_days: number;
+  PKT_p_km: number;
 }
 
 export const HEADER: { name: string; state: string; sort: boolean }[] = [
