@@ -1,4 +1,4 @@
-import { Fragment, useRef, useState } from 'react';
+import { Fragment, useCallback, useEffect, useRef, useState } from 'react';
 import Breadcrumb from '../../../components/common/Breadcrumb';
 import { BreadcrumbData } from '../../../types/breadcrumb';
 import Typography from '../../../components/common/Typography';
@@ -6,7 +6,8 @@ import Card from '../../../components/common/Card';
 import Search from '../../../components/Category/CategorySix/Search';
 import Table from '../../../components/Category/CategorySix/Table';
 import { HEADER } from '../../../types/cat6';
-import { useAppSelector } from '../../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
+import { getDataCat6, resetDataCat6 } from '../../../features/categorySlice';
 
 const CategorySix = () => {
   const tableRef = useRef<HTMLDivElement | null>(null);
@@ -16,9 +17,10 @@ const CategorySix = () => {
     sortOrder: 'asc',
   });
 
-  const { cat7, page, loading, hasMore } = useAppSelector(
+  const { cat6, page, loading, hasMore } = useAppSelector(
     (state) => state.category
   );
+  const dispatch = useAppDispatch();
 
   const [dateFrom, setDateFrom] = useState<string>(
     new Date().toISOString().slice(0, 10)
@@ -28,6 +30,41 @@ const CategorySix = () => {
   );
 
   const [factory, setFactory] = useState<string>('LYV');
+
+  useEffect(() => {
+    if (didFetch.current) return;
+    didFetch.current = true;
+    dispatch(resetDataCat6());
+    dispatch(
+      getDataCat6({
+        dateFrom,
+        dateTo,
+        factory,
+        page: 1,
+        sortField: activeSort.sortField,
+        sortOrder: activeSort.sortOrder,
+      })
+    );
+  }, [dispatch, activeSort]);
+
+  const onScroll = useCallback(() => {
+    const el = tableRef.current;
+    if (!el || loading || !hasMore) return;
+    const bottomReached =
+      el.scrollTop + el.clientHeight >= el.scrollHeight - 20;
+    if (bottomReached) {
+      dispatch(
+        getDataCat6({
+          dateFrom,
+          dateTo,
+          factory,
+          page,
+          sortField: activeSort.sortField,
+          sortOrder: activeSort.sortOrder,
+        })
+      );
+    }
+  }, [dispatch, loading, hasMore, page, activeSort]);
 
   return (
     <Fragment>
@@ -58,9 +95,9 @@ const CategorySix = () => {
           header={HEADER}
           activeSort={activeSort}
           setActiveSort={setActiveSort}
-          data={[]}
+          data={cat6}
           tableRef={tableRef}
-          onScroll={() => console.log(123)}
+          onScroll={onScroll}
         />
       </Card>
     </Fragment>

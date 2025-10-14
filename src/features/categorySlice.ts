@@ -7,11 +7,13 @@ import categoryApi from '../api/category';
 import type { ICat9AndCat12Data, IPortCodeData } from '../types/cat9andcat12';
 import type { ICat5Data } from '../types/cat5';
 import type { ICat7Data } from '../types/cat7';
+import type { ICat6Data } from '../types/cat6';
 
 interface CategoryState {
   cat9andcat12: ICat9AndCat12Data[];
   cat5: ICat5Data[];
   cat7: ICat7Data[];
+  cat6: ICat6Data[];
   portCode: IPortCodeData[];
   loading: boolean;
   // date: string;
@@ -25,6 +27,7 @@ const initialState: CategoryState = {
   cat9andcat12: [],
   cat5: [],
   cat7: [],
+  cat6: [],
   portCode: [],
   loading: false,
   // date: new Date().toISOString().slice(0, 10),
@@ -219,7 +222,7 @@ export const getDataCat6 = createAsyncThunk(
         sortOrder
       );
       return res as {
-        data: ICat7Data[];
+        data: ICat6Data[];
         page: number;
         limit: number;
         total: number;
@@ -249,6 +252,12 @@ export const categorySlice = createSlice({
     },
     resetDataCat7: (state) => {
       state.cat7 = [];
+      state.page = 1;
+      state.hasMore = true;
+      state.error = null;
+    },
+    resetDataCat6: (state) => {
+      state.cat6 = [];
       state.page = 1;
       state.hasMore = true;
       state.error = null;
@@ -328,6 +337,23 @@ export const categorySlice = createSlice({
         state.error = action.payload as string;
       });
 
+    //cat6
+    builder
+      .addCase(getDataCat6.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getDataCat6.fulfilled, (state, action) => {
+        state.loading = false;
+        state.cat6.push(...action.payload.data);
+        state.page += 1;
+        state.hasMore = action.payload.hasMore;
+      })
+      .addCase(getDataCat6.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      });
+
     // import excel port code
     builder
       .addCase(importExcelPortCode.pending, (state) => {
@@ -371,7 +397,11 @@ export const categorySlice = createSlice({
   },
 });
 
-export const { resetDataCat9AndCat12, resetDataCat5, resetDataCat7 } =
-  categorySlice.actions;
+export const {
+  resetDataCat9AndCat12,
+  resetDataCat5,
+  resetDataCat7,
+  resetDataCat6,
+} = categorySlice.actions;
 
 export default categorySlice.reducer;

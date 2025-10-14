@@ -5,6 +5,7 @@ import NoData from '../../../assets/images/no-data.png';
 import type { RefObject, UIEventHandler } from 'react';
 import type { ICat6Data } from '../../../types/cat6';
 import { useAppSelector } from '../../../app/hooks';
+import { formatDate } from '../../../utils/formatDate';
 
 type Props = {
   header: TableHeaderProps[];
@@ -78,7 +79,7 @@ const Table = ({
             ))}
           </tr>
         </thead>
-        <tbody>
+        <tbody className="h-[70px]">
           {/* {data.length === 0 ? (
             <tr>
               <td
@@ -140,7 +141,9 @@ const Table = ({
           {data.length > 0 &&
             data.map((item, index) => (
               <tr key={index}>
-                <td className="box-border px-3 py-3">{item.Document_Date}</td>
+                <td className="box-border px-3 py-3">
+                  {formatDate(item.Document_Date)}
+                </td>
                 <td className="box-border px-3 py-3">{item.Document_Number}</td>
                 <td className="box-border px-3 py-3">{item.Staff_ID}</td>
                 <td className="box-border px-3 py-3">
