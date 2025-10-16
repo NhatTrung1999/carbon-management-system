@@ -45,7 +45,7 @@ const CategoryFive = () => {
         sortOrder: activeSort.sortOrder,
       })
     );
-  }, [dispatch, activeSort]);
+  }, [dispatch, activeSort, dateFrom, dateTo, factory]);
   // }, [dispatch, activeSort, date]);
 
   const onScroll = useCallback(() => {
@@ -65,7 +65,7 @@ const CategoryFive = () => {
         })
       );
     }
-  }, [dispatch, loading, hasMore, page, activeSort]);
+  }, [dispatch, loading, hasMore, page, activeSort, dateFrom, dateTo, factory]);
   // }, [dispatch, loading, hasMore, page, date, activeSort]);
 
   return (

@@ -44,6 +44,7 @@ const Search = ({
       factory: factory,
     },
     onSubmit: async (data) => {
+      // console.log(data);
       try {
         dispatch(resetDataCat5());
         // dispatch(setDate(data.Date));
@@ -52,9 +53,9 @@ const Search = ({
         setFactory(data.factory);
         dispatch(
           getDataCat5({
-            dateFrom,
-            dateTo,
-            factory,
+            dateFrom: data.dateFrom,
+            dateTo: data.dateTo,
+            factory: data.factory,
             page: 1,
             sortField: activeSort.sortField,
             sortOrder: activeSort.sortOrder,
@@ -68,8 +69,14 @@ const Search = ({
 
   //Export Excel
   const onExportExcel = async () => {
+    // console.log(formik.values.dateFrom, formik.values.dateTo);
     const result = await dispatch(
-      generateFileExcel({ module: 'Cat5', date: '' })
+      generateFileExcel({
+        module: 'Cat5',
+        dateFrom: formik.values.dateFrom,
+        dateTo: formik.values.dateTo,
+        factory: formik.values.factory,
+      })
     );
     if (generateFileExcel.fulfilled.match(result)) {
       const { statusCode, message } = result.payload as {
@@ -89,7 +96,7 @@ const Search = ({
       className="mb-5 grid grid-cols-4 gap-3"
       onSubmit={formik.handleSubmit}
     >
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-1">
         <div>
           <Input
             label={'Date From'}
@@ -144,7 +151,7 @@ const Search = ({
             alt="excel-icon"
             className="w-10 object-contain"
           />
-          <span className="whitespace-nowrap">Import Excel</span>
+          <span className="whitespace-nowrap">Export Excel</span>
         </button>
       </div>
     </form>

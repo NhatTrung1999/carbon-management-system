@@ -33,7 +33,7 @@ const Search = ({
   dateTo,
   setDateTo,
   factory,
-  setFactory
+  setFactory,
 }: Props) => {
   const dispatch = useAppDispatch();
 
@@ -50,12 +50,12 @@ const Search = ({
         // setDate(data.Date);
         setDateFrom(data.dateFrom);
         setDateTo(data.dateTo);
-        setFactory(data.factory)
+        setFactory(data.factory);
         dispatch(
           getDataCat9AndCat12({
             dateFrom: data.dateFrom,
             dateTo: data.dateTo,
-            factory,
+            factory: data.factory,
             page: 1,
             sortField: activeSort.sortField,
             sortOrder: activeSort.sortOrder,
@@ -70,7 +70,12 @@ const Search = ({
   //Export Excel
   const onExportExcel = async () => {
     const result = await dispatch(
-      generateFileExcel({ module: 'Cat9AndCat12', date: '' })
+      generateFileExcel({
+        module: 'Cat9AndCat12',
+        dateFrom: formik.values.dateFrom,
+        dateTo: formik.values.dateTo,
+        factory: formik.values.factory,
+      })
     );
     if (generateFileExcel.fulfilled.match(result)) {
       const { statusCode, message } = result.payload as {
@@ -86,71 +91,69 @@ const Search = ({
   //Export Excel
 
   return (
-    <>
-      <form
-        className="mb-5 grid grid-cols-4 gap-3"
-        onSubmit={formik.handleSubmit}
-      >
-        <div className="flex items-center gap-2">
-          <div>
-            <Input
-              label={'Date From'}
-              type="date"
-              name="dateFrom"
-              classNameLabel={'mb-2'}
-              value={formik.values.dateFrom}
-              onChange={formik.handleChange}
-            />
-          </div>
-          <div>
-            <Input
-              label={'Date To'}
-              type="date"
-              name="dateTo"
-              classNameLabel={'mb-2'}
-              value={formik.values.dateTo}
-              onChange={formik.handleChange}
-            />
-          </div>
-          <div>
-            <Select
-              label={'Factory'}
-              name={'factory'}
-              classNameLabel="mb-2"
-              value={formik.values.factory}
-              onChange={formik.handleChange}
-              isShowAllSelect={true}
-              showAllSelect={true}
-              options={[
-                { name: 'LYV', value: 'LYV' },
-                { name: 'LHG', value: 'LHG' },
-                { name: 'LVL', value: 'LVL' },
-                { name: 'LYM', value: 'LYM' },
-              ]}
-            />
-          </div>
-        </div>
-        <div className="flex flex-row gap-2 mt-[29px] ml-2">
-          <Button
-            label="Search"
-            type="submit"
-            className="block text-white bg-[#FF9119] hover:bg-[#FF9119]/80 focus:ring-4 focus:outline-none focus:ring-[#FF9119]/50 font-medium rounded-lg text-sm px-5 py-2.5 dark:hover:bg-[#FF9119]/80 dark:focus:ring-[#FF9119]/40 cursor-pointer"
+    <form
+      className="mb-5 grid grid-cols-4 gap-3"
+      onSubmit={formik.handleSubmit}
+    >
+      <div className="flex items-center gap-1">
+        <div>
+          <Input
+            label={'Date From'}
+            type="date"
+            name="dateFrom"
+            classNameLabel={'mb-2'}
+            value={formik.values.dateFrom}
+            onChange={formik.handleChange}
           />
-          <button
-            type="button"
-            className="flex flex-row gap-2 items-center cursor-pointer"
-            onClick={() => onExportExcel()}
-          >
-            <img
-              src={ExcelIcon}
-              alt="excel-icon"
-              className="w-10 object-contain"
-            />
-            <span className="whitespace-nowrap">Import Excel</span>
-          </button>
         </div>
-      </form>
-    </>
+        <div>
+          <Input
+            label={'Date To'}
+            type="date"
+            name="dateTo"
+            classNameLabel={'mb-2'}
+            value={formik.values.dateTo}
+            onChange={formik.handleChange}
+          />
+        </div>
+        <div>
+          <Select
+            label={'Factory'}
+            name={'factory'}
+            classNameLabel="mb-2"
+            value={formik.values.factory}
+            onChange={formik.handleChange}
+            isShowAllSelect={true}
+            showAllSelect={true}
+            options={[
+              { name: 'LYV', value: 'LYV' },
+              { name: 'LHG', value: 'LHG' },
+              { name: 'LVL', value: 'LVL' },
+              { name: 'LYM', value: 'LYM' },
+            ]}
+          />
+        </div>
+      </div>
+      <div className="flex flex-row gap-2 mt-[29px]">
+        <Button
+          label="Search"
+          type="submit"
+          className="block text-white bg-[#FF9119] hover:bg-[#FF9119]/80 focus:ring-4 focus:outline-none focus:ring-[#FF9119]/50 font-medium rounded-lg text-sm px-5 py-2.5 dark:hover:bg-[#FF9119]/80 dark:focus:ring-[#FF9119]/40 cursor-pointer"
+        />
+        <button
+          type="button"
+          className="flex flex-row gap-2 items-center cursor-pointer"
+          onClick={() => onExportExcel()}
+        >
+          <img
+            src={ExcelIcon}
+            alt="excel-icon"
+            className="w-10 object-contain"
+          />
+          <span className="whitespace-nowrap">Export Excel</span>
+        </button>
+      </div>
+    </form>
   );
 };
 

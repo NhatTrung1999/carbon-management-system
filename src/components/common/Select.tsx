@@ -47,7 +47,7 @@ const Select = (props: SelectProps) => {
         disabled={readOnly}
         className={`sm:w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 cursor-pointer outline-none ${customClassNameSelect}`}
       >
-        {isShowAllSelect && <option value="">{showAllSelect && "All"}</option>}
+        {isShowAllSelect && <option value="ALL">{showAllSelect && "ALL"}</option>}
         {options?.map((item, index) => (
           <option value={item.value} key={index}>
             {item.name}

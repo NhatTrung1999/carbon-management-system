@@ -45,7 +45,7 @@ const CategorySeven = () => {
         sortOrder: activeSort.sortOrder,
       })
     );
-  }, [dispatch, activeSort]);
+  }, [dispatch, activeSort, dateFrom, dateTo, factory]);
 
   const onScroll = useCallback(() => {
     const el = tableRef.current;
@@ -64,7 +64,7 @@ const CategorySeven = () => {
         })
       );
     }
-  }, [dispatch, loading, hasMore, page, activeSort]);
+  }, [dispatch, loading, hasMore, page, activeSort, dateFrom, dateTo, factory]);
 
   return (
     <Fragment>

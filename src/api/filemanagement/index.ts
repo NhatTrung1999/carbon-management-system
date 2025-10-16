@@ -18,12 +18,16 @@ const fileManagementApi = {
   },
   generateFileExcel: async ({
     module,
-    date,
+    dateFrom,
+    dateTo,
+    factory,
   }: {
     module: string;
-    date: string;
+    dateFrom: string;
+    dateTo: string;
+    factory: string;
   }) => {
-    const url = `filemanagement/generate-file-excel?Module=${module}&Date=${date}`;
+    const url = `filemanagement/generate-file-excel?Module=${module}&DateFrom=${dateFrom}&DateTo=${dateTo}&Factory=${factory}`;
     const res = await axiosConfig.get(url);
     return res.data;
   },
