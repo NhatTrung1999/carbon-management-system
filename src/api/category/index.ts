@@ -88,6 +88,27 @@ const categoryApi = {
     });
     return res.data;
   },
+  getDataCat1AndCat4: async (
+    dateFrom: string,
+    dateTo: string,
+    factory: string,
+    page: number,
+    sortField: string,
+    sortOrder: string
+  ) => {
+    const res = await axiosConfig.get('cat1andcat4/get-data-cat1-and-cat4', {
+      params: {
+        dateFrom,
+        dateTo,
+        factory,
+        page,
+        limit: 20,
+        sortField,
+        sortOrder,
+      },
+    });
+    return res.data;
+  },
   getPortCode: async (sortField: string, sortOrder: string) => {
     const res = await axiosConfig.get('cat9-and-cat12/get-port-code', {
       params: { sortField, sortOrder },

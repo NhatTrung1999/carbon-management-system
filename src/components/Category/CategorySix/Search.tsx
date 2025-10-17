@@ -3,8 +3,11 @@ import Button from '../../common/Button';
 import Input from '../../common/Input';
 
 import ExcelIcon from '../../../assets/images/excel-icon.png';
-import { useEffect } from 'react';
 import Select from '../../common/Select';
+import { useAppDispatch } from '../../../app/hooks';
+import { generateFileExcel } from '../../../features/fileSlice';
+import { Toast } from '../../../utils/Toast';
+import { getDataCat6, resetDataCat6 } from '../../../features/categorySlice';
 
 type Props = {
   activeSort: {
@@ -20,15 +23,15 @@ type Props = {
 };
 
 const Search = ({
-  // activeSort,
+  activeSort,
   dateFrom,
-  // setDateFrom,
+  setDateFrom,
   dateTo,
-  // setDateTo,
+  setDateTo,
   factory,
-  // setFactory,
+  setFactory,
 }: Props) => {
-  // const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
 
   const formik = useFormik({
     initialValues: {
@@ -36,25 +39,50 @@ const Search = ({
       dateTo: dateTo,
       factory: factory,
     },
-    
+
     onSubmit: async (data) => {
-      console.log(data);
-      // try {
-      //   dispatch(setDate(data.Date));
-      //   dispatch(resetCat9AndCat12());
-      //   dispatch(
-      //     getDataCat9AndCat12({ date: data.Date, page: 0 })
-      //   );
-      // } catch (error: any) {
-      //   console.log(error);
-      // }
+      try {
+        dispatch(resetDataCat6());
+        setDateFrom(data.dateFrom);
+        setDateTo(data.dateTo);
+        setFactory(data.factory);
+        dispatch(
+          getDataCat6({
+            dateFrom,
+            dateTo,
+            factory,
+            page: 1,
+            sortField: activeSort.sortField,
+            sortOrder: activeSort.sortOrder,
+          })
+        );
+      } catch (error: any) {
+        console.log(error);
+      }
     },
   });
 
-  useEffect(() => {}, []);
-
   //Export Excel
-  const onExportExcel = async () => {};
+  const onExportExcel = async () => {
+    const result = await dispatch(
+      generateFileExcel({
+        module: 'Cat5',
+        dateFrom: formik.values.dateFrom,
+        dateTo: formik.values.dateTo,
+        factory: formik.values.factory,
+      })
+    );
+    if (generateFileExcel.fulfilled.match(result)) {
+      const { statusCode, message } = result.payload as {
+        statusCode: number;
+        message: string;
+      };
+      Toast.fire({
+        title: message,
+        icon: statusCode === 200 ? 'success' : 'error',
+      });
+    }
+  };
   //Export Excel
 
   return (

@@ -3,55 +3,133 @@ import Button from '../../common/Button';
 import Input from '../../common/Input';
 
 import ExcelIcon from '../../../assets/images/excel-icon.png';
-import { useEffect } from 'react';
-// import { useAppDispatch } from '../../../app/hooks';
-// import {
-//   getDataCat9AndCat12,
-//   resetCat9AndCat12,
-//   setDate,
-// } from '../../../features/categorySlice';
+import Select from '../../common/Select';
+import {
+  getDataCat1AndCat4,
+  resetDataCat1AndCat4,
+} from '../../../features/categorySlice';
+import { useAppDispatch } from '../../../app/hooks';
+import { generateFileExcel } from '../../../features/fileSlice';
+import { Toast } from '../../../utils/Toast';
 
-const Search = () => {
-  // const dispatch = useAppDispatch();
+type Props = {
+  activeSort: {
+    sortField: string;
+    sortOrder: string;
+  };
+  dateFrom: string;
+  setDateFrom: (dateVal: string) => void;
+  dateTo: string;
+  setDateTo: (dateVal: string) => void;
+  factory: string;
+  setFactory: (factoryVal: string) => void;
+};
+
+const Search = ({
+  activeSort,
+  dateFrom,
+  setDateFrom,
+  dateTo,
+  setDateTo,
+  factory,
+  setFactory,
+}: Props) => {
+  const dispatch = useAppDispatch();
 
   const formik = useFormik({
     initialValues: {
-      Date: new Date().toISOString().slice(0, 10),
+      dateFrom: dateFrom,
+      dateTo: dateTo,
+      factory: factory,
     },
     onSubmit: async (data) => {
-      console.log(data);
-      // try {
-      //   dispatch(setDate(data.Date));
-      //   dispatch(resetCat9AndCat12());
-      //   dispatch(
-      //     getDataCat9AndCat12({ date: data.Date, page: 0 })
-      //   );
-      // } catch (error: any) {
-      //   console.log(error);
-      // }
+      try {
+        dispatch(resetDataCat1AndCat4());
+        setDateFrom(data.dateFrom);
+        setDateTo(data.dateTo);
+        setFactory(data.factory);
+        dispatch(
+          getDataCat1AndCat4({
+            dateFrom,
+            dateTo,
+            factory,
+            page: 1,
+            sortField: activeSort.sortField,
+            sortOrder: activeSort.sortOrder,
+          })
+        );
+      } catch (error: any) {
+        console.log(error);
+      }
     },
   });
 
-  useEffect(() => {}, []);
-
   //Export Excel
-  const onExportExcel = async () => {};
+  const onExportExcel = async () => {
+    const result = await dispatch(
+      generateFileExcel({
+        module: 'Cat1AndCat4',
+        dateFrom: formik.values.dateFrom,
+        dateTo: formik.values.dateTo,
+        factory: formik.values.factory,
+      })
+    );
+    if (generateFileExcel.fulfilled.match(result)) {
+      const { statusCode, message } = result.payload as {
+        statusCode: number;
+        message: string;
+      };
+      Toast.fire({
+        title: message,
+        icon: statusCode === 200 ? 'success' : 'error',
+      });
+    }
+  };
   //Export Excel
 
   return (
     <form
-      className="mb-5 grid grid-cols-8 gap-3"
+      className="mb-5 grid grid-cols-4 gap-3"
       onSubmit={formik.handleSubmit}
     >
-      <div>
-        <Input
-          label={'Date'}
-          type="date"
-          name="Date"
-          classNameLabel={'mb-2'}
-          value={formik.values.Date}
-          onChange={formik.handleChange}
-        />
+      <div className="flex items-center gap-1">
+        <div>
+          <Input
+            label={'Date From'}
+            type="date"
+            name="dateFrom"
+            classNameLabel={'mb-2'}
+            value={formik.values.dateFrom}
+            onChange={formik.handleChange}
+          />
+        </div>
+        <div>
+          <Input
+            label={'Date To'}
+            type="date"
+            name="dateTo"
+            classNameLabel={'mb-2'}
+            value={formik.values.dateTo}
+            onChange={formik.handleChange}
+          />
+        </div>
+        <div>
+          <Select
+            label={'Factory'}
+            name={'factory'}
+            classNameLabel="mb-2"
+            value={formik.values.factory}
+            onChange={formik.handleChange}
+            isShowAllSelect={true}
+            showAllSelect={true}
+            options={[
+              { name: 'LYV', value: 'LYV' },
+              { name: 'LHG', value: 'LHG' },
+              { name: 'LVL', value: 'LVL' },
+              { name: 'LYM', value: 'LYM' },
+            ]}
+          />
+        </div>
       </div>
       <div className="flex flex-row gap-2 mt-[29px]">
         <Button
@@ -69,7 +147,7 @@ const Search = () => {
             alt="excel-icon"
             className="w-10 object-contain"
           />
-          <span className="whitespace-nowrap">Import Excel</span>
+          <span className="whitespace-nowrap">Export Excel</span>
         </button>
       </div>
     </form>

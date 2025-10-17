@@ -8,15 +8,16 @@ import type { ICat9AndCat12Data, IPortCodeData } from '../types/cat9andcat12';
 import type { ICat5Data } from '../types/cat5';
 import type { ICat7Data } from '../types/cat7';
 import type { ICat6Data } from '../types/cat6';
+import type { ICat1AndCat4Data } from '../types/cat1andcat4';
 
 interface CategoryState {
-  cat9andcat12: ICat9AndCat12Data[];
+  cat1andcat4: ICat1AndCat4Data[];
   cat5: ICat5Data[];
-  cat7: ICat7Data[];
   cat6: ICat6Data[];
+  cat7: ICat7Data[];
+  cat9andcat12: ICat9AndCat12Data[];
   portCode: IPortCodeData[];
   loading: boolean;
-  // date: string;
   error: string | null;
   page: number;
   limit: number;
@@ -24,13 +25,13 @@ interface CategoryState {
 }
 
 const initialState: CategoryState = {
-  cat9andcat12: [],
+  cat1andcat4: [],
   cat5: [],
-  cat7: [],
   cat6: [],
+  cat7: [],
+  cat9andcat12: [],
   portCode: [],
   loading: false,
-  // date: new Date().toISOString().slice(0, 10),
   error: null,
   page: 1,
   limit: 20,
@@ -234,6 +235,48 @@ export const getDataCat6 = createAsyncThunk(
   }
 );
 
+export const getDataCat1AndCat4 = createAsyncThunk(
+  'category/cat1-and-cat4',
+  async (
+    {
+      dateFrom,
+      dateTo,
+      factory,
+      page,
+      sortField,
+      sortOrder,
+    }: {
+      dateFrom: string;
+      dateTo: string;
+      factory: string;
+      page: number;
+      sortField: string;
+      sortOrder: string;
+    },
+    { rejectWithValue }
+  ) => {
+    try {
+      const res = await categoryApi.getDataCat1AndCat4(
+        dateFrom,
+        dateTo,
+        factory,
+        page,
+        sortField,
+        sortOrder
+      );
+      return res as {
+        data: ICat1AndCat4Data[];
+        page: number;
+        limit: number;
+        total: number;
+        hasMore: boolean;
+      };
+    } catch (error: any) {
+      return rejectWithValue(error || '');
+    }
+  }
+);
+
 export const categorySlice = createSlice({
   name: 'category',
   initialState,
@@ -262,9 +305,12 @@ export const categorySlice = createSlice({
       state.hasMore = true;
       state.error = null;
     },
-    // setDate: (state, action) => {
-    //   state.date = action.payload;
-    // },
+    resetDataCat1AndCat4: (state) => {
+      state.cat1andcat4 = [];
+      state.page = 1;
+      state.hasMore = true;
+      state.error = null;
+    },
   },
   extraReducers: (builder) => {
     // cat9andcat12
@@ -354,6 +400,23 @@ export const categorySlice = createSlice({
         state.error = action.payload as string;
       });
 
+    // cat1 and cat4
+    builder
+      .addCase(getDataCat1AndCat4.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getDataCat1AndCat4.fulfilled, (state, action) => {
+        state.loading = false;
+        state.cat1andcat4.push(...action.payload.data);
+        state.page += 1;
+        state.hasMore = action.payload.hasMore;
+      })
+      .addCase(getDataCat1AndCat4.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      });
+
     // import excel port code
     builder
       .addCase(importExcelPortCode.pending, (state) => {
@@ -398,10 +461,11 @@ export const categorySlice = createSlice({
 });
 
 export const {
-  resetDataCat9AndCat12,
+  resetDataCat1AndCat4,
   resetDataCat5,
-  resetDataCat7,
   resetDataCat6,
+  resetDataCat7,
+  resetDataCat9AndCat12,
 } = categorySlice.actions;
 
 export default categorySlice.reducer;

@@ -7,6 +7,8 @@ import { useEffect } from 'react';
 import Select from '../../common/Select';
 import { useAppDispatch } from '../../../app/hooks';
 import { getDataCat7, resetDataCat7 } from '../../../features/categorySlice';
+import { generateFileExcel } from '../../../features/fileSlice';
+import { Toast } from '../../../utils/Toast';
 
 type Props = {
   activeSort: {
@@ -63,7 +65,26 @@ const Search = ({
   useEffect(() => {}, []);
 
   //Export Excel
-  const onExportExcel = async () => {};
+  const onExportExcel = async () => {
+    const result = await dispatch(
+      generateFileExcel({
+        module: 'Cat7',
+        dateFrom: formik.values.dateFrom,
+        dateTo: formik.values.dateTo,
+        factory: formik.values.factory,
+      })
+    );
+    if (generateFileExcel.fulfilled.match(result)) {
+      const { statusCode, message } = result.payload as {
+        statusCode: number;
+        message: string;
+      };
+      Toast.fire({
+        title: message,
+        icon: statusCode === 200 ? 'success' : 'error',
+      });
+    }
+  };
   //Export Excel
 
   return (

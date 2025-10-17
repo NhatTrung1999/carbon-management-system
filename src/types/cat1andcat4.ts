@@ -1,3 +1,22 @@
+export interface ICat1AndCat4Data {
+  No: number;
+  Date: string;
+  Purchase_Order: string;
+  Material_No: string;
+  Weight: number;
+  Supplier_Code: string;
+  Thirdcountry_Land_Transport: string;
+  Port_Of_Departure: string;
+  Port_Of_Arrival: string;
+  Factory_Domestic_Land_Transport: string;
+  Land_Transport_Distance: number;
+  Sea_Transport_Distance: string;
+  Air_Transport_Distance: number;
+  Land_Transport_Ton_Kilometers: number;
+  Sea_Transport_Ton_Kilometers: number;
+  Air_Transport_Ton_Kilometers: number;
+}
+
 export const HEADER = [
   {
     name: 'No.',
@@ -7,11 +26,6 @@ export const HEADER = [
   {
     name: 'Date',
     state: 'Date',
-    sort: true,
-  },
-  {
-    name: 'Invoice Number',
-    state: 'Invoice_Number',
     sort: true,
   },
   {
