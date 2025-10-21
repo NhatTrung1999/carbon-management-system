@@ -50,9 +50,9 @@ const Search = ({
         setFactory(data.factory);
         dispatch(
           getDataCat1AndCat4({
-            dateFrom,
-            dateTo,
-            factory,
+            dateFrom: data.dateFrom,
+            dateTo: data.dateTo,
+            factory: data.factory,
             page: 1,
             sortField: activeSort.sortField,
             sortOrder: activeSort.sortOrder,

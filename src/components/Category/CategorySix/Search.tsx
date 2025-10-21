@@ -48,9 +48,9 @@ const Search = ({
         setFactory(data.factory);
         dispatch(
           getDataCat6({
-            dateFrom,
-            dateTo,
-            factory,
+            dateFrom: data.dateFrom,
+            dateTo: data.dateTo,
+            factory: data.factory,
             page: 1,
             sortField: activeSort.sortField,
             sortOrder: activeSort.sortOrder,
