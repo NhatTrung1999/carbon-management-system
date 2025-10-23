@@ -119,6 +119,7 @@ const PortCode = ({ header, data }: Props) => {
                       {item.CustomerNumber}
                     </td>
                     <td className="box-border px-3 py-3">{item.PortCode}</td>
+                    <td className="box-border px-3 py-3">{item.TransportMethod}</td>
                     <td className="box-border px-3 py-3">{item.CreatedAt}</td>
                     <td className="box-border px-3 py-3">
                       {formatDate(item.CreatedDate)}

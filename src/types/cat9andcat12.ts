@@ -25,6 +25,7 @@ export interface IPortCodeData {
   TWCustomerName: string;
   Country: string;
   PortCode: string;
+  TransportMethod: string;
   CreatedAt: string;
   CreatedFactory: string;
   CreatedDate: string;
@@ -130,6 +131,11 @@ export const HEADER_PORTCODE = [
   {
     name: 'PortCode',
     state: 'PortCode',
+    sort: true,
+  },
+  {
+    name: 'TransportMethod',
+    state: 'TransportMethod',
     sort: true,
   },
   {
