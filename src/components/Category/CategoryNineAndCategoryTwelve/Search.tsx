@@ -130,6 +130,7 @@ const Search = ({
               { name: 'LHG', value: 'LHG' },
               { name: 'LVL', value: 'LVL' },
               { name: 'LYM', value: 'LYM' },
+              { name: 'LYF', value: 'LYF' },
             ]}
           />
         </div>
