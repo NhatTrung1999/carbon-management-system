@@ -94,6 +94,9 @@ Props) => {
                 <td className="box-border px-3 py-3">
                   {item.Number_of_working_days}
                 </td>
+                <td className="box-border px-3 py-3">
+                  {Math.ceil(item.Number_of_working_days)}
+                </td>
                 <td className="box-border px-3 py-3">{item.PKT_p_km}</td>
               </tr>
             ))}
