@@ -9,6 +9,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { HEADER } from '../../../types/cat5';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { getDataCat5, resetDataCat5 } from '../../../features/categorySlice';
+import { BREADCRUMB } from '../../../utils/constanst';
 
 const CategoryFive = () => {
   const tableRef = useRef<HTMLDivElement | null>(null);
@@ -71,15 +72,15 @@ const CategoryFive = () => {
   return (
     <Fragment>
       <Breadcrumb
-        items={BreadcrumbData('Carbon Management System', 'Category five')}
+        items={BreadcrumbData(BREADCRUMB, 'CAT 5')}
       />
 
       <Typography
-        name="Category five"
+        name="CAT 5"
         className="block text-xs font-semibold text-[#081c1b]"
       />
       <Typography
-        name="Waste generated in operations"
+        name="Waste Generated in Operations"
         className="text-3xl bg-gradient-to-r from-[#081c1b] via-[#3f4a42] to-[#636e61] inline-block text-transparent bg-clip-text mb-3"
       />
       <Card>

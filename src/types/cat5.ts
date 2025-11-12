@@ -1,11 +1,13 @@
 export interface ICat5Data {
   Waste_disposal_date: string;
-  Vender_Name: string;
+  Vendor_Name: string;
+  Vendor_ID: string;
   Waste_collection_address: string;
   Transportation_Distance_km: string;
   The_type_of_waste: string;
   Waste_type: string;
   Waste_Treatment_method: string;
+  Treatment_Method_ID: string;
   Weight_of_waste_treated_Unit_kg: string;
   TKT_Ton_km: string;
 }
@@ -17,8 +19,13 @@ export const HEADER: { name: string; state: string; sort: boolean }[] = [
     sort: true,
   },
   {
-    name: 'Vender Name',
-    state: 'Vender_Name',
+    name: 'Vendor Name',
+    state: 'Vendor_Name',
+    sort: true,
+  },
+  {
+    name: 'Vendor ID',
+    state: 'Vender_ID',
     sort: true,
   },
   {
@@ -44,6 +51,11 @@ export const HEADER: { name: string; state: string; sort: boolean }[] = [
   {
     name: '*Waste Treatment method',
     state: 'Waste_Treatment_method',
+    sort: true,
+  },
+  {
+    name: 'Treatment Method ID',
+    state: 'Treatment_Method_ID',
     sort: true,
   },
   {

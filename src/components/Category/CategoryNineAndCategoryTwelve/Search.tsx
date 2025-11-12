@@ -11,6 +11,7 @@ import {
 import { generateFileExcel } from '../../../features/fileSlice';
 import { Toast } from '../../../utils/Toast';
 import Select from '../../common/Select';
+import { FACTORIES } from '../../../utils/constanst';
 // import ModalPortCode from './ModalPortCode';
 
 type Props = {
@@ -125,13 +126,7 @@ const Search = ({
             onChange={formik.handleChange}
             isShowAllSelect={true}
             showAllSelect={true}
-            options={[
-              { name: 'LYV', value: 'LYV' },
-              { name: 'LHG', value: 'LHG' },
-              { name: 'LVL', value: 'LVL' },
-              { name: 'LYM', value: 'LYM' },
-              { name: 'LYF', value: 'LYF' },
-            ]}
+            options={FACTORIES}
           />
         </div>
       </div>

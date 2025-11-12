@@ -22,6 +22,14 @@ const LANGUAGES = [
     name: 'Chinese',
     value: 'CN',
   },
+  {
+    name: 'Myanmar',
+    value: 'MY',
+  },
+  {
+    name: 'Indonesian',
+    value: 'ID',
+  },
 ];
 
 const MENU_SIDEBAR = [
@@ -95,4 +103,16 @@ const MENU_SIDEBAR = [
   },
 ];
 
-export { LANGUAGES, MENU_SIDEBAR };
+const FACTORIES: { name: string; value: string }[] = [
+  { name: '樂億 - LYV', value: 'LYV' },
+  { name: '樂億II - LHG', value: 'LHG' },
+  { name: '億春B - LVL', value: 'LVL' },
+  { name: '昌億 - LYM', value: 'LYM' },
+  { name: '億福 - LYF', value: 'LYF' },
+  { name: 'Jiazhi-1', value: 'JAZ' },
+  { name: 'Jiazhi-2', value: 'JZS' },
+];
+
+const BREADCRUMB: string = 'Carbon Management Website';
+
+export { LANGUAGES, MENU_SIDEBAR, FACTORIES, BREADCRUMB };

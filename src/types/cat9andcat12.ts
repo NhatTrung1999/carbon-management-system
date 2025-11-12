@@ -1,8 +1,10 @@
 export interface ICat9AndCat12Data {
   No: number;
   Date: string;
+  Shipment_Date: string;
   Invoice_Number: string;
   Article_Name: string;
+  Article_ID: string;
   Quantity: number;
   Gross_Weight: number;
   Customer_ID: string;
@@ -46,6 +48,11 @@ export const HEADER = [
     sort: true,
   },
   {
+    name: 'Shipment Date',
+    state: 'Shipment_Date',
+    sort: true,
+  },
+  {
     name: 'Invoice Number',
     state: 'Invoice_Number',
     sort: true,
@@ -53,6 +60,11 @@ export const HEADER = [
   {
     name: 'Article Name\n(Style Name)',
     state: 'Article_Name',
+    sort: true,
+  },
+  {
+    name: 'Article ID',
+    state: 'Article_ID',
     sort: true,
   },
   {

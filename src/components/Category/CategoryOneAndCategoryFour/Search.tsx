@@ -11,6 +11,7 @@ import {
 import { useAppDispatch } from '../../../app/hooks';
 import { generateFileExcel } from '../../../features/fileSlice';
 import { Toast } from '../../../utils/Toast';
+import { FACTORIES } from '../../../utils/constanst';
 
 type Props = {
   activeSort: {
@@ -122,12 +123,7 @@ const Search = ({
             onChange={formik.handleChange}
             isShowAllSelect={true}
             showAllSelect={true}
-            options={[
-              { name: 'LYV', value: 'LYV' },
-              { name: 'LHG', value: 'LHG' },
-              { name: 'LVL', value: 'LVL' },
-              { name: 'LYM', value: 'LYM' },
-            ]}
+            options={FACTORIES}
           />
         </div>
       </div>

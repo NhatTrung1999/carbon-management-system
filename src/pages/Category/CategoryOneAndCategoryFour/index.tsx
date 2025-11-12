@@ -12,6 +12,7 @@ import {
   getDataCat1AndCat4,
   resetDataCat1AndCat4,
 } from '../../../features/categorySlice';
+import { BREADCRUMB } from '../../../utils/constanst';
 
 const CategoryOneAndCategoryFour = () => {
   const tableRef = useRef<HTMLDivElement | null>(null);
@@ -73,15 +74,15 @@ const CategoryOneAndCategoryFour = () => {
   return (
     <Fragment>
       <Breadcrumb
-        items={BreadcrumbData('Carbon Management System', 'Cat1 & Cat4')}
+        items={BreadcrumbData(BREADCRUMB, 'CAT 1 & 4')}
       />
 
       <Typography
-        name="Cat1 & Cat4"
+        name="CAT 1 & 4"
         className="block text-xs font-semibold text-[#081c1b]"
       />
       <Typography
-        name="Purchased & Upstream"
+        name="Purchased Goods and Services & Upstream Transportation and Distribution"
         className="text-3xl bg-gradient-to-r from-[#081c1b] via-[#3f4a42] to-[#636e61] inline-block text-transparent bg-clip-text mb-3"
       />
 

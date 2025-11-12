@@ -129,7 +129,8 @@ const Table = ({
                 <td className="box-border px-3 py-3">
                   {item.Waste_disposal_date}
                 </td>
-                <td className="box-border px-3 py-3">{item.Vender_Name}</td>
+                <td className="box-border px-3 py-3">{item.Vendor_Name}</td>
+                <td className="box-border px-3 py-3">{item.Vendor_ID}</td>
                 <td className="box-border px-3 py-3">
                   {item.Waste_collection_address}
                 </td>
@@ -142,6 +143,9 @@ const Table = ({
                 <td className="box-border px-3 py-3">{item.Waste_type}</td>
                 <td className="box-border px-3 py-3">
                   {item.Waste_Treatment_method}
+                </td>
+                <td className="box-border px-3 py-3">
+                  {item.Treatment_Method_ID}
                 </td>
                 <td className="box-border px-3 py-3">
                   {item.Weight_of_waste_treated_Unit_kg}

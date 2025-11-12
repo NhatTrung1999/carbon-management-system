@@ -14,6 +14,7 @@ import {
 import Tabs from '../../../components/common/Tabs';
 import Cat9AndCat12 from './Cat9AndCat12';
 import PortCode from './PortCode';
+import { BREADCRUMB } from '../../../utils/constanst';
 
 const CategoryNineAndCategoryTwelvePage = () => {
   const { cat9andcat12, portCode, page, hasMore, loading } = useAppSelector(
@@ -74,19 +75,14 @@ const CategoryNineAndCategoryTwelvePage = () => {
 
   return (
     <Fragment>
-      <Breadcrumb
-        items={BreadcrumbData(
-          'Carbon Management System',
-          'Category Nine & Category Twelve'
-        )}
-      />
+      <Breadcrumb items={BreadcrumbData(BREADCRUMB, 'CAT 9 & 12')} />
 
       <Typography
-        name="Category Nine & Category Twelve"
+        name="CAT 9 & 12"
         className="block text-xs font-semibold text-[#081c1b]"
       />
       <Typography
-        name="Downstream And End‑of‑life"
+        name="Downstream Transportation and Distribution & End-of-Life Treatment of Sold Products"
         className="text-3xl bg-gradient-to-r from-[#081c1b] via-[#3f4a42] to-[#636e61] inline-block text-transparent bg-clip-text mb-3"
       />
 

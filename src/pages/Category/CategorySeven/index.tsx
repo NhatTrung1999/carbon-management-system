@@ -8,6 +8,7 @@ import Table from '../../../components/Category/CategorySeven/Table';
 import { HEADER } from '../../../types/cat7';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { getDataCat7, resetDataCat7 } from '../../../features/categorySlice';
+import { BREADCRUMB } from '../../../utils/constanst';
 
 const CategorySeven = () => {
   const tableRef = useRef<HTMLDivElement | null>(null);
@@ -69,15 +70,15 @@ const CategorySeven = () => {
   return (
     <Fragment>
       <Breadcrumb
-        items={BreadcrumbData('Carbon Management System', 'Category seven')}
+        items={BreadcrumbData(BREADCRUMB, 'CAT 7')}
       />
 
       <Typography
-        name="Category seven"
+        name="CAT 7"
         className="block text-xs font-semibold text-[#081c1b]"
       />
       <Typography
-        name="Upstream transportation & distribution"
+        name="Employee Commutingn"
         className="text-3xl bg-gradient-to-r from-[#081c1b] via-[#3f4a42] to-[#636e61] inline-block text-transparent bg-clip-text mb-3"
       />
       <Card>
