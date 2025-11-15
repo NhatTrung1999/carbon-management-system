@@ -69,16 +69,14 @@ const CategorySeven = () => {
 
   return (
     <Fragment>
-      <Breadcrumb
-        items={BreadcrumbData(BREADCRUMB, 'CAT 7')}
-      />
+      <Breadcrumb items={BreadcrumbData(BREADCRUMB, 'CAT 7')} />
 
       <Typography
         name="CAT 7"
         className="block text-xs font-semibold text-[#081c1b]"
       />
       <Typography
-        name="Employee Commutingn"
+        name="Employee Commuting"
         className="text-3xl bg-gradient-to-r from-[#081c1b] via-[#3f4a42] to-[#636e61] inline-block text-transparent bg-clip-text mb-3"
       />
       <Card>

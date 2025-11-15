@@ -90,7 +90,7 @@ const CategoryNineAndCategoryTwelvePage = () => {
         <Tabs
           tabs={[
             {
-              label: 'Cat9AndCat12',
+              label: 'CAT 9 & 12',
               content: (
                 <Cat9AndCat12
                   activeSort={activeSort}

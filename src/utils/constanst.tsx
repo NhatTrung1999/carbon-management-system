@@ -24,7 +24,7 @@ const LANGUAGES = [
   },
   {
     name: 'Myanmar',
-    value: 'MY',
+    value: 'MM',
   },
   {
     name: 'Indonesian',

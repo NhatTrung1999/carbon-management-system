@@ -65,79 +65,58 @@ const Table = ({
       <table className="w-full text-left min-w-max">
         <thead className="bg-[#636e61] text-sm sticky top-0 text-white">
           <tr>
-            {header.map((item, index) => (
-              <th className="px-4 py-4 whitespace-break-spaces" key={index}>
-                <div className="flex flex-row gap-6 items-center justify-between">
-                  <span>{item.name}</span>
-                  {item.sort && (
-                    <span className="flex flex-col cursor-pointer">
-                      {renderSortIcon(item)}
-                    </span>
-                  )}
-                </div>
-              </th>
-            ))}
+            {header.map((item, index) => {
+              if (item.children && item.children.length > 0) {
+                return (
+                  <th
+                    className="px-4 py-1 whitespace-break-spaces text-center"
+                    key={index}
+                    colSpan={item.children.length}
+                  >
+                    <span>{item.name}</span>
+                  </th>
+                );
+              }
+              return (
+                <th
+                  className="px-4 py-1 whitespace-break-spaces"
+                  key={index}
+                  rowSpan={2}
+                >
+                  <div className="flex flex-row gap-6 items-center justify-between">
+                    <span>{item.name}</span>
+                    {item.sort && (
+                      <span className="flex flex-col cursor-pointer">
+                        {renderSortIcon(item)}
+                      </span>
+                    )}
+                  </div>
+                </th>
+              );
+            })}
+          </tr>
+          <tr>
+            {header.map((item, index) =>
+              item.children?.map((child, idx) => (
+                <th
+                  className="px-4 py-1 whitespace-break-spaces"
+                  key={`${index}-${idx}`}
+                  rowSpan={2}
+                >
+                  <div className="flex flex-row gap-6 items-center justify-between">
+                    <span>{child.name}</span>
+                    {child.sort && (
+                      <span className="flex flex-col cursor-pointer">
+                        {renderSortIcon(child)}
+                      </span>
+                    )}
+                  </div>
+                </th>
+              ))
+            )}
           </tr>
         </thead>
         <tbody className="h-[70px]">
-          {/* {data.length === 0 ? (
-            <tr>
-              <td
-                colSpan={header.length}
-                className="text-center box-border px-6 py-6"
-              >
-                <div className="flex justify-center items-center flex-col">
-                  <img src={NoData} className="size-30" />
-                  <div className="text-2xl font-semibold">
-                    No data available
-                  </div>
-                </div>
-              </td>
-            </tr>
-          ) : (
-            <>
-              {data.map((item, index) => (
-                <tr key={index}>
-                  <td className="box-border px-3 py-3">{item.Document_Date}</td>
-                  <td className="box-border px-3 py-3">{item.Document_Number}</td>
-                  <td className="box-border px-3 py-3">
-                    {item.Staff_ID}
-                  </td>
-                  <td className="box-border px-3 py-3">{item.Round_trip_One_way}</td>
-                  <td className="box-border px-3 py-3">{item.Business_Trip_Type}</td>
-                  <td className="box-border px-3 py-3">{item.Place_of_Departure}</td>
-                  <td className="box-border px-3 py-3">{item.Departure_Airport}</td>
-                  <td className="box-border px-3 py-3">
-                    {item.Land_Transport_Distance_km_A}
-                  </td>
-                  <td className="box-border px-3 py-3">
-                    {item.Land_Trasportation_Type_A}
-                  </td>
-                  <td className="box-border px-3 py-3">
-                    {item.Destination_Airport}
-                  </td>
-                  <td className="box-border px-3 py-3">
-                    {item.Destination_1}
-                  </td>
-                  <td className="box-border px-3 py-3">
-                    {item.Destination_2}
-                  </td>
-                  <td className="box-border px-3 py-3">
-                    {item.Land_Transport_Distance_km_B}
-                  </td>
-                  <td className="box-border px-3 py-3">
-                    {item.Land_Trasportation_Type_B}
-                  </td>
-                  <td className="box-border px-3 py-3">
-                    {item.Air_Transport_Distance_km}
-                  </td>
-                  <td className="box-border px-3 py-3">
-                    {item.Number_of_nights_stayed}
-                  </td>
-                </tr>
-              ))}
-            </>
-          )} */}
           {data.length > 0 &&
             data.map((item, index) => (
               <tr key={index}>

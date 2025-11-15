@@ -10,6 +10,8 @@ import { IoLogOutOutline } from 'react-icons/io5';
 import FlagVN from '../../assets/images/flag-vn.png';
 import FlagEN from '../../assets/images/flag-us.png';
 import FlagTW from '../../assets/images/flag-tw.png';
+import FlagMM from '../../assets/images/flag-mm.png';
+import FlagID from '../../assets/images/flag-id.png';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { logout } from '../../features/authSlice';
 
@@ -66,7 +68,7 @@ const Header = () => {
               <span>Languages</span>
             </div>
             <div
-              className={`absolute top-8 bg-white text-primary w-full px-3 py-2 shadow-md rounded-md transition-all duration-300 origin-top ${
+              className={`absolute top-8 bg-[#fcfcfc] text-primary w-full px-3 py-2 shadow-md rounded-md transition-all duration-300 origin-top ${
                 isShowLanguage
                   ? 'opacity-100 scale-100'
                   : 'opacity-0 scale-95 pointer-events-none'
@@ -86,6 +88,16 @@ const Header = () => {
                 <li className="p-2 hover:bg-gray-200 flex items-center gap-3">
                   <img src={FlagTW} width={24} />
                   <span className="truncate">TW</span>
+                </li>
+
+                <li className="p-2 hover:bg-gray-200 flex items-center gap-3">
+                  <img src={FlagMM} width={24} />
+                  <span className="truncate">MM</span>
+                </li>
+
+                <li className="p-2 hover:bg-gray-200 flex items-center gap-3">
+                  <img src={FlagID} width={24} />
+                  <span className="truncate">ID</span>
                 </li>
               </ul>
             </div>
