@@ -33,11 +33,11 @@ export const HEADER: { name: string; state: string; sort: boolean }[] = [
     state: 'Number_of_working_days',
     sort: true,
   },
-  {
-    name: 'Number of working days(Rounded)',
-    state: 'Number_of_working_days_rounded',
-    sort: false,
-  },
+  // {
+  //   name: 'Number of working days(Rounded)',
+  //   state: 'Number_of_working_days_rounded',
+  //   sort: false,
+  // },
   {
     name: 'PKT (p-km)',
     state: 'PKT_p_km',
