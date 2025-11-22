@@ -16,6 +16,7 @@ import UserManagement from '../pages/SystemSettings/UserManagement';
 import FileManagement from '../pages/SystemSettings/FileManagement';
 import ProtectedRoute from './ProtectedRoute';
 import CategoryOneAndCategoryFour from '../pages/Category/CategoryOneAndCategoryFour';
+import InfoFactoryManagement from '../pages/SystemSettings/InfoFactoryManagement';
 
 const AppRoutes = () => {
   return (
@@ -38,6 +39,10 @@ const AppRoutes = () => {
           <Route
             path="/dashboard/category-nine-and-category-twelve"
             element={<CategoryNineAndCategoryTwelvePage />}
+          />
+          <Route
+            path="/dashboard/info-factory-management"
+            element={<InfoFactoryManagement />}
           />
           <Route
             path="/dashboard/user-management"

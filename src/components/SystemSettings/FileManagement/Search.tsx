@@ -67,7 +67,7 @@ const Search = ({ activeSort }: Props) => {
     >
       <div>
         <Input
-          label={'Module'}
+          label={'Company Name'}
           type="text"
           name="module"
           classNameLabel={'mb-2'}
@@ -77,7 +77,7 @@ const Search = ({ activeSort }: Props) => {
       </div>
       <div>
         <Input
-          label={'File Name'}
+          label={'Account No'}
           type="text"
           name="file_name"
           classNameLabel={'mb-2'}

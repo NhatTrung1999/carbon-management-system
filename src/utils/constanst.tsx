@@ -6,6 +6,7 @@ import CategorySeven from '../assets/images/employee-commuting.png';
 import CategoryNineAndCategoryTwelve from '../assets/images/Category.png';
 // import EndOfLifeTreatmentOfSoldProducts from "../assets/images/end-of-life-treatment-of-sold-products.png";
 
+import InfoFactoryManagement from '../assets/images/info-factory-management.png';
 import UserSettings from '../assets/images/user-settings.png';
 import Excel from '../assets/images/excel.png';
 
@@ -89,6 +90,11 @@ const MENU_SIDEBAR = [
   {
     name: 'System Settings',
     sidebarItem: [
+      {
+        text: 'Info Factory',
+        path: '/dashboard/info-factory-management',
+        icon: <img src={InfoFactoryManagement} className="size-6" />,
+      },
       {
         text: 'User Management',
         path: '/dashboard/user-management',

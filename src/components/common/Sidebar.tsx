@@ -46,7 +46,7 @@ const Sidebar = ({ isOpenSideBar, setIsOpenSideBar }: Props) => {
                   <li
                     className={`px-10 py-3 cursor-pointer text-base ${
                       itemChild.path === activePath
-                        ? 'bg-gray-100 border-l-4 border-primary text-[#1d2d29]'
+                        ? 'bg-gray-100 border-l-4 border-primary text-[#1d2d29] font-medium'
                         : ''
                     }`}
                     onClick={() => setActivePath(itemChild.path)}
