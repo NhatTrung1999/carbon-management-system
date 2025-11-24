@@ -23,125 +23,236 @@
     "close": "Đóng"
   },
   "cat1andcat4": {
-    "cat_1_4": "CAT 1 & 4",
-    "purchase_and_upstream": "",
-    "no": "",
-    "date": "",
-    "purchase_order": "",
-    "material_no": "",
-    "weight": "",
-    "supplier_code": "",
-    "third_country_land_transport": "",
-    "port_of_departure": "",
-    "port_of_arrival": "",
-    "factory_domestic_land_transport_b": "",
-    "land_transport_distance_a_b": "",
-    "sea_transport_distance": "",
-    "air_transport_distance": "",
-    "land_transport_ton_kilometers": "",
-    "sea_transport_ton_kilometers": "",
-    "air_transport_ton_kilometers": ""
+    "cat_1_4": "Hạng mục 1 & 4",
+    "purchase_and_upstream": "Hàng hóa & dịch vụ mua vào & Vận chuyển đầu vào",
+    "no": "STT",
+    "date": "Ngày",
+    "purchase_order": "Đơn mua hàng (PO)",
+    "material_no": "Mã nguyên vật liệu",
+    "weight": "Khối lượng (Đơn vị: Tấn)",
+    "supplier_code": "Mã nhà cung cấp",
+    "third_country_land_transport": "Vận chuyển đường bộ nước thứ ba (A)",
+    "port_of_departure": "Cảng xuất phát",
+    "port_of_arrival": "Cảng đến",
+    "factory_domestic_land_transport_b": "Vận chuyển nội địa đến nhà máy (B)",
+    "land_transport_distance_a_b": "Quãng đường vận chuyển đường bộ (A+B)",
+    "sea_transport_distance": "Quãng đường vận chuyển đường biển",
+    "air_transport_distance": "Quãng đường vận chuyển đường hàng không",
+    "land_transport_ton_kilometers": "Tấn/km vận chuyển đường bộ",
+    "sea_transport_ton_kilometers": "Tấn/km vận chuyển đường biển",
+    "air_transport_ton_kilometers": "Tấn/km vận chuyển đường hàng không"
   },
   "cat5": {
-    "cat_5": "",
-    "waste_generated_in_operations": "",
-    "waste_disposal_date": "",
-    "vendor_name": "",
-    "vendor_id": "",
-    "waste_collection_address": "",
-    "transportation_distance_km": "",
-    "the_type_of_waste": "",
-    "waste_type": "",
-    "waste_treatment_method": "",
-    "treatment_method_id": "",
-    "weight_of_waste_treated_unit_kg)": "",
-    "tkt_ton_km": ""
+    "cat_5": "Hạng mục 5",
+    "waste_generated_in_operations": "Chất thải phát sinh trong hoạt động",
+    "waste_disposal_date": "Ngày xử lý chất thải",
+    "vendor_name": "Tên nhà cung cấp dịch vụ xử lý",
+    "vendor_id": "Mã nhà cung cấp",
+    "waste_collection_address": "Địa chỉ thu gom chất thải",
+    "transportation_distance_km": "Quãng đường vận chuyển (km)",
+    "the_type_of_waste": "Loại chất thải",
+    "waste_type": "Loại chất thải",
+    "waste_treatment_method": "Phương pháp xử lý chất thải",
+    "treatment_method_id": "Mã phương pháp xử lý",
+    "weight_of_waste_treated_unit_kg)": "Khối lượng chất thải được xử lý (Đơn vị: kg)",
+    "tkt_ton_km": "Tấn-km vận chuyển"
   },
   "cat6": {
-    "cat_6": "",
-    "business_travel": "",
-    "document_date": "",
-    "document_number": "",
-    "staff_id": "",
-    "round_trip_one_way": "",
-    "start_time": "",
-    "end_time": "",
-    "business_trip_type": "",
-    "place_of_departure": "",
-    "departure_airport": "",
-    "land_transport_distance_km_a": "",
-    "land_trasportation_type_a": "",
-    "destination_airport": "",
-    "third_country_transfer_destination": "",
-    "land_transport_distance_km_b": "",
-    "land_transportation_type_b": "",
-    "third_country_transfer": "",
-    "destination_2": "",
-    "destination_3": "",
-    "destination_4": "",
-    "destination_5": "",
-    "destination_6": "",
-    "land_transport_distance_km": "",
-    "land_transportation_type": "",
-    "air_transport_distance_km": "",
-    "number_of_nights_stayed": ""
+    "cat_6": "Hạng mục 6",
+    "business_travel": "Công tác",
+    "document_date": "Ngày làm phiếu",
+    "document_number": "Số phiếu",
+    "staff_id": "Mã nhân viên",
+    "round_trip_one_way": "Khứ hồi / Một chiều",
+    "start_time": "Thời gian bắt đầu",
+    "end_time": "Thời gian kết thúc",
+    "business_trip_type": "Loại hình công tác",
+    "place_of_departure": "Địa điểm xuất phát",
+    "departure_airport": "Sân bay đi",
+    "land_transport_distance_km_a": "Quãng đường di chuyển đường bộ (A)",
+    "land_trasportation_type_a": "Phương tiện di chuyển đường bộ (A)",
+    "destination_airport": "Sân bay đến",
+    "third_country_transfer_destination": "Điểm đến đầu tiên sau khi hạ cánh",
+    "land_transport_distance_km_b": "Quãng đường di chuyển đường bộ (B)",
+    "land_transportation_type_b": "Phương tiện di chuyển đường bộ (B)",
+    "third_country_transfer": "Điểm đến đầu tiên sau khi hạ cánh",
+    "destination_2": "Điểm đến 2",
+    "destination_3": "Điểm đến 3",
+    "destination_4": "Điểm đến 4",
+    "destination_5": "Điểm đến 5",
+    "destination_6": "Điểm đến 6",
+    "land_transport_distance_km": "Quãng đường di chuyển đường bộ",
+    "land_transportation_type": "Phương tiện di chuyển đường bộ",
+    "air_transport_distance_km": "Quãng đường di chuyển hàng không (km)",
+    "number_of_nights_stayed": "Số đêm lưu trú"
   },
   "cat7": {
-    "cat_7": "",
-    "employee_commuting": "",
-    "staff_id": "",
-    "residential_address": "",
-    "main_transportation_type": "",
-    "km": "",
-    "number_of_working_days": "",
-    "number_of_working_days_rounded": "",
-    "pkt_p_km": ""
+    "cat_7": "Hạng mục 7",
+    "employee_commuting": "Dữ liệu việc đi lại của nhân viên",
+    "staff_id": "Mã nhân viên",
+    "residential_address": "Địa chỉ nơi ở",
+    "main_transportation_type": "Loại phương tiện đi lại chính",
+    "km": "Quãng đường (km)",
+    "number_of_working_days": "Số ngày đi làm",
+    "number_of_working_days_rounded": "Số ngày đi làm (làm tròn)",
+    "pkt_p_km": "PKT (p/km)"
   },
   "cat9andcat12": {
-    "cat_9_12": "",
-    "downstream_and_endoflife": "",
-    "no": "",
-    "date": "",
-    "shipment_date": "",
-    "invoice_number": "",
-    "article_name_style_name": "",
-    "article_id": "",
-    "quantity": "",
-    "gross_weight_unit_ton": "",
-    "customer_id": "",
-    "local_land_transportation_factory_port": "",
-    "port_of_departure": "",
-    "port_of_arrival": "",
-    "land_transport_distance": "",
-    "sea_transport_distance": "",
-    "air_transport_distance": "",
-    "transport_method": "",
-    "land_transport_ton_kilometers": "",
-    "sea_transport_ton_kilometers": "",
-    "air_transport_ton_kilometers": "",
-    "port_code": "",
-    "import_excel_file": "",
-    "customer_number": "",
-    "transportmethod": "",
-    "created_at": "",
-    "created_date": "",
-    "example_file": "",
-    "close": "",
-    "import": ""
+    "cat_9_12": "Hạng mục 9 & 12",
+    "downstream_and_endoflife": "Vận chuyển & phân phối hạ nguồn và Xử lý cuối đời sản phẩm bán ra",
+    "no": "STT",
+    "date": "Ngày",
+    "shipment_date": "Ngày xuất hàng",
+    "invoice_number": "Số hóa đơn",
+    "article_name_style_name": "Tên sản phẩm (Tên mã)",
+    "article_id": "Mã sản phẩm",
+    "quantity": "Số lượng",
+    "gross_weight_unit_ton": "Khối lượng tổng (Đơn vị: tấn)",
+    "customer_id": "Mã khách hàng",
+    "local_land_transportation_factory_port": "Vận chuyển đường bộ nội địa Nhà máy → Cảng",
+    "port_of_departure": "Cảng xuất phát",
+    "port_of_arrival": "Cảng đến",
+    "land_transport_distance": "Quãng đường vận chuyển đường bộ",
+    "sea_transport_distance": "Quãng đường vận chuyển đường biển",
+    "air_transport_distance": "Quãng đường vận chuyển đường hàng không",
+    "transport_method": "Phương thức vận chuyển",
+    "land_transport_ton_kilometers": "Tấn/km vận chuyển đường bộ",
+    "sea_transport_ton_kilometers": "Tấn/km vận chuyển đường biển",
+    "air_transport_ton_kilometers": "Tấn/km vận chuyển đường hàng không",
+    "port_code": "Mã cảng",
+    "import_excel_file": "Nhập file Excel",
+    "customer_number": "Mã khách hàng",
+    "transportmethod": "Phương thức vận chuyển",
+    "created_at": "Thời điểm tạo",
+    "created_date": "Ngày tạo",
+    "example_file": "File mẫu",
+    "close": "Đóng",
+    "import": "Nhập"
   },
-  "user_management": {
-    "user_management": "",
-    "userid": "",
-    "name": "",
-    "email": "",
-    "role": "",
-    "status": ""
+  "usermmt": {
+    "user_management": "Quản lý người dùng",
+    "userid": "Mã người dùng",
+    "name": "Họ và tên",
+    "email": "Email",
+    "role": "Phân quyền",
+    "status": "Trạng thái"
   },
-  "file_management": {
-    "module": "",
-    "file_name": "",
-    "status": "",
-    "created_by_user": "",
-    "created_date": ""
+  "filemmt": {
+    "module": "Mô-đun",
+    "file_name": "Tên file",
+    "status": "Trạng thái",
+    "created_by_user": "Người tạo",
+    "created_date": "Ngày tạo"
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

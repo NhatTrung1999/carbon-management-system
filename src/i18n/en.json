@@ -23,27 +23,27 @@
     "close": "Close"
   },
   "cat1andcat4": {
-    "cat1and4": "CAT 1 & 4",
-    "purchase_and_upstream": "",
-    "no": "",
-    "date": "",
-    "purchase_order": "",
-    "material_no": "",
-    "weight": "",
-    "supplier_code": "",
-    "third_country_land_transport": "",
-    "port_of_departure": "",
-    "port_of_arrival": "",
-    "factory_domestic_land_transport_b": "",
-    "land_transport_distance_a_b": "",
-    "sea_transport_distance": "",
-    "air_transport_distance": "",
-    "land_transport_ton_kilometers": "",
-    "sea_transport_ton_kilometers": "",
-    "air_transport_ton_kilometers": ""
+    "cat_1_4": "CAT 1 & 4",
+    "purchase_and_upstream": "Purchased Goods and Services & Upstream Transportation and Distribution",
+    "no": "No.",
+    "date": "Date",
+    "purchase_order": "Purchase Order",
+    "material_no": "Material No.",
+    "weight": "Weight (Unit: Ton)",
+    "supplier_code": "Supplier Code",
+    "third_country_land_transport": "Third-country Land Transport (A)",
+    "port_of_departure": "Port of Departure",
+    "port_of_arrival": "Port of Arrival",
+    "factory_domestic_land_transport_b": "Factory (Domestic Land Transport) (B)",
+    "land_transport_distance_a_b": "Land Transport Distance (A+B)",
+    "sea_transport_distance": "Sea Transport Distance",
+    "air_transport_distance": "Air Transport Distance",
+    "land_transport_ton_kilometers": "Land Transport Ton-Kilometers",
+    "sea_transport_ton_kilometers": "Sea Transport Ton-Kilometers",
+    "air_transport_ton_kilometers": "Air Transport Ton-Kilometers"
   },
   "cat5": {
-    "cat5": "CAT 5",
+    "cat_5": "CAT 5",
     "waste_generated_in_operations": "Waste Generated in Operations",
     "waste_disposal_date": "Waste disposal date",
     "vendor_name": "Vendor Name",
@@ -58,7 +58,7 @@
     "tkt_ton_km": "TKT (Ton-km)"
   },
   "cat6": {
-    "cat6": "CAT 6",
+    "cat_6": "CAT 6",
     "business_travel": "Business Travel",
     "document_date": "Document Date",
     "document_number": "Document Number",
@@ -129,7 +129,7 @@
     "close": "Close",
     "import": "Import"
   },
-  "user_management": {
+  "usermmt": {
     "user_management": "User Management",
     "userid": "UserID",
     "name": "Name",
@@ -137,7 +137,7 @@
     "role": "Role",
     "status": "Status"
   },
-  "file_management": {
+  "filemmt": {
     "module": "Module",
     "file_name": "File Name",
     "status": "Status",
@@ -145,3 +145,22 @@
     "created_date": "Created Date"
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

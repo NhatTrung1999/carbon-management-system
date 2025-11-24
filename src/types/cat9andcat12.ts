@@ -38,97 +38,97 @@ export interface IPortCodeData {
 
 export const HEADER = [
   {
-    name: 'No.',
+    name: 'cat9andcat12.no',
     state: 'No',
     sort: true,
   },
   {
-    name: 'Date',
+    name: 'cat9andcat12.date',
     state: 'Date',
     sort: true,
   },
   {
-    name: 'Shipment Date',
+    name: 'cat9andcat12.shipment_date',
     state: 'Shipment_Date',
     sort: true,
   },
   {
-    name: 'Invoice Number',
+    name: 'cat9andcat12.invoice_number',
     state: 'Invoice_Number',
     sort: true,
   },
   {
-    name: 'Article Name\n(Style Name)',
+    name: 'cat9andcat12.article_name_style_name',
     state: 'Article_Name',
     sort: true,
   },
   {
-    name: 'Article ID',
+    name: 'cat9andcat12.article_id',
     state: 'Article_ID',
     sort: true,
   },
   {
-    name: 'Quantity',
+    name: 'cat9andcat12.quantity',
     state: 'Quantity',
     sort: true,
   },
   {
-    name: 'Gross Weight (Unit:Ton)',
+    name: 'cat9andcat12.gross_weight_unit_ton',
     state: 'Gross_Weight',
     sort: true,
   },
   {
-    name: 'Customer ID',
+    name: 'cat9andcat12.customer_id',
     state: 'Customer_ID',
     sort: true,
   },
   {
-    name: 'Local land transportation \nFactory→Port',
+    name: 'cat9andcat12.local_land_transportation_factory_port',
     state: 'Local_Land_Transportation',
     sort: true,
   },
   {
-    name: 'Port of Departure',
+    name: 'cat9andcat12.port_of_departure',
     state: 'Port_Of_Departure',
     sort: true,
   },
   {
-    name: 'Port of Arrival',
+    name: 'cat9andcat12.port_of_arrival',
     state: 'Port_Of_Arrival',
     sort: true,
   },
   {
-    name: 'Land Transport Distance',
+    name: 'cat9andcat12.land_transport_distance',
     state: 'Land_Transport_Distance',
     sort: true,
   },
   {
-    name: 'Sea Transport Distance',
+    name: 'cat9andcat12.sea_transport_distance',
     state: 'Sea_Transport_Distance',
     sort: true,
   },
   {
-    name: 'Air Transport Distance',
+    name: 'cat9andcat12.air_transport_distance',
     state: 'Air_Transport_Distance',
     sort: true,
   },
   {
-    name: 'Transport Method',
+    name: 'cat9andcat12.transport_method',
     state: 'Transport_Method',
     sort: true,
   },
   {
-    name: 'Land Transport Ton-Kilometers',
+    name: 'cat9andcat12.land_transport_ton_kilometers',
     state: 'Land_Transport_Ton_Kilometers',
     sort: true,
   },
   {
-    name: 'Sea Transport Ton-Kilometers',
+    name: 'cat9andcat12.sea_transport_ton_kilometers',
     state: 'Sea_Transport_Ton_Kilometers',
     sort: true,
   },
   {
-    name: 'Air Transport Ton-Kilometers',
+    name: 'cat9andcat12.air_transport_ton_kilometers',
     state: 'Air_Transport_Ton_Kilometers',
     sort: true,
   },
@@ -136,27 +136,27 @@ export const HEADER = [
 
 export const HEADER_PORTCODE = [
   {
-    name: 'CustomerNumber',
+    name: 'cat9andcat12.customer_number',
     state: 'CustomerNumber',
     sort: true,
   },
   {
-    name: 'PortCode',
+    name: 'cat9andcat12.port_code',
     state: 'PortCode',
     sort: true,
   },
   {
-    name: 'TransportMethod',
+    name: 'cat9andcat12.transportmethod',
     state: 'TransportMethod',
     sort: true,
   },
   {
-    name: 'CreatedAt',
+    name: 'cat9andcat12.created_at',
     state: 'CreatedAt',
     sort: true,
   },
   {
-    name: 'CreatedDate',
+    name: 'cat9andcat12.created_date',
     state: 'CreatedDate',
     sort: true,
   },

@@ -11,6 +11,7 @@ import { LANGUAGES } from '../utils/constanst';
 import { useAppDispatch } from '../app/hooks';
 import { login } from '../features/authSlice';
 import Swal from 'sweetalert2';
+import { useTranslation } from 'react-i18next';
 
 const validationSchema = Yup.object().shape({
   userid: Yup.string().required('Please do not leave it blank!'),
@@ -23,13 +24,15 @@ const Login = () => {
   const [distanceFromTop, setDistanceFromTop] = useState(0);
   const [loading, setLoading] = useState(true);
   const dispatch = useAppDispatch();
+  const { t, i18n } = useTranslation();
 
+  const savedLang = localStorage.getItem('lang') || 'en';
 
   const formik = useFormik({
     initialValues: {
       userid: '',
       password: '',
-      language: 'Vietnamese',
+      language: savedLang,
     },
     validationSchema,
     onSubmit: async (data) => {
@@ -43,11 +46,15 @@ const Login = () => {
           text: result.payload as string,
           icon: 'error',
           confirmButtonText: 'Close',
-          confirmButtonColor: '#ff0000'
+          confirmButtonColor: '#ff0000',
         });
       }
     },
   });
+
+  useEffect(() => {
+    i18n.changeLanguage(savedLang);
+  }, []);
 
   useEffect(() => {
     const calculateDistanceFromTop = () => {
@@ -110,7 +117,7 @@ const Login = () => {
           </div>
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-gray/50 backdrop-blur-xl shadow-lg p-6 min-w-md border border-white/20 rounded-lg">
             <h2 className="text-center text-3xl text-white font-bold tracking-tight">
-              Welcome Back
+              {t('main.welcome_back')}
             </h2>
             <form
               onSubmit={formik.handleSubmit}
@@ -118,7 +125,7 @@ const Login = () => {
             >
               <div>
                 <label htmlFor="" className="block text-base font-medium">
-                  UserId
+                  {t('main.user_id')}
                 </label>
                 <div className="mt-2">
                   <div className="flex items-center gap-3 bg-white/5 rounded-md outline-1 -outline-offset-1 outline-white/10 border border-white/20">
@@ -143,7 +150,7 @@ const Login = () => {
               </div>
               <div>
                 <label htmlFor="" className="block text-base font-medium ">
-                  Password
+                  {t('main.password')}
                 </label>
                 <div className="mt-2">
                   <div className="flex items-center gap-3 bg-white/5 rounded-md outline-1 -outline-offset-1 outline-white/10 border border-white/20">
@@ -168,7 +175,7 @@ const Login = () => {
               </div>
               <div>
                 <label htmlFor="" className="block text-base font-medium ">
-                  Language
+                  {t('main.language')}
                 </label>
                 <div className="mt-2 flex items-center gap-3">
                   <div className="size-9 border border-white/20 rounded-lg flex justify-center items-center p-1">
@@ -176,7 +183,12 @@ const Login = () => {
                   </div>
                   <select
                     value={formik.values.language}
-                    onChange={formik.handleChange}
+                    onChange={(e) => {
+                      const lang = e.target.value;
+                      formik.setFieldValue('language', lang);
+                      i18n.changeLanguage(lang);
+                      localStorage.setItem('lang', lang);
+                    }}
                     name="language"
                     className="block w-full border border-white/20 rounded-md bg-black/5 px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-white/10 login-language"
                   >
@@ -193,7 +205,7 @@ const Login = () => {
                   type="submit"
                   className="flex w-full justify-center rounded-md bg-[#FF9119] px-3 py-1.5 text-lg font-semibold text-white hover:bg-[#f67804] cursor-pointer"
                 >
-                  Login
+                  {t('main.login')}
                 </button>
               </div>
             </form>

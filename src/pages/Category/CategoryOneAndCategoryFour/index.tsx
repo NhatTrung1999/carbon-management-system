@@ -13,6 +13,7 @@ import {
   resetDataCat1AndCat4,
 } from '../../../features/categorySlice';
 import { BREADCRUMB } from '../../../utils/constanst';
+import { useTranslation } from 'react-i18next';
 
 const CategoryOneAndCategoryFour = () => {
   const tableRef = useRef<HTMLDivElement | null>(null);
@@ -35,6 +36,7 @@ const CategoryOneAndCategoryFour = () => {
     (state) => state.category
   );
   const dispatch = useAppDispatch();
+  const {t} = useTranslation()
 
   useEffect(() => {
     if (didFetch.current) return;
@@ -74,15 +76,15 @@ const CategoryOneAndCategoryFour = () => {
   return (
     <Fragment>
       <Breadcrumb
-        items={BreadcrumbData(BREADCRUMB, 'CAT 1 & 4')}
+        items={BreadcrumbData(t(BREADCRUMB), t('cat1andcat4.cat_1_4'))}
       />
 
       <Typography
-        name="CAT 1 & 4"
+        name={t('cat1andcat4.cat_1_4')}
         className="block text-xs font-semibold text-[#081c1b]"
       />
       <Typography
-        name="Purchased Goods and Services & Upstream Transportation and Distribution"
+        name={t('cat1andcat4.purchase_and_upstream')}
         className="text-3xl bg-gradient-to-r from-[#081c1b] via-[#3f4a42] to-[#636e61] inline-block text-transparent bg-clip-text mb-3"
       />
 

@@ -12,6 +12,8 @@ import ModalUser from '../../../components/SystemSettings/UserManagement/ModalUs
 import { Toast } from '../../../utils/Toast';
 import Swal from 'sweetalert2';
 import { HEADER, type IUserManagement } from '../../../types/users';
+import { useTranslation } from 'react-i18next';
+import { BREADCRUMB } from '../../../utils/constanst';
 
 const UserManagement = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -26,6 +28,7 @@ const UserManagement = () => {
 
   const { users } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
+  const {t} = useTranslation()
 
   useEffect(() => {
     dispatch(
@@ -85,11 +88,11 @@ const UserManagement = () => {
   return (
     <Fragment>
       <Breadcrumb
-        items={BreadcrumbData('Carbon Management System', 'User Management')}
+        items={BreadcrumbData(t(BREADCRUMB), t('usermmt.user_management'))}
       />
 
       <Typography
-        name="User Management"
+        name={t('usermmt.user_management')}
         className="text-3xl bg-gradient-to-r from-[#081c1b] via-[#3f4a42] to-[#636e61] inline-block text-transparent bg-clip-text mb-3"
       />
 

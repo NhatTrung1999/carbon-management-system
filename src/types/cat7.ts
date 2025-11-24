@@ -1,3 +1,5 @@
+
+
 export interface ICat7Data {
   Staff_ID: string;
   Residential_address: string;
@@ -9,37 +11,37 @@ export interface ICat7Data {
 
 export const HEADER: { name: string; state: string; sort: boolean }[] = [
   {
-    name: 'Staff ID',
+    name: 'cat7.staff_id',
     state: 'Staff_ID',
     sort: true,
   },
   {
-    name: 'Residential address',
+    name: 'cat7.residential_address',
     state: 'Residential_address',
     sort: true,
   },
   {
-    name: 'Main transportation type',
+    name: 'cat7.main_transportation_type',
     state: 'Main_transportation_type',
     sort: true,
   },
   {
-    name: 'km',
+    name: 'cat7.km',
     state: 'km',
     sort: true,
   },
   {
-    name: 'Number of working days',
+    name: 'cat7.number_of_working_days',
     state: 'Number_of_working_days',
     sort: true,
   },
   // {
-  //   name: 'Number of working days(Rounded)',
+  //   name: 'cat7.number_of_working_days_rounded',
   //   state: 'Number_of_working_days_rounded',
   //   sort: false,
   // },
   {
-    name: 'PKT (p-km)',
+    name: 'cat7.pkt_p_km',
     state: 'PKT_p_km',
     sort: true,
   },

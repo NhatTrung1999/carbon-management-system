@@ -9,12 +9,15 @@ import Search from '../../../components/SystemSettings/FileManagement/Search';
 import { HEADER } from '../../../types/filemanagement';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { getData } from '../../../features/fileSlice';
+import { useTranslation } from 'react-i18next';
+import { BREADCRUMB } from '../../../utils/constanst';
 
 const FileManagement = () => {
   // const [getFileManagementData, setGetFileManagementData] = useState<
   //   IFileManagement[] | any
   // >([]);
   const { file } = useAppSelector((state) => state.file);
+  const {t} = useTranslation()
 
   const [activeSort, setActiveSort] = useState({
     sortField: HEADER[4].state,
@@ -37,7 +40,7 @@ const FileManagement = () => {
   return (
     <Fragment>
       <Breadcrumb
-        items={BreadcrumbData('Carbon Management System', 'File Management')}
+        items={BreadcrumbData(t(BREADCRUMB), 'File Management')}
       />
 
       <Typography

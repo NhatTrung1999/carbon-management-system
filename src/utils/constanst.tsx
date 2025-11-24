@@ -12,34 +12,34 @@ import Excel from '../assets/images/excel.png';
 
 const LANGUAGES = [
   {
-    name: 'Vietnamese',
-    value: 'VN',
+    name: 'English',
+    value: 'en',
   },
   {
-    name: 'English',
-    value: 'EN',
+    name: 'Vietnamese',
+    value: 'vn',
   },
   {
     name: 'Chinese',
-    value: 'CN',
+    value: 'tw',
   },
   {
-    name: 'Myanmar',
-    value: 'MM',
+    name: 'Burmese',
+    value: 'mm',
   },
   {
     name: 'Indonesian',
-    value: 'ID',
+    value: 'id',
   },
 ];
 
 const MENU_SIDEBAR = [
   {
-    name: 'Dashboard',
+    name: 'main.dashboard',
     sidebarItem: [
       {
         // text: "Purchased goods & Service",
-        text: 'Cat1 & Cat 4',
+        text: 'cat1andcat4.cat_1_4',
         // path: "/dashboard/purchased-goods-service",
         path: '/dashboard/category-one-and-category-four',
         icon: <img src={CategoryOne} className="size-6" />,
@@ -53,28 +53,28 @@ const MENU_SIDEBAR = [
       // },
       {
         // text: "Waste generated in operations",
-        text: 'Cat5',
+        text: 'cat5.cat_5',
         // path: "/dashboard/waste-generated-in-operations",
         path: '/dashboard/category-five',
         icon: <img src={CategoryFive} className="size-6" />,
       },
       {
         // text: "Business travel",
-        text: 'Cat6',
+        text: 'cat6.cat_6',
         // path: "/dashboard/business-travel",
         path: '/dashboard/category-six',
         icon: <img src={CategorySix} className="size-6" />,
       },
       {
         // text: "Employee commuting",
-        text: 'Cat7',
+        text: 'cat7.cat_7',
         // path: "/dashboard/employee-commuting",
         path: '/dashboard/category-seven',
         icon: <img src={CategorySeven} className="size-6" />,
       },
       {
         // text: "Downstream transportation & distribution",
-        text: 'Cat9 & Cat12',
+        text: 'cat9andcat12.cat_9_12',
         // path: "/dashboard/downstream-transportation-and-distribution",
         path: '/dashboard/category-nine-and-category-twelve',
         icon: <img src={CategoryNineAndCategoryTwelve} className="size-6" />,
@@ -88,7 +88,7 @@ const MENU_SIDEBAR = [
     ],
   },
   {
-    name: 'System Settings',
+    name: 'main.system_settings',
     sidebarItem: [
       {
         text: 'Info Factory',
@@ -96,7 +96,7 @@ const MENU_SIDEBAR = [
         icon: <img src={InfoFactoryManagement} className="size-6" />,
       },
       {
-        text: 'User Management',
+        text: 'usermmt.user_management',
         path: '/dashboard/user-management',
         icon: <img src={UserSettings} className="size-6" />,
       },
@@ -119,6 +119,6 @@ const FACTORIES: { name: string; value: string }[] = [
   { name: 'Jiazhi-2', value: 'JZS' },
 ];
 
-const BREADCRUMB: string = 'Carbon Management Website';
+const BREADCRUMB: string = 'main.carbon_management_website';
 
 export { LANGUAGES, MENU_SIDEBAR, FACTORIES, BREADCRUMB };

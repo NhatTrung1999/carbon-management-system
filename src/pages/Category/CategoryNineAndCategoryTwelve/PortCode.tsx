@@ -12,6 +12,7 @@ import ModalPortCode from '../../../components/Category/CategoryNineAndCategoryT
 import { useAppDispatch } from '../../../app/hooks';
 import { getPortCode } from '../../../features/categorySlice';
 import { formatDate } from '../../../utils/formatDate';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   header: TableHeaderProps[];
@@ -25,6 +26,7 @@ const PortCode = ({ header, data }: Props) => {
     sortField: HEADER_PORTCODE[0].state,
     sortOrder: 'asc',
   });
+  const { t } = useTranslation();
 
   useEffect(() => {
     dispatch(
@@ -71,7 +73,7 @@ const PortCode = ({ header, data }: Props) => {
     <>
       <div className="mb-5">
         <Button
-          label="Import Excel"
+          label={t('cat9andcat12.import_excel_file')}
           type="button"
           className="bg-green-500 hover:bg-green-500/80 cursor-pointer flex items-center gap-2"
           imgSrc={ExcelIcon}
@@ -85,7 +87,7 @@ const PortCode = ({ header, data }: Props) => {
               {header.map((item, index) => (
                 <th className="px-4 py-4 whitespace-break-spaces" key={index}>
                   <div className="flex flex-row gap-6 items-center justify-between">
-                    <span>{item.name}</span>
+                    <span>{t(item.name)}</span>
                     {item.sort && (
                       <span className="flex flex-col cursor-pointer">
                         {renderSortIcon(item)}
@@ -119,7 +121,9 @@ const PortCode = ({ header, data }: Props) => {
                       {item.CustomerNumber}
                     </td>
                     <td className="box-border px-3 py-3">{item.PortCode}</td>
-                    <td className="box-border px-3 py-3">{item.TransportMethod}</td>
+                    <td className="box-border px-3 py-3">
+                      {item.TransportMethod}
+                    </td>
                     <td className="box-border px-3 py-3">{item.CreatedAt}</td>
                     <td className="box-border px-3 py-3">
                       {formatDate(item.CreatedDate)}

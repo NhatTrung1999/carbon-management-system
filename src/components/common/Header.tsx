@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 import LogoImage from '../../assets/images/logo.png';
 import { FaUser } from 'react-icons/fa';
@@ -22,6 +23,7 @@ const Header = () => {
   const [isShowLanguage, setIsShowLanguage] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.auth);
+  const { i18n, t } = useTranslation();
 
   const onHomePage = () => {
     navigate('/');
@@ -35,6 +37,11 @@ const Header = () => {
   const onShowLanguage = () => {
     setIsShowLanguage(!isShowLanguage);
     setIsShow(false);
+  };
+
+  const handleChangeLanguage = (value: string) => {
+    i18n.changeLanguage(value);
+    localStorage.setItem('lang', value);
   };
 
   const handleLogout = () => {
@@ -65,37 +72,52 @@ const Header = () => {
               onClick={onShowLanguage}
             >
               <FaEarthAmericas size={23} />
-              <span>Languages</span>
+              <span>{t('main.language')}</span>
             </div>
             <div
-              className={`absolute top-8 bg-[#fcfcfc] text-primary w-full px-3 py-2 shadow-md rounded-md transition-all duration-300 origin-top ${
+              className={`absolute top-8 w-[150px] bg-[#fcfcfc] text-primary px-3 py-2 shadow-md rounded-md transition-all duration-300 origin-top ${
                 isShowLanguage
                   ? 'opacity-100 scale-100'
                   : 'opacity-0 scale-95 pointer-events-none'
               }`}
             >
               <ul className="font-semibold">
-                <li className="p-2 hover:bg-gray-200 flex items-center gap-3">
+                <li
+                  className="p-2 hover:bg-gray-200 flex items-center gap-3"
+                  onClick={() => handleChangeLanguage('vn')}
+                >
                   <img src={FlagVN} width={24} />
                   <span className="truncate">VN</span>
                 </li>
 
-                <li className="p-2 hover:bg-gray-200 flex items-center gap-3">
+                <li
+                  className="p-2 hover:bg-gray-200 flex items-center gap-3"
+                  onClick={() => handleChangeLanguage('en')}
+                >
                   <img src={FlagEN} width={24} />
                   <span className="truncate">EN</span>
                 </li>
 
-                <li className="p-2 hover:bg-gray-200 flex items-center gap-3">
+                <li
+                  className="p-2 hover:bg-gray-200 flex items-center gap-3"
+                  onClick={() => handleChangeLanguage('tw')}
+                >
                   <img src={FlagTW} width={24} />
                   <span className="truncate">TW</span>
                 </li>
 
-                <li className="p-2 hover:bg-gray-200 flex items-center gap-3">
+                <li
+                  className="p-2 hover:bg-gray-200 flex items-center gap-3"
+                  onClick={() => handleChangeLanguage('mm')}
+                >
                   <img src={FlagMM} width={24} />
                   <span className="truncate">MM</span>
                 </li>
 
-                <li className="p-2 hover:bg-gray-200 flex items-center gap-3">
+                <li
+                  className="p-2 hover:bg-gray-200 flex items-center gap-3"
+                  onClick={() => handleChangeLanguage('id')}
+                >
                   <img src={FlagID} width={24} />
                   <span className="truncate">ID</span>
                 </li>
@@ -131,7 +153,7 @@ const Header = () => {
                   onClick={handleLogout}
                 >
                   <IoLogOutOutline size={25} className="text-primary" />
-                  Logout
+                  {t('main.logout')}
                 </li>
                 {/* </Link> */}
               </ul>

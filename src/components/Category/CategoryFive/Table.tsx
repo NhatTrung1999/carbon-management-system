@@ -5,6 +5,7 @@ import NoData from '../../../assets/images/no-data.png';
 import type { RefObject, UIEventHandler } from 'react';
 import type { ICat5Data } from '../../../types/cat5';
 import { useAppSelector } from '../../../app/hooks';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   header: TableHeaderProps[];
@@ -27,6 +28,7 @@ const Table = ({
   onScroll,
 }: Props) => {
   const { loading } = useAppSelector((state) => state.category);
+  const { t } = useTranslation();
   const handleSorting = (sortField: string, sortOrder: string): void => {
     setActiveSort({ sortField, sortOrder });
   };
@@ -67,7 +69,7 @@ const Table = ({
             {header.map((item, index) => (
               <th className="px-4 py-4 whitespace-break-spaces" key={index}>
                 <div className="flex flex-row gap-6 items-center justify-between">
-                  <span>{item.name}</span>
+                  <span>{t(item.name)}</span>
                   {item.sort && (
                     <span className="flex flex-col cursor-pointer">
                       {renderSortIcon(item)}

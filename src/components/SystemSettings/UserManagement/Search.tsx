@@ -3,6 +3,7 @@ import Button from '../../common/Button';
 import Input from '../../common/Input';
 import { useAppDispatch } from '../../../app/hooks';
 import { getSearch } from '../../../features/userSlice';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   activeSort: {
@@ -13,6 +14,7 @@ type Props = {
 
 const Search = ({ activeSort }: Props) => {
   const dispatch = useAppDispatch();
+  const {t} = useTranslation()
 
   const formik = useFormik({
     initialValues: {
@@ -36,7 +38,7 @@ const Search = ({ activeSort }: Props) => {
     <form className="grid grid-cols-3 gap-3" onSubmit={formik.handleSubmit}>
       <div>
         <Input
-          label="UserID"
+          label={t('usermmt.userid')}
           type="text"
           name="userid"
           customClassNameInput="outline-none"
@@ -47,7 +49,7 @@ const Search = ({ activeSort }: Props) => {
 
       <div>
         <Input
-          label="Name"
+          label={t('usermmt.name')}
           type="text"
           name="name"
           customClassNameInput="outline-none"
@@ -61,7 +63,7 @@ const Search = ({ activeSort }: Props) => {
           dfgg
         </div>
         <Button
-          label="Search"
+          label={t('main.search')}
           type="submit"
           className="block text-white bg-[#FF9119] hover:bg-[#FF9119]/80 focus:ring-4 focus:outline-none focus:ring-[#FF9119]/50 font-medium rounded-lg text-sm px-5 py-2.5 dark:hover:bg-[#FF9119]/80 dark:focus:ring-[#FF9119]/40 cursor-pointer"
         />

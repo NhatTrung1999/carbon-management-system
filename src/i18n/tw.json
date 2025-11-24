@@ -23,7 +23,7 @@
     "close": "關閉"
   },
   "cat1andcat4": {
-    "cat1and4": "CAT 1 & 4",
+    "cat_1_4": "CAT 1 & 4",
     "purchase_and_upstream": "採購的商品與服務 & 上游運輸與配送",
     "no": "序號",
     "date": "日期",
@@ -43,105 +43,197 @@
     "air_transport_ton_kilometers": "空運(噸公里)"
   },
   "cat5": {
-    "cat_5": "",
-    "waste_generated_in_operations": "",
-    "waste_disposal_date": "",
-    "vendor_name": "",
-    "vendor_id": "",
-    "waste_collection_address": "",
-    "transportation_distance_km": "",
-    "the_type_of_waste": "",
-    "waste_type": "",
-    "waste_treatment_method": "",
-    "treatment_method_id": "",
-    "weight_of_waste_treated_unit_kg)": "",
-    "tkt_ton_km": ""
+    "cat_5": "CAT 5",
+    "waste_generated_in_operations": "營運過程產生的廢棄物",
+    "waste_disposal_date": "廢棄物處理日期",
+    "vendor_name": "處理廠商名稱",
+    "vendor_id": "廠商代碼",
+    "waste_collection_address": "廢棄物收集地址",
+    "transportation_distance_km": "運輸距離（公里）",
+    "the_type_of_waste": "廢棄物類別",
+    "waste_type": "廢棄物種類",
+    "waste_treatment_method": "廢棄物處理方式",
+    "treatment_method_id": "處理方式代碼",
+    "weight_of_waste_treated_unit_kg)": "處理廢棄物重量（單位：公斤）",
+    "tkt_ton_km": "噸公里（Ton-km）"
   },
   "cat6": {
-    "cat_6": "",
-    "business_travel": "",
-    "document_date": "",
-    "document_number": "",
-    "staff_id": "",
-    "round_trip_one_way": "",
-    "start_time": "",
-    "end_time": "",
-    "business_trip_type": "",
-    "place_of_departure": "",
-    "departure_airport": "",
-    "land_transport_distance_km_a": "",
-    "land_trasportation_type_a": "",
-    "destination_airport": "",
-    "third_country_transfer_destination": "",
-    "land_transport_distance_km_b": "",
-    "land_transportation_type_b": "",
-    "third_country_transfer": "",
-    "destination_2": "",
-    "destination_3": "",
-    "destination_4": "",
-    "destination_5": "",
-    "destination_6": "",
-    "land_transport_distance_km": "",
-    "land_transportation_type": "",
-    "air_transport_distance_km": "",
-    "number_of_nights_stayed": ""
+    "cat_6": "Cat 6",
+    "business_travel": "出差",
+    "document_date": "單據日期",
+    "document_number": "單據編號",
+    "staff_id": "工號",
+    "round_trip_one_way": "來回／單程",
+    "start_time": "開始時間",
+    "end_time": "結束時間",
+    "business_trip_type": "出差類型",
+    "place_of_departure": "出發地點",
+    "departure_airport": "出發機場",
+    "land_transport_distance_km_a": "陸運距離（公里）（A）",
+    "land_trasportation_type_a": "陸運方式（A）",
+    "destination_airport": "抵達機場",
+    "third_country_transfer_destination": "落地後的第一個主要目的地",
+    "land_transport_distance_km_b": "陸運距離（公里）（B）",
+    "land_transportation_type_b": "陸運方式（B）",
+    "third_country_transfer": "第三國轉運",
+    "destination_2": "目的地2",
+    "destination_3": "目的地3",
+    "destination_4": "目的地4",
+    "destination_5": "目的地5",
+    "destination_6": "目的地6",
+    "land_transport_distance_km": "陸運距離（公里）",
+    "land_transportation_type": "陸運方式",
+    "air_transport_distance_km": "空運距離（公里）",
+    "number_of_nights_stayed": "住宿晚數"
   },
   "cat7": {
-    "cat_7": "",
-    "employee_commuting": "",
-    "staff_id": "",
-    "residential_address": "",
-    "main_transportation_type": "",
-    "km": "",
-    "number_of_working_days": "",
-    "number_of_working_days_rounded": "",
-    "pkt_p_km": ""
+    "cat_7": "CAT 7",
+    "employee_commuting": "員工通勤",
+    "staff_id": "工號",
+    "residential_address": "居住地址",
+    "main_transportation_type": "主要通勤方式",
+    "km": "距離（公里）",
+    "number_of_working_days": "工作天數",
+    "number_of_working_days_rounded": "工作天數（四捨五入）",
+    "pkt_p_km": "PKT（人/公里）"
   },
   "cat9andcat12": {
-    "cat_9_12": "",
-    "downstream_and_endoflife": "",
-    "no": "",
-    "date": "",
-    "shipment_date": "",
-    "invoice_number": "",
-    "article_name_style_name": "",
-    "article_id": "",
-    "quantity": "",
-    "gross_weight_unit_ton": "",
-    "customer_id": "",
-    "local_land_transportation_factory_port": "",
-    "port_of_departure": "",
-    "port_of_arrival": "",
-    "land_transport_distance": "",
-    "sea_transport_distance": "",
-    "air_transport_distance": "",
-    "transport_method": "",
-    "land_transport_ton_kilometers": "",
-    "sea_transport_ton_kilometers": "",
-    "air_transport_ton_kilometers": "",
-    "port_code": "",
-    "import_excel_file": "",
-    "customer_number": "",
-    "transportmethod": "",
-    "created_at": "",
-    "created_date": "",
-    "example_file": "",
-    "close": "",
-    "import": ""
+    "cat_9_12": "CAT 9 & 12",
+    "downstream_and_endoflife": "下游運輸與配送 & 銷售產品使用後處理",
+    "no": "序號",
+    "date": "日期",
+    "shipment_date": "出貨日期",
+    "invoice_number": "發票號碼",
+    "article_name_style_name": "產品名稱（款式名稱）",
+    "article_id": "產品編號",
+    "quantity": "數量",
+    "gross_weight_unit_ton": "毛重（單位：噸）",
+    "customer_id": "客戶編號",
+    "local_land_transportation_factory_port": "國內陸運 工廠→港口",
+    "port_of_departure": "起運港",
+    "port_of_arrival": "到達港",
+    "land_transport_distance": "陸運距離",
+    "sea_transport_distance": "海運距離",
+    "air_transport_distance": "空運距離",
+    "transport_method": "運輸方式",
+    "land_transport_ton_kilometers": "陸運 (噸公里)",
+    "sea_transport_ton_kilometers": "海運(噸公里)",
+    "air_transport_ton_kilometers": "空運(噸公里)",
+    "port_code": "港口代碼",
+    "import_excel_file": "匯入 Excel檔案",
+    "customer_number": "客戶編號",
+    "transportmethod": "運輸方式",
+    "created_at": "創建時間",
+    "created_date": "創建日期",
+    "example_file": "範例檔案",
+    "close": "關閉",
+    "import": "匯入"
   },
-  "user_management": {
-    "user_management": "",
-    "userid": "",
-    "name": "",
-    "email": "",
-    "role": "",
-    "status": ""
+  "usermmt": {
+    "user_management": "用戶管理",
+    "userid": "用戶代碼",
+    "name": "姓名",
+    "email": "郵箱",
+    "role": "賬號權限",
+    "status": "狀態"
   },
-  "file_management": {
-    "module": "",
-    "file_name": "",
-    "status": "",
-    "created_by_user": "",
-    "created_date": ""
+  "filemmt": {
+    "module": "模組",
+    "file_name": "檔案名稱",
+    "status": "狀態",
+    "created_by_user": "創建用戶",
+    "created_date": "創建記錄日期"
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

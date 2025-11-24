@@ -10,6 +10,7 @@ import { HEADER } from '../../../types/cat5';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { getDataCat5, resetDataCat5 } from '../../../features/categorySlice';
 import { BREADCRUMB } from '../../../utils/constanst';
+import { useTranslation } from 'react-i18next';
 
 const CategoryFive = () => {
   const tableRef = useRef<HTMLDivElement | null>(null);
@@ -31,6 +32,7 @@ const CategoryFive = () => {
     (state) => state.category
   );
   const dispatch = useAppDispatch();
+  const {t} = useTranslation()
 
   useEffect(() => {
     if (didFetch.current) return;
@@ -72,15 +74,15 @@ const CategoryFive = () => {
   return (
     <Fragment>
       <Breadcrumb
-        items={BreadcrumbData(BREADCRUMB, 'CAT 5')}
+        items={BreadcrumbData(t(BREADCRUMB), t('cat5.cat_5'))}
       />
 
       <Typography
-        name="CAT 5"
+        name={t('cat5.cat_5')}
         className="block text-xs font-semibold text-[#081c1b]"
       />
       <Typography
-        name="Waste Generated in Operations"
+        name={t('cat5.waste_generated_in_operations')}
         className="text-3xl bg-gradient-to-r from-[#081c1b] via-[#3f4a42] to-[#636e61] inline-block text-transparent bg-clip-text mb-3"
       />
       <Card>

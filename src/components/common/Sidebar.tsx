@@ -6,6 +6,7 @@ import { IoIosArrowForward } from 'react-icons/io';
 import { IoIosArrowBack } from 'react-icons/io';
 import { useState } from 'react';
 import { useAppSelector } from '../../app/hooks';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   isOpenSideBar: boolean;
@@ -15,6 +16,7 @@ type Props = {
 const Sidebar = ({ isOpenSideBar, setIsOpenSideBar }: Props) => {
   const { user } = useAppSelector((state) => state.auth);
   const location = useLocation();
+  const {t} = useTranslation()
   const [activePath, setActivePath] = useState<string>(location.pathname);
 
   const shouldShowItem = (path: string) => {
@@ -37,7 +39,7 @@ const Sidebar = ({ isOpenSideBar, setIsOpenSideBar }: Props) => {
               } font-semibold mt-4 mb-3 px-5`}
               key={indexParent}
             >
-              {itemParent.name}
+              {t(itemParent.name)}
             </div>
             {itemParent.sidebarItem
               .filter((item) => shouldShowItem(item.path))
@@ -62,7 +64,7 @@ const Sidebar = ({ isOpenSideBar, setIsOpenSideBar }: Props) => {
                           className="flex-1 whitespace-nowrap truncate"
                           title={itemChild.text}
                         >
-                          {itemChild.text}
+                          {t(itemChild.text)}
                         </span>
                       )}
                     </div>

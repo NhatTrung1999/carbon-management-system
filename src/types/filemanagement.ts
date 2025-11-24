@@ -10,28 +10,28 @@ export interface IFileManagement {
 
 export const HEADER = [
   {
-    name: "Module",
-    state: "Module",
+    name: 'filemmt.module',
+    state: 'Module',
     sort: true,
   },
   {
-    name: "File Name",
-    state: "File_Name",
+    name: 'filemmt.file_name',
+    state: 'File_Name',
     sort: true,
   },
   {
-    name: "Status",
-    state: "Status",
+    name: 'filemmt.status',
+    state: 'Status',
     sort: true,
   },
   {
-    name: "Created by User",
-    state: "CreatedAt",
+    name: 'filemmt.created_by_user',
+    state: 'CreatedAt',
     sort: true,
   },
   {
-    name: "Date Recorded by User",
-    state: "CreatedDate",
+    name: 'filemmt.created_date',
+    state: 'CreatedDate',
     sort: true,
   },
 ];

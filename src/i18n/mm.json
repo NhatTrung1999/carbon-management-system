@@ -23,125 +23,234 @@
     "close": "ပိတ်ရန်"
   },
   "cat1andcat4": {
-    "cat_1_4": "CAT 1 & 4",
-    "purchase_and_upstream": "",
-    "no": "",
-    "date": "",
-    "purchase_order": "",
-    "material_no": "",
-    "weight": "",
-    "supplier_code": "",
-    "third_country_land_transport": "",
-    "port_of_departure": "",
-    "port_of_arrival": "",
-    "factory_domestic_land_transport_b": "",
-    "land_transport_distance_a_b": "",
-    "sea_transport_distance": "",
-    "air_transport_distance": "",
-    "land_transport_ton_kilometers": "",
-    "sea_transport_ton_kilometers": "",
-    "air_transport_ton_kilometers": ""
+    "cat_1_4": "အမျိုးအစား ၁ နှင့် ၄",
+    "purchase_and_upstream": "ဝယ်ယူခဲ့သည့် ကုန်ပစ္စည်းနှင့် ဝန်ဆောင်မှုများ၊ လုပ်ငန်းအတွင်းသို့ ကုန်ကြမ်းပစ္စည်းများကို သယ်ယူပို့ဆောင်ခြင်းနှင့် ဖြန့်ဖြူးခြင်း",
+    "no": "စဉ်",
+    "date": "ရက်စွဲ",
+    "purchase_order": "အဝယ်အမှာစာ",
+    "material_no": "ပစ္စည်းနံပါတ်",
+    "weight": "အလေးချိန် (ယူနစ် - တန်)",
+    "supplier_code": "ရောင်းသူကုဒ်နံပါတ်",
+    "third_country_land_transport": "တတိယ-နိုင်ငံ ကုန်လမ်းပို့ဆောင်မှု (က)",
+    "port_of_departure": "ထွက်ခွာမည့် ဆိပ်ကမ်း",
+    "port_of_arrival": "ဆိုက်ရောက်မည့် ဆိပ်ကမ်း",
+    "factory_domestic_land_transport_b": "စက်ရုံ (ပြည်တွင်း ကုန်လမ်းပို့ဆောင်မှု) (ခ)",
+    "land_transport_distance_a_b": "ကုန်လမ်းပို့ဆောင်မှု အကွာအဝေး (က+ခ)",
+    "sea_transport_distance": "ရေကြောင်းလမ်းပို့ဆောင်မှု အကွာအဝေး",
+    "air_transport_distance": "လေကြောင်းလမ်းပို့ဆောင်မှု အကွာအဝေး",
+    "land_transport_ton_kilometers": "ကုန်လမ်းပို့ဆောင်မှု တန်-ကီလိုမီတာ",
+    "sea_transport_ton_kilometers": "ရေကြောင်းလမ်းပို့ဆောင်မှု တန်-ကီလိုမီတာ",
+    "air_transport_ton_kilometers": "လေကြောင်းလမ်းပို့ဆောင်မှု တန်-ကီလိုမီတာ"
   },
   "cat5": {
-    "cat_5": "",
-    "waste_generated_in_operations": "",
-    "waste_disposal_date": "",
-    "vendor_name": "",
-    "vendor_id": "",
-    "waste_collection_address": "",
-    "transportation_distance_km": "",
-    "the_type_of_waste": "",
-    "waste_type": "",
-    "waste_treatment_method": "",
-    "treatment_method_id": "",
-    "weight_of_waste_treated_unit_kg)": "",
-    "tkt_ton_km": ""
+    "cat_5": "အမျိုးစား ၅",
+    "waste_generated_in_operations": "လုပ်ငန်းအတွင်းမှ ထွက်လာသည့်အမှိုက်ပစ္စည်းများ",
+    "waste_disposal_date": "အမှိုက်စွန့်ပစ်သည့်ရက်စွဲ",
+    "vendor_name": "အမှိုက်သိမ်းယူသူ၏ အမည်",
+    "vendor_id": "အမှိုက်သိမ်းယူသူ၏ ID",
+    "waste_collection_address": "အမှိုက်စွန့်ပစ်သည့် လိပ်စာ",
+    "transportation_distance_km": "ပို့ဆောင်ရသည့် အကွာအဝေး (ကီလိုမီတာ)",
+    "the_type_of_waste": "*အမှိုက်အမျိုးအစား",
+    "waste_type": "*အမှိုက်အမျိုးအစား",
+    "waste_treatment_method": "*အမှိုက် treatment လုပ်သည့်နည်းလမ်း",
+    "treatment_method_id": "Treatment လုပ်သည့်နည်းလမ်း၏ ID",
+    "weight_of_waste_treated_unit_kg)": "*Treatment လုပ်လိုက်သည့် အမှိုက်အလေးချိန် (ယူနစ်- ကီလိုဂရမ်)",
+    "tkt_ton_km": "TKT (Ton-km)"
   },
   "cat6": {
-    "cat_6": "",
-    "business_travel": "",
-    "document_date": "",
-    "document_number": "",
-    "staff_id": "",
-    "round_trip_one_way": "",
-    "start_time": "",
-    "end_time": "",
-    "business_trip_type": "",
-    "place_of_departure": "",
-    "departure_airport": "",
-    "land_transport_distance_km_a": "",
-    "land_trasportation_type_a": "",
-    "destination_airport": "",
-    "third_country_transfer_destination": "",
-    "land_transport_distance_km_b": "",
-    "land_transportation_type_b": "",
-    "third_country_transfer": "",
-    "destination_2": "",
-    "destination_3": "",
-    "destination_4": "",
-    "destination_5": "",
-    "destination_6": "",
-    "land_transport_distance_km": "",
-    "land_transportation_type": "",
-    "air_transport_distance_km": "",
-    "number_of_nights_stayed": ""
+    "cat_6": "အမျိုးစား ၆",
+    "business_travel": "စီးပွားရေးခရီးစဉ်",
+    "document_date": "စာရွက်စာတမ်း၏ ရက်စွဲ",
+    "document_number": "စာရွက်စာတမ်း၏ နံပါတ်",
+    "staff_id": "ဝန်ထမ်း ID",
+    "round_trip_one_way": "ခရီးအသွားအပြန်/ တစ်လမ်းကြောင်း",
+    "start_time": "စတင်သည့်အချိန်",
+    "end_time": "ပြီးသည့်အချိန်",
+    "business_trip_type": "စီးပွားရေးခရီးစဉ်အမျိုအစား",
+    "place_of_departure": "ထွက်ခွာသည့်နေရာ",
+    "departure_airport": "ထွက်ခွာသည့် လေဆိပ်",
+    "land_transport_distance_km_a": "ကုန်လမ်းပို့ဆောင်မှု အကွာအဝေး (ကီလိုမီတာ) (က)",
+    "land_trasportation_type_a": "ကုန်လမ်းပို့ဆောင်မှု အမျိုးအစား (က)",
+    "destination_airport": "ဆိုက်ရောက်မည့် လေဆိပ်",
+    "third_country_transfer_destination": "တတိယ-နိုင်ငံသို့ ပြောင်းစီးမည့် နေရာ",
+    "land_transport_distance_km_b": "ကုန်လမ်းပို့ဆောင်မှု အကွာအဝေး (ကီလိုမီတာ) (ခ)",
+    "land_transportation_type_b": "ကုန်လမ်းပို့ဆောင်မှု အမျိုးအစား (ခ)",
+    "third_country_transfer": "တတိယ-နိုင်ငံသို့ ပြောင်းစီးမည့်",
+    "destination_2": "နေရာ ၂",
+    "destination_3": "နေရာ ၃",
+    "destination_4": "နေရာ ၄",
+    "destination_5": "နေရာ ၅",
+    "destination_6": "နေရာ ၆",
+    "land_transport_distance_km": "ကုန်လမ်းပို့ဆောင်မှု အကွာအဝေး (ကီလိုမီတာ)",
+    "land_transportation_type": "ကုန်လမ်းပို့ဆောင်မှု အမျိုးအစား",
+    "air_transport_distance_km": "လေကြောင်းလမ်းပို့ဆောင်မှု အကွာအဝေး (ကီလိုမီတာ)",
+    "number_of_nights_stayed": "ညအိပ်ရက် စုစုပေါင်း"
   },
   "cat7": {
-    "cat_7": "",
-    "employee_commuting": "",
-    "staff_id": "",
-    "residential_address": "",
-    "main_transportation_type": "",
-    "km": "",
-    "number_of_working_days": "",
-    "number_of_working_days_rounded": "",
-    "pkt_p_km": ""
+    "cat_7": "အမျိုးစား ၇",
+    "employee_commuting": "ဝန်ထမ်း သွားလာရေး / ဝန်ထမ်း အလုပ်တက်/ဆင်း",
+    "staff_id": "ဝန်ထမ်း ကတ်နံပါတ် / ဝန်ထမ်း အမှတ်စဉ်",
+    "residential_address": "နေရပ်လိပ်စာ",
+    "main_transportation_type": "အဓိက သယ်ယူပို့ဆောင်ရေး အမျိုးအစား",
+    "km": "ကီလိုမီတာ",
+    "number_of_working_days": "အလုပ်လုပ်ရက် အရေအတွက်",
+    "number_of_working_days_rounded": "အလုပ်လုပ်ရက် အရေအတွက် (ပတ်လည် သတ်မှတ်ထားသော)",
+    "pkt_p_km": "PKT (ပီ-ကီလိုမီတာ)"
   },
   "cat9andcat12": {
-    "cat_9_12": "",
-    "downstream_and_endoflife": "",
-    "no": "",
-    "date": "",
-    "shipment_date": "",
-    "invoice_number": "",
-    "article_name_style_name": "",
-    "article_id": "",
-    "quantity": "",
-    "gross_weight_unit_ton": "",
-    "customer_id": "",
-    "local_land_transportation_factory_port": "",
-    "port_of_departure": "",
-    "port_of_arrival": "",
-    "land_transport_distance": "",
-    "sea_transport_distance": "",
-    "air_transport_distance": "",
-    "transport_method": "",
-    "land_transport_ton_kilometers": "",
-    "sea_transport_ton_kilometers": "",
-    "air_transport_ton_kilometers": "",
-    "port_code": "",
-    "import_excel_file": "",
-    "customer_number": "",
-    "transportmethod": "",
-    "created_at": "",
-    "created_date": "",
-    "example_file": "",
-    "close": "",
-    "import": ""
+    "cat_9_12": "အမျိုးအစား ၉နှင့်၁၂",
+    "downstream_and_endoflife": "ရောင်းချပြီး ကုန်ပစ္စည်းများ၏ နောက်ဆုံး အဆင့် သယ်ယူပို့ဆောင်ရေး၊ ဖြန့်ဖြူးရေးနှင့် သက်တမ်းကုန်ဆုံးချိန် စီမံဆောင်ရွက်မှု",
+    "no": "အမှတ်စဉ်",
+    "date": "ရက်စွဲ",
+    "shipment_date": "ပစ္စည်းတင်ပို့သည့်ရက်စွဲ",
+    "invoice_number": "ဘောင်ချာနံပါတ် / ငွေတောင်းခံလွှာ နံပါတ်",
+    "article_name_style_name": "ပစ္စည်းအမည် (ပုံစံအမည်)",
+    "article_id": "ပစ္စည်းနံပါတ် / ပစ္စည်း အမှတ်စဉ်",
+    "quantity": "အရေအတွက်",
+    "gross_weight_unit_ton": "စုစုပေါင်း အလေးချိန် (ယူနစ်-တန်)",
+    "customer_id": "ဝယ်ယူသူ နံပါတ် / ဖောက်သည် အမှတ်စဉ်",
+    "local_land_transportation_factory_port": "ပြည်တွင်း မြေပြင်သယ်ယူပို့ဆောင်ရေး စက်ရုံမှ→ဆိပ်ကမ်းသို့",
+    "port_of_departure": "စတင်ထွက်ခွာသည့် ဆိပ်ကမ်း",
+    "port_of_arrival": "ဆိုက်ရောက်သည့် ဆိပ်ကမ်း",
+    "land_transport_distance": "ကုန်းလမ်း သယ်ယူပို့ဆောင်ရေး အကွာအဝေး",
+    "sea_transport_distance": "ရေလမ်း သယ်ယူပို့ဆောင်ရေး အကွာအဝေး",
+    "air_transport_distance": "လေကြောင်း သယ်ယူပို့ဆောင်ရေး အကွာအဝေး",
+    "transport_method": "သယ်ယူပို့ဆောင်ရေး နည်းလမ်း",
+    "land_transport_ton_kilometers": "ကုန်းလမ်း သယ်ယူပို့ဆောင်ရေး တန်-ကီလိုမီတာ",
+    "sea_transport_ton_kilometers": "ရေလမ်း သယ်ယူပို့ဆောင်ရေး တန်-ကီလိုမီတာ",
+    "air_transport_ton_kilometers": "လေကြောင်း သယ်ယူပို့ဆောင်ရေး တန်-ကီလိုမီတာ",
+    "port_code": "ဆိပ်ကမ်း သင်္ကေတ / ဆိပ်ကမ်း နံပါတ်",
+    "import_excel_file": "Excel ဖိုင် ထည့်သွင်းခြင်း",
+    "customer_number": "ဖောက်သည် နံပါတ်",
+    "transportmethod": "သယ်ယူပို့ဆောင်ရေး နည်းလမ်း",
+    "created_at": "ဖန်တီးခဲ့သည့် ရက်စွဲ/အချိန်",
+    "created_date": "ဖန်တီးခဲ့သည့် ရက်စွဲ",
+    "example_file": "ဥပမာဖိုင်",
+    "close": "ပိတ်မည်",
+    "import": "ထည့်သွင်းမည်"
   },
-  "user_management": {
-    "user_management": "",
-    "userid": "",
-    "name": "",
-    "email": "",
-    "role": "",
-    "status": ""
+  "usermmt": {
+    "user_management": "အသုံးပြုသူ စီမံခန့်ခွဲမှု",
+    "userid": "အသုံးပြုသူ နံပါတ် / အသုံးပြုသူ အမှတ်စဉ်",
+    "name": "အမည်",
+    "email": "အီးမေးလ်",
+    "role": "အခန်းကဏ္ဍ / တာဝန်",
+    "status": "အခြေအနေ"
   },
-  "file_management": {
-    "module": "",
-    "file_name": "",
-    "status": "",
-    "created_by_user": "",
-    "created_date": ""
+  "filemmt": {
+    "module": "မော်ဂျူး / အပိုင်း",
+    "file_name": "ဖိုင်အမည်",
+    "status": "အခြေအနေ",
+    "created_by_user": "အသုံးပြုသူက ဖန်တီးခဲ့ခြင်း",
+    "created_date": "အသုံးပြုသူက မှတ်တမ်းတင်ခဲ့သည့် ရက်စွဲ"
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -81,6 +81,7 @@ import { TiArrowSortedDown } from 'react-icons/ti';
 import { TiArrowSortedUp } from 'react-icons/ti';
 import { formatDate } from '../../../utils/formatDate';
 import type { IUserManagement } from '../../../types/users';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   header: TableHeaderProps[];
@@ -107,6 +108,7 @@ const Table = ({
   const handleSorting = (sortField: string, sortOrder: string): void => {
     setActiveSort({ sortField, sortOrder });
   };
+  const {t} = useTranslation()
 
   const renderSortIcon = (item: TableHeaderProps) =>
     item.state !== 'Action' && (
@@ -141,7 +143,7 @@ const Table = ({
             {header.map((item, index) => (
               <th className="px-4 py-4 whitespace-break-spaces" key={index}>
                 <div className="flex flex-row gap-6 items-center">
-                  <span>{item.name}</span>
+                  <span>{t(item.name)}</span>
                   {item.sort && (
                     <span className="flex flex-col cursor-pointer">
                       {renderSortIcon(item)}

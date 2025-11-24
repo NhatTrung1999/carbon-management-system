@@ -15,6 +15,7 @@ import Tabs from '../../../components/common/Tabs';
 import Cat9AndCat12 from './Cat9AndCat12';
 import PortCode from './PortCode';
 import { BREADCRUMB } from '../../../utils/constanst';
+import { useTranslation } from 'react-i18next';
 
 const CategoryNineAndCategoryTwelvePage = () => {
   const { cat9andcat12, portCode, page, hasMore, loading } = useAppSelector(
@@ -35,6 +36,7 @@ const CategoryNineAndCategoryTwelvePage = () => {
   );
 
   const [factory, setFactory] = useState<string>('LYV');
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (didFetch.current) return;
@@ -75,14 +77,14 @@ const CategoryNineAndCategoryTwelvePage = () => {
 
   return (
     <Fragment>
-      <Breadcrumb items={BreadcrumbData(BREADCRUMB, 'CAT 9 & 12')} />
+      <Breadcrumb items={BreadcrumbData(t(BREADCRUMB), t('cat9andcat12.cat_9_12'))} />
 
       <Typography
-        name="CAT 9 & 12"
+        name={t('cat9andcat12.cat_9_12')}
         className="block text-xs font-semibold text-[#081c1b]"
       />
       <Typography
-        name="Downstream Transportation and Distribution & End-of-Life Treatment of Sold Products"
+        name={t('cat9andcat12.downstream_and_endoflife')}
         className="text-3xl bg-gradient-to-r from-[#081c1b] via-[#3f4a42] to-[#636e61] inline-block text-transparent bg-clip-text mb-3"
       />
 
@@ -90,7 +92,7 @@ const CategoryNineAndCategoryTwelvePage = () => {
         <Tabs
           tabs={[
             {
-              label: 'CAT 9 & 12',
+              label: t('cat9andcat12.cat_9_12'),
               content: (
                 <Cat9AndCat12
                   activeSort={activeSort}
@@ -109,7 +111,7 @@ const CategoryNineAndCategoryTwelvePage = () => {
               ),
             },
             {
-              label: 'Port Code',
+              label: t('cat9andcat12.port_code'),
               content: <PortCode header={HEADER_PORTCODE} data={portCode} />,
             },
           ]}

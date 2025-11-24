@@ -19,82 +19,82 @@ export interface ICat1AndCat4Data {
 
 export const HEADER = [
   {
-    name: 'No.',
+    name: 'cat1andcat4.no',
     state: 'No',
     sort: true,
   },
   {
-    name: 'Date',
+    name: 'cat1andcat4.date',
     state: 'Date',
     sort: true,
   },
   {
-    name: 'Purchase Order',
+    name: 'cat1andcat4.purchase_order',
     state: 'Purchase_Order',
     sort: true,
   },
   {
-    name: 'Material No.',
+    name: 'cat1andcat4.material_no',
     state: 'Material_No',
     sort: true,
   },
   {
-    name: 'Weight (Unit: Ton)',
+    name: 'cat1andcat4.weight',
     state: 'Weight',
     sort: true,
   },
   {
-    name: 'Supplier Code',
+    name: 'cat1andcat4.supplier_code',
     state: 'Supplier_Code',
     sort: true,
   },
   {
-    name: 'Third-country Land Transport (A)',
+    name: 'cat1andcat4.third_country_land_transport',
     state: 'Thirdcountry_Land_Transport',
     sort: true,
   },
   {
-    name: 'Port of Departure',
+    name: 'cat1andcat4.port_of_departure',
     state: 'Port_Of_Departure',
     sort: true,
   },
   {
-    name: 'Port of Arrival',
+    name: 'cat1andcat4.port_of_arrival',
     state: 'Port_Of_Arrival',
     sort: true,
   },
   {
-    name: 'Factory (Domestic Land Transport) (B)',
+    name: 'cat1andcat4.factory_domestic_land_transport_b',
     state: 'Factory_Domestic_Land_Transport',
     sort: true,
   },
   {
-    name: 'Land Transport Distance (A+B)',
+    name: 'cat1andcat4.land_transport_distance_a_b',
     state: 'Land_Transport_Distance',
     sort: true,
   },
   {
-    name: 'Sea Transport Distance',
+    name: 'cat1andcat4.sea_transport_distance',
     state: 'Sea_Transport_Distance',
     sort: true,
   },
   {
-    name: 'Air Transport Distance',
+    name: 'cat1andcat4.air_transport_distance',
     state: 'Air_Transport_Distance',
     sort: true,
   },
   {
-    name: 'Land Transport Ton-Kilometers',
+    name: 'cat1andcat4.land_transport_ton_kilometers',
     state: 'Land_Transport_Ton_Kilometers',
     sort: true,
   },
   {
-    name: 'Sea Transport Ton-Kilometers',
+    name: 'cat1andcat4.sea_transport_ton_kilometers',
     state: 'Sea_Transport_Ton_Kilometers',
     sort: true,
   },
   {
-    name: 'Air Transport Ton-Kilometers',
+    name: 'cat1andcat4.air_transport_ton_kilometers',
     state: 'Air_Transport_Ton_Kilometers',
     sort: true,
   },

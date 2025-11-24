@@ -9,6 +9,7 @@ import { HEADER } from '../../../types/cat7';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { getDataCat7, resetDataCat7 } from '../../../features/categorySlice';
 import { BREADCRUMB } from '../../../utils/constanst';
+import { useTranslation } from 'react-i18next';
 
 const CategorySeven = () => {
   const tableRef = useRef<HTMLDivElement | null>(null);
@@ -31,6 +32,7 @@ const CategorySeven = () => {
     (state) => state.category
   );
   const dispatch = useAppDispatch();
+  const {t} = useTranslation()
 
   useEffect(() => {
     if (didFetch.current) return;
@@ -69,14 +71,14 @@ const CategorySeven = () => {
 
   return (
     <Fragment>
-      <Breadcrumb items={BreadcrumbData(BREADCRUMB, 'CAT 7')} />
+      <Breadcrumb items={BreadcrumbData(t(BREADCRUMB), t('cat7.cat_7'))} />
 
       <Typography
-        name="CAT 7"
+        name={t('cat7.cat_7')}
         className="block text-xs font-semibold text-[#081c1b]"
       />
       <Typography
-        name="Employee Commuting"
+        name={t('cat7.employee_commuting')}
         className="text-3xl bg-gradient-to-r from-[#081c1b] via-[#3f4a42] to-[#636e61] inline-block text-transparent bg-clip-text mb-3"
       />
       <Card>

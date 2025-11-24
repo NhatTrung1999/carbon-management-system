@@ -52,27 +52,27 @@ export interface IUserManagement {
 
 export const HEADER: TableHeaderProps[] = [
   {
-    name: 'UserID',
+    name: 'usermmt.userid',
     state: 'UserID',
     sort: true,
   },
   {
-    name: 'Name',
+    name: 'usermmt.name',
     state: 'Name',
     sort: true,
   },
   {
-    name: 'Email',
+    name: 'usermmt.email',
     state: 'Email',
     sort: true,
   },
   {
-    name: 'Role',
+    name: 'usermmt.role',
     state: 'Role',
     sort: true,
   },
   {
-    name: 'Status',
+    name: 'usermmt.status',
     state: 'Status',
     sort: true,
   },

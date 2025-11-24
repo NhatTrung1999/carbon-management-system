@@ -6,6 +6,7 @@ import type { RefObject, UIEventHandler } from 'react';
 import type { ICat6Data } from '../../../types/cat6';
 import { useAppSelector } from '../../../app/hooks';
 import { formatDate } from '../../../utils/formatDate';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   header: TableHeaderProps[];
@@ -28,6 +29,7 @@ const Table = ({
   onScroll,
 }: Props) => {
   const { loading } = useAppSelector((state) => state.category);
+  const { t } = useTranslation();
   const handleSorting = (sortField: string, sortOrder: string): void => {
     setActiveSort({ sortField, sortOrder });
   };
@@ -73,7 +75,7 @@ const Table = ({
                     key={index}
                     colSpan={item.children.length}
                   >
-                    <span>{item.name}</span>
+                    <span>{t(item.name)}</span>
                   </th>
                 );
               }
@@ -84,7 +86,7 @@ const Table = ({
                   rowSpan={2}
                 >
                   <div className="flex flex-row gap-6 items-center justify-between">
-                    <span>{item.name}</span>
+                    <span>{t(item.name)}</span>
                     {item.sort && (
                       <span className="flex flex-col cursor-pointer">
                         {renderSortIcon(item)}
@@ -104,7 +106,7 @@ const Table = ({
                   rowSpan={2}
                 >
                   <div className="flex flex-row gap-6 items-center justify-between">
-                    <span>{child.name}</span>
+                    <span>{t(child.name)}</span>
                     {child.sort && (
                       <span className="flex flex-col cursor-pointer">
                         {renderSortIcon(child)}
@@ -190,11 +192,11 @@ const Table = ({
           )}
         </tbody>
       </table>
-      {loading && data.length === 0 && (
+      {/* {loading && data.length === 0 && (
         <div className="absolute left-1/2 transform -translate-x-1/2 flex justify-center w-full top-22">
           <div className="animate-spin border-4 border-gray-300 border-t-[#636e61] rounded-full w-10 h-10"></div>
         </div>
-      )}
+      )} */}
     </div>
   );
 };

@@ -9,6 +9,7 @@ import { HEADER } from '../../../types/cat6';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { getDataCat6, resetDataCat6 } from '../../../features/categorySlice';
 import { BREADCRUMB } from '../../../utils/constanst';
+import { useTranslation } from 'react-i18next';
 
 const CategorySix = () => {
   const tableRef = useRef<HTMLDivElement | null>(null);
@@ -22,6 +23,7 @@ const CategorySix = () => {
     (state) => state.category
   );
   const dispatch = useAppDispatch();
+  const {t} = useTranslation()
 
   const [dateFrom, setDateFrom] = useState<string>(
     new Date().toISOString().slice(0, 10)
@@ -70,15 +72,15 @@ const CategorySix = () => {
   return (
     <Fragment>
       <Breadcrumb
-        items={BreadcrumbData(BREADCRUMB, 'CAT 6')}
+        items={BreadcrumbData(t(BREADCRUMB), t('cat6.cat_6'))}
       />
 
       <Typography
-        name="CAT 6"
+        name={t('cat6.cat_6')}
         className="block text-xs font-semibold text-[#081c1b]"
       />
       <Typography
-        name="Business Travel"
+        name={t('cat6.business_travel')}
         className="text-3xl bg-gradient-to-r from-[#081c1b] via-[#3f4a42] to-[#636e61] inline-block text-transparent bg-clip-text mb-3"
       />
 

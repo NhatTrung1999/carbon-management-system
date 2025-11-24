@@ -23,125 +23,245 @@
     "close": "Tutup"
   },
   "cat1andcat4": {
-    "cat_1_4": "CAT 1 & 4",
-    "purchase_and_upstream": "",
-    "no": "",
-    "date": "",
-    "purchase_order": "",
-    "material_no": "",
-    "weight": "",
-    "supplier_code": "",
-    "third_country_land_transport": "",
-    "port_of_departure": "",
-    "port_of_arrival": "",
-    "factory_domestic_land_transport_b": "",
-    "land_transport_distance_a_b": "",
-    "sea_transport_distance": "",
-    "air_transport_distance": "",
-    "land_transport_ton_kilometers": "",
-    "sea_transport_ton_kilometers": "",
-    "air_transport_ton_kilometers": ""
+    "cat_1_4": "Kategori 1 & 4",
+    "purchase_and_upstream": "Barang dan Jasa yang Dibeli & Transportasi serta Distribusi Hulu",
+    "no": "No.",
+    "date": "Tanggal",
+    "purchase_order": "Pesanan Pembelian (PO)",
+    "material_no": "Nomor Material",
+    "weight": "Berat (Satuan: Ton)",
+    "supplier_code": "Kode Pemasok",
+    "third_country_land_transport": "Transportasi Darat Negara Ketiga (A)",
+    "port_of_departure": "Pelabuhan Keberangkatan",
+    "port_of_arrival": "Pelabuhan Kedatangan",
+    "factory_domestic_land_transport_b": "Pabrik (Transportasi Darat Domestik) (B)",
+    "land_transport_distance_a_b": "Jarak Transportasi Darat (A+B)",
+    "sea_transport_distance": "Jarak Transportasi Laut",
+    "air_transport_distance": "Jarak Transportasi Udara",
+    "land_transport_ton_kilometers": "Ton-Kilometer Transportasi Darat",
+    "sea_transport_ton_kilometers": "Ton-Kilometer Transportasi Laut",
+    "air_transport_ton_kilometers": "Ton-Kilometer Transportasi Udara"
   },
   "cat5": {
-    "cat_5": "",
-    "waste_generated_in_operations": "",
-    "waste_disposal_date": "",
-    "vendor_name": "",
-    "vendor_id": "",
-    "waste_collection_address": "",
-    "transportation_distance_km": "",
-    "the_type_of_waste": "",
-    "waste_type": "",
-    "waste_treatment_method": "",
-    "treatment_method_id": "",
-    "weight_of_waste_treated_unit_kg)": "",
-    "tkt_ton_km": ""
+    "cat_5": "Kategori 5",
+    "waste_generated_in_operations": "Limbah yang Dihasilkan dari Operasional",
+    "waste_disposal_date": "Tanggal Pembuangan Limbah",
+    "vendor_name": "Nama Vendor",
+    "vendor_id": "ID Vendor",
+    "waste_collection_address": "Alamat Pengumpulan Limbah",
+    "transportation_distance_km": "Jarak Transportasi (km)",
+    "the_type_of_waste": "*Jenis Limbah",
+    "waste_type": "*Tipe Limbah",
+    "waste_treatment_method": "*Metode Pengolahan Limbah",
+    "treatment_method_id": "ID Metode Pengolahan",
+    "weight_of_waste_treated_unit_kg)": "*Berat Limbah yang Diolah (Satuan: kg)",
+    "tkt_ton_km": "TKT (Ton-km)"
   },
   "cat6": {
-    "cat_6": "",
-    "business_travel": "",
-    "document_date": "",
-    "document_number": "",
-    "staff_id": "",
-    "round_trip_one_way": "",
-    "start_time": "",
-    "end_time": "",
-    "business_trip_type": "",
-    "place_of_departure": "",
-    "departure_airport": "",
-    "land_transport_distance_km_a": "",
-    "land_trasportation_type_a": "",
-    "destination_airport": "",
-    "third_country_transfer_destination": "",
-    "land_transport_distance_km_b": "",
-    "land_transportation_type_b": "",
-    "third_country_transfer": "",
-    "destination_2": "",
-    "destination_3": "",
-    "destination_4": "",
-    "destination_5": "",
-    "destination_6": "",
-    "land_transport_distance_km": "",
-    "land_transportation_type": "",
-    "air_transport_distance_km": "",
-    "number_of_nights_stayed": ""
+    "cat_6": "Kategori 6",
+    "business_travel": "Perjalanan Dinas",
+    "document_date": "Tanggal Dokumen",
+    "document_number": "Nomor Dokumen",
+    "staff_id": "ID Staf",
+    "round_trip_one_way": "Pulang–Pergi / Sekali Jalan",
+    "start_time": "Waktu Mulai",
+    "end_time": "Waktu Selesai",
+    "business_trip_type": "Jenis Perjalanan Dinas",
+    "place_of_departure": "Tempat Keberangkatan",
+    "departure_airport": "Bandara Keberangkatan",
+    "land_transport_distance_km_a": "Jarak Transportasi Darat (km) (A)",
+    "land_trasportation_type_a": "Jenis Transportasi Darat (A)",
+    "destination_airport": "Bandara Tujuan",
+    "third_country_transfer_destination": "Transit Negara Ketiga – Tujuan",
+    "land_transport_distance_km_b": "Jarak Transportasi Darat (km) (B)",
+    "land_transportation_type_b": "Jenis Transportasi Darat (B)",
+    "third_country_transfer": "Transit Negara Ketiga",
+    "destination_2": "Tujuan 2",
+    "destination_3": "Tujuan 3",
+    "destination_4": "Tujuan 4",
+    "destination_5": "Tujuan 5",
+    "destination_6": "Tujuan 6",
+    "land_transport_distance_km": "Jarak Transportasi Darat (km)",
+    "land_transportation_type": "Jenis Transportasi Darat",
+    "air_transport_distance_km": "Jarak Transportasi Udara (km)",
+    "number_of_nights_stayed": "Jumlah Malam Menginap"
   },
   "cat7": {
-    "cat_7": "",
-    "employee_commuting": "",
-    "staff_id": "",
-    "residential_address": "",
-    "main_transportation_type": "",
-    "km": "",
-    "number_of_working_days": "",
-    "number_of_working_days_rounded": "",
-    "pkt_p_km": ""
+    "cat_7": "Kategori 7",
+    "employee_commuting": "Perjalanan Komuter Karyawan",
+    "staff_id": "ID Staf",
+    "residential_address": "Alamat Tempat Tinggal",
+    "main_transportation_type": "Jenis Transportasi Utama",
+    "km": "km",
+    "number_of_working_days": "Jumlah Hari Kerja",
+    "number_of_working_days_rounded": "Jumlah Hari Kerja (Dibulatkan)",
+    "pkt_p_km": "PKT (p-km)"
   },
   "cat9andcat12": {
-    "cat_9_12": "",
-    "downstream_and_endoflife": "",
-    "no": "",
-    "date": "",
-    "shipment_date": "",
-    "invoice_number": "",
-    "article_name_style_name": "",
-    "article_id": "",
-    "quantity": "",
-    "gross_weight_unit_ton": "",
-    "customer_id": "",
-    "local_land_transportation_factory_port": "",
-    "port_of_departure": "",
-    "port_of_arrival": "",
-    "land_transport_distance": "",
-    "sea_transport_distance": "",
-    "air_transport_distance": "",
-    "transport_method": "",
-    "land_transport_ton_kilometers": "",
-    "sea_transport_ton_kilometers": "",
-    "air_transport_ton_kilometers": "",
-    "port_code": "",
-    "import_excel_file": "",
-    "customer_number": "",
-    "transportmethod": "",
-    "created_at": "",
-    "created_date": "",
-    "example_file": "",
-    "close": "",
-    "import": ""
+    "cat_9_12": "Kategori 9 & 12",
+    "downstream_and_endoflife": "Transportasi dan Distribusi Hilir & Pengolahan Akhir Umur Produk yang Dijual",
+    "no": "No.",
+    "date": "Tanggal",
+    "shipment_date": "Tanggal Pengiriman",
+    "invoice_number": "Nomor Faktur",
+    "article_name_style_name": "Nama Artikel (Nama Gaya)",
+    "article_id": "ID Artikel",
+    "quantity": "Kuantitas",
+    "gross_weight_unit_ton": "Berat Kotor (Satuan: Ton)",
+    "customer_id": "ID Pelanggan",
+    "local_land_transportation_factory_port": "Transportasi Darat Lokal Pabrik → Pelabuhan",
+    "port_of_departure": "Pelabuhan Keberangkatan",
+    "port_of_arrival": "Pelabuhan Kedatangan",
+    "land_transport_distance": "Jarak Transportasi Darat",
+    "sea_transport_distance": "Jarak Transportasi Laut",
+    "air_transport_distance": "Jarak Transportasi Udara",
+    "transport_method": "Metode Transportasi",
+    "land_transport_ton_kilometers": "Ton-Kilometer Transportasi Darat",
+    "sea_transport_ton_kilometers": "Ton-Kilometer Transportasi Laut",
+    "air_transport_ton_kilometers": "Ton-Kilometer Transportasi Udara",
+    "port_code": "Kode Pelabuhan",
+    "import_excel_file": "Impor Excel",
+    "customer_number": "Nomor Pelanggan",
+    "transportmethod": "Metode Transportasi",
+    "created_at": "Dibuat Pada",
+    "created_date": "Tanggal Dibuat",
+    "example_file": "Contoh Berkas",
+    "close": "Tutup",
+    "import": "Impor"
   },
-  "user_management": {
-    "user_management": "",
-    "userid": "",
-    "name": "",
-    "email": "",
-    "role": "",
-    "status": ""
+  "usermmt": {
+    "user_management": "Manajemen Pengguna",
+    "userid": "ID Pengguna",
+    "name": "Nama",
+    "email": "Email",
+    "role": "Peran",
+    "status": "Status"
   },
-  "file_management": {
-    "module": "",
-    "file_name": "",
-    "status": "",
-    "created_by_user": "",
-    "created_date": ""
+  "filemmt": {
+    "module": "Modul",
+    "file_name": "Nama Berkas",
+    "status": "Status",
+    "created_by_user": "Dibuat oleh Pengguna",
+    "created_date": "Tanggal Dicatat oleh Pengguna"
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

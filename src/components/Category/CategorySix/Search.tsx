@@ -9,6 +9,7 @@ import { generateFileExcel } from '../../../features/fileSlice';
 import { Toast } from '../../../utils/Toast';
 import { getDataCat6, resetDataCat6 } from '../../../features/categorySlice';
 import { FACTORIES } from '../../../utils/constanst';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   activeSort: {
@@ -33,6 +34,7 @@ const Search = ({
   setFactory,
 }: Props) => {
   const dispatch = useAppDispatch();
+  const {t} = useTranslation()
 
   const formik = useFormik({
     initialValues: {
@@ -94,7 +96,7 @@ const Search = ({
       <div className="flex items-center gap-1">
         <div>
           <Input
-            label={'Date From'}
+            label={t('main.date_from')}
             type="date"
             name="dateFrom"
             classNameLabel={'mb-2'}
@@ -104,7 +106,7 @@ const Search = ({
         </div>
         <div>
           <Input
-            label={'Date To'}
+            label={t('main.date_to')}
             type="date"
             name="dateTo"
             classNameLabel={'mb-2'}
@@ -114,7 +116,7 @@ const Search = ({
         </div>
         <div>
           <Select
-            label={'Factory'}
+            label={t('main.factory')}
             name={'factory'}
             classNameLabel="mb-2"
             value={formik.values.factory}
@@ -127,7 +129,7 @@ const Search = ({
       </div>
       <div className="flex flex-row gap-2 mt-[29px]">
         <Button
-          label="Search"
+          label={t('main.search')}
           type="submit"
           className="block text-white bg-[#FF9119] hover:bg-[#FF9119]/80 focus:ring-4 focus:outline-none focus:ring-[#FF9119]/50 font-medium rounded-lg text-sm px-5 py-2.5 dark:hover:bg-[#FF9119]/80 dark:focus:ring-[#FF9119]/40 cursor-pointer"
         />
@@ -141,7 +143,7 @@ const Search = ({
             alt="excel-icon"
             className="w-10 object-contain"
           />
-          <span className="whitespace-nowrap">Export Excel</span>
+          <span className="whitespace-nowrap">{t('main.export_excel_file')}</span>
         </button>
       </div>
     </form>

@@ -10,6 +10,7 @@ import { useEffect } from 'react';
 import { useSocket } from '../../../hooks/useSocket';
 import { useAppDispatch } from '../../../app/hooks';
 import { getData } from '../../../features/fileSlice';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   header: TableHeaderProps[];
@@ -22,6 +23,7 @@ type Props = {
 };
 
 const Table = ({ header, activeSort, setActiveSort, data }: Props) => {
+  const { t } = useTranslation();
   const socketRef = useSocket(import.meta.env.VITE_URLS);
   const dispatch = useAppDispatch();
   const handleSorting = (sortField: string, sortOrder: string): void => {
@@ -107,7 +109,7 @@ const Table = ({ header, activeSort, setActiveSort, data }: Props) => {
         title: data,
         icon: 'success',
       });
-    })
+    });
 
     return () => {
       socketRef.current?.off('file-excel-done');
@@ -123,7 +125,7 @@ const Table = ({ header, activeSort, setActiveSort, data }: Props) => {
             {header.map((item, index) => (
               <th className="px-4 py-4 whitespace-break-spaces" key={index}>
                 <div className="flex flex-row gap-6 items-center justify-between">
-                  <span>{item.name}</span>
+                  <span>{t(item.name)}</span>
                   {item.sort && (
                     <span className="flex flex-col cursor-pointer">
                       {renderSortIcon(item)}
