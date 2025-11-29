@@ -15,7 +15,7 @@ export const useSocket = (
     socketRef.current = socket;
 
     socket.on('connect', () => {
-      console.log(`Connected to server: ${socket.id}`);
+      // console.log(`Connected to server: ${socket.id}`);
       onConnect?.(socket);
     });
 

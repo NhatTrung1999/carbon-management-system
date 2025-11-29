@@ -21,9 +21,12 @@ const Sidebar = ({ isOpenSideBar, setIsOpenSideBar }: Props) => {
 
   const shouldShowItem = (path: string) => {
     if (path === '/dashboard/user-management') {
-      return user?.Role.toLowerCase() === 'admin'; // Chỉ hiển thị nếu là admin
+      return user?.Role.toLowerCase() === 'admin'; 
     }
-    return true; // Các item khác luôn hiển thị
+    if (path === '/dashboard/info-factory-management') {
+      return user?.Role.toLowerCase() === 'admin'; 
+    }
+    return true; 
   };
   return (
     <div

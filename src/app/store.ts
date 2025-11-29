@@ -3,6 +3,7 @@ import authReducer from '../features/authSlice';
 import userReducer from '../features/userSlice';
 import categoryReducer from '../features/categorySlice';
 import fileReducer from '../features/fileSlice';
+import infofactoryReducer from '../features/infofactorySlice';
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     user: userReducer,
     category: categoryReducer,
     file: fileReducer,
+    infofactory: infofactoryReducer,
   },
 });
 

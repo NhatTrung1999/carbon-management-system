@@ -90,7 +90,7 @@
     "cat_7": "Hạng mục 7",
     "employee_commuting": "Dữ liệu việc đi lại của nhân viên",
     "staff_id": "Mã nhân viên",
-    "residential_address": "Địa chỉ nơi ở",
+    "residential_address": "Địa chỉ nơi ở / Pickup point (Company shuttle bus)",
     "main_transportation_type": "Loại phương tiện đi lại chính",
     "km": "Quãng đường (km)",
     "number_of_working_days": "Số ngày đi làm",

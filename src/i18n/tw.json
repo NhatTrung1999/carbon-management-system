@@ -90,7 +90,7 @@
     "cat_7": "CAT 7",
     "employee_commuting": "員工通勤",
     "staff_id": "工號",
-    "residential_address": "居住地址",
+    "residential_address": "居住地址 / Pickup point (Company shuttle bus)",
     "main_transportation_type": "主要通勤方式",
     "km": "距離（公里）",
     "number_of_working_days": "工作天數",

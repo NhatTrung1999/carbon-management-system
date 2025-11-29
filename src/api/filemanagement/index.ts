@@ -21,14 +21,28 @@ const fileManagementApi = {
     dateFrom,
     dateTo,
     factory,
+    field,
   }: {
     module: string;
     dateFrom: string;
     dateTo: string;
     factory: string;
+    field?: string[];
   }) => {
-    const url = `filemanagement/generate-file-excel?Module=${module}&DateFrom=${dateFrom}&DateTo=${dateTo}&Factory=${factory}`;
-    const res = await axiosConfig.get(url);
+    // console.log(field);
+    const url = `filemanagement/generate-file-excel`;
+    const res = await axiosConfig.get(url, {
+      params: {
+        Module: module,
+        DateFrom: dateFrom,
+        DateTo: dateTo,
+        Factory: factory,
+        Fields: field,
+      },
+      paramsSerializer: (params) => {
+        return new URLSearchParams(params).toString();
+      },
+    });
     return res.data;
   },
   downloadFile: async (id: string) => {

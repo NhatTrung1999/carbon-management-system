@@ -130,6 +130,28 @@ const categoryApi = {
     );
     return res.data;
   },
+  getCustomExport: async (
+    dateFrom: string,
+    dateTo: string,
+    factory: string,
+    page: number,
+    sortField: string,
+    sortOrder: string
+  ) => {
+    const res = await axiosConfig.get('cat7/custom-export', {
+      params: {
+        dateFrom,
+        dateTo,
+        factory,
+        page,
+        limit: 20,
+        sortField,
+        sortOrder,
+      },
+    });
+
+    return res.data;
+  },
 };
 
 export default categoryApi;

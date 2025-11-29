@@ -9,6 +9,7 @@ import type { ICat5Data } from '../types/cat5';
 import type { ICat7Data } from '../types/cat7';
 import type { ICat6Data } from '../types/cat6';
 import type { ICat1AndCat4Data } from '../types/cat1andcat4';
+import type { ICustomExportData } from '../types/customexport';
 
 interface CategoryState {
   cat1andcat4: ICat1AndCat4Data[];
@@ -17,6 +18,7 @@ interface CategoryState {
   cat7: ICat7Data[];
   cat9andcat12: ICat9AndCat12Data[];
   portCode: IPortCodeData[];
+  customExport: ICustomExportData[]
   loading: boolean;
   error: string | null;
   page: number;
@@ -31,6 +33,7 @@ const initialState: CategoryState = {
   cat7: [],
   cat9andcat12: [],
   portCode: [],
+  customExport: [],
   loading: false,
   error: null,
   page: 1,
@@ -193,6 +196,48 @@ export const getDataCat7 = createAsyncThunk(
   }
 );
 
+export const getCustomExport = createAsyncThunk(
+  'category/custom-export',
+  async (
+    {
+      dateFrom,
+      dateTo,
+      factory,
+      page,
+      sortField,
+      sortOrder,
+    }: {
+      dateFrom: string;
+      dateTo: string;
+      factory: string;
+      page: number;
+      sortField: string;
+      sortOrder: string;
+    },
+    { rejectWithValue }
+  ) => {
+    try {
+      const res = await categoryApi.getCustomExport(
+        dateFrom,
+        dateTo,
+        factory,
+        page,
+        sortField,
+        sortOrder
+      );
+      return res as {
+        data: ICustomExportData[];
+        page: number;
+        limit: number;
+        total: number;
+        hasMore: boolean;
+      };
+    } catch (error: any) {
+      return rejectWithValue(error || '');
+    }
+  }
+);
+
 export const getDataCat6 = createAsyncThunk(
   'category/cat6',
   async (
@@ -307,6 +352,12 @@ export const categorySlice = createSlice({
     },
     resetDataCat1AndCat4: (state) => {
       state.cat1andcat4 = [];
+      state.page = 1;
+      state.hasMore = true;
+      state.error = null;
+    },
+    resetDataCustomExport: (state) => {
+      state.customExport = [];
       state.page = 1;
       state.hasMore = true;
       state.error = null;
@@ -457,6 +508,23 @@ export const categorySlice = createSlice({
         state.loading = false;
         state.error = action.payload as string;
       });
+
+    //custom export
+    builder
+      .addCase(getCustomExport.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getCustomExport.fulfilled, (state, action) => {
+        state.loading = false;
+        state.customExport.push(...action.payload.data);
+        state.page += 1;
+        state.hasMore = action.payload.hasMore;
+      })
+      .addCase(getCustomExport.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      });
   },
 });
 
@@ -466,6 +534,7 @@ export const {
   resetDataCat6,
   resetDataCat7,
   resetDataCat9AndCat12,
+  resetDataCustomExport
 } = categorySlice.actions;
 
 export default categorySlice.reducer;

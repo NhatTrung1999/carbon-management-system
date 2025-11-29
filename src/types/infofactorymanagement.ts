@@ -1,3 +1,24 @@
+export interface InfoFactoryData {
+  ID: string;
+  COMID: string;
+  CompanyName: string;
+  Address: string;
+  City: string;
+  Tel: string;
+  Fax: string;
+  AccountNo: string;
+  YN: string;
+  NameVN: string;
+  TaxNo: string;
+  Active: boolean;
+  CreatedUser: string;
+  CreatedFactory: string;
+  CreatedDate: string;
+  UpdatedUser: string;
+  UpdatedFactory: string;
+  UpdatedDate: string;
+}
+
 export const HEADER = [
   {
     name: 'COMID',
@@ -45,8 +66,8 @@ export const HEADER = [
     sort: true,
   },
   {
-    name: 'Created At',
-    state: 'CreatedAt',
+    name: 'Created User',
+    state: 'CreatedUser',
     sort: true,
   },
   {
@@ -60,8 +81,8 @@ export const HEADER = [
     sort: true,
   },
   {
-    name: 'Updated At',
-    state: 'UpdatedAt',
+    name: 'Updated User',
+    state: 'UpdatedUser',
     sort: true,
   },
   {
