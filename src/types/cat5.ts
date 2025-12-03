@@ -1,8 +1,11 @@
 export interface ICat5Data {
   Waste_disposal_date: string;
+  Consolidated_Waste: string;
+  Waste_Code: string;
   Vendor_Name: string;
   Vendor_ID: string;
   Waste_collection_address: string;
+  Location_Code: string;
   Transportation_Distance_km: string;
   The_type_of_waste: string;
   Waste_type: string;
@@ -19,6 +22,16 @@ export const HEADER: { name: string; state: string; sort: boolean }[] = [
     sort: true,
   },
   {
+    name: 'Consolidated Waste',
+    state: 'Consolidated_Waste',
+    sort: true,
+  },
+  {
+    name: 'Waste Code',
+    state: 'Waste_Code',
+    sort: true,
+  },
+  {
     name: 'cat5.vendor_name',
     state: 'Vendor_Name',
     sort: true,
@@ -31,6 +44,11 @@ export const HEADER: { name: string; state: string; sort: boolean }[] = [
   {
     name: 'cat5.waste_collection_address',
     state: 'Waste_collection_address',
+    sort: true,
+  },
+  {
+    name: 'Location Code',
+    state: 'Location_Code',
     sort: true,
   },
   {

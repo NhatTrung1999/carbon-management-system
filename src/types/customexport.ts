@@ -3,12 +3,12 @@ export interface ICustomExportData {
   Factory: string;
   Department: string;
   ID: string;
-  FullName: string;
-  CurrentAddress: string;
-  TransportationMode: string;
-  BusRoute: string;
-  PickupPoint: string;
-  Number_of_working_days: number;
+  Full_Name: string;
+  Current_Address: string;
+  Transportation_Mode: string;
+  Bus_Route: string;
+  Pickup_Point: string;
+  Number_of_Working_Days: number;
 }
 
 export const HEADER_CUSTOM_EXPORT: {

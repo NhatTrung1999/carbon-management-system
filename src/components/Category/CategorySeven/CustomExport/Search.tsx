@@ -4,7 +4,7 @@ import ExcelIcon from '../../../../assets/images/excel-icon.png';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch } from '../../../../app/hooks';
-import { getCustomExport, getDataCat7, resetDataCat7, resetDataCustomExport } from '../../../../features/categorySlice';
+import { getCustomExport, resetDataCustomExport } from '../../../../features/categorySlice';
 import { generateFileExcel } from '../../../../features/fileSlice';
 import { Toast } from '../../../../utils/Toast';
 import Input from '../../../common/Input';

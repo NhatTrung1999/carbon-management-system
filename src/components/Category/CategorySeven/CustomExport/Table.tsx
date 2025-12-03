@@ -116,15 +116,15 @@ const Table = ({
                 <td className="box-border px-3 py-3">{item.Factory}</td>
                 <td className="box-border px-3 py-3">{item.Department}</td>
                 <td className="box-border px-3 py-3">{item.ID}</td>
-                <td className="box-border px-3 py-3">{item.FullName}</td>
-                <td className="box-border px-3 py-3">{item.CurrentAddress}</td>
+                <td className="box-border px-3 py-3">{item.Full_Name}</td>
+                <td className="box-border px-3 py-3">{item.Current_Address}</td>
                 <td className="box-border px-3 py-3">
-                  {item.TransportationMode}
+                  {item.Transportation_Mode}
                 </td>
-                <td className="box-border px-3 py-3">{item.BusRoute}</td>
-                <td className="box-border px-3 py-3">{item.PickupPoint}</td>
+                <td className="box-border px-3 py-3">{item.Bus_Route}</td>
+                <td className="box-border px-3 py-3">{item.Pickup_Point}</td>
                 <td className="box-border px-3 py-3">
-                  {item.Number_of_working_days}
+                  {item.Number_of_Working_Days}
                 </td>
               </tr>
             ))}

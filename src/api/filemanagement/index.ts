@@ -1,4 +1,5 @@
 import axiosConfig from '../../lib/axiosConfig';
+import qs from 'qs';
 
 const fileManagementApi = {
   getData: async ({
@@ -39,9 +40,8 @@ const fileManagementApi = {
         Factory: factory,
         Fields: field,
       },
-      paramsSerializer: (params) => {
-        return new URLSearchParams(params).toString();
-      },
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: 'repeat' }),
     });
     return res.data;
   },
