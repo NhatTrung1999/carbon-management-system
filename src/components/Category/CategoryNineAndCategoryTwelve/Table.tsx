@@ -93,6 +93,7 @@ const Table = ({
                 <td className="box-border px-3 py-3">
                   {formatDate(item.Shipment_Date)}
                 </td>
+                <td className="box-border px-3 py-3">{item.Booking_No}</td>
                 <td className="box-border px-3 py-3">{item.Invoice_Number}</td>
                 <td className="box-border px-3 py-3">{item.Article_Name}</td>
                 <td className="box-border px-3 py-3">{item.Article_ID}</td>

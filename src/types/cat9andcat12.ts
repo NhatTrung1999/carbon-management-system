@@ -2,6 +2,7 @@ export interface ICat9AndCat12Data {
   No: number;
   Date: string;
   Shipment_Date: string;
+  Booking_No: string;
   Invoice_Number: string;
   Article_Name: string;
   Article_ID: string;
@@ -50,6 +51,11 @@ export const HEADER = [
   {
     name: 'cat9andcat12.shipment_date',
     state: 'Shipment_Date',
+    sort: true,
+  },
+  {
+    name: 'Booking No',
+    state: 'Booking_No',
     sort: true,
   },
   {

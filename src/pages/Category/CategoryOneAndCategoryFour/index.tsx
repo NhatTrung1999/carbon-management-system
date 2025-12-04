@@ -102,7 +102,7 @@ const CategoryOneAndCategoryFour = () => {
           header={HEADER}
           activeSort={activeSort}
           setActiveSort={setActiveSort}
-          data={[]}
+          data={cat1andcat4}
           tableRef={tableRef}
           onScroll={onScroll}
         />
