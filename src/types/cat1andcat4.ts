@@ -1,20 +1,30 @@
 export interface ICat1AndCat4Data {
   No: number;
-  Date: string;
-  Purchase_Order: string;
-  Material_No: string;
-  Weight: number;
-  Supplier_Code: string;
-  Thirdcountry_Land_Transport: string;
-  Port_Of_Departure: string;
-  Port_Of_Arrival: string;
-  Factory_Domestic_Land_Transport: string;
-  Land_Transport_Distance: number;
-  Sea_Transport_Distance: string;
-  Air_Transport_Distance: number;
-  Land_Transport_Ton_Kilometers: number;
-  Sea_Transport_Ton_Kilometers: number;
-  Air_Transport_Ton_Kilometers: number;
+  PurDate: string;
+  RKDate: string;
+  PurNo: string;
+  ReceivedNo: string;
+  MatID: string;
+  MatName: string;
+  QtyUsage: number;
+  QtyReceive: number;
+  UnitWeight: number;
+  WeightUnitKG: number;
+  SupplierCode: string;
+  Style: string;
+  TransportationMethod: string;
+  Departure: string;
+  ThirdCountryLandTransport: string;
+  PortOfDeparture: string;
+  PortOfArrival: string;
+  FactoryDomesticLandTransport: string;
+  Destination: string;
+  LandTransportDistance: number;
+  SeaTransportDistance: number;
+  AirTransportDistance: number;
+  LandTransortTonKilometers: number;
+  SeaTransortTonKilometers: number;
+  AirTransortTonKilometers: number;
 }
 
 // export const HEADER = [
@@ -132,8 +142,18 @@ export const HEADER = [
     sort: true,
   },
   {
-    name: 'Qty.',
-    state: 'Qty',
+    name: 'Qty.(Usage)',
+    state: 'QtyUsage',
+    sort: true,
+  },
+  {
+    name: 'Qty.(Receive)',
+    state: 'QtyReceive',
+    sort: true,
+  },
+  {
+    name: 'Unit Weight',
+    state: 'UnitWeight',
     sort: true,
   },
   {

@@ -21,7 +21,7 @@ const FileManagement = () => {
 
   const [activeSort, setActiveSort] = useState({
     sortField: HEADER[4].state,
-    sortOrder: 'asc',
+    sortOrder: 'desc',
   });
 
   const dispatch = useAppDispatch();

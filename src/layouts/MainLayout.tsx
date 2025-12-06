@@ -1,8 +1,8 @@
-import { Outlet } from "react-router";
-import Header from "../components/common/Header";
-import Sidebar from "../components/common/Sidebar";
-import { useEffect, useState } from "react";
-import Loading from "../components/common/Loading";
+import { Outlet } from 'react-router';
+import Header from '../components/common/Header';
+import Sidebar from '../components/common/Sidebar';
+import { useEffect, useState } from 'react';
+import Loading from '../components/common/Loading';
 
 const MainLayout = () => {
   const [loading, setLoading] = useState(true);
@@ -25,8 +25,8 @@ const MainLayout = () => {
         />
         <div
           className={`${
-            isOpenSideBar ? "pl-[150px]" : "pl-[350px]"
-          } flex-1 pr-5 pt-[85px] transition-all duration-300 ease-in-out overflow-hidden`}
+            isOpenSideBar ? 'pl-[150px]' : 'pl-[350px]'
+          } flex-1 pr-5 pt-[85px] pb-5 transition-all duration-300 ease-in-out overflow-hidden overflow-y-auto`}
         >
           <Outlet />
         </div>

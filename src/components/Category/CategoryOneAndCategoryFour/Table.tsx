@@ -1,12 +1,12 @@
 import { TiArrowSortedDown } from 'react-icons/ti';
 import { TiArrowSortedUp } from 'react-icons/ti';
-import type { TableHeaderProps } from '../../../types/table';
-import NoData from '../../../assets/images/no-data.png';
 import type { RefObject, UIEventHandler } from 'react';
 import { useAppSelector } from '../../../app/hooks';
 import type { ICat1AndCat4Data } from '../../../types/cat1andcat4';
-import { formatDate } from '../../../utils/formatDate';
+import type { TableHeaderProps } from '../../../types/table';
 import { useTranslation } from 'react-i18next';
+import NoData from '../../../assets/images/no-data.png';
+import { formatDate } from '../../../utils/formatDate';
 
 type Props = {
   header: TableHeaderProps[];
@@ -29,10 +29,10 @@ const Table = ({
   onScroll,
 }: Props) => {
   const { loading } = useAppSelector((state) => state.category);
-  const {t} = useTranslation()
   const handleSorting = (sortField: string, sortOrder: string): void => {
     setActiveSort({ sortField, sortOrder });
   };
+  const { t } = useTranslation();
 
   const renderSortIcon = (item: TableHeaderProps) =>
     item.state !== 'Action' && (
@@ -57,7 +57,6 @@ const Table = ({
         />
       </div>
     );
-
   return (
     <div
       className="max-h-[600px] overflow-y-auto relative"
@@ -86,38 +85,47 @@ const Table = ({
             data.map((item, index) => (
               <tr key={index}>
                 <td className="box-border px-3 py-3">{item.No}</td>
-                <td className="box-border px-3 py-3">{formatDate(item.Date)}</td>
-                <td className="box-border px-3 py-3">{item.Purchase_Order}</td>
-                <td className="box-border px-3 py-3">{item.Material_No}</td>
-                <td className="box-border px-3 py-3">{item.Weight}</td>
-                <td className="box-border px-3 py-3">{item.Supplier_Code}</td>
+                <td className="box-border px-3 py-3">{formatDate(item.PurDate)}</td>
+                <td className="box-border px-3 py-3">{formatDate(item.RKDate)}</td>
+                <td className="box-border px-3 py-3">{item.PurNo}</td>
+                <td className="box-border px-3 py-3">{item.ReceivedNo}</td>
+                <td className="box-border px-3 py-3">{item.MatID}</td>
+                <td className="box-border px-3 py-3">{item.QtyUsage}</td>
+                <td className="box-border px-3 py-3">{item.QtyReceive}</td>
+                <td className="box-border px-3 py-3">{item.UnitWeight}</td>
+                <td className="box-border px-3 py-3">{item.WeightUnitKG}</td>
+                <td className="box-border px-3 py-3">{item.SupplierCode}</td>
+                <td className="box-border px-3 py-3">{item.Style}</td>
                 <td className="box-border px-3 py-3">
-                  {item.Thirdcountry_Land_Transport}
+                  {item.TransportationMethod}
+                </td>
+                <td className="box-border px-3 py-3">{item.Departure}</td>
+                <td className="box-border px-3 py-3">
+                  {item.ThirdCountryLandTransport}
+                </td>
+                <td className="box-border px-3 py-3">{item.PortOfDeparture}</td>
+                <td className="box-border px-3 py-3">{item.PortOfArrival}</td>
+                <td className="box-border px-3 py-3">
+                  {item.FactoryDomesticLandTransport}
+                </td>
+                <td className="box-border px-3 py-3">{item.Destination}</td>
+                <td className="box-border px-3 py-3">
+                  {item.LandTransportDistance}
                 </td>
                 <td className="box-border px-3 py-3">
-                  {item.Port_Of_Departure}
-                </td>
-                <td className="box-border px-3 py-3">{item.Port_Of_Arrival}</td>
-                <td className="box-border px-3 py-3">
-                  {item.Factory_Domestic_Land_Transport}
+                  {item.SeaTransportDistance}
                 </td>
                 <td className="box-border px-3 py-3">
-                  {item.Land_Transport_Distance}
+                  {item.AirTransportDistance}
                 </td>
                 <td className="box-border px-3 py-3">
-                  {item.Sea_Transport_Distance}
+                  {item.LandTransortTonKilometers}
                 </td>
                 <td className="box-border px-3 py-3">
-                  {item.Air_Transport_Distance}
+                  {item.SeaTransortTonKilometers}
                 </td>
                 <td className="box-border px-3 py-3">
-                  {item.Land_Transport_Ton_Kilometers}
-                </td>
-                <td className="box-border px-3 py-3">
-                  {item.Sea_Transport_Ton_Kilometers}
-                </td>
-                <td className="box-border px-3 py-3">
-                  {item.Air_Transport_Ton_Kilometers}
+                  {item.AirTransortTonKilometers}
                 </td>
               </tr>
             ))}
@@ -149,6 +157,7 @@ const Table = ({
           )}
         </tbody>
       </table>
+
       {loading && data.length === 0 && (
         <div className="absolute left-1/2 transform -translate-x-1/2 flex justify-center w-full top-22">
           <div className="animate-spin border-4 border-gray-300 border-t-[#636e61] rounded-full w-10 h-10"></div>
