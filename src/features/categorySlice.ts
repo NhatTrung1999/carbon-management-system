@@ -8,7 +8,10 @@ import type { ICat9AndCat12Data, IPortCodeData } from '../types/cat9andcat12';
 import type { ICat5Data } from '../types/cat5';
 import type { ICat7Data } from '../types/cat7';
 import type { ICat6Data } from '../types/cat6';
-import type { ICat1AndCat4Data } from '../types/cat1andcat4';
+import type {
+  ICat1AndCat4Data,
+  IPortCodeDataCat1AndCat4,
+} from '../types/cat1andcat4';
 import type { ICustomExportData } from '../types/customexport';
 
 interface CategoryState {
@@ -18,7 +21,8 @@ interface CategoryState {
   cat7: ICat7Data[];
   cat9andcat12: ICat9AndCat12Data[];
   portCode: IPortCodeData[];
-  customExport: ICustomExportData[]
+  portCodeCat1AndCat4: IPortCodeDataCat1AndCat4[];
+  customExport: ICustomExportData[];
   loading: boolean;
   error: string | null;
   page: number;
@@ -33,6 +37,7 @@ const initialState: CategoryState = {
   cat7: [],
   cat9andcat12: [],
   portCode: [],
+  portCodeCat1AndCat4: [],
   customExport: [],
   loading: false,
   error: null,
@@ -97,6 +102,20 @@ export const importExcelPortCode = createAsyncThunk(
   }
 );
 
+export const importExcelPortCodeCat1AndCat4 = createAsyncThunk(
+  'category/import-excel-port-code-cat-1-and-cat4',
+  async (file: File, { rejectWithValue }) => {
+    try {
+      const res = await categoryApi.importExcelPortCodeCat1AndCat4(file);
+      return res as { message: string; records: IPortCodeDataCat1AndCat4[] };
+    } catch (error: any) {
+      return rejectWithValue(
+        error?.response?.data?.message || 'Import failed!'
+      );
+    }
+  }
+);
+
 export const getPortCode = createAsyncThunk(
   'category/get-port-code',
   async (
@@ -106,6 +125,24 @@ export const getPortCode = createAsyncThunk(
     try {
       const res = await categoryApi.getPortCode(sortField, sortOrder);
       return res as IPortCodeData[];
+    } catch (error: any) {
+      return rejectWithValue(error?.response?.data?.message || 'Get failed!');
+    }
+  }
+);
+
+export const getPortCodeCat1AndCat4 = createAsyncThunk(
+  'category/get-port-code-cat1-and-cat4',
+  async (
+    { sortField, sortOrder }: { sortField: string; sortOrder: string },
+    { rejectWithValue }
+  ) => {
+    try {
+      const res = await categoryApi.getPortCodeCat1AndCat4(
+        sortField,
+        sortOrder
+      );
+      return res as IPortCodeDataCat1AndCat4[];
     } catch (error: any) {
       return rejectWithValue(error?.response?.data?.message || 'Get failed!');
     }
@@ -491,6 +528,29 @@ export const categorySlice = createSlice({
         state.error = action.payload as string;
       });
 
+    // import excel port code cat1 and cat4
+    builder
+      .addCase(importExcelPortCodeCat1AndCat4.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(
+        importExcelPortCodeCat1AndCat4.fulfilled,
+        (
+          state,
+          action: PayloadAction<{ message: string; records: IPortCodeDataCat1AndCat4[] }>
+        ) => {
+          const { records } = action.payload;
+          state.loading = false;
+          state.portCodeCat1AndCat4 = records;
+          // console.log(action.payload);
+        }
+      )
+      .addCase(importExcelPortCodeCat1AndCat4.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      });
+
     //get port code
     builder
       .addCase(getPortCode.pending, (state) => {
@@ -505,6 +565,24 @@ export const categorySlice = createSlice({
         }
       )
       .addCase(getPortCode.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      });
+
+    //get port code cat1 and cat4
+    builder
+      .addCase(getPortCodeCat1AndCat4.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(
+        getPortCodeCat1AndCat4.fulfilled,
+        (state, action: PayloadAction<IPortCodeDataCat1AndCat4[]>) => {
+          state.loading = false;
+          state.portCodeCat1AndCat4 = action.payload;
+        }
+      )
+      .addCase(getPortCodeCat1AndCat4.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       });
@@ -534,7 +612,7 @@ export const {
   resetDataCat6,
   resetDataCat7,
   resetDataCat9AndCat12,
-  resetDataCustomExport
+  resetDataCustomExport,
 } = categorySlice.actions;
 
 export default categorySlice.reducer;

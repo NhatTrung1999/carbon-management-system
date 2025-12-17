@@ -115,12 +115,33 @@ const categoryApi = {
     });
     return res.data;
   },
+  getPortCodeCat1AndCat4: async (sortField: string, sortOrder: string) => {
+    const res = await axiosConfig.get('cat1andcat4/get-port-code', {
+      params: { sortField, sortOrder },
+    });
+    return res.data;
+  },
   importExcelPortCode: async (file: File) => {
     const formData = new FormData();
     formData.append('file', file);
 
     const res = await axiosConfig.post(
       'cat9-and-cat12/import-excel-port-code',
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }
+    );
+    return res.data;
+  },
+  importExcelPortCodeCat1AndCat4: async (file: File) => {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const res = await axiosConfig.post(
+      'cat1andcat4/import-excel-port-code',
       formData,
       {
         headers: {

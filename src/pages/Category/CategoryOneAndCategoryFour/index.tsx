@@ -9,10 +9,12 @@ import { useTranslation } from 'react-i18next';
 import Tabs from '../../../components/common/Tabs';
 import Cat1AndCat4 from './Cat1AndCat4';
 import PortCode from './PortCode';
+import { HEADER_PORTCODE } from '../../../types/cat1andcat4';
+import { useAppSelector } from '../../../app/hooks';
 
 const CategoryOneAndCategoryFour = () => {
-  const {t} = useTranslation()
-
+  const { portCodeCat1AndCat4 } = useAppSelector((state) => state.category);
+  const { t } = useTranslation();
 
   return (
     <Fragment>
@@ -30,16 +32,20 @@ const CategoryOneAndCategoryFour = () => {
       />
 
       <Card>
-        <Tabs tabs={[
+        <Tabs
+          tabs={[
             {
               label: t('cat1andcat4.cat_1_4'),
-              content: <Cat1AndCat4/>,
+              content: <Cat1AndCat4 />,
             },
             {
               label: 'Port Code',
-              content: <PortCode />,
+              content: (
+                <PortCode header={HEADER_PORTCODE} data={portCodeCat1AndCat4} />
+              ),
             },
-          ]} />
+          ]}
+        />
       </Card>
     </Fragment>
   );

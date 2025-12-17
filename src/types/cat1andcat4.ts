@@ -27,6 +27,22 @@ export interface ICat1AndCat4Data {
   AirTransortTonKilometers: number;
 }
 
+export interface IPortCodeDataCat1AndCat4 {
+  Id: string;
+  SupplierID: string;
+  SupplierName: string;
+  TWSupplierName: string;
+  Country: string;
+  PortCode: string;
+  TransportMethod: string;
+  CreatedBy: string;
+  CreatedFactory: string;
+  CreatedDate: string;
+  UpdatedBy: string;
+  UpdatedFactory: string;
+  UpdatedDate: string;
+}
+
 // export const HEADER = [
 //   {
 //     name: 'cat1andcat4.no',
@@ -234,6 +250,35 @@ export const HEADER = [
   {
     name: 'Air Transport Ton-Kilometers',
     state: 'AirTransortTonKilometers',
+    sort: true,
+  },
+];
+
+
+export const HEADER_PORTCODE = [
+  {
+    name: 'Supplier ID',
+    state: 'SupplierID',
+    sort: true,
+  },
+  {
+    name: 'Port Code',
+    state: 'PortCode',
+    sort: true,
+  },
+  {
+    name: 'Transport Method',
+    state: 'TransportMethod',
+    sort: true,
+  },
+  {
+    name: 'Created By',
+    state: 'CreatedBy',
+    sort: true,
+  },
+  {
+    name: 'Created Date',
+    state: 'CreatedDate',
     sort: true,
   },
 ];
