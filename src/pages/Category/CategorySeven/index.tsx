@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 import Tabs from '../../../components/common/Tabs';
 import Cat7 from './Cat7';
 import CustomExport from './CustomExport';
+import Logging from './Logging';
 // import { HEADER_CUSTOM_EXPORT } from '../../../types/customexport';
 
 const CategorySeven = () => {
@@ -94,6 +95,10 @@ const CategorySeven = () => {
               label: 'Custom Export',
               content: <CustomExport />,
             },
+            {
+              label: 'Logging',
+              content: <Logging />,
+            }
           ]}
         />
       </Card>

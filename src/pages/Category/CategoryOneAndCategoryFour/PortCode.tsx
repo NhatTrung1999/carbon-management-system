@@ -118,6 +118,9 @@ const PortCode = ({ header, data }: Props) => {
                 {data.map((item, index) => (
                   <tr key={index}>
                     <td className="box-border px-3 py-3">
+                      {item.FactoryCode}
+                    </td>
+                    <td className="box-border px-3 py-3">
                       {item.SupplierID}
                     </td>
                     <td className="box-border px-3 py-3">{item.PortCode}</td>

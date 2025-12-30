@@ -1,12 +1,11 @@
 import { TiArrowSortedDown } from 'react-icons/ti';
 import { TiArrowSortedUp } from 'react-icons/ti';
+import type { TableHeaderProps } from '../../../../types/table';
+import NoData from '../../../../assets/images/no-data.png';
 import type { RefObject, UIEventHandler } from 'react';
-import { useAppSelector } from '../../../app/hooks';
-import type { ICat1AndCat4Data } from '../../../types/cat1andcat4';
-import type { TableHeaderProps } from '../../../types/table';
+import type { ILoggingCat7Data } from '../../../../types/loggingcat7';
+import { useAppSelector } from '../../../../app/hooks';
 import { useTranslation } from 'react-i18next';
-import NoData from '../../../assets/images/no-data.png';
-import { formatDate } from '../../../utils/formatDate';
 
 type Props = {
   header: TableHeaderProps[];
@@ -15,7 +14,7 @@ type Props = {
     sortOrder: string;
   };
   setActiveSort: (data: any) => void;
-  data: ICat1AndCat4Data[];
+  data: ILoggingCat7Data[];
   tableRef?: RefObject<HTMLDivElement | null>;
   onScroll: UIEventHandler<HTMLDivElement>;
 };
@@ -57,6 +56,7 @@ const Table = ({
         />
       </div>
     );
+
   return (
     <div
       className="max-h-[600px] overflow-y-auto relative"
@@ -84,50 +84,38 @@ const Table = ({
           {data.length > 0 &&
             data.map((item, index) => (
               <tr key={index}>
-                <td className="box-border px-3 py-3">{item.No}</td>
-                <td className="box-border px-3 py-3">{formatDate(item.PurDate)}</td>
-                <td className="box-border px-3 py-3">{formatDate(item.RKDate)}</td>
-                <td className="box-border px-3 py-3">{item.PurNo}</td>
-                <td className="box-border px-3 py-3">{item.ReceivedNo}</td>
-                <td className="box-border px-3 py-3">{item.MatID}</td>
-                <td className="box-border px-3 py-3">{item.QtyUsage}</td>
-                <td className="box-border px-3 py-3">{item.QtyReceive}</td>
-                <td className="box-border px-3 py-3">{item.UnitWeight}</td>
-                <td className="box-border px-3 py-3">{item.WeightUnitKG}</td>
-                <td className="box-border px-3 py-3">{item.SupplierCode}</td>
-                <td className="box-border px-3 py-3">{item.FactoryCode}</td>
-                <td className="box-border px-3 py-3">{item.Style}</td>
+                <td className="box-border px-3 py-3">{item.System}</td>
                 <td className="box-border px-3 py-3">
-                  {item.TransportationMethod}
+                  {item.Corporation}
                 </td>
-                <td className="box-border px-3 py-3">{item.Departure}</td>
                 <td className="box-border px-3 py-3">
-                  {item.ThirdCountryLandTransport}
+                  {item.Factory}
                 </td>
-                <td className="box-border px-3 py-3">{item.PortOfDeparture}</td>
-                <td className="box-border px-3 py-3">{item.PortOfArrival}</td>
+                <td className="box-border px-3 py-3">{item.Department}</td>
                 <td className="box-border px-3 py-3">
-                  {item.FactoryDomesticLandTransport}
+                  {item.DocKey}
                 </td>
+                {/* <td className="box-border px-3 py-3">
+                  {Math.ceil(item.Number_of_working_days)}
+                </td> */}
+                <td className="box-border px-3 py-3">{item.SPeriodData}</td>
+                <td className="box-border px-3 py-3">{item.EPeriodData}</td>
+                <td className="box-border px-3 py-3">{item.ActivityType}</td>
+                <td className="box-border px-3 py-3">{item.DataType}</td>
+                <td className="box-border px-3 py-3">{item.DocType}</td>
+                <td className="box-border px-3 py-3">{item.DocDate}</td>
+                <td className="box-border px-3 py-3">{item.DocDate2}</td>
+                <td className="box-border px-3 py-3">{item.UndDocNo}</td>
+                <td className="box-border px-3 py-3">{item.TransType}</td>
+                <td className="box-border px-3 py-3">{item.Department}</td>
                 <td className="box-border px-3 py-3">{item.Destination}</td>
-                <td className="box-border px-3 py-3">
-                  {item.LandTransportDistance}
-                </td>
-                <td className="box-border px-3 py-3">
-                  {item.SeaTransportDistance}
-                </td>
-                <td className="box-border px-3 py-3">
-                  {item.AirTransportDistance}
-                </td>
-                <td className="box-border px-3 py-3">
-                  {item.LandTransortTonKilometers}
-                </td>
-                <td className="box-border px-3 py-3">
-                  {item.SeaTransortTonKilometers}
-                </td>
-                <td className="box-border px-3 py-3">
-                  {item.AirTransortTonKilometers}
-                </td>
+                <td className="box-border px-3 py-3">{item.Attendance}</td>
+                <td className="box-border px-3 py-3">{item.Memo}</td>
+                <td className="box-border px-3 py-3">{item.CreateDateTime}</td>
+                <td className="box-border px-3 py-3">{item.Creator}</td>
+                <td className="box-border px-3 py-3">{item.CreatedUser}</td>
+                <td className="box-border px-3 py-3">{item.CreatedFactory}</td>
+                <td className="box-border px-3 py-3">{item.CreatedAt}</td>
               </tr>
             ))}
           {loading &&

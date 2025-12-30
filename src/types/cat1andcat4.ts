@@ -11,6 +11,7 @@ export interface ICat1AndCat4Data {
   UnitWeight: number;
   WeightUnitKG: number;
   SupplierCode: string;
+  FactoryCode: string;
   Style: string;
   TransportationMethod: string;
   Departure: string;
@@ -34,6 +35,7 @@ export interface IPortCodeDataCat1AndCat4 {
   TWSupplierName: string;
   Country: string;
   PortCode: string;
+  FactoryCode: string;
   TransportMethod: string;
   CreatedBy: string;
   CreatedFactory: string;
@@ -183,6 +185,11 @@ export const HEADER = [
     sort: true,
   },
   {
+    name: 'Factory Code',
+    state: 'FactoryCode',
+    sort: true,
+  },
+  {
     name: 'Style',
     state: 'Style',
     sort: true,
@@ -256,6 +263,11 @@ export const HEADER = [
 
 
 export const HEADER_PORTCODE = [
+  {
+    name: 'Factory Code',
+    state: 'FactoryCode',
+    sort: true,
+  },
   {
     name: 'Supplier ID',
     state: 'SupplierID',

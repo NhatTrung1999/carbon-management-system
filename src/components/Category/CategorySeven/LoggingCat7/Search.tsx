@@ -1,18 +1,14 @@
 import { useFormik } from 'formik';
-import Button from '../../common/Button';
-import Input from '../../common/Input';
-
-import ExcelIcon from '../../../assets/images/excel-icon.png';
-import {
-  getDataCat5,
-  resetDataCat5,
-  // setDate,
-} from '../../../features/categorySlice';
-import { useAppDispatch } from '../../../app/hooks';
-import { generateFileExcel } from '../../../features/fileSlice';
-import { Toast } from '../../../utils/Toast';
-import Select from '../../common/Select';
-import { FACTORIES } from '../../../utils/constanst';
+import Button from '../../../common/Button';
+import Input from '../../../common/Input';
+import ExcelIcon from '../../../../assets/images/excel-icon.png';
+import { useEffect } from 'react';
+import Select from '../../../common/Select';
+import { useAppDispatch } from '../../../../app/hooks';
+import { getLoggingCat7, resetLoggingCat7 } from '../../../../features/categorySlice';
+import { generateFileExcel } from '../../../../features/fileSlice';
+import { Toast } from '../../../../utils/Toast';
+import { FACTORIES } from '../../../../utils/constanst';
 import { useTranslation } from 'react-i18next';
 
 type Props = {
@@ -38,7 +34,7 @@ const Search = ({
   setFactory,
 }: Props) => {
   const dispatch = useAppDispatch();
-  const {t} = useTranslation()
+  const { t } = useTranslation();
 
   const formik = useFormik({
     initialValues: {
@@ -47,15 +43,13 @@ const Search = ({
       factory: factory,
     },
     onSubmit: async (data) => {
-      // console.log(data);
       try {
-        dispatch(resetDataCat5());
-        // dispatch(setDate(data.Date));
+        dispatch(resetLoggingCat7());
         setDateFrom(data.dateFrom);
         setDateTo(data.dateTo);
         setFactory(data.factory);
         dispatch(
-          getDataCat5({
+          getLoggingCat7({
             dateFrom: data.dateFrom,
             dateTo: data.dateTo,
             factory: data.factory,
@@ -70,12 +64,13 @@ const Search = ({
     },
   });
 
+  useEffect(() => {}, []);
+
   //Export Excel
   const onExportExcel = async () => {
-    // console.log(formik.values.dateFrom, formik.values.dateTo);
     const result = await dispatch(
       generateFileExcel({
-        module: 'Cat5',
+        module: 'Cat7',
         dateFrom: formik.values.dateFrom,
         dateTo: formik.values.dateTo,
         factory: formik.values.factory,

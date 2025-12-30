@@ -173,6 +173,72 @@ const categoryApi = {
 
     return res.data;
   },
+  getLoggingCat5: async (
+    dateFrom: string,
+    dateTo: string,
+    factory: string,
+    page: number,
+    sortField: string,
+    sortOrder: string
+  ) => {
+    const res = await axiosConfig.get('cat5/get-logging-cat5', {
+      params: {
+        dateFrom,
+        dateTo,
+        factory,
+        page,
+        limit: 20,
+        sortField,
+        sortOrder,
+      },
+    });
+
+    return res.data;
+  },
+  getLoggingCat7: async (
+    dateFrom: string,
+    dateTo: string,
+    factory: string,
+    page: number,
+    sortField: string,
+    sortOrder: string
+  ) => {
+    const res = await axiosConfig.get('cat7/get-logging-cat7', {
+      params: {
+        dateFrom,
+        dateTo,
+        factory,
+        page,
+        limit: 20,
+        sortField,
+        sortOrder,
+      },
+    });
+
+    return res.data;
+  },
+  getLoggingCat9And12: async (
+    dateFrom: string,
+    dateTo: string,
+    factory: string,
+    page: number,
+    sortField: string,
+    sortOrder: string
+  ) => {
+    const res = await axiosConfig.get('cat9-and-cat12/get-logging-cat9-and-cat12', {
+      params: {
+        dateFrom,
+        dateTo,
+        factory,
+        page,
+        limit: 20,
+        sortField,
+        sortOrder,
+      },
+    });
+
+    return res.data;
+  },
 };
 
 export default categoryApi;

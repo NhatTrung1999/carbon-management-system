@@ -14,6 +14,7 @@ import {
 import Tabs from '../../../components/common/Tabs';
 import Cat9AndCat12 from './Cat9AndCat12';
 import PortCode from './PortCode';
+import Logging from '../CategoryNineAndCategoryTwelve/Logging'
 import { BREADCRUMB } from '../../../utils/constanst';
 import { useTranslation } from 'react-i18next';
 
@@ -113,6 +114,10 @@ const CategoryNineAndCategoryTwelvePage = () => {
             {
               label: t('cat9andcat12.port_code'),
               content: <PortCode header={HEADER_PORTCODE} data={portCode} />,
+            },
+            {
+              label: 'Logging',
+              content: <Logging />,
             },
           ]}
         />
