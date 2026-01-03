@@ -17,6 +17,7 @@ import FileManagement from '../pages/SystemSettings/FileManagement';
 import ProtectedRoute from './ProtectedRoute';
 import CategoryOneAndCategoryFour from '../pages/Category/CategoryOneAndCategoryFour';
 import InfoFactoryManagement from '../pages/SystemSettings/InfoFactoryManagement';
+import HRModule from '../pages/SystemSettings/HRModule';
 
 const AppRoutes = () => {
   return (
@@ -29,9 +30,17 @@ const AppRoutes = () => {
         <Route path="/dashboard" element={<MainLayout />}>
           <Route
             index
-            element={<Navigate to={'/dashboard/category-one-and-category-four'} replace />}
+            element={
+              <Navigate
+                to={'/dashboard/category-one-and-category-four'}
+                replace
+              />
+            }
           />
-          <Route path="/dashboard/category-one-and-category-four" element={<CategoryOneAndCategoryFour />} />
+          <Route
+            path="/dashboard/category-one-and-category-four"
+            element={<CategoryOneAndCategoryFour />}
+          />
           {/* <Route path="/dashboard/category-four" element={<CategoryFour />} /> */}
           <Route path="/dashboard/category-five" element={<CategoryFive />} />
           <Route path="/dashboard/category-six" element={<CategorySix />} />
@@ -51,6 +60,10 @@ const AppRoutes = () => {
           <Route
             path="/dashboard/file-management"
             element={<FileManagement />}
+          />
+          <Route
+            path="/dashboard/data-collection-hr-module"
+            element={<HRModule />}
           />
         </Route>
       </Route>

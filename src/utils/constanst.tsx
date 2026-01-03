@@ -105,6 +105,11 @@ const MENU_SIDEBAR = [
         path: '/dashboard/file-management',
         icon: <img src={Excel} className="size-6" />,
       },
+      {
+        text: 'Data Collection HR Module',
+        path: '/dashboard/data-collection-hr-module',
+        icon: <img src={Excel} className="size-6" />,
+      },
     ],
   },
 ];
