@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useState } from 'react';
 import { BreadcrumbData } from '../../../types/breadcrumb';
 
 import Card from '../../../components/common/Card';
@@ -6,33 +6,26 @@ import Table from '../../../components/SystemSettings/HRModule/Table';
 import Typography from '../../../components/common/Typography';
 import Breadcrumb from '../../../components/common/Breadcrumb';
 import Search from '../../../components/SystemSettings/HRModule/Search';
-import { HEADER } from '../../../types/hrmodule';
-import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { getData } from '../../../features/fileSlice';
+import { HEADER, mockHRData, type IHRModule } from '../../../types/hrmodule';
 import { useTranslation } from 'react-i18next';
 import { BREADCRUMB } from '../../../utils/constanst';
 
 const HRModule = () => {
+  const { t } = useTranslation();
 
-      const {t} = useTranslation()
-    
-      const [activeSort, setActiveSort] = useState({
-        sortField: HEADER[4].state,
-        sortOrder: 'desc',
-      });
-    
-    //   const dispatch = useAppDispatch();
-    
-    //   useEffect(() => {
-    //     dispatch(
-    //       getData({
-    //         module: '',
-    //         file_name: '',
-    //         sortField: activeSort.sortField,
-    //         sortOrder: activeSort.sortOrder,
-    //       })
-    //     );
-    //   }, [activeSort]);
+  const [tableData, setTableData] = useState<IHRModule[]>(mockHRData);
+  const [activeSort, setActiveSort] = useState({
+    sortField: HEADER[4].state,
+    sortOrder: 'desc',
+  });
+
+  const handleUpdateRow = (updatedItem: IHRModule) => {
+    const newData = tableData.map((item) =>
+      item.ID === updatedItem.ID ? updatedItem : item
+    );
+    setTableData(newData);
+    console.log('Đã cập nhật:', updatedItem);
+  };
 
   return (
     <Fragment>
@@ -48,13 +41,14 @@ const HRModule = () => {
         <Search activeSort={activeSort} />
         <Table
           header={HEADER}
-          data={[]}
+          data={mockHRData}
           activeSort={activeSort}
           setActiveSort={setActiveSort}
+          onSave={handleUpdateRow}
         />
       </Card>
     </Fragment>
-  )
-}
+  );
+};
 
-export default HRModule
+export default HRModule;

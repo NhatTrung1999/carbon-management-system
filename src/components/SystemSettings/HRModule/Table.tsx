@@ -1,16 +1,10 @@
 import { TiArrowSortedDown } from 'react-icons/ti';
 import { TiArrowSortedUp } from 'react-icons/ti';
+import { FaEdit, FaSave, FaTimes } from 'react-icons/fa';
 import type { TableHeaderProps } from '../../../types/table';
-import type { IFileManagement } from '../../../types/filemanagement';
-import { formatDate } from '../../../utils/formatDate';
-import fileManagementApi from '../../../api/filemanagement';
-import { Toast } from '../../../utils/Toast';
-import { FaCircleCheck } from 'react-icons/fa6';
-import { useEffect } from 'react';
-import { useSocket } from '../../../hooks/useSocket';
-import { useAppDispatch } from '../../../app/hooks';
-import { getData } from '../../../features/fileSlice';
 import { useTranslation } from 'react-i18next';
+import type { IHRModule } from '../../../types/hrmodule';
+import { useState } from 'react';
 
 type Props = {
   header: TableHeaderProps[];
@@ -19,15 +13,42 @@ type Props = {
     sortOrder: string;
   };
   setActiveSort: (data: any) => void;
-  data: IFileManagement[];
+  data: IHRModule[];
+  onSave: (item: IHRModule) => void;
 };
 
-const Table = ({ header, activeSort, setActiveSort, data }: Props) => {
+const Table = ({ header, activeSort, setActiveSort, data, onSave }: Props) => {
   const { t } = useTranslation();
-  const socketRef = useSocket(import.meta.env.VITE_URLS);
-  const dispatch = useAppDispatch();
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editFormData, setEditFormData] = useState<IHRModule | null>(null);
   const handleSorting = (sortField: string, sortOrder: string): void => {
     setActiveSort({ sortField, sortOrder });
+  };
+
+  const handleEditClick = (item: IHRModule) => {
+    setEditingId(item.ID);
+    setEditFormData(item); // Copy dữ liệu dòng đó vào form tạm
+  };
+
+  const handleCancelClick = () => {
+    setEditingId(null);
+    setEditFormData(null);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (editFormData) {
+      setEditFormData({
+        ...editFormData,
+        [e.target.name]: e.target.value,
+      });
+    }
+  };
+
+  const handleSaveClick = () => {
+    if (editFormData) {
+      onSave(editFormData); // Gửi dữ liệu lên cha
+      setEditingId(null); // Thoát chế độ sửa
+    }
   };
 
   const renderSortIcon = (item: TableHeaderProps) =>
@@ -53,69 +74,6 @@ const Table = ({ header, activeSort, setActiveSort, data }: Props) => {
         />
       </div>
     );
-
-  const handleDownloadFile = async (id: string, fileName: string) => {
-    try {
-      const res = await fileManagementApi.downloadFile(id);
-      const url = window.URL.createObjectURL(new Blob([res]));
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = fileName || 'file.xlsx';
-      document.body.appendChild(a);
-      a.click();
-
-      window.URL.revokeObjectURL(url);
-      document.body.removeChild(a);
-    } catch (error) {
-      console.log('Download error: ', error);
-      Toast.fire({
-        text: 'Error',
-        title: 'File not found!',
-      });
-    }
-  };
-
-  const handleStatus = (item: IFileManagement) => {
-    if (item.Status) {
-      handleDownloadFile(item.ID, item.File_Name);
-    } else {
-      Toast.fire({
-        title: 'File excel is still pending!',
-        icon: 'warning',
-      });
-    }
-  };
-
-  useEffect(() => {
-    if (!socketRef.current) return;
-
-    socketRef.current.on('file-excel-done', (data) => {
-      Toast.fire({
-        title: data,
-        icon: 'success',
-      });
-      dispatch(
-        getData({
-          file_name: '',
-          module: '',
-          sortField: activeSort.sortField,
-          sortOrder: activeSort.sortOrder,
-        })
-      );
-    });
-
-    socketRef.current.on('file-excel-error', (data) => {
-      Toast.fire({
-        title: data,
-        icon: 'success',
-      });
-    });
-
-    return () => {
-      socketRef.current?.off('file-excel-done');
-      socketRef.current?.off('file-excel-error');
-    };
-  }, [socketRef]);
 
   return (
     <div className="max-h-[600px] overflow-y-auto">
@@ -148,33 +106,76 @@ const Table = ({ header, activeSort, setActiveSort, data }: Props) => {
             </tr>
           ) : (
             <>
-              {data.map((item, index) => (
-                <tr
-                  key={index}
-                  onClick={() => handleStatus(item)}
-                  className="cursor-pointer hover:bg-gray-300 font-medium"
-                >
-                  <td className="box-border px-4 py-4">{item.Module}</td>
-                  <td className="box-border px-4 py-4">{item.File_Name}</td>
-                  <td className="box-border px-4 py-4">
-                    {item.Status ? (
-                      <div className="text-green-500 flex items-center gap-2">
-                        <FaCircleCheck className="size-4" />
-                        Done
-                      </div>
-                    ) : (
-                      <div className="text-blue-500 flex items-center gap-2">
-                        <div className="animate-spin border-4 border-blue-400 border-t-blue-500 rounded-full size-4"></div>
-                        Pending...
-                      </div>
-                    )}
-                  </td>
-                  <td className="box-border px-4 py-4">{item.CreatedAt}</td>
-                  <td className="box-border px-4 py-4">
-                    {formatDate(item.CreatedDate)}
-                  </td>
-                </tr>
-              ))}
+              {data.map((item, index) => {
+                const isEditing = editingId === item.ID;
+                return (
+                  <tr key={index} className="cursor-pointer hover:bg-gray-300 ">
+                    <td className="box-border px-4 py-4">{item.ID}</td>
+                    <td className="box-border px-4 py-4">{item.FullName}</td>
+                    <td className="box-border px-4 py-4">{item.Department}</td>
+                    <td className="box-border px-4 py-4">
+                      {item.PermanentAddress}
+                    </td>
+                    <td className="px-4 py-4">
+                      {isEditing ? (
+                        <input
+                          type="text"
+                          name="CurrentAddress"
+                          value={editFormData?.CurrentAddress}
+                          onChange={handleInputChange}
+                          className="border rounded p-1 w-full"
+                        />
+                      ) : (
+                        item.CurrentAddress
+                      )}
+                    </td>
+                    <td className="px-4 py-4">
+                      {isEditing ? (
+                        <input
+                          type="text"
+                          name="TransportationMode"
+                          value={editFormData?.TransportationMode}
+                          onChange={handleInputChange}
+                          className="border rounded p-1 w-full"
+                        />
+                      ) : (
+                        item.TransportationMode
+                      )}
+                    </td>
+                    <td className="box-border px-4 py-4">
+                      {item.Number_of_Working_Days}
+                    </td>
+                    <td className="px-4 py-4 text-center">
+                      {isEditing ? (
+                        <div className="flex gap-2 justify-center">
+                          <button
+                            onClick={handleSaveClick}
+                            className="text-green-600 hover:text-green-800"
+                            title="Save"
+                          >
+                            <FaSave size={18} />
+                          </button>
+                          <button
+                            onClick={handleCancelClick}
+                            className="text-red-500 hover:text-red-700"
+                            title="Cancel"
+                          >
+                            <FaTimes size={18} />
+                          </button>
+                        </div>
+                      ) : (
+                        <button
+                          onClick={() => handleEditClick(item)}
+                          className="text-blue-600 hover:text-blue-800"
+                          title="Edit"
+                        >
+                          <FaEdit size={18} />
+                        </button>
+                      )}
+                    </td>
+                  </tr>
+                );
+              })}
             </>
           )}
         </tbody>
