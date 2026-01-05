@@ -8,7 +8,10 @@ import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import ModalHR from './ModalHR';
 import hrModuleAPi from '../../../api/hr';
-import { fetchHRModule, resetDataHRModule } from '../../../features/hrmoduleSlice';
+import {
+  fetchHRModule,
+  resetDataHRModule,
+} from '../../../features/hrmoduleSlice';
 
 type Props = {
   activeSort: {
@@ -84,7 +87,7 @@ const Search = ({
         formik.values.dateTo,
         formik.values.fullName,
         formik.values.id,
-        formik.values.department,
+        formik.values.department
       );
       const url = window.URL.createObjectURL(new Blob([res]));
       const link = document.createElement('a');
@@ -136,7 +139,7 @@ const Search = ({
           <Input
             label={'Full Name'}
             type="text"
-            name="fullname"
+            name="fullName"
             classNameLabel={'mb-2'}
             value={formik.values.fullName}
             onChange={formik.handleChange}

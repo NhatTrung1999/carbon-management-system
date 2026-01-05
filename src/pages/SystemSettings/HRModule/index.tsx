@@ -14,6 +14,7 @@ import {
   fetchHRModule,
   resetDataHRModule,
   setHRModule,
+  updateHRModule,
 } from '../../../features/hrmoduleSlice';
 
 const HRModule = () => {
@@ -81,12 +82,19 @@ const HRModule = () => {
     }
   }, [dispatch, loading, hasMore, page, activeSort, dateFrom, dateTo]);
 
-  const handleUpdateRow = (updatedItem: IHRModule) => {
-    const newData = hrmodule.map((item) =>
-      item.ID === updatedItem.ID ? updatedItem : item
-    );
-    dispatch(setHRModule(newData));
-    console.log('Đã cập nhật:', updatedItem);
+  const handleUpdateRow = async (updatedItem: IHRModule) => {
+    try {
+      await dispatch(
+        updateHRModule({
+          id: updatedItem.ID,
+          currentAddress: updatedItem.CurrentAddress,
+          transportationMethod: updatedItem.TransportationMethod,
+        })
+      ).unwrap();
+      console.log('Update success');
+    } catch (error) {
+      console.error('Lỗi khi update:', error);
+    }
   };
 
   // console.log(hrmodule, setDateFrom, setDateTo, setFactory);

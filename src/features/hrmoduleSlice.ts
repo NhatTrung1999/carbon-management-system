@@ -59,6 +59,33 @@ export const fetchHRModule = createAsyncThunk(
   }
 );
 
+export const updateHRModule = createAsyncThunk(
+  'hrmodule/update-hrmodule',
+  async (
+    {
+      id,
+      currentAddress,
+      transportationMethod,
+    }: {
+      id: string;
+      currentAddress: string;
+      transportationMethod: string;
+    },
+    { rejectWithValue }
+  ) => {
+    try {
+      const res = await hrModuleAPi.updateHRModule(
+        id,
+        currentAddress,
+        transportationMethod
+      );
+      return res;
+    } catch (error: any) {
+      return rejectWithValue(error || '');
+    }
+  }
+);
+
 const initialState: IHrModuleState = {
   hrmodule: [],
   loading: false,
@@ -95,6 +122,29 @@ const hrmoduleSlice = createSlice({
         state.hasMore = action.payload.hasMore;
       })
       .addCase(fetchHRModule.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      });
+
+    builder
+      .addCase(updateHRModule.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateHRModule.fulfilled, (state, action) => {
+        state.loading = false;
+        const updatedItem = action.payload;
+        const index = state.hrmodule.findIndex(
+          (item) => item.ID === updatedItem.id
+        );
+        if (index !== -1) {
+          state.hrmodule[index] = {
+            ...state.hrmodule[index],
+            ...updatedItem,
+          };
+        }
+      })
+      .addCase(updateHRModule.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       });

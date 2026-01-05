@@ -40,7 +40,7 @@ const Table = ({
 
   const handleEditClick = (item: IHRModule) => {
     setEditingId(item.ID);
-    setEditFormData(item); // Copy dữ liệu dòng đó vào form tạm
+    setEditFormData(item);
   };
 
   const handleCancelClick = () => {
@@ -59,7 +59,7 @@ const Table = ({
 
   const handleSaveClick = () => {
     if (editFormData) {
-      onSave(editFormData); 
+      onSave(editFormData);
       setEditingId(null);
     }
   };
@@ -112,90 +112,6 @@ const Table = ({
           </tr>
         </thead>
         <tbody>
-          {/* {data.length === 0 ? (
-            <tr>
-              <td
-                colSpan={header.length}
-                className="text-center box-border px-6 py-6"
-              >
-                No data
-              </td>
-            </tr>
-          ) : (
-            <>
-              {data.map((item, index) => {
-                const isEditing = editingId === item.ID;
-                return (
-                  <tr key={index} className="cursor-pointer hover:bg-gray-300 ">
-                    <td className="box-border px-4 py-4">{item.ID}</td>
-                    <td className="box-border px-4 py-4">{item.FullName}</td>
-                    <td className="box-border px-4 py-4">{item.Department}</td>
-                    <td className="box-border px-4 py-4">
-                      {item.PermanentAddress}
-                    </td>
-                    <td className="px-4 py-4">
-                      {isEditing ? (
-                        <input
-                          type="text"
-                          name="CurrentAddress"
-                          value={editFormData?.CurrentAddress}
-                          onChange={handleInputChange}
-                          className="border rounded p-1 w-full"
-                        />
-                      ) : (
-                        item.CurrentAddress
-                      )}
-                    </td>
-                    <td className="px-4 py-4">
-                      {isEditing ? (
-                        <input
-                          type="text"
-                          name="TransportationMode"
-                          value={editFormData?.TransportationMode}
-                          onChange={handleInputChange}
-                          className="border rounded p-1 w-full"
-                        />
-                      ) : (
-                        item.TransportationMode
-                      )}
-                    </td>
-                    <td className="box-border px-4 py-4">
-                      {item.Number_of_Working_Days}
-                    </td>
-                    <td className="px-4 py-4 text-center">
-                      {isEditing ? (
-                        <div className="flex gap-2 justify-center">
-                          <button
-                            onClick={handleSaveClick}
-                            className="text-green-600 hover:text-green-800"
-                            title="Save"
-                          >
-                            <FaSave size={18} />
-                          </button>
-                          <button
-                            onClick={handleCancelClick}
-                            className="text-red-500 hover:text-red-700"
-                            title="Cancel"
-                          >
-                            <FaTimes size={18} />
-                          </button>
-                        </div>
-                      ) : (
-                        <button
-                          onClick={() => handleEditClick(item)}
-                          className="text-blue-600 hover:text-blue-800"
-                          title="Edit"
-                        >
-                          <FaEdit size={18} />
-                        </button>
-                      )}
-                    </td>
-                  </tr>
-                );
-              })}
-            </>
-          )} */}
-
           {data.length > 0 &&
             data.map((item, index) => {
               const isEditing = editingId === item.ID;
@@ -224,7 +140,7 @@ const Table = ({
                     {isEditing ? (
                       <input
                         type="text"
-                        name="TransportationMode"
+                        name="TransportationMethod"
                         value={editFormData?.TransportationMethod}
                         onChange={handleInputChange}
                         className="border rounded p-1 w-full"
