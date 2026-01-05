@@ -6,6 +6,7 @@ import type { RefObject, UIEventHandler } from 'react';
 import type { ICat5Data } from '../../../types/cat5';
 import { useAppSelector } from '../../../app/hooks';
 import { useTranslation } from 'react-i18next';
+import { useEffect, useRef } from 'react';
 
 type Props = {
   header: TableHeaderProps[];
@@ -28,6 +29,36 @@ const Table = ({
   onScroll,
 }: Props) => {
   const { loading } = useAppSelector((state) => state.category);
+
+  const scrollPositionRef = useRef({ top: 0, left: 0 });
+  const isRefLoading = useRef(false);
+
+  useEffect(() => {
+    if (loading && !isRefLoading.current) {
+      isRefLoading.current = true;
+      if (tableRef?.current) {
+        scrollPositionRef.current = {
+          top: tableRef.current.scrollTop,
+          left: tableRef.current.scrollLeft,
+        };
+      }
+    }
+  }, [loading, tableRef]);
+
+  useEffect(() => {
+    if (!loading && isRefLoading.current) {
+      isRefLoading.current = false;
+      if (tableRef?.current) {
+        setTimeout(() => {
+          if (tableRef?.current) {
+            tableRef.current.scrollTop = scrollPositionRef.current.top;
+            tableRef.current.scrollLeft = scrollPositionRef.current.left;
+          }
+        }, 0);
+      }
+    }
+  }, [loading, tableRef, data.length]);
+
   const { t } = useTranslation();
   const handleSorting = (sortField: string, sortOrder: string): void => {
     setActiveSort({ sortField, sortOrder });
@@ -80,7 +111,7 @@ const Table = ({
             ))}
           </tr>
         </thead>
-        <tbody className="h-[70px]">
+        <tbody className="min-h-[500px]">
           {/* {data.length === 0 ? (
             <tr>
               <td
@@ -179,7 +210,7 @@ const Table = ({
               >
                 <div className="flex justify-center items-center flex-col">
                   <img src={NoData} className="size-30" />
-                  <div className="text-2xl font-semibold">
+                  <div className="text-base font-semibold">
                     No data available
                   </div>
                 </div>

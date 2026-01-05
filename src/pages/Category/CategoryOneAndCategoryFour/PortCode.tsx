@@ -98,7 +98,7 @@ const PortCode = ({ header, data }: Props) => {
               ))}
             </tr>
           </thead>
-          <tbody className="h-[70px]">
+          <tbody className="min-h-[500px]">
             {data.length === 0 ? (
               <tr>
                 <td
@@ -107,7 +107,7 @@ const PortCode = ({ header, data }: Props) => {
                 >
                   <div className="flex justify-center items-center flex-col">
                     <img src={NoData} className="size-30" />
-                    <div className="text-2xl font-semibold">
+                    <div className="text-base font-semibold">
                       No data available
                     </div>
                   </div>

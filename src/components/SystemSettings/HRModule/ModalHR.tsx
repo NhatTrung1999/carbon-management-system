@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { IoClose } from 'react-icons/io5';
-import { useAppDispatch } from '../../../app/hooks';
+// import { useAppDispatch } from '../../../app/hooks';
 import { Toast } from '../../../utils/Toast';
 import Button from '../../common/Button';
 type Props = {
@@ -10,7 +10,7 @@ type Props = {
 const ModalHR = ({ setIsOpen }: Props) => {
   const [file, setFile] = useState<File | null>(null);
   const [fileName, setFileName] = useState<string>('No file chosen');
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectdFile = e.target.files?.[0];

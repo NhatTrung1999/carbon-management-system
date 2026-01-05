@@ -26,6 +26,9 @@ const Sidebar = ({ isOpenSideBar, setIsOpenSideBar }: Props) => {
     if (path === '/dashboard/info-factory-management') {
       return user?.Role.toLowerCase() === 'admin'; 
     }
+    // if (path === '/dashboard/data-collection-hr-module') {
+    //   return user?.Role.toLowerCase() === 'admin'; 
+    // }
     return true; 
   };
   return (

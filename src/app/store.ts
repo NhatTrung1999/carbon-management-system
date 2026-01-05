@@ -4,6 +4,7 @@ import userReducer from '../features/userSlice';
 import categoryReducer from '../features/categorySlice';
 import fileReducer from '../features/fileSlice';
 import infofactoryReducer from '../features/infofactorySlice';
+import hrmoduleReducer from '../features/hrmoduleSlice';
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     category: categoryReducer,
     file: fileReducer,
     infofactory: infofactoryReducer,
+    hrmodule: hrmoduleReducer,
   },
 });
 

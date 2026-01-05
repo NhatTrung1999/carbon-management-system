@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { getDataCat5, resetDataCat5 } from '../../../features/categorySlice';
 
 const Cat5 = () => {
-    const tableRef = useRef<HTMLDivElement | null>(null);
+  const tableRef = useRef<HTMLDivElement | null>(null);
   const didFetch = useRef(false);
   const [activeSort, setActiveSort] = useState({
     sortField: HEADER[0].state,
@@ -85,4 +85,4 @@ const Cat5 = () => {
   );
 };
 
-export default Cat5
+export default Cat5;

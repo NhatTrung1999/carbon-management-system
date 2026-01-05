@@ -2,78 +2,108 @@ import { useFormik } from 'formik';
 import Button from '../../common/Button';
 import Input from '../../common/Input';
 import { useAppDispatch } from '../../../app/hooks';
-import { getData } from '../../../features/fileSlice';
+// import { getData } from '../../../features/fileSlice';
 import ExcelIcon from '../../../assets/images/excel-icon.png';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import ModalHR from './ModalHR';
+import hrModuleAPi from '../../../api/hr';
+import { fetchHRModule, resetDataHRModule } from '../../../features/hrmoduleSlice';
 
 type Props = {
   activeSort: {
     sortField: string;
     sortOrder: string;
   };
+  dateFrom: string;
+  setDateFrom: (val: string) => void;
+  dateTo: string;
+  setDateTo: (val: string) => void;
+  fullName: string;
+  setFullName: (val: string) => void;
+  id: string;
+  setId: (val: string) => void;
+  department: string;
+  setDepartment: (val: string) => void;
 };
 
-const Search = ({ activeSort }: Props) => {
+const Search = ({
+  activeSort,
+  dateFrom,
+  dateTo,
+  fullName,
+  id,
+  department,
+  setDateFrom,
+  setDateTo,
+  setFullName,
+  setId,
+  setDepartment,
+}: Props) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const formik = useFormik({
     initialValues: {
-      fullname: '',
-      id: '',
-      department: '',
+      fullName,
+      id,
+      department,
+      dateFrom,
+      dateTo,
     },
     onSubmit: async (data) => {
       try {
-        // const response = await fileManagementApi.getData({
-        //   module: data.module,
-        //   file_name: data.file_name,
-        // });
-        // if (response.data.statusCode === 200) {
-        //   setGetFileManagementData(response.data.data);
-        // }
-        // dispatch(
-        //   getData({
-        //     module: data.module,
-        //     file_name: data.file_name,
-        //     sortField: activeSort.sortField,
-        //     sortOrder: activeSort.sortOrder,
-        //   })
-        // );
-        console.log(data);
+        dispatch(resetDataHRModule());
+        setDateFrom(data.dateFrom);
+        setDateTo(data.dateTo);
+        setFullName(data.fullName);
+        setId(data.id);
+        setDepartment(data.department);
+        dispatch(
+          fetchHRModule({
+            dateFrom: data.dateFrom,
+            dateTo: data.dateTo,
+            fullName: data.fullName,
+            id: data.id,
+            department: data.department,
+            page: 1,
+            sortField: activeSort.sortField,
+            sortOrder: activeSort.sortOrder,
+          })
+        );
       } catch (error: any) {
         console.log(error);
       }
     },
   });
 
-  // const getData = async () => {
-  //   try {
-  //     const response = await fileManagementApi.getData({
-  //       module: formik.values.module,
-  //       file_name: formik.values.file_name,
-  //     });
-
-  //     if (response.data.statusCode === 200) {
-  //       setGetFileManagementData(response.data.data);
-  //     }
-  //   } catch (error: any) {
-  //     console.log(error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   getData();
-  // }, []);
-
   const onExportExcel = async () => {
-    console.log('export excel');
+    try {
+      const res = await hrModuleAPi.exportToExcel(
+        formik.values.dateFrom,
+        formik.values.dateTo,
+        formik.values.fullName,
+        formik.values.id,
+        formik.values.department,
+      );
+      const url = window.URL.createObjectURL(new Blob([res]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'danh_sach.xlsx');
+      document.body.appendChild(link);
+      link.click();
+
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.log('Loi khi tai Excel: ', error);
+      alert('Khong the tai file Excel!');
+    }
   };
   const onImportExcel = async () => {
     setIsOpen(true);
     // console.log('import excel');
+    console.log(activeSort);
   };
 
   return (
@@ -84,11 +114,31 @@ const Search = ({ activeSort }: Props) => {
       >
         <div>
           <Input
+            label={'Date From'}
+            type="date"
+            name="dateFrom"
+            classNameLabel={'mb-2'}
+            value={formik.values.dateFrom}
+            onChange={formik.handleChange}
+          />
+        </div>
+        <div>
+          <Input
+            label={'Date To'}
+            type="date"
+            name="dateTo"
+            classNameLabel={'mb-2'}
+            value={formik.values.dateTo}
+            onChange={formik.handleChange}
+          />
+        </div>
+        <div>
+          <Input
             label={'Full Name'}
             type="text"
             name="fullname"
             classNameLabel={'mb-2'}
-            value={formik.values.fullname}
+            value={formik.values.fullName}
             onChange={formik.handleChange}
           />
         </div>
