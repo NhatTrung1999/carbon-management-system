@@ -14,7 +14,7 @@ type Props = {
 
 const Search = ({ activeSort }: Props) => {
   const dispatch = useAppDispatch();
-  const {t} = useTranslation()
+  const { t } = useTranslation();
 
   const formik = useFormik({
     initialValues: {
@@ -35,37 +35,49 @@ const Search = ({ activeSort }: Props) => {
   });
 
   return (
-    <form className="grid grid-cols-3 gap-3" onSubmit={formik.handleSubmit}>
-      <div>
-        <Input
-          label={t('usermmt.userid')}
-          type="text"
-          name="userid"
-          customClassNameInput="outline-none"
-          value={formik.values.userid}
-          onChange={formik.handleChange}
-        />
-      </div>
-
-      <div>
-        <Input
-          label={t('usermmt.name')}
-          type="text"
-          name="name"
-          customClassNameInput="outline-none"
-          value={formik.values.name}
-          onChange={formik.handleChange}
-        />
-      </div>
-
-      <div>
-        <div className="block whitespace-nowrap text-sm font-medium invisible">
-          dfgg
+    <form className="space-y-4" onSubmit={formik.handleSubmit}>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+        <div>
+          <Input
+            label={t('usermmt.userid')}
+            type="text"
+            name="userid"
+            classNameLabel="mb-2 text-sm sm:text-base"
+            customClassNameInput="outline-none"
+            value={formik.values.userid}
+            onChange={formik.handleChange}
+            placeholder="Enter user ID..."
+          />
         </div>
+
+        <div>
+          <Input
+            label={t('usermmt.name')}
+            type="text"
+            name="name"
+            classNameLabel="mb-2 text-sm sm:text-base"
+            customClassNameInput="outline-none"
+            value={formik.values.name}
+            onChange={formik.handleChange}
+            placeholder="Enter name..."
+          />
+        </div>
+      </div>
+
+    
+      <div className="lg:hidden">
         <Button
           label={t('main.search')}
           type="submit"
-          className="block text-white bg-[#FF9119] hover:bg-[#FF9119]/80 focus:ring-4 focus:outline-none focus:ring-[#FF9119]/50 font-medium rounded-lg text-sm px-5 py-2.5 dark:hover:bg-[#FF9119]/80 dark:focus:ring-[#FF9119]/40 cursor-pointer"
+          className="w-full text-white bg-[#FF9119] hover:bg-[#FF9119]/80 focus:ring-4 focus:outline-none focus:ring-[#FF9119]/50 font-medium rounded-lg text-sm px-5 py-2.5 dark:hover:bg-[#FF9119]/80 dark:focus:ring-[#FF9119]/40 cursor-pointer transition-colors duration-300"
+        />
+      </div>
+
+      <div className="hidden lg:block">
+        <Button
+          label={t('main.search')}
+          type="submit"
+          className="text-white bg-[#FF9119] hover:bg-[#FF9119]/80 focus:ring-4 focus:outline-none focus:ring-[#FF9119]/50 font-medium rounded-lg text-sm px-5 py-2.5 dark:hover:bg-[#FF9119]/80 dark:focus:ring-[#FF9119]/40 cursor-pointer transition-colors duration-300"
         />
       </div>
     </form>

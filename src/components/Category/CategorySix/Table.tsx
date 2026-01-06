@@ -32,34 +32,34 @@ const Table = ({
   const { loading } = useAppSelector((state) => state.category);
 
   const scrollPositionRef = useRef({ top: 0, left: 0 });
-  const isRefLoading = useRef(false);
-
-  useEffect(() => {
-    if (loading && !isRefLoading.current) {
-      isRefLoading.current = true;
-      if (tableRef?.current) {
-        scrollPositionRef.current = {
-          top: tableRef.current.scrollTop,
-          left: tableRef.current.scrollLeft,
-        };
-      }
-    }
-  }, [loading, tableRef]);
-
-  useEffect(() => {
-    if (!loading && isRefLoading.current) {
-      isRefLoading.current = false;
-      if (tableRef?.current) {
-        setTimeout(() => {
-          if (tableRef?.current) {
-            tableRef.current.scrollTop = scrollPositionRef.current.top;
-            tableRef.current.scrollLeft = scrollPositionRef.current.left;
-          }
-        }, 0);
-      }
-    }
-  }, [loading, tableRef, data.length]);
+    const isRefLoading = useRef(false);
   
+    useEffect(() => {
+      if (loading && !isRefLoading.current) {
+        isRefLoading.current = true;
+        if (tableRef?.current) {
+          scrollPositionRef.current = {
+            top: tableRef.current.scrollTop,
+            left: tableRef.current.scrollLeft,
+          };
+        }
+      }
+    }, [loading, tableRef]);
+  
+    useEffect(() => {
+      if (!loading && isRefLoading.current) {
+        isRefLoading.current = false;
+        if (tableRef?.current) {
+          setTimeout(() => {
+            if (tableRef?.current) {
+              tableRef.current.scrollTop = scrollPositionRef.current.top;
+              tableRef.current.scrollLeft = scrollPositionRef.current.left;
+            }
+          }, 0);
+        }
+      }
+    }, [loading, tableRef, data.length]);
+
   const { t } = useTranslation();
   const handleSorting = (sortField: string, sortOrder: string): void => {
     setActiveSort({ sortField, sortOrder });
@@ -69,20 +69,22 @@ const Table = ({
     item.state !== 'Action' && (
       <div className="flex flex-col ml-1">
         <TiArrowSortedUp
-          className={`cursor-pointer ${
+          size={16}
+          className={`cursor-pointer transition-colors ${
             activeSort.sortField === item.state &&
             activeSort.sortOrder === 'asc'
               ? 'text-stone-700'
-              : ''
+              : 'text-white/60 hover:text-white'
           }`}
           onClick={() => handleSorting(item.state, 'asc')}
         />
         <TiArrowSortedDown
-          className={`cursor-pointer ${
+          size={16}
+          className={`cursor-pointer transition-colors ${
             activeSort.sortField === item.state &&
             activeSort.sortOrder === 'desc'
               ? 'text-stone-700'
-              : ''
+              : 'text-white/60 hover:text-white'
           }`}
           onClick={() => handleSorting(item.state, 'desc')}
         />

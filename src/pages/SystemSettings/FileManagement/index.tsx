@@ -39,23 +39,30 @@ const FileManagement = () => {
 
   return (
     <Fragment>
-      <Breadcrumb
-        items={BreadcrumbData(t(BREADCRUMB), 'File Management')}
-      />
-
-      <Typography
-        name="File Management"
-        className="text-3xl bg-gradient-to-r from-[#081c1b] via-[#3f4a42] to-[#636e61] inline-block text-transparent bg-clip-text mb-3"
-      />
-      <Card className="relative">
-        <Search activeSort={activeSort} />
-        <Table
-          header={HEADER}
-          data={file}
-          activeSort={activeSort}
-          setActiveSort={setActiveSort}
+      <div className="px-3 sm:px-4 md:px-6">
+        <Breadcrumb
+          items={BreadcrumbData(t(BREADCRUMB), 'File Management')}
         />
-      </Card>
+
+        <div className="mb-4 sm:mb-6">
+          <Typography
+            name="File Management"
+            className="text-xl sm:text-2xl md:text-3xl bg-gradient-to-r from-[#081c1b] via-[#3f4a42] to-[#636e61] inline-block text-transparent bg-clip-text leading-tight"
+          />
+        </div>
+
+        <Card className="relative">
+          <div className="overflow-hidden">
+            <Search activeSort={activeSort} />
+            <Table
+              header={HEADER}
+              data={file}
+              activeSort={activeSort}
+              setActiveSort={setActiveSort}
+            />
+          </div>
+        </Card>
+      </div>
     </Fragment>
   );
 };

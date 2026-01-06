@@ -33,6 +33,7 @@ const ModalUser = ({
 }) => {
   const { user } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
+  
   const formik = useFormik({
     initialValues: {
       id: item?.ID || '',
@@ -70,7 +71,6 @@ const ModalUser = ({
             updatedAt: user?.UserID || '',
           })
         );
-        // dispatch(getSearch({}));
       }
       setIsOpen(false);
     },
@@ -93,19 +93,23 @@ const ModalUser = ({
 
   return (
     <Modal isOpen={isOpen}>
-      <form onSubmit={formik.handleSubmit}>
+      <form onSubmit={formik.handleSubmit} className="flex flex-col h-full">
         <ModalHeader setOpenModal={() => setIsOpen(false)}>
-          {mode === 'add' ? 'Add User' : 'Edit User'}
+          <span className="text-base sm:text-lg md:text-xl">
+            {mode === 'add' ? 'Add User' : 'Edit User'}
+          </span>
         </ModalHeader>
+        
         <ModalBody>
-          <div className="grid grid-cols-2 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
             <Input
               name="id"
               type="hidden"
               placeholder="Please enter your userid..."
               value={formik.values.id}
             />
-            <div>
+            
+            <div className="md:col-span-2 lg:col-span-1">
               <Input
                 name="userid"
                 type="text"
@@ -113,15 +117,16 @@ const ModalUser = ({
                 placeholder="Please enter your userid..."
                 value={formik.values.userid}
                 onChange={formik.handleChange}
-                disabled={mode === 'edit' ? true : false}
+                disabled={mode === 'edit'}
               />
-              <div className="text-red-600 text-xs">
+              <div className="text-red-600 text-xs mt-1">
                 {formik.errors.userid && formik.touched.userid
                   ? formik.errors.userid
                   : null}
               </div>
             </div>
-            <div>
+            
+            <div className="md:col-span-2 lg:col-span-1">
               <Input
                 name="name"
                 type="text"
@@ -130,13 +135,14 @@ const ModalUser = ({
                 value={formik.values.name}
                 onChange={formik.handleChange}
               />
-              <div className="text-red-600 text-xs">
+              <div className="text-red-600 text-xs mt-1">
                 {formik.errors.name && formik.touched.name
                   ? formik.errors.name
                   : null}
               </div>
             </div>
-            <div>
+            
+            <div className="md:col-span-2">
               <Input
                 name="email"
                 type="email"
@@ -145,12 +151,13 @@ const ModalUser = ({
                 value={formik.values.email}
                 onChange={formik.handleChange}
               />
-              <div className="text-red-600 text-xs">
+              <div className="text-red-600 text-xs mt-1">
                 {formik.errors.email && formik.touched.email
                   ? formik.errors.email
                   : null}
               </div>
             </div>
+            
             <div>
               <Select
                 label="Role"
@@ -163,12 +170,13 @@ const ModalUser = ({
                 value={formik.values.role}
                 onChange={formik.handleChange}
               />
-              <div className="text-red-600 text-xs">
+              <div className="text-red-600 text-xs mt-1">
                 {formik.errors.role && formik.touched.role
                   ? formik.errors.role
                   : null}
               </div>
             </div>
+            
             <div>
               <Select
                 label="Status"
@@ -181,7 +189,7 @@ const ModalUser = ({
                 value={formik.values.status}
                 onChange={formik.handleChange}
               />
-              <div className="text-red-600 text-xs">
+              <div className="text-red-600 text-xs mt-1">
                 {formik.errors.status && formik.touched.status
                   ? formik.errors.status
                   : null}
@@ -189,6 +197,7 @@ const ModalUser = ({
             </div>
           </div>
         </ModalBody>
+        
         <ModalFooter setOpenModal={() => setIsOpen(false)} />
       </form>
     </Modal>

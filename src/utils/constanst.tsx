@@ -9,6 +9,7 @@ import CategoryNineAndCategoryTwelve from '../assets/images/Category.png';
 import InfoFactoryManagement from '../assets/images/info-factory-management.png';
 import UserSettings from '../assets/images/user-settings.png';
 import Excel from '../assets/images/excel.png';
+import DataCollectionHRModule from '../assets/images/data-collection-hr-module.png';
 
 const LANGUAGES = [
   {
@@ -108,7 +109,7 @@ const MENU_SIDEBAR = [
       {
         text: 'Data Collection HR Module',
         path: '/dashboard/data-collection-hr-module',
-        icon: <img src={Excel} className="size-6" />,
+        icon: <img src={DataCollectionHRModule} className="size-6" />,
       },
     ],
   },

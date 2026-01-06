@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { IoClose } from 'react-icons/io5';
-// import { useAppDispatch } from '../../../app/hooks';
+import { useAppDispatch } from '../../../app/hooks';
 import { Toast } from '../../../utils/Toast';
 import Button from '../../common/Button';
+import { importExcelHRModule } from '../../../features/hrmoduleSlice';
 type Props = {
   setIsOpen: (isOpen: boolean) => void;
 };
@@ -10,7 +11,7 @@ type Props = {
 const ModalHR = ({ setIsOpen }: Props) => {
   const [file, setFile] = useState<File | null>(null);
   const [fileName, setFileName] = useState<string>('No file chosen');
-  // const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectdFile = e.target.files?.[0];
@@ -36,20 +37,20 @@ const ModalHR = ({ setIsOpen }: Props) => {
       },
     });
 
-    //   const res = await dispatch(importExcelPortCodeCat1AndCat4(file));
-    //   if (importExcelPortCodeCat1AndCat4.fulfilled.match(res)) {
-    //     Toast.close();
-    //     Toast.fire({
-    //       title: res.payload.message,
-    //       icon: 'success',
-    //     });
-    //   } else {
-    //     Toast.close();
-    //     Toast.fire({
-    //       title: res.payload as string,
-    //       icon: 'success',
-    //     });
-    //   }
+    const res = await dispatch(importExcelHRModule(file));
+    if (importExcelHRModule.fulfilled.match(res)) {
+      Toast.close();
+      Toast.fire({
+        title: res.payload.message,
+        icon: 'success',
+      });
+    } else {
+      Toast.close();
+      Toast.fire({
+        title: res.payload as string,
+        icon: 'success',
+      });
+    }
   };
 
   return (
@@ -63,7 +64,7 @@ const ModalHR = ({ setIsOpen }: Props) => {
         </div>
         <div className="py-5 px-2">
           <div className="text-end mb-3 text-lg font-medium hover:underline hover:opacity-80">
-            <a href="/excel/Example_Port_Code_Cat1_And_4.xlsx" download>
+            <a href="/excel/Template HR Module.xlsx" download>
               Example File
             </a>
           </div>

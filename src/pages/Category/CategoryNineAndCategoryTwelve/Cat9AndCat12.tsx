@@ -37,25 +37,30 @@ const Cat9AndCat12 = ({
   header,
 }: Props) => {
   return (
-    <>
-      <Search
-        dateFrom={dateFrom}
-        setDateFrom={setDateFrom}
-        dateTo={dateTo}
-        setDateTo={setDateTo}
-        factory={factory}
-        setFactory={setFactory}
-        activeSort={activeSort}
-      />
-      <Table
-        onScroll={onScroll}
-        tableRef={tableRef}
-        header={header}
-        activeSort={activeSort}
-        setActiveSort={setActiveSort}
-        data={data}
-      />
-    </>
+    <div className="w-full">
+      <div className="px-2 sm:px-4 md:px-6">
+        <Search
+          dateFrom={dateFrom}
+          setDateFrom={setDateFrom}
+          dateTo={dateTo}
+          setDateTo={setDateTo}
+          factory={factory}
+          setFactory={setFactory}
+          activeSort={activeSort}
+        />
+      </div>
+
+      <div className="mt-4 overflow-x-auto">
+        <Table
+          onScroll={onScroll}
+          tableRef={tableRef}
+          header={header}
+          activeSort={activeSort}
+          setActiveSort={setActiveSort}
+          data={data}
+        />
+      </div>
+    </div>
   );
 };
 

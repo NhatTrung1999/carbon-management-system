@@ -27,6 +27,12 @@ const hrModuleAPi = {
     });
     return res.data;
   },
+  fetchDepartmentHRModule: async (
+  ) => {
+    const url = `hr/department`;
+    const res = await axiosConfig.get(url);
+    return res.data;
+  },
   updateHRModule: async (
     id: string,
     currentAddress: string,

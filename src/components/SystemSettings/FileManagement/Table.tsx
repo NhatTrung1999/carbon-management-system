@@ -26,6 +26,7 @@ const Table = ({ header, activeSort, setActiveSort, data }: Props) => {
   const { t } = useTranslation();
   const socketRef = useSocket(import.meta.env.VITE_URLS);
   const dispatch = useAppDispatch();
+  
   const handleSorting = (sortField: string, sortOrder: string): void => {
     setActiveSort({ sortField, sortOrder });
   };
@@ -34,20 +35,22 @@ const Table = ({ header, activeSort, setActiveSort, data }: Props) => {
     item.state !== 'Action' && (
       <div className="flex flex-col ml-1">
         <TiArrowSortedUp
-          className={`cursor-pointer ${
+          size={16}
+          className={`cursor-pointer transition-colors ${
             activeSort.sortField === item.state &&
             activeSort.sortOrder === 'asc'
               ? 'text-stone-700'
-              : ''
+              : 'text-white/60 hover:text-white'
           }`}
           onClick={() => handleSorting(item.state, 'asc')}
         />
         <TiArrowSortedDown
-          className={`cursor-pointer ${
+          size={16}
+          className={`cursor-pointer transition-colors ${
             activeSort.sortField === item.state &&
             activeSort.sortOrder === 'desc'
               ? 'text-stone-700'
-              : ''
+              : 'text-white/60 hover:text-white'
           }`}
           onClick={() => handleSorting(item.state, 'desc')}
         />
@@ -107,7 +110,7 @@ const Table = ({ header, activeSort, setActiveSort, data }: Props) => {
     socketRef.current.on('file-excel-error', (data) => {
       Toast.fire({
         title: data,
-        icon: 'success',
+        icon: 'error',
       });
     });
 
@@ -118,67 +121,75 @@ const Table = ({ header, activeSort, setActiveSort, data }: Props) => {
   }, [socketRef]);
 
   return (
-    <div className="max-h-[600px] overflow-y-auto">
-      <table className="w-full text-left min-w-max">
-        <thead className="bg-[#636e61] text-sm sticky top-0 text-white">
-          <tr>
-            {header.map((item, index) => (
-              <th className="px-4 py-4 whitespace-break-spaces" key={index}>
-                <div className="flex flex-row gap-6 items-center justify-between">
-                  <span>{t(item.name)}</span>
-                  {item.sort && (
-                    <span className="flex flex-col cursor-pointer">
-                      {renderSortIcon(item)}
-                    </span>
-                  )}
-                </div>
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {data.length === 0 ? (
+    <div className="overflow-x-auto">
+      <div className="max-h-[400px] sm:max-h-[500px] md:max-h-[600px] overflow-y-auto relative rounded-lg border border-gray-200">
+        <table className="w-full text-left min-w-max">
+          <thead className="bg-[#636e61] text-xs sm:text-sm sticky top-0 text-white z-10">
             <tr>
-              <td
-                colSpan={header.length}
-                className="text-center box-border px-6 py-6"
-              >
-                No data
-              </td>
-            </tr>
-          ) : (
-            <>
-              {data.map((item, index) => (
-                <tr
-                  key={index}
-                  onClick={() => handleStatus(item)}
-                  className="cursor-pointer hover:bg-gray-300 font-medium"
-                >
-                  <td className="box-border px-4 py-4">{item.Module}</td>
-                  <td className="box-border px-4 py-4">{item.File_Name}</td>
-                  <td className="box-border px-4 py-4">
-                    {item.Status ? (
-                      <div className="text-green-500 flex items-center gap-2">
-                        <FaCircleCheck className="size-4" />
-                        Done
-                      </div>
-                    ) : (
-                      <div className="text-blue-500 flex items-center gap-2">
-                        <div className="animate-spin border-4 border-blue-400 border-t-blue-500 rounded-full size-4"></div>
-                        Pending...
-                      </div>
+              {header.map((item, index) => (
+                <th className="px-2 sm:px-3 md:px-4 py-3 sm:py-4 whitespace-nowrap" key={index}>
+                  <div className="flex flex-row gap-2 sm:gap-4 md:gap-6 items-center justify-between">
+                    <span className="font-semibold">{t(item.name)}</span>
+                    {item.sort && (
+                      <span className="flex flex-col cursor-pointer">
+                        {renderSortIcon(item)}
+                      </span>
                     )}
-                  </td>
-                  <td className="box-border px-4 py-4">{item.CreatedAt}</td>
-                  <td className="box-border px-4 py-4">
-                    {formatDate(item.CreatedDate)}
-                  </td>
-                </tr>
+                  </div>
+                </th>
               ))}
-            </>
-          )}
-        </tbody>
-      </table>
+            </tr>
+          </thead>
+          <tbody>
+            {data.length === 0 ? (
+              <tr>
+                <td
+                  colSpan={header.length}
+                  className="text-center box-border px-4 sm:px-6 py-8 sm:py-12"
+                >
+                  <div className="text-sm sm:text-base text-gray-600">No data available</div>
+                </td>
+              </tr>
+            ) : (
+              <>
+                {data.map((item, index) => (
+                  <tr
+                    key={index}
+                    onClick={() => handleStatus(item)}
+                    className="cursor-pointer hover:bg-gray-100 border-b border-gray-200 transition-colors"
+                  >
+                    <td className="box-border px-2 sm:px-3 md:px-4 py-3 sm:py-4 text-xs sm:text-sm font-medium">
+                      {item.Module}
+                    </td>
+                    <td className="box-border px-2 sm:px-3 md:px-4 py-3 sm:py-4 text-xs sm:text-sm font-medium">
+                      {item.File_Name}
+                    </td>
+                    <td className="box-border px-2 sm:px-3 md:px-4 py-3 sm:py-4 text-xs sm:text-sm">
+                      {item.Status ? (
+                        <div className="text-green-600 flex items-center gap-1.5 sm:gap-2">
+                          <FaCircleCheck className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
+                          <span className="font-medium">Done</span>
+                        </div>
+                      ) : (
+                        <div className="text-blue-600 flex items-center gap-1.5 sm:gap-2">
+                          <div className="animate-spin border-2 sm:border-4 border-blue-300 border-t-blue-600 rounded-full w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0"></div>
+                          <span className="font-medium">Pending...</span>
+                        </div>
+                      )}
+                    </td>
+                    <td className="box-border px-2 sm:px-3 md:px-4 py-3 sm:py-4 text-xs sm:text-sm">
+                      {item.CreatedAt}
+                    </td>
+                    <td className="box-border px-2 sm:px-3 md:px-4 py-3 sm:py-4 text-xs sm:text-sm whitespace-nowrap">
+                      {formatDate(item.CreatedDate)}
+                    </td>
+                  </tr>
+                ))}
+              </>
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

@@ -5,13 +5,15 @@ import { useAppDispatch } from '../../../app/hooks';
 // import { getData } from '../../../features/fileSlice';
 import ExcelIcon from '../../../assets/images/excel-icon.png';
 import { useTranslation } from 'react-i18next';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ModalHR from './ModalHR';
 import hrModuleAPi from '../../../api/hr';
 import {
+  fetchDepartmentHRModule,
   fetchHRModule,
   resetDataHRModule,
 } from '../../../features/hrmoduleSlice';
+import Select from '../../common/Select';
 
 type Props = {
   activeSort: {
@@ -44,8 +46,20 @@ const Search = ({
   setDepartment,
 }: Props) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [departmentHR, setDepartmentHR] = useState<
+    { name: string; value: string }[]
+  >([]);
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
+
+  useEffect(() => {
+    const getDepartment = async () => {
+      const res = await dispatch(fetchDepartmentHRModule());
+      setDepartmentHR(res.payload);
+    };
+    getDepartment();
+  }, []);
+
   const formik = useFormik({
     initialValues: {
       fullName,
@@ -68,7 +82,10 @@ const Search = ({
             dateTo: data.dateTo,
             fullName: data.fullName,
             id: data.id,
-            department: data.department,
+            department:
+              data.department.toLowerCase().trim() === 'all'
+                ? ''
+                : data.department,
             page: 1,
             sortField: activeSort.sortField,
             sortOrder: activeSort.sortOrder,
@@ -87,7 +104,9 @@ const Search = ({
         formik.values.dateTo,
         formik.values.fullName,
         formik.values.id,
-        formik.values.department
+        formik.values.department.toLowerCase().trim() === 'all'
+          ? ''
+          : formik.values.department
       );
       const url = window.URL.createObjectURL(new Blob([res]));
       const link = document.createElement('a');
@@ -112,74 +131,87 @@ const Search = ({
   return (
     <>
       <form
-        className="mb-5 flex gap-3 flex-wrap"
+        className="mb-4 sm:mb-5 space-y-4"
         onSubmit={formik.handleSubmit}
       >
-        <div>
-          <Input
-            label={'Date From'}
-            type="date"
-            name="dateFrom"
-            classNameLabel={'mb-2'}
-            value={formik.values.dateFrom}
-            onChange={formik.handleChange}
-          />
+        <div className='mb-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4'>
+          <div>
+            <Input
+              label={'Date From'}
+              type="date"
+              name="dateFrom"
+              classNameLabel="mb-2 text-sm sm:text-base"
+              value={formik.values.dateFrom}
+              onChange={formik.handleChange}
+            />
+          </div>
+          <div>
+            <Input
+              label={'Date To'}
+              type="date"
+              name="dateTo"
+              classNameLabel="mb-2 text-sm sm:text-base"
+              value={formik.values.dateTo}
+              onChange={formik.handleChange}
+            />
+          </div>
+          <div>
+            <Input
+              label={'Full Name'}
+              type="text"
+              name="fullName"
+              classNameLabel="mb-2 text-sm sm:text-base"
+              value={formik.values.fullName}
+              onChange={formik.handleChange}
+            />
+          </div>
+          <div>
+            <Input
+              label={'ID'}
+              type="text"
+              name="id"
+              classNameLabel="mb-2 text-sm sm:text-base"
+              value={formik.values.id}
+              onChange={formik.handleChange}
+            />
+          </div>
+          <div className="sm:col-span-2 lg:col-span-1">
+            {/* <Input
+              label={'Department'}
+              type="text"
+              name="department"
+              classNameLabel={'mb-2'}
+              value={formik.values.department}
+              onChange={formik.handleChange}
+            /> */}
+            <Select
+              label={'Department'}
+              name="department"
+              classNameLabel="mb-2 text-sm sm:text-base"
+              value={formik.values.department}
+              onChange={formik.handleChange}
+              isShowAllSelect={true}
+              // showAllSelect={true}
+              options={departmentHR}
+            />
+          </div>
         </div>
-        <div>
-          <Input
-            label={'Date To'}
-            type="date"
-            name="dateTo"
-            classNameLabel={'mb-2'}
-            value={formik.values.dateTo}
-            onChange={formik.handleChange}
-          />
-        </div>
-        <div>
-          <Input
-            label={'Full Name'}
-            type="text"
-            name="fullName"
-            classNameLabel={'mb-2'}
-            value={formik.values.fullName}
-            onChange={formik.handleChange}
-          />
-        </div>
-        <div>
-          <Input
-            label={'ID'}
-            type="text"
-            name="id"
-            classNameLabel={'mb-2'}
-            value={formik.values.id}
-            onChange={formik.handleChange}
-          />
-        </div>
-        <div>
-          <Input
-            label={'Department'}
-            type="text"
-            name="department"
-            classNameLabel={'mb-2'}
-            value={formik.values.department}
-            onChange={formik.handleChange}
-          />
-        </div>
-        <div className="flex mt-[29px] gap-3">
+
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-2 items-stretch sm:items-center">
           <Button
             label={t('main.search')}
             type="submit"
-            className="block text-white bg-[#FF9119] hover:bg-[#FF9119]/80 focus:ring-4 focus:outline-none focus:ring-[#FF9119]/50 font-medium rounded-lg text-sm px-5 py-2.5 dark:hover:bg-[#FF9119]/80 dark:focus:ring-[#FF9119]/40 cursor-pointer"
+            className="w-full sm:w-auto text-white bg-[#FF9119] hover:bg-[#FF9119]/80 focus:ring-4 focus:outline-none focus:ring-[#FF9119]/50 font-medium rounded-lg text-sm px-5 py-2.5 dark:hover:bg-[#FF9119]/80 dark:focus:ring-[#FF9119]/40 cursor-pointer transition-colors duration-300"
           />
           <button
             type="button"
-            className="flex flex-row gap-2 items-center cursor-pointer"
+            className="w-full sm:w-auto flex flex-row gap-2 items-center justify-center sm:justify-start cursor-pointer px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors duration-300"
             onClick={onExportExcel}
           >
             <img
               src={ExcelIcon}
               alt="excel-icon"
-              className="w-10 object-contain"
+              className="w-8 sm:w-10 object-contain"
             />
             <span className="whitespace-nowrap">
               {t('main.export_excel_file')}
@@ -187,15 +219,15 @@ const Search = ({
           </button>
           <button
             type="button"
-            className="flex flex-row gap-2 items-center cursor-pointer"
+            className="w-full sm:w-auto flex flex-row gap-2 items-center justify-center sm:justify-start cursor-pointer px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors duration-300"
             onClick={onImportExcel}
           >
             <img
               src={ExcelIcon}
               alt="excel-icon"
-              className="w-10 object-contain"
+              className="w-8 sm:w-10 object-contain"
             />
-            <span className="whitespace-nowrap">{'Import Excel File'}</span>
+            <span className="whitespace-nowrap text-sm sm:text-base">{'Import Excel File'}</span>
           </button>
         </div>
       </form>

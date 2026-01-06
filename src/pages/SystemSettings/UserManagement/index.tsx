@@ -28,7 +28,7 @@ const UserManagement = () => {
 
   const { users } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
-  const {t} = useTranslation()
+  const { t } = useTranslation();
 
   useEffect(() => {
     dispatch(
@@ -61,7 +61,7 @@ const UserManagement = () => {
   const handleDeleteUser = () => {
     if (activeRow) {
       Swal.fire({
-        text: 'Do you want to this data?',
+        text: 'Do you want to delete this data?',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -87,40 +87,54 @@ const UserManagement = () => {
 
   return (
     <Fragment>
-      <Breadcrumb
-        items={BreadcrumbData(t(BREADCRUMB), t('usermmt.user_management'))}
-      />
+      <div className="px-3 sm:px-4 md:px-6">
+        <Breadcrumb
+          items={BreadcrumbData(t(BREADCRUMB), t('usermmt.user_management'))}
+        />
 
-      <Typography
-        name={t('usermmt.user_management')}
-        className="text-3xl bg-gradient-to-r from-[#081c1b] via-[#3f4a42] to-[#636e61] inline-block text-transparent bg-clip-text mb-3"
-      />
-
-      <Card className="relative">
-        <div className="mb-5 grid grid-cols-2">
-          <Search activeSort={activeSort} />
-          <ActionButton
-            handleAddUser={handleAddUser}
-            handleEditUser={handleEditUser}
-            handleDeleteUser={handleDeleteUser}
+        <div className="mb-4 sm:mb-6">
+          <Typography
+            name={t('usermmt.user_management')}
+            className="text-xl sm:text-2xl md:text-3xl bg-gradient-to-r from-[#081c1b] via-[#3f4a42] to-[#636e61] inline-block text-transparent bg-clip-text leading-tight"
           />
         </div>
-        <Table
-          header={HEADER}
-          activeSort={activeSort}
-          setActiveSort={setActiveSort}
-          data={users}
-          activeRow={activeRow}
-          setActiveRow={setActiveRow}
-          setItem={setItem}
+
+        <Card className="relative">
+          <div className="mb-5 space-y-4 lg:space-y-0 lg:grid lg:grid-cols-2 lg:gap-4">            
+            <div className="w-full">
+              <Search activeSort={activeSort} />
+            </div>
+          
+            <div className="w-full flex items-end justify-start lg:justify-end">
+              <ActionButton
+                handleAddUser={handleAddUser}
+                handleEditUser={handleEditUser}
+                handleDeleteUser={handleDeleteUser}
+              />
+            </div>
+          </div>
+
+          <div className="overflow-x-auto">
+            <Table
+              header={HEADER}
+              activeSort={activeSort}
+              setActiveSort={setActiveSort}
+              data={users}
+              activeRow={activeRow}
+              setActiveRow={setActiveRow}
+              setItem={setItem}
+            />
+          </div>
+        </Card>
+
+        {/* Modal */}
+        <ModalUser
+          mode={mode}
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          item={item}
         />
-      </Card>
-      <ModalUser
-        mode={mode}
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
-        item={item}
-      />
+      </div>
     </Fragment>
   );
 };

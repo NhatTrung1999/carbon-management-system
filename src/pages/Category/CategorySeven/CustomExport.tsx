@@ -88,27 +88,31 @@ const CustomExport = () => {
   }, [dispatch, loading, hasMore, page, activeSort, dateFrom, dateTo, factory]);
 
   return (
-    <>
-      <Search
-        field={field}
-        activeSort={activeSort}
-        dateFrom={dateFrom}
-        setDateFrom={setDateFrom}
-        dateTo={dateTo}
-        setDateTo={setDateTo}
-        factory={factory}
-        setFactory={setFactory}
-      />
-      <Table
-        header={HEADER_CUSTOM_EXPORT}
-        activeSort={activeSort}
-        setActiveSort={setActiveSort}
-        data={customExport}
-        tableRef={tableRef}
-        onScroll={onScroll}
-        setField={setField}
-      />
-    </>
+    <div className="w-full">
+      <div className="px-2 sm:px-4 md:px-6">
+        <Search
+          field={field}
+          activeSort={activeSort}
+          dateFrom={dateFrom}
+          setDateFrom={setDateFrom}
+          dateTo={dateTo}
+          setDateTo={setDateTo}
+          factory={factory}
+          setFactory={setFactory}
+        />
+      </div>
+      <div className="mt-4 overflow-x-auto">
+        <Table
+          header={HEADER_CUSTOM_EXPORT}
+          activeSort={activeSort}
+          setActiveSort={setActiveSort}
+          data={customExport}
+          tableRef={tableRef}
+          onScroll={onScroll}
+          setField={setField}
+        />
+      </div>
+    </div>
   );
 };
 

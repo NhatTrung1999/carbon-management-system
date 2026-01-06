@@ -78,50 +78,56 @@ const CategoryNineAndCategoryTwelvePage = () => {
 
   return (
     <Fragment>
-      <Breadcrumb items={BreadcrumbData(t(BREADCRUMB), t('cat9andcat12.cat_9_12'))} />
+      <div className="px-3 sm:px-4 md:px-6">
+        <Breadcrumb items={BreadcrumbData(t(BREADCRUMB), t('cat9andcat12.cat_9_12'))} />
 
-      <Typography
-        name={t('cat9andcat12.cat_9_12')}
-        className="block text-xs font-semibold text-[#081c1b]"
-      />
-      <Typography
-        name={t('cat9andcat12.downstream_and_endoflife')}
-        className="text-3xl bg-gradient-to-r from-[#081c1b] via-[#3f4a42] to-[#636e61] inline-block text-transparent bg-clip-text mb-3"
-      />
+        <div className='mb-4 sm:mb-6'>
+          <Typography
+            name={t('cat9andcat12.cat_9_12')}
+            className="block text-xs sm:text-sm font-semibold text-[#081c1b] mb-1 sm:mb-2"
+          />
+          <Typography
+            name={t('cat9andcat12.downstream_and_endoflife')}
+            className="text-xl sm:text-2xl md:text-3xl bg-gradient-to-r from-[#081c1b] via-[#3f4a42] to-[#636e61] inline-block text-transparent bg-clip-text leading-tight"
+          />
+        </div>
 
-      <Card>
-        <Tabs
-          tabs={[
-            {
-              label: t('cat9andcat12.cat_9_12'),
-              content: (
-                <Cat9AndCat12
-                  activeSort={activeSort}
-                  onScroll={onScroll}
-                  tableRef={tableRef}
-                  dateFrom={dateFrom}
-                  setDateFrom={setDateFrom}
-                  dateTo={dateTo}
-                  setDateTo={setDateTo}
-                  factory={factory}
-                  setFactory={setFactory}
-                  setActiveSort={setActiveSort}
-                  data={cat9andcat12}
-                  header={HEADER}
-                />
-              ),
-            },
-            {
-              label: t('cat9andcat12.port_code'),
-              content: <PortCode header={HEADER_PORTCODE} data={portCode} />,
-            },
-            {
-              label: 'Logging',
-              content: <Logging />,
-            },
-          ]}
-        />
-      </Card>
+        <Card>
+          <div className="overflow-hidden">
+            <Tabs
+              tabs={[
+                {
+                  label: t('cat9andcat12.cat_9_12'),
+                  content: (
+                    <Cat9AndCat12
+                      activeSort={activeSort}
+                      onScroll={onScroll}
+                      tableRef={tableRef}
+                      dateFrom={dateFrom}
+                      setDateFrom={setDateFrom}
+                      dateTo={dateTo}
+                      setDateTo={setDateTo}
+                      factory={factory}
+                      setFactory={setFactory}
+                      setActiveSort={setActiveSort}
+                      data={cat9andcat12}
+                      header={HEADER}
+                    />
+                  ),
+                },
+                {
+                  label: t('cat9andcat12.port_code'),
+                  content: <PortCode header={HEADER_PORTCODE} data={portCode} />,
+                },
+                {
+                  label: 'Logging',
+                  content: <Logging />,
+                },
+              ]}
+            />
+          </div>
+        </Card>
+      </div>
     </Fragment>
   );
 };

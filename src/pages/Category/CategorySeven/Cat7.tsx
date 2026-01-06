@@ -84,25 +84,29 @@ const Cat7 = () => {
   }, [dispatch, loading, hasMore, page, activeSort, dateFrom, dateTo, factory]);
 
   return (
-    <>
-      <Search
-        activeSort={activeSort}
-        dateFrom={dateFrom}
-        setDateFrom={setDateFrom}
-        dateTo={dateTo}
-        setDateTo={setDateTo}
-        factory={factory}
-        setFactory={setFactory}
-      />
-      <Table
-        header={HEADER}
-        activeSort={activeSort}
-        setActiveSort={setActiveSort}
-        data={cat7}
-        tableRef={tableRef}
-        onScroll={onScroll}
-      />
-    </>
+    <div className="w-full">
+      <div className="px-2 sm:px-4 md:px-6">
+        <Search
+          activeSort={activeSort}
+          dateFrom={dateFrom}
+          setDateFrom={setDateFrom}
+          dateTo={dateTo}
+          setDateTo={setDateTo}
+          factory={factory}
+          setFactory={setFactory}
+        />
+      </div>
+      <div className="mt-4 overflow-x-auto">
+        <Table
+          header={HEADER}
+          activeSort={activeSort}
+          setActiveSort={setActiveSort}
+          data={cat7}
+          tableRef={tableRef}
+          onScroll={onScroll}
+        />
+      </div>
+    </div>
   );
 };
 

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Search from '../../../components/Category/CategoryFive/Search';
 import Table from '../../../components/Category/CategoryFive/Table';
-import { HEADER } from '../../../types/cat7';
+import { HEADER } from '../../../types/cat5';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { getDataCat5, resetDataCat5 } from '../../../features/categorySlice';
 
@@ -63,25 +63,29 @@ const Cat5 = () => {
   }, [dispatch, loading, hasMore, page, activeSort, dateFrom, dateTo, factory]);
 
   return (
-    <>
-      <Search
-        activeSort={activeSort}
-        dateFrom={dateFrom}
-        setDateFrom={setDateFrom}
-        dateTo={dateTo}
-        setDateTo={setDateTo}
-        factory={factory}
-        setFactory={setFactory}
-      />
-      <Table
-        header={HEADER}
-        activeSort={activeSort}
-        setActiveSort={setActiveSort}
-        data={cat5}
-        tableRef={tableRef}
-        onScroll={onScroll}
-      />
-    </>
+    <div className="w-full">
+      <div className="px-2 sm:px-4 md:px-6">
+        <Search
+          activeSort={activeSort}
+          dateFrom={dateFrom}
+          setDateFrom={setDateFrom}
+          dateTo={dateTo}
+          setDateTo={setDateTo}
+          factory={factory}
+          setFactory={setFactory}
+        />
+      </div>
+      <div className="mt-4 overflow-x-auto">
+        <Table
+          header={HEADER}
+          activeSort={activeSort}
+          setActiveSort={setActiveSort}
+          data={cat5}
+          tableRef={tableRef}
+          onScroll={onScroll}
+        />
+      </div>
+    </div>
   );
 };
 

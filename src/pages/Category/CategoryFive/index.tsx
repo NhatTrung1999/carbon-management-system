@@ -76,32 +76,39 @@ const CategoryFive = () => {
 
   return (
     <Fragment>
-      <Breadcrumb
-        items={BreadcrumbData(t(BREADCRUMB), t('cat5.cat_5'))}
-      />
+      <div className="px-3 sm:px-4 md:px-6">
+        <Breadcrumb
+          items={BreadcrumbData(t(BREADCRUMB), t('cat5.cat_5'))}
+        />
 
-      <Typography
-        name={t('cat5.cat_5')}
-        className="block text-xs font-semibold text-[#081c1b]"
-      />
-      <Typography
-        name={t('cat5.waste_generated_in_operations')}
-        className="text-3xl bg-gradient-to-r from-[#081c1b] via-[#3f4a42] to-[#636e61] inline-block text-transparent bg-clip-text mb-3"
-      />
-      <Card>
-        <Tabs
-          tabs={[
-            {
-              label: 'WG in Operations',
-              content: <Cat5 />,
-            },
-            {
-              label: 'Logging',
-              content: <Logging />,
-            }
-          ]}
+        <div className="mb-4 sm:mb-6">
+          <Typography
+            name={t('cat5.cat_5')}
+            className="block text-xs sm:text-sm font-semibold text-[#081c1b] mb-1 sm:mb-2"
           />
-      </Card>
+          <Typography
+            name={t('cat5.waste_generated_in_operations')}
+            className="text-xl sm:text-2xl md:text-3xl bg-gradient-to-r from-[#081c1b] via-[#3f4a42] to-[#636e61] inline-block text-transparent bg-clip-text leading-tight"
+          />
+        </div>
+
+        <Card>
+          <div className="overflow-hidden">
+            <Tabs
+              tabs={[
+                {
+                  label: 'WG in Operations',
+                  content: <Cat5 />,
+                },
+                {
+                  label: 'Logging',
+                  content: <Logging />,
+                }
+              ]}
+            />
+          </div>
+        </Card>
+      </div>
     </Fragment>
   );
 };

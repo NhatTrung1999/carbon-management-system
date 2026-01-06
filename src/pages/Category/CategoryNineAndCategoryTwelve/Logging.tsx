@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Search from '../../../components/Category/CategoryNineAndCategoryTwelve/LoggingCat9AndCat12/Search';
 import Table from '../../../components/Category/CategoryNineAndCategoryTwelve/LoggingCat9AndCat12/Table';
-import { HEADER } from '../../../types/loggingcat9and12'
+import { HEADER } from '../../../types/loggingcat9and12';
 import { getLoggingCat9And12, resetLoggingCat9And12 } from '../../../features/categorySlice';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 
@@ -63,26 +63,30 @@ const Logging = () => {
         }, [dispatch, loading, hasMore, page, activeSort, dateFrom, dateTo, factory]);
 
     return (
-        <div className="p-4">
-            <Search
-                activeSort={activeSort}
-                dateFrom={dateFrom}
-                setDateFrom={setDateFrom}
-                dateTo={dateTo}
-                setDateTo={setDateTo}
-                factory={factory}
-                setFactory={setFactory}
-            />
-            <Table
-                header={HEADER}
-                tableRef={tableRef}
-                data={loggingcat9and12}
-                activeSort={activeSort}
-                setActiveSort={setActiveSort}
-                onScroll={onScroll}
-            />
-        </div>
-    );
+    <div className="w-full">
+      <div className="px-2 sm:px-4 md:px-6 py-3 sm:py-4">
+        <Search
+          activeSort={activeSort}
+          dateFrom={dateFrom}
+          setDateFrom={setDateFrom}
+          dateTo={dateTo}
+          setDateTo={setDateTo}
+          factory={factory}
+          setFactory={setFactory}
+        />
+      </div>
+      <div className="overflow-x-auto">
+        <Table
+          header={HEADER}
+          tableRef={tableRef}
+          data={loggingcat9and12}
+          activeSort={activeSort}
+          setActiveSort={setActiveSort}
+          onScroll={onScroll}
+        />
+      </div>
+    </div>
+  );
 };
 
 export default Logging;

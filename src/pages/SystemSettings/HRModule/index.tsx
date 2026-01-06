@@ -13,7 +13,6 @@ import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import {
   fetchHRModule,
   resetDataHRModule,
-  setHRModule,
   updateHRModule,
 } from '../../../features/hrmoduleSlice';
 
@@ -53,7 +52,7 @@ const HRModule = () => {
         dateTo,
         fullName,
         id,
-        department,
+        department: department.toLowerCase().trim() === 'all' ? '' : department,
         page: 1,
         sortField: activeSort.sortField,
         sortOrder: activeSort.sortOrder,
@@ -73,7 +72,8 @@ const HRModule = () => {
           dateTo,
           fullName,
           id,
-          department,
+          department:
+            department.toLowerCase().trim() === 'all' ? '' : department,
           page,
           sortField: activeSort.sortField,
           sortOrder: activeSort.sortOrder,
@@ -101,38 +101,45 @@ const HRModule = () => {
 
   return (
     <Fragment>
-      <Breadcrumb
-        items={BreadcrumbData(t(BREADCRUMB), 'Data Collection HR Module')}
-      />
+      <div className="px-3 sm:px-4 md:px-6">
+        <Breadcrumb
+          items={BreadcrumbData(t(BREADCRUMB), 'Data Collection HR Module')}
+        />
 
-      <Typography
-        name="Data Collection HR Module"
-        className="text-3xl bg-gradient-to-r from-[#081c1b] via-[#3f4a42] to-[#636e61] inline-block text-transparent bg-clip-text mb-3"
-      />
-      <Card className="relative">
-        <Search
-          activeSort={activeSort}
-          dateFrom={dateFrom}
-          dateTo={dateTo}
-          fullName={fullName}
-          id={id}
-          department={department}
-          setDateFrom={setDateFrom}
-          setDateTo={setDateTo}
-          setFullName={setFullName}
-          setId={setId}
-          setDepartment={setDepartment}
-        />
-        <Table
-          header={HEADER}
-          activeSort={activeSort}
-          setActiveSort={setActiveSort}
-          data={hrmodule}
-          tableRef={tableRef}
-          onScroll={onScroll}
-          onSave={handleUpdateRow}
-        />
-      </Card>
+        <div className="mb-4 sm:mb-6">
+          <Typography
+            name="Data Collection HR Module"
+            className="text-3xl bg-gradient-to-r from-[#081c1b] via-[#3f4a42] to-[#636e61] inline-block text-transparent bg-clip-text mb-3"
+          />
+        </div>
+
+        <Card className="relative">
+          <div className="overflow-hidden">
+            <Search
+              activeSort={activeSort}
+              dateFrom={dateFrom}
+              dateTo={dateTo}
+              fullName={fullName}
+              id={id}
+              department={department}
+              setDateFrom={setDateFrom}
+              setDateTo={setDateTo}
+              setFullName={setFullName}
+              setId={setId}
+              setDepartment={setDepartment}
+            />
+            <Table
+              header={HEADER}
+              activeSort={activeSort}
+              setActiveSort={setActiveSort}
+              data={hrmodule}
+              tableRef={tableRef}
+              onScroll={onScroll}
+              onSave={handleUpdateRow}
+            />
+          </div>
+        </Card>
+      </div>
     </Fragment>
   );
 };

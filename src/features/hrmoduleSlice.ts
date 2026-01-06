@@ -59,6 +59,18 @@ export const fetchHRModule = createAsyncThunk(
   }
 );
 
+export const fetchDepartmentHRModule = createAsyncThunk(
+  'hrmodule/fetch-department-hrmodule',
+  async (_, { rejectWithValue }) => {
+    try {
+      const res = await hrModuleAPi.fetchDepartmentHRModule();
+      return res;
+    } catch (error: any) {
+      return rejectWithValue(error || '');
+    }
+  }
+);
+
 export const updateHRModule = createAsyncThunk(
   'hrmodule/update-hrmodule',
   async (
@@ -86,6 +98,20 @@ export const updateHRModule = createAsyncThunk(
   }
 );
 
+export const importExcelHRModule = createAsyncThunk(
+  'hrmodule/import-excel-hrmodule',
+  async (file: File, { rejectWithValue }) => {
+    try {
+      const res = await hrModuleAPi.importFromExcel(file);
+      return res;
+    } catch (error: any) {
+      return rejectWithValue(
+        error?.response?.data?.message || 'Import failed!'
+      );
+    }
+  }
+);
+
 const initialState: IHrModuleState = {
   hrmodule: [],
   loading: false,
@@ -104,9 +130,6 @@ const hrmoduleSlice = createSlice({
       state.page = 1;
       state.hasMore = true;
       state.error = null;
-    },
-    setHRModule: (state, action) => {
-      console.log(action);
     },
   },
   extraReducers: (builder) => {
@@ -148,9 +171,37 @@ const hrmoduleSlice = createSlice({
         state.loading = false;
         state.error = action.payload as string;
       });
+
+    builder
+      .addCase(importExcelHRModule.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(importExcelHRModule.fulfilled, (state, action) => {
+        state.loading = false;
+        const { updatedData } = action.payload;
+        if (updatedData && Array.isArray(updatedData)) {
+          updatedData.forEach((newItem: any) => {
+            const index = state.hrmodule.findIndex(
+              (item) => item.ID === newItem.id
+            );
+            if (index !== -1) {
+              state.hrmodule[index] = {
+                ...state.hrmodule[index],
+                CurrentAddress: newItem.CurrentAddress,
+                TransportationMethod: newItem.TransportationMethod,
+              };
+            }
+          });
+        }
+      })
+      .addCase(importExcelHRModule.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      });
   },
 });
 
-export const { resetDataHRModule, setHRModule } = hrmoduleSlice.actions;
+export const { resetDataHRModule } = hrmoduleSlice.actions;
 
 export default hrmoduleSlice.reducer;
