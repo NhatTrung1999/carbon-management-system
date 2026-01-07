@@ -1,9 +1,13 @@
 type apiConfigAttribute = {
-    baseUrl: string
-}
+  baseUrl: string;
+};
 
 const apiConfig: apiConfigAttribute = {
-    baseUrl: import.meta.env.VITE_URLS
-}
+  baseUrl: import.meta.env.VITE_URLS,
+};
 
-export default apiConfig
+const apiCmsConfig: apiConfigAttribute = {
+  baseUrl: import.meta.env.VITE_CMS_API,
+};
+
+export { apiConfig, apiCmsConfig };

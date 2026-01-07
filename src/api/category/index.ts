@@ -173,6 +173,31 @@ const categoryApi = {
 
     return res.data;
   },
+  getLoggingCat1And4: async (
+    dateFrom: string,
+    dateTo: string,
+    factory: string,
+    page: number,
+    sortField: string,
+    sortOrder: string
+  ) => {
+    const res = await axiosConfig.get(
+      'cat1-and-cat4/get-logging-cat1-and-cat4',
+      {
+        params: {
+          dateFrom,
+          dateTo,
+          factory,
+          page,
+          limit: 20,
+          sortField,
+          sortOrder,
+        },
+      }
+    );
+
+    return res.data;
+  },
   getLoggingCat5: async (
     dateFrom: string,
     dateTo: string,
@@ -182,6 +207,28 @@ const categoryApi = {
     sortOrder: string
   ) => {
     const res = await axiosConfig.get('cat5/get-logging-cat5', {
+      params: {
+        dateFrom,
+        dateTo,
+        factory,
+        page,
+        limit: 20,
+        sortField,
+        sortOrder,
+      },
+    });
+
+    return res.data;
+  },
+  getLoggingCat6: async (
+    dateFrom: string,
+    dateTo: string,
+    factory: string,
+    page: number,
+    sortField: string,
+    sortOrder: string
+  ) => {
+    const res = await axiosConfig.get('cat6/get-logging-cat6', {
       params: {
         dateFrom,
         dateTo,
@@ -225,17 +272,20 @@ const categoryApi = {
     sortField: string,
     sortOrder: string
   ) => {
-    const res = await axiosConfig.get('cat9-and-cat12/get-logging-cat9-and-cat12', {
-      params: {
-        dateFrom,
-        dateTo,
-        factory,
-        page,
-        limit: 20,
-        sortField,
-        sortOrder,
-      },
-    });
+    const res = await axiosConfig.get(
+      'cat9-and-cat12/get-logging-cat9-and-cat12',
+      {
+        params: {
+          dateFrom,
+          dateTo,
+          factory,
+          page,
+          limit: 20,
+          sortField,
+          sortOrder,
+        },
+      }
+    );
 
     return res.data;
   },

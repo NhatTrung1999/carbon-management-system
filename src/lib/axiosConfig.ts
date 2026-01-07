@@ -1,5 +1,5 @@
 import axios from 'axios';
-import apiConfig from './apiConfig';
+import {apiConfig} from './apiConfig';
 import storage from '../utils/storage';
 
 const axiosConfig = axios.create({

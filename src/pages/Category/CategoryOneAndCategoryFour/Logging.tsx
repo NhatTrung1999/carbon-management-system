@@ -1,12 +1,11 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import Search from '../../../components/Category/CategoryFive/Search';
-import Table from '../../../components/Category/CategoryFive/Table';
-import { HEADER } from '../../../types/cat5';
+import Search from '../../../components/Category/CategoryOneAndCategoryFour/LoggingCat1AndCat4/Search';
+import Table from '../../../components/Category/CategoryOneAndCategoryFour/LoggingCat1AndCat4/Table';
+import { HEADER } from '../../../types/loggingcat1and4';
+import { getLoggingCat1And4, resetLoggingCat1And4 } from '../../../features/categorySlice';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { getDataCat5, resetDataCat5 } from '../../../features/categorySlice';
-import { fetchDataAutoSendCMSCat5 } from '../../../features/autosendcmsSlice';
 
-const Cat5 = () => {
+const Logging = () => {
   const tableRef = useRef<HTMLDivElement | null>(null);
   const didFetch = useRef(false);
   const [activeSort, setActiveSort] = useState({
@@ -23,7 +22,7 @@ const Cat5 = () => {
 
   const [factory, setFactory] = useState<string>('LYV');
 
-  const { cat5, page, loading, hasMore } = useAppSelector(
+  const { loggingcat1and4, page, loading, hasMore } = useAppSelector(
     (state) => state.category
   );
   const dispatch = useAppDispatch();
@@ -31,23 +30,15 @@ const Cat5 = () => {
   useEffect(() => {
     if (didFetch.current) return;
     didFetch.current = true;
-    dispatch(resetDataCat5());
+    dispatch(resetLoggingCat1And4());
     dispatch(
-      getDataCat5({
+      getLoggingCat1And4({
         dateFrom,
         dateTo,
         factory,
         page: 1,
         sortField: activeSort.sortField,
         sortOrder: activeSort.sortOrder,
-      })
-    );
-
-    dispatch(
-      fetchDataAutoSendCMSCat5({
-        dateFrom,
-        dateTo,
-        factory,
       })
     );
   }, [dispatch, activeSort, dateFrom, dateTo, factory]);
@@ -59,7 +50,7 @@ const Cat5 = () => {
       el.scrollTop + el.clientHeight >= el.scrollHeight - 20;
     if (bottomReached) {
       dispatch(
-        getDataCat5({
+        getLoggingCat1And4({
           dateFrom,
           dateTo,
           factory,
@@ -73,7 +64,7 @@ const Cat5 = () => {
 
   return (
     <div className="w-full">
-      <div className="px-2 sm:px-4 md:px-6">
+      <div className="px-2 sm:px-4 md:px-6 py-3 sm:py-4">
         <Search
           activeSort={activeSort}
           dateFrom={dateFrom}
@@ -84,13 +75,13 @@ const Cat5 = () => {
           setFactory={setFactory}
         />
       </div>
-      <div className="mt-4 overflow-x-auto">
+      <div className="overflow-x-auto">
         <Table
           header={HEADER}
+          tableRef={tableRef}
+          data={loggingcat1and4}
           activeSort={activeSort}
           setActiveSort={setActiveSort}
-          data={cat5}
-          tableRef={tableRef}
           onScroll={onScroll}
         />
       </div>
@@ -98,4 +89,4 @@ const Cat5 = () => {
   );
 };
 
-export default Cat5;
+export default Logging;

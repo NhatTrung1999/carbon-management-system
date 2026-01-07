@@ -3,6 +3,7 @@ import Button from '../../common/Button';
 import Input from '../../common/Input';
 
 import ExcelIcon from '../../../assets/images/excel-icon.png';
+import SendIcon from '../../../assets/images/send-to-CMS.png';
 import { useAppDispatch } from '../../../app/hooks';
 import {
   getDataCat9AndCat12,
@@ -93,6 +94,10 @@ const Search = ({
   };
   //Export Excel
 
+  const onSendToCMS = async () => {
+
+  };
+
   return (
     <form
       className="mb-4 sm:mb-5 space-y-4"
@@ -139,6 +144,13 @@ const Search = ({
           type="submit"
           className="w-full sm:w-auto text-white bg-[#FF9119] hover:bg-[#FF9119]/80 focus:ring-4 focus:outline-none focus:ring-[#FF9119]/50 font-medium rounded-lg text-sm px-5 py-2.5 dark:hover:bg-[#FF9119]/80 dark:focus:ring-[#FF9119]/40 cursor-pointer transition-colors duration-300"
         />
+        <Button
+          label={t('Send to CMS')}
+          type='button'
+          onClick={onSendToCMS}
+          className="w-full sm:w-auto flex flex-row gap-2 items-center justify-center sm:justify-start cursor-pointer px-4 py-2 rounded-lg text-white bg-[#FFB619] hover:bg-[#FFB619]/80 transition-colors duration-300"
+          imgSrc={SendIcon}
+        />
         <button
           type="button"
           className="w-full sm:w-auto flex flex-row gap-2 items-center justify-center sm:justify-start cursor-pointer px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors duration-300"
@@ -153,6 +165,20 @@ const Search = ({
             {t('main.export_excel_file')}
           </span>
         </button>
+        {/* <button
+          type="button"
+          className="w-full sm:w-auto flex flex-row gap-2 items-center justify-center sm:justify-start cursor-pointer px-4 py-2 rounded-lg text-white bg-[#FFB619] hover:bg-[#FFB619]/80 transition-colors duration-300"
+          onClick={() => onSendToCMS}
+        >
+          <img
+            src={SendIcon}
+            alt="excel-icon"
+            className="w-8 sm:w-10 object-contain"
+          />
+          <span className="whitespace-nowrap text-sm sm:text-base">
+            {t('Send to CMS')}
+          </span>
+        </button> */}
       </div>
     </form>
   );

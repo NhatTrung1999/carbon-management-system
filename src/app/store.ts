@@ -5,6 +5,7 @@ import categoryReducer from '../features/categorySlice';
 import fileReducer from '../features/fileSlice';
 import infofactoryReducer from '../features/infofactorySlice';
 import hrmoduleReducer from '../features/hrmoduleSlice';
+import autosendcmsReducer from '../features/autosendcmsSlice';
 
 export const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ export const store = configureStore({
     file: fileReducer,
     infofactory: infofactoryReducer,
     hrmodule: hrmoduleReducer,
+    autosendcms: autosendcmsReducer,
   },
 });
 

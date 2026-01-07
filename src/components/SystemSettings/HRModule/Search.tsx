@@ -213,7 +213,7 @@ const Search = ({
               alt="excel-icon"
               className="w-8 sm:w-10 object-contain"
             />
-            <span className="whitespace-nowrap">
+            <span className="whitespace-nowrap text-sm sm:text-base">
               {t('main.export_excel_file')}
             </span>
           </button>

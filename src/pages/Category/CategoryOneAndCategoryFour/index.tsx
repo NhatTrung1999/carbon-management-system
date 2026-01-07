@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next';
 import Tabs from '../../../components/common/Tabs';
 import Cat1AndCat4 from './Cat1AndCat4';
 import PortCode from './PortCode';
+import Logging from './Logging';
 import { HEADER_PORTCODE } from '../../../types/cat1andcat4';
 import { useAppSelector } from '../../../app/hooks';
 
@@ -48,6 +49,10 @@ const CategoryOneAndCategoryFour = () => {
                     <PortCode header={HEADER_PORTCODE} data={portCodeCat1AndCat4} />
                   ),
                 },
+                {
+                  label: 'Logging',
+                  content: <Logging />,
+                }
               ]}
             />
           </div>
