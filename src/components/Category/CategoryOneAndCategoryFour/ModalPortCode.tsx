@@ -67,7 +67,7 @@ const ModalPortCode = ({ setIsOpen }: Props) => {
         </div>
         <div className="py-5 px-2">
           <div className="text-end mb-3 text-lg font-medium hover:underline hover:opacity-80">
-            <a href="/excel/Example_Port_Code.xlsx" download>
+            <a href="/excel/Example_Port_Code_Cat1_And_4.xlsx" download>
               Example File
             </a>
           </div>

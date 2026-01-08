@@ -64,7 +64,7 @@ const Cat6 = () => {
 
   return (
     <div className="w-full">
-      <div className="px-2 sm:px-4 md:px-6">
+      <div className="mt-4 overflow-x-auto">
         <Search
           activeSort={activeSort}
           dateFrom={dateFrom}

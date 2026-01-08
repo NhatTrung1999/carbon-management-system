@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import Search from '../../../components/Category/CategoryNineAndCategoryTwelve/LoggingCat9AndCat12/Search';
+// import Search from '../../../components/Category/CategoryNineAndCategoryTwelve/LoggingCat9AndCat12/Search';
 import Table from '../../../components/Category/CategoryNineAndCategoryTwelve/LoggingCat9AndCat12/Table';
 import { HEADER } from '../../../types/loggingcat9and12';
 import { getLoggingCat9And12, resetLoggingCat9And12 } from '../../../features/categorySlice';
@@ -61,10 +61,10 @@ const Logging = () => {
                 );
             }
         }, [dispatch, loading, hasMore, page, activeSort, dateFrom, dateTo, factory]);
-
+console.log(setDateFrom, setDateTo, setFactory);
     return (
     <div className="w-full">
-      <div className="px-2 sm:px-4 md:px-6 py-3 sm:py-4">
+      {/* <div className="mt-4 overflow-x-auto">
         <Search
           activeSort={activeSort}
           dateFrom={dateFrom}
@@ -74,7 +74,7 @@ const Logging = () => {
           factory={factory}
           setFactory={setFactory}
         />
-      </div>
+      </div> */}
       <div className="overflow-x-auto">
         <Table
           header={HEADER}

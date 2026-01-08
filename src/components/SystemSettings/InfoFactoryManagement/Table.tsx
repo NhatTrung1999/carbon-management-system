@@ -13,9 +13,9 @@ type Props = {
   };
   setActiveSort: (data: any) => void;
   data: InfoFactoryData[];
-  activeRow: string | null;
-  setActiveRow: (value: string | null) => void;
-  setItem: (value: InfoFactoryData) => void;
+  activeRow?: string | null;
+  setActiveRow?: (value: string | null) => void;
+  setItem?: (value: InfoFactoryData) => void;
 };
 
 const Table = ({ 
@@ -23,9 +23,6 @@ const Table = ({
   activeSort, 
   setActiveSort, 
   data,
-  activeRow,
-  setActiveRow,
-  setItem,
 }: Props) => {
   const { t } = useTranslation();
   const handleSorting = (sortField: string, sortOrder: string): void => {
@@ -93,15 +90,16 @@ const Table = ({
                 {data.map((item, index) => (
                   <tr
                     key={index}
-                    className={`cursor-pointer border-b border-gray-200 transition-colors ${
-                      activeRow === item.ID 
-                        ? 'bg-[#a7baa4] text-white hover:bg-[#96a993]' 
-                        : 'hover:bg-gray-100'
-                    }`}
-                    onClick={() => {
-                      setActiveRow(item.ID === activeRow ? null : item.ID);
-                      setItem(item);
-                    }}
+                    className={`cursor-pointer border-b border-gray-200 transition-colors`}
+                    // className={`cursor-pointer border-b border-gray-200 transition-colors ${
+                    //   activeRow === item.ID 
+                    //     ? 'bg-[#a7baa4] text-white hover:bg-[#96a993]' 
+                    //     : 'hover:bg-gray-100'
+                    // }`}
+                    // onClick={() => {
+                    //   setActiveRow?.(item.ID === activeRow ? null : item.ID);
+                    //   setItem?.(item);
+                    // }}
                   >
                     <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 text-xs sm:text-sm">{item.COMID}</td>
                     <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 text-xs sm:text-sm">{item.CompanyName}</td>

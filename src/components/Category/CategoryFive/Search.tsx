@@ -12,7 +12,7 @@ import Select from '../../common/Select';
 import { FACTORIES } from '../../../utils/constanst';
 import { useTranslation } from 'react-i18next';
 import { fetchDataAutoSendCMSCat5 } from '../../../features/autosendcmsSlice';
-import axios from 'axios';
+// import axios from 'axios';
 
 type Props = {
   activeSort: {
@@ -36,7 +36,9 @@ const Search = ({
   factory,
   setFactory,
 }: Props) => {
-  const { autoSendCMSCat5, loading } = useAppSelector((state) => state.autosendcms);
+  const { autoSendCMSCat5, loading } = useAppSelector(
+    (state) => state.autosendcms
+  );
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
@@ -98,12 +100,11 @@ const Search = ({
   };
 
   const onSendToCMS = async () => {
+    // const response = await axios.post(
+    //   '/api/dataIntegrate/create',
+    //   autoSendCMSCat5
+    // );
     console.log(autoSendCMSCat5, loading);
-    const response = await axios.post(
-      '/api/dataIntegrate/create',
-      autoSendCMSCat5
-    );
-    console.log(response.data, loading);
   };
 
   return (
@@ -158,7 +159,14 @@ const Search = ({
           className="w-full sm:w-auto flex flex-row gap-2 items-center justify-center sm:justify-start cursor-pointer px-4 py-2 rounded-lg text-white bg-[#FFB619] hover:bg-[#FFB619]/80 transition-colors duration-300"
           imgSrc={SendIcon}
         />
-        <button
+        <Button
+          label={t('Export Excel file')}
+          type="button"
+          onClick={onExportExcel}
+          className="w-full sm:w-auto flex flex-row gap-2 items-center justify-center sm:justify-start cursor-pointer px-4 py-2 rounded-lg text-white bg-green-500 hover:bg-green-500/80 transition-colors duration-300"
+          imgSrc={ExcelIcon}
+        />
+        {/* <button
           type="button"
           className="w-full sm:w-auto flex flex-row gap-2 items-center justify-center sm:justify-start cursor-pointer px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors duration-300"
           onClick={() => onExportExcel()}
@@ -171,7 +179,7 @@ const Search = ({
           <span className="whitespace-nowrap text-sm sm:text-base">
             {t('main.export_excel_file')}
           </span>
-        </button>
+        </button> */}
         {/* <button
           type="button"
           className="w-full sm:w-auto flex flex-row gap-2 items-center justify-center sm:justify-start cursor-pointer px-4 py-2 rounded-lg text-white bg-[#FFB619] hover:bg-[#FFB619]/80 transition-colors duration-300"

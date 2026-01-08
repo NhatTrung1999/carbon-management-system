@@ -6,14 +6,14 @@ export interface ICat1AndCat4Data {
   ReceivedNo: string;
   MatID: string;
   MatName: string;
-  QtyUsage: number;
-  QtyReceive: number;
+  Qty_Usage: number;
+  Qty_Receive: number;
   UnitWeight: number;
-  WeightUnitKG: number;
+  Weight_Unitkg: number;
   SupplierCode: string;
   FactoryCode: string;
   Style: string;
-  TransportationMethod: string;
+  Transportationmethod: string;
   Departure: string;
   ThirdCountryLandTransport: string;
   PortOfDeparture: string;
@@ -23,9 +23,9 @@ export interface ICat1AndCat4Data {
   LandTransportDistance: number;
   SeaTransportDistance: number;
   AirTransportDistance: number;
-  LandTransortTonKilometers: number;
-  SeaTransortTonKilometers: number;
-  AirTransortTonKilometers: number;
+  LandTransportTonKilometers: number;
+  SeaTransportTonKilometers: number;
+  AirTransportTonKilometers: number;
 }
 
 export interface IPortCodeDataCat1AndCat4 {
@@ -129,138 +129,57 @@ export interface IPortCodeDataCat1AndCat4 {
 // ];
 
 export const HEADER = [
-  {
-    name: 'No.',
-    state: 'No',
-    sort: true,
-  },
-  {
-    name: 'Pur Date',
-    state: 'PurDate',
-    sort: true,
-  },
-  {
-    name: 'RK Date',
-    state: 'RKDate',
-    sort: true,
-  },
-  {
-    name: 'Purchase Order',
-    state: 'PurchaseOrder',
-    sort: true,
-  },
-  {
-    name: 'Received No.',
-    state: 'ReceivedNo',
-    sort: true,
-  },
-  {
-    name: 'Material No',
-    state: 'MaterialNo',
-    sort: true,
-  },
-  {
-    name: 'Qty.(Usage)',
-    state: 'QtyUsage',
-    sort: true,
-  },
-  {
-    name: 'Qty.(Receive)',
-    state: 'QtyReceive',
-    sort: true,
-  },
-  {
-    name: 'Unit Weight',
-    state: 'UnitWeight',
-    sort: true,
-  },
-  {
-    name: 'Weight(Unit: KG)',
-    state: 'Weight',
-    sort: true,
-  },
-  {
-    name: 'Supplier Code',
-    state: 'SupplierCode',
-    sort: true,
-  },
-  {
-    name: 'Factory Code',
-    state: 'FactoryCode',
-    sort: true,
-  },
-  {
-    name: 'Style',
-    state: 'Style',
-    sort: true,
-  },
-  {
-    name: 'Transportation Method',
-    state: 'TransportationMethod',
-    sort: true,
-  },
-  {
-    name: 'Departure',
-    state: 'Departure',
-    sort: true,
-  },
+  { name: 'No.', state: 'No', sort: true },
+  { name: 'Factory Code', state: 'FactoryCode', sort: true },
+  { name: 'Pur Date', state: 'PurDate', sort: true },
+  { name: 'RK Date', state: 'RKDate', sort: true },
+  { name: 'Purchase Order', state: 'PurNo', sort: true },
+  { name: 'Received No.', state: 'ReceivedNo', sort: true },
+  { name: 'Material No', state: 'MatID', sort: true },
+  { name: 'Qty.(Usage)', state: 'Qty_Usage', sort: true },
+  { name: 'Qty.(Receive)', state: 'Qty_Receive', sort: true },
+  { name: 'Unit Weight', state: 'UnitWeight', sort: true },
+  { name: 'Weight(Unit: KG)', state: 'Weight_Unitkg', sort: true },
+  { name: 'Supplier Code', state: 'SupplierCode', sort: true },
+  { name: 'Style', state: 'Style', sort: true },
+  { name: 'Transportation Method', state: 'Transportationmethod', sort: true },
+  { name: 'Departure', state: 'Departure', sort: true },
   {
     name: 'Third-country Land Transport (A)',
-    state: 'ThirdcountryLandTransportA',
+    state: 'ThirdCountryLandTransport',
     sort: true,
   },
-  {
-    name: 'Port of Departure',
-    state: 'PortofDeparture',
-    sort: true,
-  },
-  {
-    name: 'Port of Arrival',
-    state: 'PortofArrival',
-    sort: true,
-  },
+  { name: 'Port of Departure', state: 'PortOfDeparture', sort: true },
+  { name: 'Port of Arrival', state: 'PortOfArrival', sort: true },
   {
     name: 'Factory (Domestic Land Transport) (B)',
-    state: 'FactoryDomesticLandTransportB',
+    state: 'FactoryDomesticLandTransport',
     sort: true,
   },
-  {
-    name: 'Destination',
-    state: 'Destination',
-    sort: true,
-  },
+  { name: 'Destination', state: 'Destination', sort: true },
   {
     name: 'Land Transport Distance (A+B)',
-    state: 'LandTransportDistanceAB',
+    state: 'LandTransportDistance',
     sort: true,
   },
-  {
-    name: 'Sea Transport Distance',
-    state: 'SeaTransportDistance',
-    sort: true,
-  },
-  {
-    name: 'Air Transport Distance',
-    state: 'AirTransportDistance',
-    sort: true,
-  },
+  { name: 'Sea Transport Distance', state: 'SeaTransportDistance', sort: true },
+  { name: 'Air Transport Distance', state: 'AirTransportDistance', sort: true },
   {
     name: 'Land Transport Ton-Kilometers',
-    state: 'LandTransortTonKilometers',
+    state: 'LandTransportTonKilometers',
     sort: true,
   },
   {
     name: 'Sea Transport Ton-Kilometers',
-    state: 'SeaTransortTonKilometers',
+    state: 'SeaTransportTonKilometers',
     sort: true,
   },
   {
     name: 'Air Transport Ton-Kilometers',
-    state: 'AirTransortTonKilometers',
+    state: 'AirTransportTonKilometers',
     sort: true,
   },
 ];
-
 
 export const HEADER_PORTCODE = [
   {

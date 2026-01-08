@@ -1,8 +1,11 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import Search from '../../../components/Category/CategoryOneAndCategoryFour/LoggingCat1AndCat4/Search';
+// import Search from '../../../components/Category/CategoryOneAndCategoryFour/LoggingCat1AndCat4/Search';
 import Table from '../../../components/Category/CategoryOneAndCategoryFour/LoggingCat1AndCat4/Table';
 import { HEADER } from '../../../types/loggingcat1and4';
-import { getLoggingCat1And4, resetLoggingCat1And4 } from '../../../features/categorySlice';
+import {
+  getLoggingCat1And4,
+  resetLoggingCat1And4,
+} from '../../../features/categorySlice';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 
 const Logging = () => {
@@ -61,10 +64,10 @@ const Logging = () => {
       );
     }
   }, [dispatch, loading, hasMore, page, activeSort, dateFrom, dateTo, factory]);
-
+  console.log(setDateFrom, setDateTo, setFactory);
   return (
     <div className="w-full">
-      <div className="px-2 sm:px-4 md:px-6 py-3 sm:py-4">
+      {/* <div className="mt-4 overflow-x-auto">
         <Search
           activeSort={activeSort}
           dateFrom={dateFrom}
@@ -74,7 +77,7 @@ const Logging = () => {
           factory={factory}
           setFactory={setFactory}
         />
-      </div>
+      </div> */}
       <div className="overflow-x-auto">
         <Table
           header={HEADER}

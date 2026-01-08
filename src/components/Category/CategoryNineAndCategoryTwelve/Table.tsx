@@ -174,11 +174,11 @@ const Table = ({
 
           {loading &&
             data.length > 0 &&
-            Array.from({ length: 1 }).map((_, i) => (
-              <tr key={`skeleton-${i}`} className="animate-pulse border-b border-gray-200">
+            Array.from({ length: 3 }).map((_, i) => (
+              <tr key={`skeleton-${i}`} className="border-b border-gray-200">
                 {header.map((_, colIndex) => (
                   <td key={colIndex} className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3">
-                    <div className="h-3 sm:h-4 bg-gray-200 rounded"></div>
+                    <div className="h-4 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 rounded animate-shimmer bg-[length:200%_100%]"></div>
                   </td>
                 ))}
               </tr>
@@ -284,8 +284,16 @@ const Table = ({
       </table>
 
       {loading && data.length === 0 && (
-        <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 flex justify-center">
-          <div className="animate-spin border-4 border-gray-300 border-t-[#636e61] rounded-full w-8 h-8 sm:w-10 sm:h-10"></div>
+        <div className="absolute inset-0 bg-white/80 backdrop-blur-sm flex items-center justify-center z-20">
+          <div className="flex flex-col items-center gap-4">
+            <div className="relative w-16 h-16 sm:w-20 sm:h-20">
+              <div className="absolute inset-0 border-4 border-gray-200 rounded-full"></div>
+              <div className="absolute inset-0 border-4 border-[#636e61] border-t-transparent rounded-full animate-spin"></div>
+            </div>
+            <div className="text-sm sm:text-base font-medium text-gray-600 animate-pulse">
+              Loading data...
+            </div>
+          </div>
         </div>
       )}
     </div>
