@@ -59,38 +59,46 @@ const Sidebar = ({ isOpenSideBar, setIsOpenSideBar }: Props) => {
               </div>
               {itemParent.sidebarItem
                 .filter((item) => shouldShowItem(item.path))
-                .map((itemChild, indexChild) => (
-                  <Link to={itemChild.path} key={indexChild}>
-                    <li
-                      className={`${
-                        isOpenSideBar 
-                          ? 'px-2 md:px-4' 
-                          : 'px-10'
-                      } py-3 cursor-pointer text-base ${
-                        itemChild.path === activePath
-                          ? 'bg-gray-100 border-l-4 border-primary text-[#1d2d29] font-medium'
-                          : ''
-                      }`}
-                      onClick={() => setActivePath(itemChild.path)}
-                    >
-                      <div
+                .map((itemChild, indexChild) => {
+                  const isActive = itemChild.path === activePath;
+                  
+                  return (
+                    <Link to={itemChild.path} key={indexChild}>
+                      <li
                         className={`${
-                          isOpenSideBar ? 'justify-center' : ''
-                        } flex items-center gap-3`}
+                          isOpenSideBar 
+                            ? 'px-2 md:px-4' 
+                            : 'px-10'
+                        } py-3 cursor-pointer text-base ${
+                          isActive
+                            ? 'bg-gray-100 border-l-4 border-primary text-[#1d2d29] font-medium'
+                            : ''
+                        }`}
+                        onClick={() => setActivePath(itemChild.path)}
                       >
-                        <span>{itemChild.icon}</span>
-                        {!isOpenSideBar && (
-                          <span
-                            className="flex-1 whitespace-nowrap truncate"
-                            title={itemChild.text}
-                          >
-                            {t(itemChild.text)}
+                        <div
+                          className={`${
+                            isOpenSideBar ? 'justify-center' : ''
+                          } flex items-center gap-3`}
+                        >
+                          <span className={isActive ? 'text-primary' : ''}>
+                            {isActive && itemChild.activeIcon 
+                              ? itemChild.activeIcon 
+                              : itemChild.icon}
                           </span>
-                        )}
-                      </div>
-                    </li>
-                  </Link>
-                ))}
+                          {!isOpenSideBar && (
+                            <span
+                              className="flex-1 whitespace-nowrap truncate"
+                              title={itemChild.text}
+                            >
+                              {t(itemChild.text)}
+                            </span>
+                          )}
+                        </div>
+                      </li>
+                    </Link>
+                  );
+                })}
             </div>
           ))}
         </div>
