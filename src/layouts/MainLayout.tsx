@@ -25,7 +25,9 @@ const MainLayout = () => {
         />
         <div
           className={`${
-            isOpenSideBar ? 'pl-[150px]' : 'pl-[350px]'
+            isOpenSideBar 
+              ? 'pl-[70px] md:pl-[120px]' 
+              : 'pl-[280px]'
           } flex-1 pr-5 pt-[85px] pb-5 transition-all duration-300 ease-in-out overflow-hidden overflow-y-auto`}
         >
           <Outlet />

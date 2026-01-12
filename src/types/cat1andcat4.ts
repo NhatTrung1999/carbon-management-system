@@ -20,12 +20,12 @@ export interface ICat1AndCat4Data {
   PortOfArrival: string;
   FactoryDomesticLandTransport: string;
   Destination: string;
-  LandTransportDistance: number;
-  SeaTransportDistance: number;
-  AirTransportDistance: number;
-  LandTransportTonKilometers: number;
-  SeaTransportTonKilometers: number;
-  AirTransportTonKilometers: number;
+  LandTransportDistance: string;
+  SeaTransportDistance: string;
+  AirTransportDistance: string;
+  LandTransportTonKilometers: string;
+  SeaTransportTonKilometers: string;
+  AirTransportTonKilometers: string;
 }
 
 export interface IPortCodeDataCat1AndCat4 {
@@ -128,6 +128,139 @@ export interface IPortCodeDataCat1AndCat4 {
 //   },
 // ];
 
+// export const HEADER = [
+//   {
+//     name: 'cat1andcat4.no',
+//     state: 'No',
+//     sort: true,
+//   },
+//   {
+//     name: 'cat1andcat4.date',
+//     state: 'PurDate',
+//     sort: true,
+//   },
+//   {
+//     name: 'RK Date',
+//     state: 'RKDate',
+//     sort: true,
+//   },
+//   {
+//     name: 'cat1andcat4.purchase_order',
+//     state: 'PurchaseOrder',
+//     sort: true,
+//   },
+//   {
+//     name: 'cat1andcat4.received_no',
+//     state: 'ReceivedNo',
+//     sort: true,
+//   },
+//   {
+//     name: 'cat1andcat4.material_no',
+//     state: 'MaterialNo',
+//     sort: true,
+//   },
+//   {
+//     name: 'cat1andcat4.qty_usage',
+//     state: 'QtyUsage',
+//     sort: true,
+//   },
+//   {
+//     name: 'cat1andcat4.qty_receive',
+//     state: 'QtyReceive',
+//     sort: true,
+//   },
+//   {
+//     name: 'cat1andcat4.unit_weight',
+//     state: 'UnitWeight',
+//     sort: true,
+//   },
+//   {
+//     name: 'cat1andcat4.weight',
+//     state: 'Weight',
+//     sort: true,
+//   },
+//   {
+//     name: 'cat1andcat4.supplier_code',
+//     state: 'SupplierCode',
+//     sort: true,
+//   },
+//   {
+//     name: 'cat1andcat4.factory_code',
+//     state: 'FactoryCode',
+//     sort: true,
+//   },
+//   {
+//     name: 'cat1andcat4.style',
+//     state: 'Style',
+//     sort: true,
+//   },
+//   {
+//     name: 'cat1andcat4.transport_method',
+//     state: 'TransportationMethod',
+//     sort: true,
+//   },
+//   {
+//     name: 'cat1andcat4.departure',
+//     state: 'Departure',
+//     sort: true,
+//   },
+//   {
+//     name: 'cat1andcat4.third_country_land_transport',
+//     state: 'ThirdcountryLandTransportA',
+//     sort: true,
+//   },
+//   {
+//     name: 'cat1andcat4.port_of_departure',
+//     state: 'PortofDeparture',
+//     sort: true,
+//   },
+//   {
+//     name: 'cat1andcat4.port_of_arrival',
+//     state: 'PortofArrival',
+//     sort: true,
+//   },
+//   {
+//     name: 'cat1andcat4.factory_domestic_land_transport_b',
+//     state: 'FactoryDomesticLandTransportB',
+//     sort: true,
+//   },
+//   {
+//     name: 'cat1andcat4.destination',
+//     state: 'Destination',
+//     sort: true,
+//   },
+//   {
+//     name: 'cat1andcat4.land_transport_distance_a_b',
+//     state: 'LandTransportDistanceAB',
+//     sort: true,
+//   },
+//   {
+//     name: 'cat1andcat4.sea_transport_distance',
+//     state: 'SeaTransportDistance',
+//     sort: true,
+//   },
+//   {
+//     name: 'cat1andcat4.air_transport_distance',
+//     state: 'AirTransportDistance',
+//     sort: true,
+//   },
+//   {
+//     name: 'cat1andcat4.land_transport_ton_kilometers',
+//     state: 'LandTransportTonKilometers',
+//     sort: true,
+//   },
+//   {
+//     name: 'cat1andcat4.sea_transport_ton_kilometers',
+//     state: 'SeaTransportTonKilometers',
+//     sort: true,
+//   },
+//   {
+//     name: 'cat1andcat4.air_transport_ton_kilometers',
+//     state: 'AirTransportTonKilometers',
+//     sort: true,
+//   },
+// ];
+
 export const HEADER = [
   { name: 'No.', state: 'No', sort: true },
   { name: 'Factory Code', state: 'FactoryCode', sort: true },
@@ -135,11 +268,11 @@ export const HEADER = [
   { name: 'RK Date', state: 'RKDate', sort: true },
   { name: 'Purchase Order', state: 'PurNo', sort: true },
   { name: 'Received No.', state: 'ReceivedNo', sort: true },
-  { name: 'Material No', state: 'MatID', sort: true },
+  { name: 'Material No.', state: 'MatID', sort: true },
   { name: 'Qty.(Usage)', state: 'Qty_Usage', sort: true },
-  { name: 'Qty.(Receive)', state: 'Qty_Receive', sort: true },
-  { name: 'Unit Weight', state: 'UnitWeight', sort: true },
-  { name: 'Weight(Unit: KG)', state: 'Weight_Unitkg', sort: true },
+  { name: 'Qty.(receive)', state: 'Qty_Receive', sort: true },
+  { name: 'Unit weight', state: 'UnitWeight', sort: true },
+  { name: 'Weight (Unit：KG)', state: 'Weight_Unitkg', sort: true },
   { name: 'Supplier Code', state: 'SupplierCode', sort: true },
   { name: 'Style', state: 'Style', sort: true },
   { name: 'Transportation Method', state: 'Transportationmethod', sort: true },
@@ -152,7 +285,7 @@ export const HEADER = [
   { name: 'Port of Departure', state: 'PortOfDeparture', sort: true },
   { name: 'Port of Arrival', state: 'PortOfArrival', sort: true },
   {
-    name: 'Factory (Domestic Land Transport) (B)',
+    name: 'Factory (Domestic Land Transport)(B)',
     state: 'FactoryDomesticLandTransport',
     sort: true,
   },
@@ -163,9 +296,9 @@ export const HEADER = [
     sort: true,
   },
   { name: 'Sea Transport Distance', state: 'SeaTransportDistance', sort: true },
-  { name: 'Air Transport Distance', state: 'AirTransportDistance', sort: true },
+  { name: 'Air Transport Distanc', state: 'AirTransportDistance', sort: true },
   {
-    name: 'Land Transport Ton-Kilometers',
+    name: 'Land Transport Ton-Kilometer',
     state: 'LandTransportTonKilometers',
     sort: true,
   },
@@ -175,7 +308,7 @@ export const HEADER = [
     sort: true,
   },
   {
-    name: 'Air Transport Ton-Kilometers',
+    name: '	Air Transport Ton-Kilomete',
     state: 'AirTransportTonKilometers',
     sort: true,
   },
@@ -183,32 +316,32 @@ export const HEADER = [
 
 export const HEADER_PORTCODE = [
   {
-    name: 'Factory Code',
+    name: 'cat1andcat4.factory_code',
     state: 'FactoryCode',
     sort: true,
   },
   {
-    name: 'Supplier ID',
+    name: 'cat1andcat4.supplier_id',
     state: 'SupplierID',
     sort: true,
   },
   {
-    name: 'Port Code',
+    name: 'cat1andcat4.port_code',
     state: 'PortCode',
     sort: true,
   },
   {
-    name: 'Transport Method',
+    name: 'cat1andcat4.transport_method',
     state: 'TransportMethod',
     sort: true,
   },
   {
-    name: 'Created By',
+    name: 'cat1andcat4.created_by',
     state: 'CreatedBy',
     sort: true,
   },
   {
-    name: 'Created Date',
+    name: 'cat1andcat4.created_date',
     state: 'CreatedDate',
     sort: true,
   },

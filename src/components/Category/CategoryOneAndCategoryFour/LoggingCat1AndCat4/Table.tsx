@@ -68,6 +68,7 @@ const Table = ({
     item.state !== 'Action' && (
       <div className="flex flex-col ml-1">
         <TiArrowSortedUp
+          size={16}
           className={`cursor-pointer transition-clors ${
             activeSort.sortField === item.state &&
             activeSort.sortOrder === 'asc'
@@ -77,6 +78,7 @@ const Table = ({
           onClick={() => handleSorting(item.state, 'asc')}
         />
         <TiArrowSortedDown
+          size={16}
           className={`cursor-pointer transition-colors${
             activeSort.sortField === item.state &&
             activeSort.sortOrder === 'desc'
@@ -88,9 +90,19 @@ const Table = ({
       </div>
     );
 
+  const getTableHeight = () => {
+    if (loading && data.length === 0) {
+      return 'max-h-[250px]';
+    }
+    if (data.length === 0 && !loading) {
+      return 'max-h-[300px]';
+    }
+    return 'max-h-[400px] sm:max-h-[500px] md:max-h-[600px]';
+  };
+
   return (
     <div
-      className="max-h-[400px] sm:max-h-[500px] md:max-h-[600px] overflow-auto relative rounded-lg border border-gray-200"
+      className={`${getTableHeight()} overflow-auto relative rounded-lg border border-gray-200 bg-white transition-all duration-300`}
       ref={tableRef}
       onScroll={onScroll}
     >
@@ -170,6 +182,7 @@ const Table = ({
                 <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-xs sm:text-sm">{item.CreatedAt}</td>
               </tr>
             ))}
+          
           {loading &&
             data.length > 0 &&
             Array.from({ length: 3 }).map((_, i) => (
@@ -181,6 +194,23 @@ const Table = ({
                 ))}
               </tr>
             ))}
+
+          {loading && data.length === 0 && (
+            Array.from({ length: 5 }).map((_, i) => (
+              <tr key={`skeleton-loading-${i}`} className="border-b border-gray-200">
+                {header.map((_, colIndex) => (
+                  <td key={colIndex} className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3">
+                    <div 
+                      className="h-4 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 rounded animate-shimmer bg-[length:200%_100%]"
+                      style={{
+                        animationDelay: `${i * 0.1}s`
+                      }}
+                    ></div>
+                  </td>
+                ))}
+              </tr>
+            ))
+          )}
 
           {!loading && data.length === 0 && (
             <tr>
@@ -203,20 +233,6 @@ const Table = ({
           )}
         </tbody>
       </table>
-
-      {loading && data.length === 0 && (
-        <div className="absolute inset-0 bg-white/80 backdrop-blur-sm flex items-center justify-center z-20">
-          <div className="flex flex-col items-center gap-4">
-            <div className="relative w-16 h-16 sm:w-20 sm:h-20">
-              <div className="absolute inset-0 border-4 border-gray-200 rounded-full"></div>
-              <div className="absolute inset-0 border-4 border-[#636e61] border-t-transparent rounded-full animate-spin"></div>
-            </div>
-            <div className="text-sm sm:text-base font-medium text-gray-600 animate-pulse">
-              Loading data...
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

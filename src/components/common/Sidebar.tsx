@@ -41,12 +41,12 @@ const Sidebar = ({ isOpenSideBar, setIsOpenSideBar }: Props) => {
       <div
         className={`${
           isOpenSideBar 
-            ? 'w-[70px] md:w-[120px]'
-            : 'w-xs'
+            ? 'w-[60px] md:w-[120px]'
+            : 'w-[280px]'
         } 
-        bg-white fixed z-10 left-0 top-0 bottom-0 pt-[70px] border-gray-200 shadow-xl transition-all duration-300 ease-in-out`}
+        bg-white fixed z-10 left-0 top-0 bottom-0 pt-[70px] h-screen border-gray-200 shadow-xl transition-all duration-300 ease-in-out`}
       >
-        <div>
+        <div className='h-full overflow-y-auto pt-4'>
           {MENU_SIDEBAR.map((itemParent, indexParent) => (
             <div key={indexParent}>
               <div
