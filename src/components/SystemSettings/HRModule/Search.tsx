@@ -203,7 +203,21 @@ const Search = ({
             type="submit"
             className="w-full sm:w-auto text-white bg-[#FF9119] hover:bg-[#FF9119]/80 focus:ring-4 focus:outline-none focus:ring-[#FF9119]/50 font-medium rounded-lg text-sm px-5 py-2.5 dark:hover:bg-[#FF9119]/80 dark:focus:ring-[#FF9119]/40 cursor-pointer transition-colors duration-300"
           />
-          <button
+          <Button
+            label={t('Export Excel file')}
+            type='button'
+            onClick={onExportExcel}
+            className="w-full sm:w-auto flex flex-row gap-2 items-center justify-center sm:justify-start cursor-pointer px-4 py-2 rounded-lg text-white bg-green-500 hover:bg-green-500/80 transition-colors duration-300"
+            imgSrc={ExcelIcon}
+          />
+          <Button
+            label={t('Import Excel file')}
+            type='button'
+            onClick={onImportExcel}
+            className="w-full sm:w-auto flex flex-row gap-2 items-center justify-center sm:justify-start cursor-pointer px-4 py-2 rounded-lg text-white bg-green-500 hover:bg-green-500/80 transition-colors duration-300"
+            imgSrc={ExcelIcon}
+          />
+          {/* <button
             type="button"
             className="w-full sm:w-auto flex flex-row gap-2 items-center justify-center sm:justify-start cursor-pointer px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors duration-300"
             onClick={onExportExcel}
@@ -228,7 +242,7 @@ const Search = ({
               className="w-8 sm:w-10 object-contain"
             />
             <span className="whitespace-nowrap text-sm sm:text-base">{'Import Excel File'}</span>
-          </button>
+          </button> */}
         </div>
       </form>
       {isOpen && <ModalHR setIsOpen={setIsOpen} />}

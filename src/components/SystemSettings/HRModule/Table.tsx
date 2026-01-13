@@ -132,7 +132,7 @@ const Table = ({
                   <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-xs sm:text-sm whitespace-nowrap">
                     {item.PermanentAddress}
                   </td>
-                  <td className="px-4 py-4">
+                  <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-xs sm:text-sm whitespace-nowrap">
                     {isEditing ? (
                       <input
                         type="text"
@@ -145,7 +145,7 @@ const Table = ({
                       item.CurrentAddress
                     )}
                   </td>
-                  <td className="px-4 py-4">
+                  <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-xs sm:text-sm whitespace-nowrap">
                     {isEditing ? (
                       // <input
                       //   type="text"
@@ -181,7 +181,7 @@ const Table = ({
                   <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-xs sm:text-sm whitespace-nowrap">
                     {item.Number_of_Working_Days}
                   </td>
-                  <td className="px-4 py-4 text-center">
+                  <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-xs sm:text-sm whitespace-nowrap text-center">
                     {isEditing ? (
                       <div className="flex gap-2 justify-center">
                         <button

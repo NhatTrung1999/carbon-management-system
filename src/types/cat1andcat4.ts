@@ -13,7 +13,7 @@ export interface ICat1AndCat4Data {
   SupplierCode: string;
   FactoryCode: string;
   Style: string;
-  Transportationmethod: string;
+  TransportationMethod: string;
   Departure: string;
   ThirdCountryLandTransport: string;
   PortOfDeparture: string;
@@ -275,7 +275,7 @@ export const HEADER = [
   { name: 'Weight (Unit：KG)', state: 'Weight_Unitkg', sort: true },
   { name: 'Supplier Code', state: 'SupplierCode', sort: true },
   { name: 'Style', state: 'Style', sort: true },
-  { name: 'Transportation Method', state: 'Transportationmethod', sort: true },
+  { name: 'Transportation Method', state: 'TransportationMethod', sort: true },
   { name: 'Departure', state: 'Departure', sort: true },
   {
     name: 'Third-country Land Transport (A)',

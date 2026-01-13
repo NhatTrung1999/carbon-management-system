@@ -125,6 +125,9 @@ const PortCode = ({ header, data }: Props) => {
                     className="border-b border-gray-200 hover:bg-gray-50 transition-colors"
                   >
                     <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-xs sm:text-sm whitespace-nowrap">
+                      {item.FactoryCode}
+                    </td>
+                    <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-xs sm:text-sm whitespace-nowrap">
                       {item.SupplierID}
                     </td>
                     <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-xs sm:text-sm whitespace-nowrap">

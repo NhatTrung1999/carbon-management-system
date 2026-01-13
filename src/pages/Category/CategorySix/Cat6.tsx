@@ -13,7 +13,7 @@ const Cat6 = () => {
       sortOrder: 'asc',
     });
   
-    const { cat6, page, loading, hasMore } = useAppSelector(
+    const { page, loading, hasMore } = useAppSelector(
       (state) => state.category
     );
     const dispatch = useAppDispatch();
@@ -80,7 +80,7 @@ const Cat6 = () => {
           header={HEADER}
           activeSort={activeSort}
           setActiveSort={setActiveSort}
-          data={cat6}
+          data={[]}
           tableRef={tableRef}
           onScroll={onScroll}
         />

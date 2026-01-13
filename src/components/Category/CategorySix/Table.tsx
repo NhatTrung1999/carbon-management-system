@@ -127,7 +127,7 @@ const Table = ({
                 if (item.children && item.children.length > 0) {
                   return (
                     <th
-                      className="px-2 sm:px-3 md:px-4 py-3 sm:py-4 whitespace-nowrap"
+                      className="px-2 sm:px-3 md:px-4 py-3 sm:py-4 whitespace-nowrap text-center"
                       key={index}
                       colSpan={item.children.length}
                     >
@@ -236,7 +236,7 @@ const Table = ({
                 </tr>
               ))}
 
-            {loading && data.length === 0 && (
+            {/* {loading && data.length === 0 && (
               Array.from({ length: 5 }).map((_, i) => (
                 <tr key={`skeleton-loading-${i}`} className="border-b border-gray-200">
                   {Array.from({ length: getTotalColumns() }).map((_, colIndex) => (
@@ -251,7 +251,7 @@ const Table = ({
                   ))}
                 </tr>
               ))
-            )}
+            )} */}
 
             {!loading && data.length === 0 && (
               <tr>
