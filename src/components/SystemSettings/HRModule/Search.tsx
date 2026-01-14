@@ -69,6 +69,7 @@ const Search = ({
       dateTo,
     },
     onSubmit: async (data) => {
+      console.log(data);
       try {
         dispatch(resetDataHRModule());
         setDateFrom(data.dateFrom);

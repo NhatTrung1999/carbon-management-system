@@ -18,8 +18,11 @@ import ProtectedRoute from './ProtectedRoute';
 import CategoryOneAndCategoryFour from '../pages/Category/CategoryOneAndCategoryFour';
 import InfoFactoryManagement from '../pages/SystemSettings/InfoFactoryManagement';
 import HRModule from '../pages/SystemSettings/HRModule';
+import { useAppSelector } from '../app/hooks';
 
 const AppRoutes = () => {
+  const { user } = useAppSelector((state) => state.auth);
+  const department = user?.Department?.toLowerCase().trim();
   return (
     <Routes>
       <Route element={<AuthLayout />}>
@@ -32,7 +35,11 @@ const AppRoutes = () => {
             index
             element={
               <Navigate
-                to={'/dashboard/category-one-and-category-four'}
+                to={
+                  department === 'hr'
+                    ? '/dashboard/data-collection-hr-module'
+                    : '/dashboard/category-one-and-category-four'
+                }
                 replace
               />
             }
