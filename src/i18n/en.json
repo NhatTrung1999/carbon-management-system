@@ -365,6 +365,9 @@
     "transport_method": "Transportation Method",
     "number_of_working_days":"Number of working days",
     "action": "Action"
+  }, 
+  "system_decentral": {
+    "system_decentralization": "System Decentralization"
   }
 }
 

@@ -35,6 +35,7 @@ const HRModule = () => {
   const [fullName, setFullName] = useState<string>('');
   const [id, setId] = useState<string>('');
   const [department, setDepartment] = useState<string>('');
+  const [joinDate, setJoinDate] = useState<string>('');
 
   const { hrmodule, page, loading, hasMore } = useAppSelector(
     (state) => state.hrmodule
@@ -53,6 +54,7 @@ const HRModule = () => {
         fullName,
         id,
         department: department.toLowerCase().trim() === 'all' ? '' : department,
+        joinDate,
         page: 1,
         sortField: activeSort.sortField,
         sortOrder: activeSort.sortOrder,
@@ -74,6 +76,7 @@ const HRModule = () => {
           id,
           department:
             department.toLowerCase().trim() === 'all' ? '' : department,
+          joinDate,
           page,
           sortField: activeSort.sortField,
           sortOrder: activeSort.sortOrder,
@@ -122,11 +125,13 @@ const HRModule = () => {
               fullName={fullName}
               id={id}
               department={department}
+              joinDate={joinDate}
               setDateFrom={setDateFrom}
               setDateTo={setDateTo}
               setFullName={setFullName}
               setId={setId}
               setDepartment={setDepartment}
+              setJoinDate={setJoinDate}
             />
             <Table
               header={HEADER}

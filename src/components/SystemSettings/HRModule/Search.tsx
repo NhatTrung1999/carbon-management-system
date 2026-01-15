@@ -30,6 +30,8 @@ type Props = {
   setId: (val: string) => void;
   department: string;
   setDepartment: (val: string) => void;
+  joinDate: string;
+  setJoinDate: (val: string) => void;
 };
 
 const Search = ({
@@ -39,11 +41,13 @@ const Search = ({
   fullName,
   id,
   department,
+  joinDate,
   setDateFrom,
   setDateTo,
   setFullName,
   setId,
   setDepartment,
+  setJoinDate,
 }: Props) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [departmentHR, setDepartmentHR] = useState<
@@ -67,6 +71,7 @@ const Search = ({
       department,
       dateFrom,
       dateTo,
+      joinDate,
     },
     onSubmit: async (data) => {
       console.log(data);
@@ -77,6 +82,7 @@ const Search = ({
         setFullName(data.fullName);
         setId(data.id);
         setDepartment(data.department);
+        setJoinDate(data.joinDate);
         dispatch(
           fetchHRModule({
             dateFrom: data.dateFrom,
@@ -87,6 +93,7 @@ const Search = ({
               data.department.toLowerCase().trim() === 'all'
                 ? ''
                 : data.department,
+            joinDate: data.joinDate,
             page: 1,
             sortField: activeSort.sortField,
             sortOrder: activeSort.sortOrder,
@@ -107,7 +114,8 @@ const Search = ({
         formik.values.id,
         formik.values.department.toLowerCase().trim() === 'all'
           ? ''
-          : formik.values.department
+          : formik.values.department,
+        formik.values.joinDate
       );
       const url = window.URL.createObjectURL(new Blob([res]));
       const link = document.createElement('a');
@@ -131,11 +139,8 @@ const Search = ({
 
   return (
     <>
-      <form
-        className="mb-4 sm:mb-5 space-y-4"
-        onSubmit={formik.handleSubmit}
-      >
-        <div className='mb-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4'>
+      <form className="mb-4 sm:mb-5 space-y-4" onSubmit={formik.handleSubmit}>
+        <div className="mb-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3 sm:gap-4">
           <div>
             <Input
               label={'Date From'}
@@ -196,6 +201,16 @@ const Search = ({
               options={departmentHR}
             />
           </div>
+          <div>
+            <Input
+              label={'Join Date'}
+              type="date"
+              name="joinDate"
+              classNameLabel="mb-2 text-sm sm:text-base"
+              value={formik.values.joinDate}
+              onChange={formik.handleChange}
+            />
+          </div>
         </div>
 
         <div className="flex flex-col sm:flex-row gap-3 sm:gap-2 items-stretch sm:items-center">
@@ -206,14 +221,14 @@ const Search = ({
           />
           <Button
             label={t('Export Excel file')}
-            type='button'
+            type="button"
             onClick={onExportExcel}
             className="w-full sm:w-auto flex flex-row gap-2 items-center justify-center sm:justify-start cursor-pointer px-4 py-2 rounded-lg text-white bg-green-500 hover:bg-green-500/80 transition-colors duration-300"
             imgSrc={ExcelIcon}
           />
           <Button
             label={t('Import Excel file')}
-            type='button'
+            type="button"
             onClick={onImportExcel}
             className="w-full sm:w-auto flex flex-row gap-2 items-center justify-center sm:justify-start cursor-pointer px-4 py-2 rounded-lg text-white bg-green-500 hover:bg-green-500/80 transition-colors duration-300"
             imgSrc={ExcelIcon}

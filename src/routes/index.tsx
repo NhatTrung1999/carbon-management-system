@@ -18,6 +18,7 @@ import ProtectedRoute from './ProtectedRoute';
 import CategoryOneAndCategoryFour from '../pages/Category/CategoryOneAndCategoryFour';
 import InfoFactoryManagement from '../pages/SystemSettings/InfoFactoryManagement';
 import HRModule from '../pages/SystemSettings/HRModule';
+import SystemDecentralization from '../pages/SystemSettings/SystemDecentralization';
 import { useAppSelector } from '../app/hooks';
 
 const AppRoutes = () => {
@@ -72,6 +73,10 @@ const AppRoutes = () => {
             path="/dashboard/data-collection-hr-module"
             element={<HRModule />}
           />
+          <Route
+            path="/dashboard/system-decentralization"
+            element={<SystemDecentralization />}
+          /> 
         </Route>
       </Route>
       <Route path="*" element={<NotFound />} />

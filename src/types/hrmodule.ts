@@ -15,6 +15,11 @@ export const HEADER = [
     sort: true,
   },
   {
+    name: 'Join Date',
+    state: 'JoinDate',
+    sort: true,
+  },
+  {
     name: 'Permanent Address',
     state: 'PermanentAddress',
     sort: true,
@@ -45,6 +50,7 @@ export interface IHRModule {
   ID: string;
   Department: string;
   FullName: string;
+  JoinDate: string;
   PermanentAddress: string;
   CurrentAddress: string;
   TransportationMethod: string;

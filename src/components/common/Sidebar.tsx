@@ -27,12 +27,13 @@ const Sidebar = ({ isOpenSideBar, setIsOpenSideBar }: Props) => {
     }
     if (
       path === '/dashboard/user-management' ||
-      path === '/dashboard/info-factory-management'
+      path === '/dashboard/info-factory-management' ||
+      path === '/dashboard/system-decentralization'
     ) {
       return role === 'admin';
     }
     if (path === '/dashboard/data-collection-hr-module') {
-      return department === 'esg';
+      return department === 'esg' || role === 'admin';
     }
     return true;
     // if (path === '/dashboard/user-management') {

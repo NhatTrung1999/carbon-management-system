@@ -364,6 +364,9 @@
     "transport_method": "Phương tiện đi lại chính",
     "number_of_working_days":"Số ngày đi làm",
     "action": "Hành động"
+  },
+  "system_decentral": {
+    "system_decentralization": "Phân quyền hệ thống"
   }
 }
 

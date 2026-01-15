@@ -20,6 +20,7 @@ export const fetchHRModule = createAsyncThunk(
       fullName,
       id,
       department,
+      joinDate,
       page,
       sortField,
       sortOrder,
@@ -29,6 +30,7 @@ export const fetchHRModule = createAsyncThunk(
       fullName: string;
       id: string;
       department: string;
+      joinDate: string;
       page: number;
       sortField: string;
       sortOrder: string;
@@ -42,6 +44,7 @@ export const fetchHRModule = createAsyncThunk(
         fullName,
         id,
         department,
+        joinDate,
         page,
         sortField,
         sortOrder

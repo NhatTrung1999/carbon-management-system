@@ -19,6 +19,8 @@ import Excel from '../assets/images/excel.png';
 import ExcelActive from '../assets/images/excel-Active.png';
 import DataCollectionHRModule from '../assets/images/data-collection-hr-module.png';
 import DataCollectionHRModuleActive from '../assets/images/data-collection-hr-module-Active.png';
+import SystemDecentralization from '../assets/images/system-decentralization.png';
+import SystemDecentralizationActive from '../assets/images/system-decentralization-Active.png';
 
 const LANGUAGES = [
   {
@@ -128,6 +130,12 @@ const MENU_SIDEBAR = [
         path: '/dashboard/data-collection-hr-module',
         icon: <img src={DataCollectionHRModule} className="size-6" />,
         activeIcon: <img src={DataCollectionHRModuleActive} className='size-6 text-primary' />,
+      },
+      {
+        text: 'system_decentral.system_decentralization',
+        path: '/dashboard/system-decentralization',
+        icon: <img src={SystemDecentralization} className="size-6" />,
+        activeIcon: <img src={SystemDecentralizationActive} className='size-6 text-primary' />,
       },
     ],
   },

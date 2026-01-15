@@ -7,6 +7,7 @@ const hrModuleAPi = {
     fullName: string,
     id: string,
     department: string,
+    joinDate: string,
     page: number,
     sortField: string,
     sortOrder: string
@@ -19,6 +20,7 @@ const hrModuleAPi = {
         fullName,
         id,
         department,
+        joinDate,
         page,
         limit: 20,
         sortField,
@@ -27,8 +29,7 @@ const hrModuleAPi = {
     });
     return res.data;
   },
-  fetchDepartmentHRModule: async (
-  ) => {
+  fetchDepartmentHRModule: async () => {
     const url = `hr/department`;
     const res = await axiosConfig.get(url);
     return res.data;
@@ -60,7 +61,8 @@ const hrModuleAPi = {
     dateTo: string,
     fullName: string,
     id: string,
-    department: string
+    department: string,
+    joinDate: string
   ) => {
     const response = await axiosConfig.get('hr/export', {
       params: {
@@ -69,6 +71,7 @@ const hrModuleAPi = {
         fullName,
         id,
         department,
+        joinDate,
       },
       responseType: 'blob',
     });
