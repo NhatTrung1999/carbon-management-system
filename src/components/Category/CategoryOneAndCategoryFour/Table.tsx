@@ -156,16 +156,16 @@ const Table = ({
                   {item.MatID}
                 </td>
                 <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-xs sm:text-sm whitespace-nowrap">
-                  {item.Qty_Usage}
+                  {item.QtyUsage}
                 </td>
                 <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-xs sm:text-sm whitespace-nowrap">
-                  {item.Qty_Receive}
+                  {item.QtyReceive}
                 </td>
                 <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-xs sm:text-sm whitespace-nowrap">
                   {item.UnitWeight}
                 </td>
                 <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-xs sm:text-sm whitespace-nowrap">
-                  {item.Weight_Unitkg}
+                  {item.WeightUnitkg}
                 </td>
                 <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-xs sm:text-sm whitespace-nowrap">
                   {item.SupplierCode}
