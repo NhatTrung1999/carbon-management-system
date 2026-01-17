@@ -1,9 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-// import Search from '../../../components/Category/CategoryFive/LoggingCat5/Search';
 import Table from '../../../components/Category/CategoryFive/LoggingCat5/Table';
 import { HEADER } from '../../../types/loggingcat5';
-import { getLoggingCat5, resetLoggingCat5 } from '../../../features/categorySlice';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
+import { fetchLogCat5, resetLogCat5 } from '../../../features/logcatSlice';
 
 const Logging = () => {
   const tableRef = useRef<HTMLDivElement | null>(null);
@@ -22,17 +21,17 @@ const Logging = () => {
 
   const [factory, setFactory] = useState<string>('LYV');
 
-  const { loggingcat5, page, loading, hasMore } = useAppSelector(
-    (state) => state.category
+  const { logcat5, page, loading, hasMore } = useAppSelector(
+    (state) => state.logcat
   );
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (didFetch.current) return;
     didFetch.current = true;
-    dispatch(resetLoggingCat5());
+    dispatch(resetLogCat5());
     dispatch(
-      getLoggingCat5({
+      fetchLogCat5({
         dateFrom,
         dateTo,
         factory,
@@ -50,7 +49,7 @@ const Logging = () => {
       el.scrollTop + el.clientHeight >= el.scrollHeight - 20;
     if (bottomReached) {
       dispatch(
-        getLoggingCat5({
+        fetchLogCat5({
           dateFrom,
           dateTo,
           factory,
@@ -61,7 +60,7 @@ const Logging = () => {
       );
     }
   }, [dispatch, loading, hasMore, page, activeSort, dateFrom, dateTo, factory]);
-  console.log(setDateFrom, setDateTo, setFactory);
+  // console.log(setDateFrom, setDateTo, setFactory);
 
   return (
     <div className="w-full">
@@ -80,7 +79,7 @@ const Logging = () => {
         <Table
           header={HEADER}
           tableRef={tableRef}
-          data={loggingcat5}
+          data={logcat5}
           activeSort={activeSort}
           setActiveSort={setActiveSort}
           onScroll={onScroll}

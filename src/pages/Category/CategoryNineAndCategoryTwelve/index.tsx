@@ -14,9 +14,10 @@ import {
 import Tabs from '../../../components/common/Tabs';
 import Cat9AndCat12 from './Cat9AndCat12';
 import PortCode from './PortCode';
-import Logging from '../CategoryNineAndCategoryTwelve/Logging'
+import Logging from '../CategoryNineAndCategoryTwelve/Logging';
 import { BREADCRUMB } from '../../../utils/constanst';
 import { useTranslation } from 'react-i18next';
+import { fetchDataAutoSendCMSCat9AndCat12 } from '../../../features/autosendcmsSlice';
 
 const CategoryNineAndCategoryTwelvePage = () => {
   const { cat9andcat12, portCode, page, hasMore, loading } = useAppSelector(
@@ -53,6 +54,7 @@ const CategoryNineAndCategoryTwelvePage = () => {
         sortOrder: activeSort.sortOrder,
       })
     );
+    dispatch(fetchDataAutoSendCMSCat9AndCat12({ dateFrom, dateTo, factory }));
   }, [dispatch, activeSort, dateFrom, dateTo, factory]);
   // }, [dispatch, activeSort, date]);
 
@@ -79,9 +81,11 @@ const CategoryNineAndCategoryTwelvePage = () => {
   return (
     <Fragment>
       <div className="px-3 sm:px-4 md:px-6">
-        <Breadcrumb items={BreadcrumbData(t(BREADCRUMB), t('cat9andcat12.cat_9_12'))} />
+        <Breadcrumb
+          items={BreadcrumbData(t(BREADCRUMB), t('cat9andcat12.cat_9_12'))}
+        />
 
-        <div className='mb-4 sm:mb-6'>
+        <div className="mb-4 sm:mb-6">
           <Typography
             name={t('cat9andcat12.cat_9_12')}
             className="block text-xs sm:text-sm font-semibold text-[#081c1b] mb-1 sm:mb-2"
@@ -117,7 +121,9 @@ const CategoryNineAndCategoryTwelvePage = () => {
                 },
                 {
                   label: t('cat9andcat12.port_code'),
-                  content: <PortCode header={HEADER_PORTCODE} data={portCode} />,
+                  content: (
+                    <PortCode header={HEADER_PORTCODE} data={portCode} />
+                  ),
                 },
                 {
                   label: 'Logging',

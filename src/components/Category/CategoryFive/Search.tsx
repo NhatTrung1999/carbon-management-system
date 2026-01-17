@@ -11,7 +11,12 @@ import { Toast } from '../../../utils/Toast';
 import Select from '../../common/Select';
 import { FACTORIES } from '../../../utils/constanst';
 import { useTranslation } from 'react-i18next';
-import { fetchDataAutoSendCMSCat5 } from '../../../features/autosendcmsSlice';
+import {
+  fetchDataAutoSendCMSCat5,
+} from '../../../features/autosendcmsSlice';
+import axios from 'axios';
+import { useState } from 'react';
+import { createLogCat5 } from '../../../features/logcatSlice';
 // import axios from 'axios';
 
 type Props = {
@@ -36,9 +41,8 @@ const Search = ({
   factory,
   setFactory,
 }: Props) => {
-  const { autoSendCMSCat5, loading } = useAppSelector(
-    (state) => state.autosendcms
-  );
+  const { autoSendCMSCat5 } = useAppSelector((state) => state.autosendcms);
+  const [loading, setLoading] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
@@ -100,11 +104,17 @@ const Search = ({
   };
 
   const onSendToCMS = async () => {
-    // const response = await axios.post(
-    //   '/api/dataIntegrate/create',
-    //   autoSendCMSCat5
-    // );
-    console.log(autoSendCMSCat5, loading);
+    setLoading(true)
+    const response = await axios.post(
+      '/api/dataIntegrate/create',
+      autoSendCMSCat5
+    );
+    if (response.data.std_data.execution.code === '0') {
+      let result = await dispatch(createLogCat5(autoSendCMSCat5 as any));
+      console.log(result);
+      setLoading(false);
+      return;
+    }
   };
 
   return (
@@ -153,7 +163,7 @@ const Search = ({
           className="w-full sm:w-auto text-white bg-[#FF9119] hover:bg-[#FF9119]/80 focus:ring-4 focus:outline-none focus:ring-[#FF9119]/50 font-medium rounded-lg text-sm px-5 py-2.5 dark:hover:bg-[#FF9119]/80 dark:focus:ring-[#FF9119]/40 cursor-pointer transition-colors duration-300"
         />
         <Button
-          label={t('Send to CMS')}
+          label={loading ? 'Loading...' : t('Send to CMS')}
           type="button"
           onClick={onSendToCMS}
           className="w-full sm:w-auto flex flex-row gap-2 items-center justify-center sm:justify-start cursor-pointer px-4 py-2 rounded-lg text-white bg-[#FFB619] hover:bg-[#FFB619]/80 transition-colors duration-300"

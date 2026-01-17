@@ -2,67 +2,66 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 // import Search from '../../../components/Category/CategoryNineAndCategoryTwelve/LoggingCat9AndCat12/Search';
 import Table from '../../../components/Category/CategoryNineAndCategoryTwelve/LoggingCat9AndCat12/Table';
 import { HEADER } from '../../../types/loggingcat9and12';
-import { getLoggingCat9And12, resetLoggingCat9And12 } from '../../../features/categorySlice';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
+import { fetchLogCat9AndCat12, resetLogCat9And12 } from '../../../features/logcatSlice';
 
 const Logging = () => {
-    const tableRef = useRef<HTMLDivElement | null>(null);
-    const didFetch = useRef(false);
-    const [activeSort, setActiveSort] = useState({
-      sortField: HEADER[0].state,
-      sortOrder: 'asc',
-    });
+  const tableRef = useRef<HTMLDivElement | null>(null);
+  const didFetch = useRef(false);
+  const [activeSort, setActiveSort] = useState({
+    sortField: HEADER[0].state,
+    sortOrder: 'asc',
+  });
 
-    const [dateFrom, setDateFrom] = useState<string>(
-      new Date().toISOString().slice(0, 10)
+  const [dateFrom, setDateFrom] = useState<string>(
+    new Date().toISOString().slice(0, 10)
+  );
+  const [dateTo, setDateTo] = useState<string>(
+    new Date().toISOString().slice(0, 10)
+  );
+
+  const [factory, setFactory] = useState<string>('LYV');
+
+  const { logcat9and12, page, loading, hasMore } = useAppSelector(
+    (state) => state.logcat
+  );
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (didFetch.current) return;
+    didFetch.current = true;
+    dispatch(resetLogCat9And12());
+    dispatch(
+      fetchLogCat9AndCat12({
+        dateFrom,
+        dateTo,
+        factory,
+        page: 1,
+        sortField: activeSort.sortField,
+        sortOrder: activeSort.sortOrder,
+      })
     );
-    const [dateTo, setDateTo] = useState<string>(
-      new Date().toISOString().slice(0, 10)
-    );
+  }, [dispatch, activeSort, dateFrom, dateTo, factory]);
 
-    const [factory, setFactory] = useState<string>('LYV');
-
-    const { loggingcat9and12, page, loading, hasMore } = useAppSelector(
-      (state) => state.category
-    );
-    const dispatch = useAppDispatch();
-
-    useEffect(() => {
-      if (didFetch.current) return;
-      didFetch.current = true;
-      dispatch(resetLoggingCat9And12());
+  const onScroll = useCallback(() => {
+    const el = tableRef.current;
+    if (!el || loading || !hasMore) return;
+    const bottomReached =
+      el.scrollTop + el.clientHeight >= el.scrollHeight - 20;
+    if (bottomReached) {
       dispatch(
-        getLoggingCat9And12({
-            dateFrom,
-            dateTo,
-            factory,
-            page: 1,
-            sortField: activeSort.sortField,
-            sortOrder: activeSort.sortOrder,
+        fetchLogCat9AndCat12({
+          dateFrom,
+          dateTo,
+          factory,
+          page,
+          sortField: activeSort.sortField,
+          sortOrder: activeSort.sortOrder,
         })
       );
-    }, [dispatch, activeSort, dateFrom, dateTo, factory]);
-
-    const onScroll = useCallback(() => {
-        const el = tableRef.current;
-            if (!el || loading || !hasMore) return;
-            const bottomReached =
-                el.scrollTop + el.clientHeight >= el.scrollHeight - 20;
-            if (bottomReached) {
-                dispatch(
-                    getLoggingCat9And12({
-                        dateFrom,
-                        dateTo,
-                        factory,
-                        page,
-                        sortField: activeSort.sortField,
-                        sortOrder: activeSort.sortOrder,
-                    })
-                );
-            }
-        }, [dispatch, loading, hasMore, page, activeSort, dateFrom, dateTo, factory]);
-console.log(setDateFrom, setDateTo, setFactory);
-    return (
+    }
+  }, [dispatch, loading, hasMore, page, activeSort, dateFrom, dateTo, factory]);
+  return (
     <div className="w-full">
       {/* <div className="mt-4 overflow-x-auto">
         <Search
@@ -79,7 +78,7 @@ console.log(setDateFrom, setDateTo, setFactory);
         <Table
           header={HEADER}
           tableRef={tableRef}
-          data={loggingcat9and12}
+          data={logcat9and12}
           activeSort={activeSort}
           setActiveSort={setActiveSort}
           onScroll={onScroll}

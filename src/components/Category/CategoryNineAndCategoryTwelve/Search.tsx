@@ -4,7 +4,7 @@ import Input from '../../common/Input';
 
 import ExcelIcon from '../../../assets/images/excel-icon.png';
 import SendIcon from '../../../assets/images/send-to-CMS.png';
-import { useAppDispatch } from '../../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import {
   getDataCat9AndCat12,
   resetDataCat9AndCat12,
@@ -14,6 +14,10 @@ import { Toast } from '../../../utils/Toast';
 import Select from '../../common/Select';
 import { FACTORIES } from '../../../utils/constanst';
 import { useTranslation } from 'react-i18next';
+import { fetchDataAutoSendCMSCat9AndCat12 } from '../../../features/autosendcmsSlice';
+import { useState } from 'react';
+import axios from 'axios';
+import { createLogCat9AndCat12 } from '../../../features/logcatSlice';
 // import ModalPortCode from './ModalPortCode';
 
 type Props = {
@@ -38,6 +42,10 @@ const Search = ({
   factory,
   setFactory,
 }: Props) => {
+  const { autoSendCMSCat9AndCat12 } = useAppSelector(
+    (state) => state.autosendcms
+  );
+  const [loading, setLoading] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
@@ -48,7 +56,6 @@ const Search = ({
       factory: factory,
     },
     onSubmit: async (data) => {
-      console.log(data);
       try {
         dispatch(resetDataCat9AndCat12());
         // setDate(data.Date);
@@ -63,6 +70,13 @@ const Search = ({
             page: 1,
             sortField: activeSort.sortField,
             sortOrder: activeSort.sortOrder,
+          })
+        );
+        await dispatch(
+          fetchDataAutoSendCMSCat9AndCat12({
+            dateFrom: data.dateFrom,
+            dateTo: data.dateTo,
+            factory: data.factory,
           })
         );
       } catch (error: any) {
@@ -95,14 +109,23 @@ const Search = ({
   //Export Excel
 
   const onSendToCMS = async () => {
-
+    setLoading(true);
+    const response = await axios.post(
+      '/api/dataIntegrate/create',
+      autoSendCMSCat9AndCat12
+    );
+    if (response.data.std_data.execution.code === '0') {
+      let result = await dispatch(
+        createLogCat9AndCat12(autoSendCMSCat9AndCat12 as any)
+      );
+      console.log(result);
+      setLoading(false);
+      return;
+    }
   };
 
   return (
-    <form
-      className="mb-4 sm:mb-5 space-y-4"
-      onSubmit={formik.handleSubmit}
-    >
+    <form className="mb-4 sm:mb-5 space-y-4" onSubmit={formik.handleSubmit}>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
         <div>
           <Input
@@ -145,15 +168,15 @@ const Search = ({
           className="w-full sm:w-auto text-white bg-[#FF9119] hover:bg-[#FF9119]/80 focus:ring-4 focus:outline-none focus:ring-[#FF9119]/50 font-medium rounded-lg text-sm px-5 py-2.5 dark:hover:bg-[#FF9119]/80 dark:focus:ring-[#FF9119]/40 cursor-pointer transition-colors duration-300"
         />
         <Button
-          label={t('Send to CMS')}
-          type='button'
+          label={loading ? 'Loading...' : t('Send to CMS')}
+          type="button"
           onClick={onSendToCMS}
           className="w-full sm:w-auto flex flex-row gap-2 items-center justify-center sm:justify-start cursor-pointer px-4 py-2 rounded-lg text-white bg-[#FFB619] hover:bg-[#FFB619]/80 transition-colors duration-300"
           imgSrc={SendIcon}
         />
         <Button
           label={t('Export Excel file')}
-          type='button'
+          type="button"
           onClick={onExportExcel}
           className="w-full sm:w-auto flex flex-row gap-2 items-center justify-center sm:justify-start cursor-pointer px-4 py-2 rounded-lg text-white bg-green-500 hover:bg-green-500/80 transition-colors duration-300"
           imgSrc={ExcelIcon}

@@ -64,7 +64,6 @@ const Logging = () => {
       );
     }
   }, [dispatch, loading, hasMore, page, activeSort, dateFrom, dateTo, factory]);
-  console.log(setDateFrom, setDateTo, setFactory);
   return (
     <div className="w-full">
       {/* <div className="mt-4 overflow-x-auto">

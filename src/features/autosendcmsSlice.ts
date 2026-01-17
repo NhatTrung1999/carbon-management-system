@@ -3,6 +3,7 @@ import autosendcmsApi from '../api/autosendcms';
 
 interface IAutoSendCMSState {
   autoSendCMSCat5: any[];
+  autoSendCMSCat9AndCat12: any[];
   loading: boolean;
   error: string | null;
 }
@@ -14,7 +15,24 @@ export const fetchDataAutoSendCMSCat5 = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
-      const res = await autosendcmsApi.autoSentCMSCat5({ ...payload });
+      const res = await autosendcmsApi.fetchDataAutoSentCMSCat5({ ...payload });
+      return res;
+    } catch (error) {
+      return rejectWithValue(error || 'Error!');
+    }
+  }
+);
+
+export const fetchDataAutoSendCMSCat9AndCat12 = createAsyncThunk(
+  'autosendcms/fetch-data-auto-send-cms-cat9-and-cat12',
+  async (
+    payload: { dateFrom: string; dateTo: string; factory: string },
+    { rejectWithValue }
+  ) => {
+    try {
+      const res = await autosendcmsApi.fetchDataAutoSentCMSCat9AndCat12({
+        ...payload,
+      });
       return res;
     } catch (error) {
       return rejectWithValue(error || 'Error!');
@@ -24,6 +42,7 @@ export const fetchDataAutoSendCMSCat5 = createAsyncThunk(
 
 const initialState: IAutoSendCMSState = {
   autoSendCMSCat5: [],
+  autoSendCMSCat9AndCat12: [],
   loading: false,
   error: null,
 };
@@ -43,6 +62,20 @@ const autosendcmsSlice = createSlice({
         state.autoSendCMSCat5 = action.payload;
       })
       .addCase(fetchDataAutoSendCMSCat5.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      });
+
+    builder
+      .addCase(fetchDataAutoSendCMSCat9AndCat12.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchDataAutoSendCMSCat9AndCat12.fulfilled, (state, action) => {
+        state.loading = false;
+        state.autoSendCMSCat9AndCat12 = action.payload;
+      })
+      .addCase(fetchDataAutoSendCMSCat9AndCat12.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       });

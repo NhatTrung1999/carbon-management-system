@@ -102,48 +102,6 @@ export const getDataCat9AndCat12 = createAsyncThunk(
   }
 );
 
-export const getLoggingCat9And12 = createAsyncThunk(
-  'category/logging-cat9-and-cat12',
-  async (
-    {
-      dateFrom,
-      dateTo,
-      factory,
-      page,
-      sortField,
-      sortOrder,
-    } : {
-      dateFrom: string;
-      dateTo: string;
-      factory: string;
-      page: number;
-      sortField: string;
-      sortOrder: string;
-    },
-    { rejectWithValue }
-  ) => {
-    try {
-      const res = await categoryApi.getLoggingCat9And12(
-        dateFrom,
-        dateTo,
-        factory,
-        page,
-        sortField,
-        sortOrder
-      );
-      return res as {
-        data: ILoggingCat9AndCat12Data[];
-        page: number;
-        limit: number;
-        total: number;
-        hasMore: boolean;
-      };
-    } catch (error: any) {
-      return rejectWithValue(error || '');
-    }
-  }
-);
-
 export const importExcelPortCode = createAsyncThunk(
   'category/import-excel-port-code',
   async (file: File, { rejectWithValue }) => {
@@ -278,48 +236,6 @@ export const getDataCat5 = createAsyncThunk(
       );
       return res as {
         data: ICat5Data[];
-        page: number;
-        limit: number;
-        total: number;
-        hasMore: boolean;
-      };
-    } catch (error: any) {
-      return rejectWithValue(error || '');
-    }
-  }
-);
-
-export const getLoggingCat5 = createAsyncThunk(
-  'category/logging-cat5',
-  async (
-    {
-      dateFrom,
-      dateTo,
-      factory,
-      page,
-      sortField,
-      sortOrder,
-    } : {
-      dateFrom: string;
-      dateTo: string;
-      factory: string;
-      page: number;
-      sortField: string;
-      sortOrder: string;
-    },
-    { rejectWithValue }
-  ) => {
-    try {
-      const res = await categoryApi.getLoggingCat5(
-        dateFrom,
-        dateTo,
-        factory,
-        page,
-        sortField,
-        sortOrder
-      );
-      return res as {
-        data: ILoggingCat5Data[];
         page: number;
         limit: number;
         total: number;
@@ -593,20 +509,8 @@ export const categorySlice = createSlice({
       state.hasMore = true;
       state.error = null;
     },
-    resetLoggingCat9And12: (state) => {
-      state.loggingcat9and12 = [];
-      state.page = 1;
-      state.hasMore = true;
-      state.error = null;
-    },
     resetDataCat5: (state) => {
       state.cat5 = [];
-      state.page = 1;
-      state.hasMore = true;
-      state.error = null;
-    },
-    resetLoggingCat5: (state) => {
-      state.loggingcat5 = [];
       state.page = 1;
       state.hasMore = true;
       state.error = null;
@@ -875,23 +779,6 @@ export const categorySlice = createSlice({
         state.error = action.payload as string;
       });
 
-    //logging cat5
-    builder
-      .addCase(getLoggingCat5.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(getLoggingCat5.fulfilled, (state, action) => {
-        state.loading = false;
-        state.loggingcat5.push(...action.payload.data);
-        state.page += 1;
-        state.hasMore = action.payload.hasMore;
-      })
-      .addCase(getLoggingCat5.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload as string;
-      });
-
     //logging cat6
     builder
       .addCase(getLoggingCat6.pending, (state) => {
@@ -925,23 +812,6 @@ export const categorySlice = createSlice({
         state.loading = false;
         state.error = action.payload as string;
       });
-
-    //logging cat 9 and cat 12
-    builder
-      .addCase(getLoggingCat9And12.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(getLoggingCat9And12.fulfilled, (state, action) => {
-        state.loading = false;
-        state.loggingcat9and12.push(...action.payload.data);
-        state.page += 1;
-        state.hasMore = action.payload.hasMore;
-      })
-      .addCase(getLoggingCat9And12.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload as string;
-      });
   },
 });
 
@@ -953,10 +823,8 @@ export const {
   resetDataCat9AndCat12,
   resetDataCustomExport,
   resetLoggingCat1And4,
-  resetLoggingCat5,
   resetLoggingCat6,
   resetLoggingCat7,
-  resetLoggingCat9And12,
 } = categorySlice.actions;
 
 export default categorySlice.reducer;
