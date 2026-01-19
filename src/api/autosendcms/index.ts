@@ -2,6 +2,18 @@ import axiosConfig from '../../lib/axiosConfig';
 
 const autosendcmsApi = {
   // Auto Sent CMS
+  fetchDataAutoSentCMSCat1AndCat4: async (payload: {
+    dateFrom: string;
+    dateTo: string;
+    factory: string;
+  }) => {
+    const res = await axiosConfig.get(`cat1andcat4/auto-sent-cms`, {
+      params: {
+        ...payload,
+      },
+    });
+    return res.data;
+  },
   fetchDataAutoSentCMSCat5: async (payload: {
     dateFrom: string;
     dateTo: string;

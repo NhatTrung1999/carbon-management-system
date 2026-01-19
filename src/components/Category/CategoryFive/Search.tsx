@@ -11,9 +11,7 @@ import { Toast } from '../../../utils/Toast';
 import Select from '../../common/Select';
 import { FACTORIES } from '../../../utils/constanst';
 import { useTranslation } from 'react-i18next';
-import {
-  fetchDataAutoSendCMSCat5,
-} from '../../../features/autosendcmsSlice';
+import { fetchDataAutoSendCMSCat5 } from '../../../features/autosendcmsSlice';
 import axios from 'axios';
 import { useState } from 'react';
 import { createLogCat5 } from '../../../features/logcatSlice';
@@ -104,14 +102,17 @@ const Search = ({
   };
 
   const onSendToCMS = async () => {
-    setLoading(true)
+    setLoading(true);
     const response = await axios.post(
       '/api/dataIntegrate/create',
       autoSendCMSCat5
     );
     if (response.data.std_data.execution.code === '0') {
       let result = await dispatch(createLogCat5(autoSendCMSCat5 as any));
-      console.log(result);
+      Toast.fire({
+        title: result.payload.message,
+        icon: result.payload.success ? 'success' : 'error',
+      });
       setLoading(false);
       return;
     }
@@ -166,8 +167,11 @@ const Search = ({
           label={loading ? 'Loading...' : t('Send to CMS')}
           type="button"
           onClick={onSendToCMS}
-          className="w-full sm:w-auto flex flex-row gap-2 items-center justify-center sm:justify-start cursor-pointer px-4 py-2 rounded-lg text-white bg-[#FFB619] hover:bg-[#FFB619]/80 transition-colors duration-300"
+          className={`w-full sm:w-auto flex flex-row gap-2 items-center justify-center sm:justify-start cursor-pointer px-4 py-2 rounded-lg text-white bg-[#FFB619] hover:bg-[#FFB619]/80 transition-colors duration-300 ${
+            loading ? 'hover:cursor-not-allowed' : ''
+          }`}
           imgSrc={SendIcon}
+          disabled={loading}
         />
         <Button
           label={t('Export Excel file')}

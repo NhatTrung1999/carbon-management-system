@@ -2,11 +2,11 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 // import Search from '../../../components/Category/CategoryOneAndCategoryFour/LoggingCat1AndCat4/Search';
 import Table from '../../../components/Category/CategoryOneAndCategoryFour/LoggingCat1AndCat4/Table';
 import { HEADER } from '../../../types/loggingcat1and4';
-import {
-  getLoggingCat1And4,
-  resetLoggingCat1And4,
-} from '../../../features/categorySlice';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
+import {
+  fetchLogCat1AndCat4,
+  resetLogCat1And4,
+} from '../../../features/logcatSlice';
 
 const Logging = () => {
   const tableRef = useRef<HTMLDivElement | null>(null);
@@ -25,17 +25,17 @@ const Logging = () => {
 
   const [factory, setFactory] = useState<string>('LYV');
 
-  const { loggingcat1and4, page, loading, hasMore } = useAppSelector(
-    (state) => state.category
+  const { logcat1and4, page, loading, hasMore } = useAppSelector(
+    (state) => state.logcat
   );
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (didFetch.current) return;
     didFetch.current = true;
-    dispatch(resetLoggingCat1And4());
+    dispatch(resetLogCat1And4());
     dispatch(
-      getLoggingCat1And4({
+      fetchLogCat1AndCat4({
         dateFrom,
         dateTo,
         factory,
@@ -53,7 +53,7 @@ const Logging = () => {
       el.scrollTop + el.clientHeight >= el.scrollHeight - 20;
     if (bottomReached) {
       dispatch(
-        getLoggingCat1And4({
+        fetchLogCat1AndCat4({
           dateFrom,
           dateTo,
           factory,
@@ -81,7 +81,7 @@ const Logging = () => {
         <Table
           header={HEADER}
           tableRef={tableRef}
-          data={loggingcat1and4}
+          data={logcat1and4}
           activeSort={activeSort}
           setActiveSort={setActiveSort}
           onScroll={onScroll}

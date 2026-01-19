@@ -7,6 +7,7 @@ import type { ILoggingCat5Data } from '../../../../types/loggingcat5';
 import { useAppSelector } from '../../../../app/hooks';
 import { useTranslation } from 'react-i18next';
 import { useEffect, useRef } from 'react';
+import { formatDate } from '../../../../utils/formatDate';
 
 type Props = {
   header: TableHeaderProps[];
@@ -179,7 +180,7 @@ const Table = ({
                 <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-xs sm:text-sm">{item.Creator}</td>
                 <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-xs sm:text-sm">{item.CreatedUser}</td>
                 <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-xs sm:text-sm">{item.CreatedFactory}</td>
-                <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-xs sm:text-sm">{item.CreatedAt}</td>
+                <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-xs sm:text-sm">{formatDate(item.CreatedAt)}</td>
               </tr>
             ))}
           

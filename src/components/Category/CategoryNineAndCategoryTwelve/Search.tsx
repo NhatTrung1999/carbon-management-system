@@ -171,8 +171,11 @@ const Search = ({
           label={loading ? 'Loading...' : t('Send to CMS')}
           type="button"
           onClick={onSendToCMS}
-          className="w-full sm:w-auto flex flex-row gap-2 items-center justify-center sm:justify-start cursor-pointer px-4 py-2 rounded-lg text-white bg-[#FFB619] hover:bg-[#FFB619]/80 transition-colors duration-300"
+          className={`w-full sm:w-auto flex flex-row gap-2 items-center justify-center sm:justify-start cursor-pointer px-4 py-2 rounded-lg text-white bg-[#FFB619] hover:bg-[#FFB619]/80 transition-colors duration-300 ${
+            loading ? 'hover:cursor-not-allowed' : ''
+          }`}
           imgSrc={SendIcon}
+          disabled={loading}
         />
         <Button
           label={t('Export Excel file')}

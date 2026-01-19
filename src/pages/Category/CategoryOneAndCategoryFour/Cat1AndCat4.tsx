@@ -3,11 +3,13 @@ import Search from '../../../components/Category/CategoryOneAndCategoryFour/Sear
 import Table from '../../../components/Category/CategoryOneAndCategoryFour/Table';
 import { HEADER } from '../../../types/cat1andcat4';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { getDataCat1AndCat4, resetDataCat1AndCat4 } from '../../../features/categorySlice';
+import {
+  getDataCat1AndCat4,
+  resetDataCat1AndCat4,
+} from '../../../features/categorySlice';
 
 const Cat1AndCat4 = () => {
-
-    const tableRef = useRef<HTMLDivElement | null>(null);
+  const tableRef = useRef<HTMLDivElement | null>(null);
   const didFetch = useRef(false);
   const [activeSort, setActiveSort] = useState({
     sortField: HEADER[0].state,

@@ -2,11 +2,29 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import autosendcmsApi from '../api/autosendcms';
 
 interface IAutoSendCMSState {
+  autoSendCMSCat1AndCat4: any[];
   autoSendCMSCat5: any[];
   autoSendCMSCat9AndCat12: any[];
   loading: boolean;
   error: string | null;
 }
+
+export const fetchDataAutoSendCMSCat1AndCat4 = createAsyncThunk(
+  'autosendcms/fetch-data-auto-send-cms-cat1-and-cat4',
+  async (
+    payload: { dateFrom: string; dateTo: string; factory: string },
+    { rejectWithValue }
+  ) => {
+    try {
+      const res = await autosendcmsApi.fetchDataAutoSentCMSCat1AndCat4({
+        ...payload,
+      });
+      return res;
+    } catch (error) {
+      return rejectWithValue(error || 'Error!');
+    }
+  }
+);
 
 export const fetchDataAutoSendCMSCat5 = createAsyncThunk(
   'autosendcms/fetch-data-auto-send-cms-cat5',
@@ -41,6 +59,7 @@ export const fetchDataAutoSendCMSCat9AndCat12 = createAsyncThunk(
 );
 
 const initialState: IAutoSendCMSState = {
+  autoSendCMSCat1AndCat4: [],
   autoSendCMSCat5: [],
   autoSendCMSCat9AndCat12: [],
   loading: false,
@@ -52,6 +71,21 @@ const autosendcmsSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+
+    builder
+      .addCase(fetchDataAutoSendCMSCat1AndCat4.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchDataAutoSendCMSCat1AndCat4.fulfilled, (state, action) => {
+        state.loading = false;
+        state.autoSendCMSCat1AndCat4 = action.payload;
+      })
+      .addCase(fetchDataAutoSendCMSCat1AndCat4.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      });
+
     builder
       .addCase(fetchDataAutoSendCMSCat5.pending, (state) => {
         state.loading = true;

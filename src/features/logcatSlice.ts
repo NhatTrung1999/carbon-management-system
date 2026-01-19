@@ -8,9 +8,10 @@ import type {
   ILogCat9AndCat12Payload,
   ILoggingCat9AndCat12Data,
 } from '../types/loggingcat9and12';
+import type { ILogCat1AndCat4Payload } from '../types/cat1andcat4';
 
 interface LogcatState {
-  loggingcat1and4: ILoggingCat1AndCat4Data[];
+  logcat1and4: ILoggingCat1AndCat4Data[];
   logcat5: ILoggingCat5Data[];
   loggingcat6: ILoggingCat6Data[];
   loggingcat7: ILoggingCat7Data[];
@@ -23,7 +24,7 @@ interface LogcatState {
 }
 
 const initialState: LogcatState = {
-  loggingcat1and4: [],
+  logcat1and4: [],
   logcat5: [],
   loggingcat6: [],
   loggingcat7: [],
@@ -34,6 +35,60 @@ const initialState: LogcatState = {
   limit: 20,
   hasMore: true,
 };
+
+export const createLogCat1AndCat4 = createAsyncThunk(
+  'logcat/create-log-cat1-and-cat4',
+  async (data: ILogCat1AndCat4Payload, { rejectWithValue }) => {
+    try {
+      const res = await logcatApi.createLogCat1AndCat4(data);
+      return res;
+    } catch (error) {
+      return rejectWithValue(error || 'Error!');
+    }
+  }
+);
+
+export const fetchLogCat1AndCat4 = createAsyncThunk(
+  'logcat/fetch-log-cat1-and-cat4',
+  async (
+    {
+      dateFrom,
+      dateTo,
+      factory,
+      page,
+      sortField,
+      sortOrder,
+    }: {
+      dateFrom: string;
+      dateTo: string;
+      factory: string;
+      page: number;
+      sortField: string;
+      sortOrder: string;
+    },
+    { rejectWithValue }
+  ) => {
+    try {
+      const res = await logcatApi.fetchLogCat1AndCat4(
+        dateFrom,
+        dateTo,
+        factory,
+        page,
+        sortField,
+        sortOrder
+      );
+      return res as {
+        data: ILoggingCat1AndCat4Data[];
+        page: number;
+        limit: number;
+        total: number;
+        hasMore: boolean;
+      };
+    } catch (error: any) {
+      return rejectWithValue(error || '');
+    }
+  }
+);
 
 export const createLogCat5 = createAsyncThunk(
   'logcat/create-log-cat5',
@@ -147,6 +202,12 @@ const logcatSlice = createSlice({
   name: 'logcat',
   initialState,
   reducers: {
+    resetLogCat1And4: (state) => {
+      state.logcat1and4 = [];
+      state.page = 1;
+      state.hasMore = true;
+      state.error = null;
+    },
     resetLogCat5: (state) => {
       state.logcat5 = [];
       state.page = 1;
@@ -162,6 +223,22 @@ const logcatSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(fetchLogCat1AndCat4.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchLogCat1AndCat4.fulfilled, (state, action) => {
+        state.loading = false;
+        state.logcat1and4.push(...action.payload.data);
+        state.page += 1;
+        state.hasMore = action.payload.hasMore;
+      })
+      .addCase(fetchLogCat1AndCat4.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      });
+
+    builder
       .addCase(fetchLogCat5.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -176,6 +253,7 @@ const logcatSlice = createSlice({
         state.loading = false;
         state.error = action.payload as string;
       });
+
     builder
       .addCase(fetchLogCat9AndCat12.pending, (state) => {
         state.loading = true;
@@ -194,6 +272,6 @@ const logcatSlice = createSlice({
   },
 });
 
-export const { resetLogCat5, resetLogCat9And12 } = logcatSlice.actions;
+export const { resetLogCat1And4, resetLogCat5, resetLogCat9And12 } = logcatSlice.actions;
 
 export default logcatSlice.reducer;
