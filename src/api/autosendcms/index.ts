@@ -26,6 +26,18 @@ const autosendcmsApi = {
     });
     return res.data;
   },
+  fetchDataAutoSentCMSCat7: async (payload: {
+    dateFrom: string;
+    dateTo: string;
+    factory: string;
+  }) => {
+    const res = await axiosConfig.get(`cat7/auto-sent-cms`, {
+      params: {
+        ...payload,
+      },
+    });
+    return res.data;
+  },
   fetchDataAutoSentCMSCat9AndCat12: async (payload: {
     dateFrom: string;
     dateTo: string;

@@ -1,6 +1,7 @@
 import axiosConfig from '../../lib/axiosConfig';
 import type { ILogCat1AndCat4Payload } from '../../types/cat1andcat4';
 import type { ILogCat5Payload } from '../../types/loggingcat5';
+import type { ILogCat7Payload } from '../../types/loggingcat7';
 import type { ILogCat9AndCat12Payload } from '../../types/loggingcat9and12';
 
 const logcatApi = {
@@ -43,6 +44,32 @@ const logcatApi = {
     sortOrder: string
   ) => {
     const res = await axiosConfig.get('logcat/get-log-cat5', {
+      params: {
+        dateFrom,
+        dateTo,
+        factory,
+        page,
+        limit: 20,
+        sortField,
+        sortOrder,
+      },
+    });
+
+    return res.data;
+  },
+  createLogCat7: async (data: ILogCat7Payload) => {
+    const response = await axiosConfig.post(`logcat/create-log-cat7`, data);
+    return response.data;
+  },
+  fetchLogCat7: async (
+    dateFrom: string,
+    dateTo: string,
+    factory: string,
+    page: number,
+    sortField: string,
+    sortOrder: string
+  ) => {
+    const res = await axiosConfig.get('logcat/get-log-cat7', {
       params: {
         dateFrom,
         dateTo,

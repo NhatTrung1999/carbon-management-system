@@ -7,6 +7,7 @@ import Table from '../../../components/Category/CategorySeven/Table';
 import { HEADER } from '../../../types/cat7';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { getDataCat7, resetDataCat7 } from '../../../features/categorySlice';
+import { fetchDataAutoSendCMSCat7 } from '../../../features/autosendcmsSlice';
 
 // type Props = {
 //   header: TableHeaderProps[];
@@ -60,6 +61,13 @@ const Cat7 = () => {
         page: 1,
         sortField: activeSort.sortField,
         sortOrder: activeSort.sortOrder,
+      })
+    );
+    dispatch(
+      fetchDataAutoSendCMSCat7({
+        dateFrom,
+        dateTo,
+        factory,
       })
     );
   }, [dispatch, activeSort, dateFrom, dateTo, factory]);
