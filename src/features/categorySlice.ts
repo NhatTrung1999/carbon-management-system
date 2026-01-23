@@ -163,48 +163,6 @@ export const getPortCodeCat1AndCat4 = createAsyncThunk(
   }
 );
 
-export const getLoggingCat1And4 = createAsyncThunk(
-  'category/logging-cat1-and-cat4',
-  async (
-    {
-      dateFrom,
-      dateTo,
-      factory,
-      page,
-      sortField,
-      sortOrder,
-    } : {
-      dateFrom: string;
-      dateTo: string;
-      factory: string;
-      page: number;
-      sortField: string;
-      sortOrder: string;
-    },
-    { rejectWithValue }
-  ) => {
-    try {
-      const res = await categoryApi.getLoggingCat9And12(
-        dateFrom,
-        dateTo,
-        factory,
-        page,
-        sortField,
-        sortOrder
-      );
-      return res as {
-        data: ILoggingCat1AndCat4Data[];
-        page: number;
-        limit: number;
-        total: number;
-        hasMore: boolean;
-      };
-    } catch (error: any) {
-      return rejectWithValue(error || '');
-    }
-  }
-);
-
 export const getDataCat5 = createAsyncThunk(
   'category/cat5',
   async (
@@ -236,48 +194,6 @@ export const getDataCat5 = createAsyncThunk(
       );
       return res as {
         data: ICat5Data[];
-        page: number;
-        limit: number;
-        total: number;
-        hasMore: boolean;
-      };
-    } catch (error: any) {
-      return rejectWithValue(error || '');
-    }
-  }
-);
-
-export const getLoggingCat6 = createAsyncThunk(
-  'category/logging-cat6',
-  async (
-    {
-      dateFrom,
-      dateTo,
-      factory,
-      page,
-      sortField,
-      sortOrder,
-    } : {
-      dateFrom: string;
-      dateTo: string;
-      factory: string;
-      page: number;
-      sortField: string;
-      sortOrder: string;
-    },
-    { rejectWithValue }
-  ) => {
-    try {
-      const res = await categoryApi.getLoggingCat6(
-        dateFrom,
-        dateTo,
-        factory,
-        page,
-        sortField,
-        sortOrder
-      );
-      return res as {
-        data: ILoggingCat6Data[];
         page: number;
         limit: number;
         total: number;
@@ -362,48 +278,6 @@ export const getCustomExport = createAsyncThunk(
       );
       return res as {
         data: ICustomExportData[];
-        page: number;
-        limit: number;
-        total: number;
-        hasMore: boolean;
-      };
-    } catch (error: any) {
-      return rejectWithValue(error || '');
-    }
-  }
-);
-
-export const getLoggingCat7 = createAsyncThunk(
-  'category/logging-cat7',
-  async (
-    {
-      dateFrom,
-      dateTo,
-      factory,
-      page,
-      sortField,
-      sortOrder,
-    } : {
-      dateFrom: string;
-      dateTo: string;
-      factory: string;
-      page: number;
-      sortField: string;
-      sortOrder: string;
-    },
-    { rejectWithValue }
-  ) => {
-    try {
-      const res = await categoryApi.getLoggingCat7(
-        dateFrom,
-        dateTo,
-        factory,
-        page,
-        sortField,
-        sortOrder
-      );
-      return res as {
-        data: ILoggingCat7Data[];
         page: number;
         limit: number;
         total: number;
@@ -535,24 +409,6 @@ export const categorySlice = createSlice({
     },
     resetDataCustomExport: (state) => {
       state.customExport = [];
-      state.page = 1;
-      state.hasMore = true;
-      state.error = null;
-    },
-    resetLoggingCat7: (state) => {
-      state.loggingcat7 = [];
-      state.page = 1;
-      state.hasMore = true;
-      state.error = null;
-    },
-    resetLoggingCat1And4: (state) => {
-      state.loggingcat1and4 = [];
-      state.page = 1;
-      state.hasMore = true;
-      state.error = null;
-    },
-    resetLoggingCat6: (state) => {
-      state.loggingcat6 = [];
       state.page = 1;
       state.hasMore = true;
       state.error = null;
@@ -761,57 +617,7 @@ export const categorySlice = createSlice({
         state.loading = false;
         state.error = action.payload as string;
       });
-
-    //logging cat 1 and cat 4
-    builder
-      .addCase(getLoggingCat1And4.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(getLoggingCat1And4.fulfilled, (state, action) => {
-        state.loading = false;
-        state.loggingcat1and4.push(...action.payload.data);
-        state.page += 1;
-        state.hasMore = action.payload.hasMore;
-      })
-      .addCase(getLoggingCat1And4.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload as string;
-      });
-
-    //logging cat6
-    builder
-      .addCase(getLoggingCat6.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(getLoggingCat6.fulfilled, (state, action) => {
-        state.loading = false;
-        state.loggingcat6.push(...action.payload.data);
-        state.page += 1;
-        state.hasMore = action.payload.hasMore;
-      })
-      .addCase(getLoggingCat6.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload as string;
-      });
-
-    //logging cat7
-    builder
-      .addCase(getLoggingCat7.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(getLoggingCat7.fulfilled, (state, action) => {
-        state.loading = false;
-        state.loggingcat7.push(...action.payload.data);
-        state.page += 1;
-        state.hasMore = action.payload.hasMore;
-      })
-      .addCase(getLoggingCat7.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload as string;
-      });
+    
   },
 });
 
@@ -822,9 +628,6 @@ export const {
   resetDataCat7,
   resetDataCat9AndCat12,
   resetDataCustomExport,
-  resetLoggingCat1And4,
-  resetLoggingCat6,
-  resetLoggingCat7,
 } = categorySlice.actions;
 
 export default categorySlice.reducer;

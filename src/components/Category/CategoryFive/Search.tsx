@@ -12,9 +12,9 @@ import Select from '../../common/Select';
 import { FACTORIES } from '../../../utils/constanst';
 import { useTranslation } from 'react-i18next';
 import { fetchDataAutoSendCMSCat5 } from '../../../features/autosendcmsSlice';
-import axios from 'axios';
 import { useState } from 'react';
 import { createLogCat5 } from '../../../features/logcatSlice';
+import cmsApi from '../../../api/cms';
 // import axios from 'axios';
 
 type Props = {
@@ -102,18 +102,42 @@ const Search = ({
   };
 
   const onSendToCMS = async () => {
+    // setLoading(true);
+    // const response = await axios.post(
+    //   '/api/dataIntegrate/create',
+    //   autoSendCMSCat5
+    // );
+    // if (response.data.std_data.execution.code === '0') {
+    //   let result = await dispatch(createLogCat5(autoSendCMSCat5 as any));
+    //   Toast.fire({
+    //     title: result.payload.message,
+    //     icon: result.payload.success ? 'success' : 'error',
+    //   });
+    //   setLoading(false);
+    //   return;
+    // } else {
+    //   Toast.fire({
+    //     title: 'Send to CMS failed!',
+    //     icon: 'error',
+    //   });
+    //   setLoading(false);
+    // }
     setLoading(true);
-    const response = await axios.post(
-      '/api/dataIntegrate/create',
-      autoSendCMSCat5
-    );
-    if (response.data.std_data.execution.code === '0') {
+    const response = await cmsApi.createCMS(autoSendCMSCat5);
+    if (response.std_data.execution.code === '0') {
       let result = await dispatch(createLogCat5(autoSendCMSCat5 as any));
+      setLoading(false);
       Toast.fire({
         title: result.payload.message,
         icon: result.payload.success ? 'success' : 'error',
       });
+      return;
+    } else {
       setLoading(false);
+      Toast.fire({
+        title: 'Send to CMS failed!',
+        icon: 'error',
+      });
       return;
     }
   };

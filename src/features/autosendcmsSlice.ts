@@ -4,6 +4,7 @@ import autosendcmsApi from '../api/autosendcms';
 interface IAutoSendCMSState {
   autoSendCMSCat1AndCat4: any[];
   autoSendCMSCat5: any[];
+  autoSendCMSCat6: any[];
   autoSendCMSCat7: any[];
   autoSendCMSCat9AndCat12: any[];
   loading: boolean;
@@ -35,6 +36,21 @@ export const fetchDataAutoSendCMSCat5 = createAsyncThunk(
   ) => {
     try {
       const res = await autosendcmsApi.fetchDataAutoSentCMSCat5({ ...payload });
+      return res;
+    } catch (error) {
+      return rejectWithValue(error || 'Error!');
+    }
+  }
+);
+
+export const fetchDataAutoSendCMSCat6 = createAsyncThunk(
+  'autosendcms/fetch-data-auto-send-cms-cat6',
+  async (
+    payload: { dateFrom: string; dateTo: string; factory: string },
+    { rejectWithValue }
+  ) => {
+    try {
+      const res = await autosendcmsApi.fetchDataAutoSentCMSCat6({ ...payload });
       return res;
     } catch (error) {
       return rejectWithValue(error || 'Error!');
@@ -77,6 +93,7 @@ export const fetchDataAutoSendCMSCat9AndCat12 = createAsyncThunk(
 const initialState: IAutoSendCMSState = {
   autoSendCMSCat1AndCat4: [],
   autoSendCMSCat5: [],
+  autoSendCMSCat6: [],
   autoSendCMSCat7: [],
   autoSendCMSCat9AndCat12: [],
   loading: false,
@@ -112,6 +129,20 @@ const autosendcmsSlice = createSlice({
         state.autoSendCMSCat5 = action.payload;
       })
       .addCase(fetchDataAutoSendCMSCat5.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      });
+
+    builder
+      .addCase(fetchDataAutoSendCMSCat6.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchDataAutoSendCMSCat6.fulfilled, (state, action) => {
+        state.loading = false;
+        state.autoSendCMSCat6 = action.payload;
+      })
+      .addCase(fetchDataAutoSendCMSCat6.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       });

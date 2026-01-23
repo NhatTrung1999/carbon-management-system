@@ -13,7 +13,7 @@ import { Toast } from '../../../utils/Toast';
 import { FACTORIES } from '../../../utils/constanst';
 import { useTranslation } from 'react-i18next';
 import { fetchDataAutoSendCMSCat7 } from '../../../features/autosendcmsSlice';
-import axios from 'axios';
+import cmsApi from '../../../api/cms';
 import { createLogCat7 } from '../../../features/logcatSlice';
 
 type Props = {
@@ -38,7 +38,7 @@ const Search = ({
   factory,
   setFactory,
 }: Props) => {
-  const {autoSendCMSCat7} = useAppSelector(state => state.autosendcms)
+  const { autoSendCMSCat7 } = useAppSelector((state) => state.autosendcms);
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const [loading, setLoading] = useState<boolean>(false);
@@ -104,18 +104,21 @@ const Search = ({
 
   const onSendToCMS = async () => {
     setLoading(true);
-    const response = await axios.post(
-      '/api/dataIntegrate/create',
-      autoSendCMSCat7
-    );
-    if (response.data.std_data.execution.code === '0') {
-      console.log(autoSendCMSCat7);
+    const response = await cmsApi.createCMS(autoSendCMSCat7);
+    if (response.std_data.execution.code === '0') {
       let result = await dispatch(createLogCat7(autoSendCMSCat7 as any));
+      setLoading(false);
       Toast.fire({
         title: result.payload.message,
         icon: result.payload.success ? 'success' : 'error',
       });
+      return;
+    } else {
       setLoading(false);
+      Toast.fire({
+        title: 'Send to CMS failed!',
+        icon: 'error',
+      });
       return;
     }
   };

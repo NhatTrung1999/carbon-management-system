@@ -16,8 +16,8 @@ import { FACTORIES } from '../../../utils/constanst';
 import { useTranslation } from 'react-i18next';
 import { fetchDataAutoSendCMSCat9AndCat12 } from '../../../features/autosendcmsSlice';
 import { useState } from 'react';
-import axios from 'axios';
 import { createLogCat9AndCat12 } from '../../../features/logcatSlice';
+import cmsApi from '../../../api/cms';
 // import ModalPortCode from './ModalPortCode';
 
 type Props = {
@@ -109,17 +109,46 @@ const Search = ({
   //Export Excel
 
   const onSendToCMS = async () => {
+    // setLoading(true);
+    // const response = await axios.post(
+    //   '/api/dataIntegrate/create',
+    //   autoSendCMSCat9AndCat12
+    // );
+    // if (response.data.std_data.execution.code === '0') {
+    //   let result = await dispatch(
+    //     createLogCat9AndCat12(autoSendCMSCat9AndCat12 as any)
+    //   );
+    //   Toast.fire({
+    //     title: result.payload.message,
+    //     icon: result.payload.success ? 'success' : 'error',
+    //   });
+    //   setLoading(false);
+    //   return;
+    // } else {
+    //   Toast.fire({
+    //     title: 'Send to CMS failed!',
+    //     icon: 'error',
+    //   });
+    //   setLoading(false);
+    // }
     setLoading(true);
-    const response = await axios.post(
-      '/api/dataIntegrate/create',
-      autoSendCMSCat9AndCat12
-    );
-    if (response.data.std_data.execution.code === '0') {
+    const response = await cmsApi.createCMS(autoSendCMSCat9AndCat12);
+    if (response.std_data.execution.code === '0') {
       let result = await dispatch(
         createLogCat9AndCat12(autoSendCMSCat9AndCat12 as any)
       );
-      console.log(result);
       setLoading(false);
+      Toast.fire({
+        title: result.payload.message,
+        icon: result.payload.success ? 'success' : 'error',
+      });
+      return;
+    } else {
+      setLoading(false);
+      Toast.fire({
+        title: 'Send to CMS failed!',
+        icon: 'error',
+      });
       return;
     }
   };

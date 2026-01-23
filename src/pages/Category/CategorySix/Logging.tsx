@@ -2,11 +2,8 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 // import Search from '../../../components/Category/CategorySix/LoggingCat6/Search';
 import Table from '../../../components/Category/CategorySix/LoggingCat6/Table';
 import { HEADER } from '../../../types/loggingcat6';
-import {
-  getLoggingCat6,
-  resetLoggingCat6,
-} from '../../../features/categorySlice';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
+import { fetchLogCat6, resetLogCat6 } from '../../../features/logcatSlice';
 
 const Logging = () => {
   const tableRef = useRef<HTMLDivElement | null>(null);
@@ -33,9 +30,9 @@ const Logging = () => {
   useEffect(() => {
     if (didFetch.current) return;
     didFetch.current = true;
-    dispatch(resetLoggingCat6());
+    dispatch(resetLogCat6());
     dispatch(
-      getLoggingCat6({
+      fetchLogCat6({
         dateFrom,
         dateTo,
         factory,
@@ -53,7 +50,7 @@ const Logging = () => {
       el.scrollTop + el.clientHeight >= el.scrollHeight - 20;
     if (bottomReached) {
       dispatch(
-        getLoggingCat6({
+        fetchLogCat6({
           dateFrom,
           dateTo,
           factory,

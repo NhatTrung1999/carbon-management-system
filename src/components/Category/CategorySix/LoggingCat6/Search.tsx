@@ -5,11 +5,11 @@ import ExcelIcon from '../../../../assets/images/excel-icon.png';
 import { useEffect } from 'react';
 import Select from '../../../common/Select';
 import { useAppDispatch } from '../../../../app/hooks';
-import { getLoggingCat6, resetLoggingCat6 } from '../../../../features/categorySlice';
 import { generateFileExcel } from '../../../../features/fileSlice';
 import { Toast } from '../../../../utils/Toast';
 import { FACTORIES } from '../../../../utils/constanst';
 import { useTranslation } from 'react-i18next';
+import { fetchLogCat6, resetLogCat6 } from '../../../../features/logcatSlice';
 
 type Props = {
   activeSort: {
@@ -44,12 +44,12 @@ const Search = ({
     },
     onSubmit: async (data) => {
       try {
-        dispatch(resetLoggingCat6());
+        dispatch(resetLogCat6());
         setDateFrom(data.dateFrom);
         setDateTo(data.dateTo);
         setFactory(data.factory);
         dispatch(
-          getLoggingCat6({
+          fetchLogCat6({
             dateFrom: data.dateFrom,
             dateTo: data.dateTo,
             factory: data.factory,
@@ -90,17 +90,14 @@ const Search = ({
   //Export Excel
 
   return (
-    <form
-      className="mb-4 sm:mb-5 space-y-4"
-      onSubmit={formik.handleSubmit}
-    >
+    <form className="mb-4 sm:mb-5 space-y-4" onSubmit={formik.handleSubmit}>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
         <div>
           <Input
             label={t('main.date_from')}
             type="date"
             name="dateFrom"
-            classNameLabel='mb-2 text-sm sm:text-base'
+            classNameLabel="mb-2 text-sm sm:text-base"
             value={formik.values.dateFrom}
             onChange={formik.handleChange}
           />
@@ -110,12 +107,12 @@ const Search = ({
             label={t('main.date_to')}
             type="date"
             name="dateTo"
-            classNameLabel='mb-2 text-sm sm:text-base'
+            classNameLabel="mb-2 text-sm sm:text-base"
             value={formik.values.dateTo}
             onChange={formik.handleChange}
           />
         </div>
-        <div className='sm:col-span-2 lg:col-span-1'>
+        <div className="sm:col-span-2 lg:col-span-1">
           <Select
             label={t('main.factory')}
             name={'factory'}

@@ -21,6 +21,7 @@ const Logging = () => {
   );
 
   const [factory, setFactory] = useState<string>('LYV');
+  console.log(setDateFrom, setDateTo, setFactory);
 
   const { logcat9and12, page, loading, hasMore } = useAppSelector(
     (state) => state.logcat

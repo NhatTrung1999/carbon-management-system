@@ -20,6 +20,7 @@ const Logging = () => {
   );
 
   const [factory, setFactory] = useState<string>('LYV');
+  console.log(setDateFrom, setDateTo, setFactory);
 
   const { logcat5, page, loading, hasMore } = useAppSelector(
     (state) => state.logcat
@@ -60,7 +61,6 @@ const Logging = () => {
       );
     }
   }, [dispatch, loading, hasMore, page, activeSort, dateFrom, dateTo, factory]);
-  // console.log(setDateFrom, setDateTo, setFactory);
 
   return (
     <div className="w-full">
