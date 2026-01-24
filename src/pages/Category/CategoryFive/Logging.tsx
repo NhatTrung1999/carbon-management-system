@@ -3,6 +3,7 @@ import Table from '../../../components/Category/CategoryFive/LoggingCat5/Table';
 import { HEADER } from '../../../types/loggingcat5';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { fetchLogCat5, resetLogCat5 } from '../../../features/logcatSlice';
+import Search from '../../../components/Category/CategoryFive/LoggingCat5/Search';
 
 const Logging = () => {
   const tableRef = useRef<HTMLDivElement | null>(null);
@@ -20,7 +21,7 @@ const Logging = () => {
   );
 
   const [factory, setFactory] = useState<string>('LYV');
-  console.log(setDateFrom, setDateTo, setFactory);
+  // console.log(setDateFrom, setDateTo, setFactory);
 
   const { logcat5, page, loading, hasMore } = useAppSelector(
     (state) => state.logcat
@@ -64,7 +65,7 @@ const Logging = () => {
 
   return (
     <div className="w-full">
-      {/* <div className="mt-4 overflow-x-auto">
+      <div className="mt-4 overflow-x-auto">
         <Search
           activeSort={activeSort}
           dateFrom={dateFrom}
@@ -74,7 +75,7 @@ const Logging = () => {
           factory={factory}
           setFactory={setFactory}
         />
-      </div> */}
+      </div>
       <div className="overflow-x-auto">
         <Table
           header={HEADER}

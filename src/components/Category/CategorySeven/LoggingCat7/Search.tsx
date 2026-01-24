@@ -1,12 +1,12 @@
 import { useFormik } from 'formik';
 import Button from '../../../common/Button';
 import Input from '../../../common/Input';
-import ExcelIcon from '../../../../assets/images/excel-icon.png';
-import { useEffect } from 'react';
+// import ExcelIcon from '../../../../assets/images/excel-icon.png';
+// import { useEffect } from 'react';
 import Select from '../../../common/Select';
 import { useAppDispatch } from '../../../../app/hooks';
-import { generateFileExcel } from '../../../../features/fileSlice';
-import { Toast } from '../../../../utils/Toast';
+// import { generateFileExcel } from '../../../../features/fileSlice';
+// import { Toast } from '../../../../utils/Toast';
 import { FACTORIES } from '../../../../utils/constanst';
 import { useTranslation } from 'react-i18next';
 import { fetchLogCat7, resetLogCat7 } from '../../../../features/logcatSlice';
@@ -64,29 +64,29 @@ const Search = ({
     },
   });
 
-  useEffect(() => {}, []);
+  // useEffect(() => {}, []);
 
   //Export Excel
-  const onExportExcel = async () => {
-    const result = await dispatch(
-      generateFileExcel({
-        module: 'Cat7',
-        dateFrom: formik.values.dateFrom,
-        dateTo: formik.values.dateTo,
-        factory: formik.values.factory,
-      })
-    );
-    if (generateFileExcel.fulfilled.match(result)) {
-      const { statusCode, message } = result.payload as {
-        statusCode: number;
-        message: string;
-      };
-      Toast.fire({
-        title: message,
-        icon: statusCode === 200 ? 'success' : 'error',
-      });
-    }
-  };
+  // const onExportExcel = async () => {
+  //   const result = await dispatch(
+  //     generateFileExcel({
+  //       module: 'Cat7',
+  //       dateFrom: formik.values.dateFrom,
+  //       dateTo: formik.values.dateTo,
+  //       factory: formik.values.factory,
+  //     })
+  //   );
+  //   if (generateFileExcel.fulfilled.match(result)) {
+  //     const { statusCode, message } = result.payload as {
+  //       statusCode: number;
+  //       message: string;
+  //     };
+  //     Toast.fire({
+  //       title: message,
+  //       icon: statusCode === 200 ? 'success' : 'error',
+  //     });
+  //   }
+  // };
   //Export Excel
 
   return (
@@ -132,7 +132,7 @@ const Search = ({
           type="submit"
           className="w-full sm:w-auto text-white bg-[#FF9119] hover:bg-[#FF9119]/80 focus:ring-4 focus:outline-none focus:ring-[#FF9119]/50 font-medium rounded-lg text-sm px-5 py-2.5 dark:hover:bg-[#FF9119]/80 dark:focus:ring-[#FF9119]/40 cursor-pointer transition-colors duration-300"
         />
-        <button
+        {/* <button
           type="button"
           className="w-full sm:w-auto flex flex-row gap-2 items-center justify-center sm:justify-start cursor-pointer px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors duration-300"
           onClick={() => onExportExcel()}
@@ -145,7 +145,7 @@ const Search = ({
           <span className="whitespace-nowrap text-sm sm:text-base">
             {t('main.export_excel_file')}
           </span>
-        </button>
+        </button> */}
       </div>
     </form>
   );

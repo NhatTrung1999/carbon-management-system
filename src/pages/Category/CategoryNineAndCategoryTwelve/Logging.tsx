@@ -4,6 +4,7 @@ import Table from '../../../components/Category/CategoryNineAndCategoryTwelve/Lo
 import { HEADER } from '../../../types/loggingcat9and12';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { fetchLogCat9AndCat12, resetLogCat9And12 } from '../../../features/logcatSlice';
+import Search from '../../../components/Category/CategoryNineAndCategoryTwelve/LoggingCat9AndCat12/Search';
 
 const Logging = () => {
   const tableRef = useRef<HTMLDivElement | null>(null);
@@ -21,7 +22,6 @@ const Logging = () => {
   );
 
   const [factory, setFactory] = useState<string>('LYV');
-  console.log(setDateFrom, setDateTo, setFactory);
 
   const { logcat9and12, page, loading, hasMore } = useAppSelector(
     (state) => state.logcat
@@ -64,7 +64,7 @@ const Logging = () => {
   }, [dispatch, loading, hasMore, page, activeSort, dateFrom, dateTo, factory]);
   return (
     <div className="w-full">
-      {/* <div className="mt-4 overflow-x-auto">
+      <div className="mt-4 overflow-x-auto">
         <Search
           activeSort={activeSort}
           dateFrom={dateFrom}
@@ -74,7 +74,7 @@ const Logging = () => {
           factory={factory}
           setFactory={setFactory}
         />
-      </div> */}
+      </div>
       <div className="overflow-x-auto">
         <Table
           header={HEADER}
