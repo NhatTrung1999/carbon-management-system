@@ -13,7 +13,8 @@ import {
   fetchHRModule,
   resetDataHRModule,
 } from '../../../features/hrmoduleSlice';
-import Select from '../../common/Select';
+// import Select from '../../common/Select';
+import Select from 'react-select';
 
 type Props = {
   activeSort: {
@@ -51,7 +52,7 @@ const Search = ({
 }: Props) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [departmentHR, setDepartmentHR] = useState<
-    { name: string; value: string }[]
+    { label: string; value: string }[]
   >([]);
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
@@ -190,7 +191,7 @@ const Search = ({
               value={formik.values.department}
               onChange={formik.handleChange}
             /> */}
-            <Select
+            {/* <Select
               label={'Department'}
               name="department"
               classNameLabel="mb-2 text-sm sm:text-base"
@@ -199,6 +200,42 @@ const Search = ({
               isShowAllSelect={true}
               // showAllSelect={true}
               options={departmentHR}
+            /> */}
+            <label
+              htmlFor="department"
+              className="mb-2 text-sm sm:text-base whitespace-nowrap block font-medium"
+            >
+              Department
+            </label>
+            <Select
+              id="department"
+              options={departmentHR}
+              placeholder=""
+              isClearable={true}
+              value={
+                departmentHR.find(
+                  (opt) => opt.value === formik.values.department
+                ) || null
+              }
+              onChange={(option) =>
+                formik.setFieldValue('department', option ? option.value : '')
+              }
+              styles={{
+                control: (base) => ({
+                  ...base,
+                  borderColor: '#d1d5dc',
+                  borderRadius: '0.5rem',
+                  backgroundColor: '#f9fafb',
+                  fontSize: '0.875rem',
+                  minHeight: '42px',
+                  height: '42px',
+                }),
+                menu: (base) => ({
+                  ...base,
+                  zIndex: 9999,
+                  fontSize: `14px`,
+                }),
+              }}
             />
           </div>
           <div>
