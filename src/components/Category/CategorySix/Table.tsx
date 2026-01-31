@@ -93,7 +93,7 @@ const Table = ({
 
   const getTableHeight = () => {
     if (loading && data.length === 0) {
-      return 'max-h-[250px]'; 
+      return 'max-h-[250px]';
     }
     if (data.length === 0 && !loading) {
       return 'max-h-[300px]';
@@ -103,7 +103,7 @@ const Table = ({
 
   const getTotalColumns = () => {
     let count = 0;
-    header.forEach(item => {
+    header.forEach((item) => {
       if (item.children && item.children.length > 0) {
         count += item.children.length;
       } else {
@@ -114,7 +114,7 @@ const Table = ({
   };
 
   return (
-    <div className='overflow-x-auto'>
+    <div className="overflow-x-auto">
       <div
         className={`${getTableHeight()} overflow-y-auto relative rounded-lg border border-gray-200 bg-white transition-all duration-300`}
         ref={tableRef}
@@ -177,17 +177,27 @@ const Table = ({
           <tbody>
             {data.length > 0 &&
               data.map((item, index) => (
-                <tr 
+                <tr
                   key={index}
                   className="border-b border-gray-200 hover:bg-gray-50 transition-colors"
                 >
                   <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 text-xs sm:text-sm">
                     {formatDate(item.Document_Date)}
                   </td>
-                  <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 text-xs sm:text-sm">{item.Document_Number}</td>
-                  <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 text-xs sm:text-sm">{item.Staff_ID}</td>
+                  <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 text-xs sm:text-sm">
+                    {item.Document_Number}
+                  </td>
+                  <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 text-xs sm:text-sm">
+                    {item.Staff_ID}
+                  </td>
                   <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 text-xs sm:text-sm">
                     {item.Round_trip_One_way}
+                  </td>
+                  <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 text-xs sm:text-sm">
+                    {formatDate(item.Start_Time)}
+                  </td>
+                  <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 text-xs sm:text-sm">
+                    {formatDate(item.End_Time)}
                   </td>
                   <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 text-xs sm:text-sm">
                     {item.Business_Trip_Type}
@@ -207,13 +217,35 @@ const Table = ({
                   <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 text-xs sm:text-sm">
                     {item.Destination_Airport}
                   </td>
-                  <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 text-xs sm:text-sm">{item.Destination_1}</td>
-                  <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 text-xs sm:text-sm">{item.Destination_2}</td>
+                  <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 text-xs sm:text-sm">
+                    {item.Third_country_transfer_Destination}
+                  </td>
                   <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 text-xs sm:text-sm">
                     {item.Land_Transport_Distance_km_B}
                   </td>
                   <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 text-xs sm:text-sm">
-                    {item.Land_Trasportation_Type_B}
+                    {item.Land_Transportation_Type_B}
+                  </td>
+                  <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 text-xs sm:text-sm">
+                    {item.Destination_2}
+                  </td>
+                  <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 text-xs sm:text-sm">
+                    {item.Destination_3}
+                  </td>
+                  <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 text-xs sm:text-sm">
+                    {item.Destination_4}
+                  </td>
+                  <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 text-xs sm:text-sm">
+                    {item.Destination_5}
+                  </td>
+                  <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 text-xs sm:text-sm">
+                    {item.Destination_6}
+                  </td>
+                  <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 text-xs sm:text-sm">
+                    {item.Land_Transport_Distance_km}
+                  </td>
+                  <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 text-xs sm:text-sm">
+                    {item.Land_Transportation_Type}
                   </td>
                   <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 text-xs sm:text-sm">
                     {item.Air_Transport_Distance_km}
@@ -228,11 +260,16 @@ const Table = ({
               data.length > 0 &&
               Array.from({ length: 3 }).map((_, i) => (
                 <tr key={`skeleton-${i}`} className="border-b border-gray-200">
-                  {Array.from({ length: getTotalColumns() }).map((_, colIndex) => (
-                    <td key={colIndex} className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3">
-                      <div className="h-4 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 rounded animate-shimmer bg-[length:200%_100%]"></div>
-                    </td>
-                  ))}
+                  {Array.from({ length: getTotalColumns() }).map(
+                    (_, colIndex) => (
+                      <td
+                        key={colIndex}
+                        className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3"
+                      >
+                        <div className="h-4 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 rounded animate-shimmer bg-[length:200%_100%]"></div>
+                      </td>
+                    )
+                  )}
                 </tr>
               ))}
 
@@ -260,9 +297,9 @@ const Table = ({
                   className="text-center box-border px-4 sm:px-6 py-8 sm:py-12"
                 >
                   <div className="flex justify-center items-center flex-col space-y-3">
-                    <img 
-                      src={NoData} 
-                      className="w-20 h-20 sm:w-24 sm:h-24 md:w-30 md:h-30 object-contain" 
+                    <img
+                      src={NoData}
+                      className="w-20 h-20 sm:w-24 sm:h-24 md:w-30 md:h-30 object-contain"
                       alt="No data"
                     />
                     <div className="text-sm sm:text-base md:text-lg font-semibold text-gray-600">

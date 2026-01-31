@@ -1,20 +1,46 @@
 export interface ICat6Data {
+  // Document_Date: string;
+  // Document_Number: string;
+  // Staff_ID: string;
+  // Round_trip_One_way: string;
+  // Business_Trip_Type: string;
+  // Place_of_Departure: string;
+  // Departure_Airport: string;
+  // Land_Transport_Distance_km_A: string;
+  // Land_Trasportation_Type_A: string;
+  // Destination_Airport: string;
+  // Destination_1: string;
+  // Destination_2: string;
+  // Land_Transport_Distance_km_B: string;
+  // Land_Trasportation_Type_B: string;
+  // Air_Transport_Distance_km: string;
+  // Number_of_nights_stayed: string;
+
   Document_Date: string;
   Document_Number: string;
   Staff_ID: string;
   Round_trip_One_way: string;
+  Start_Time: string;
+  End_Time: string;
   Business_Trip_Type: string;
   Place_of_Departure: string;
-  Departure_Airport: string;
-  Land_Transport_Distance_km_A: string;
   Land_Trasportation_Type_A: string;
+  Land_Transport_Distance_km_A: string;
+  Departure_Airport: string;
   Destination_Airport: string;
-  Destination_1: string;
-  Destination_2: string;
-  Land_Transport_Distance_km_B: string;
-  Land_Trasportation_Type_B: string;
   Air_Transport_Distance_km: string;
-  Number_of_nights_stayed: string;
+  Third_country_transfer_Destination: string;
+  Land_Transportation_Type_B: string;
+  Land_Transport_Distance_km_B: string;
+  Destination_2: string;
+  Destination_3: string;
+  Destination_4: string;
+  Destination_5: string;
+  Destination_6: string;
+  Land_Transportation_Type: string;
+  Land_Transport_Distance_km: string;
+  Number_of_nights_stayed: number;
+  TotalRow: number;
 }
 
 export const HEADER: {

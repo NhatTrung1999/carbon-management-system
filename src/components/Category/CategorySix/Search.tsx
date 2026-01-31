@@ -70,7 +70,7 @@ const Search = ({
   const onExportExcel = async () => {
     const result = await dispatch(
       generateFileExcel({
-        module: 'Cat5',
+        module: 'Cat6',
         dateFrom: formik.values.dateFrom,
         dateTo: formik.values.dateTo,
         factory: formik.values.factory,
