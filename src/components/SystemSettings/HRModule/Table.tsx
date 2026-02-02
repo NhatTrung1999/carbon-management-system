@@ -181,8 +181,8 @@ const Table = ({
                         <option value="Electric car">Electric car</option>
                         <option value="Car">Car</option>
                         <option value="Bus">Bus</option>
-                        <option value="Companny shuttle bus">
-                          Companny shuttle bus
+                        <option value="Company shuttle bus">
+                          Company shuttle bus
                         </option>
                       </select>
                     ) : (
