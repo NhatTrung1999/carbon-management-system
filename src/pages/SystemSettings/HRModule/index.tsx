@@ -15,6 +15,7 @@ import {
   resetDataHRModule,
   updateHRModule,
 } from '../../../features/hrmoduleSlice';
+import { getInitialDateFrom } from '../../../utils/formatDate';
 
 const HRModule = () => {
   const { t } = useTranslation();
@@ -25,9 +26,7 @@ const HRModule = () => {
     sortOrder: 'asc',
   });
 
-  const [dateFrom, setDateFrom] = useState<string>(
-    new Date().toISOString().slice(0, 10)
-  );
+  const [dateFrom, setDateFrom] = useState<string>(getInitialDateFrom());
   const [dateTo, setDateTo] = useState<string>(
     new Date().toISOString().slice(0, 10)
   );

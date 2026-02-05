@@ -1,8 +1,7 @@
 import { useFormik } from 'formik';
 import Button from '../../../common/Button';
 import Input from '../../../common/Input';
-// import ExcelIcon from '../../../../assets/images/excel-icon.png';
-import { useEffect } from 'react';
+import ExcelIcon from '../../../../assets/images/excel-icon.png';
 import Select from '../../../common/Select';
 import { useAppDispatch } from '../../../../app/hooks';
 // import { generateFileExcel } from '../../../../features/fileSlice';
@@ -10,6 +9,7 @@ import { useAppDispatch } from '../../../../app/hooks';
 import { FACTORIES } from '../../../../utils/constanst';
 import { useTranslation } from 'react-i18next';
 import { fetchLogCat5, resetLogCat5 } from '../../../../features/logcatSlice';
+import logcatApi from '../../../../api/logcat';
 
 type Props = {
   activeSort: {
@@ -64,29 +64,47 @@ const Search = ({
     },
   });
 
-  useEffect(() => {}, []);
-
   //Export Excel
-  // const onExportExcel = async () => {
-  //   const result = await dispatch(
-  //     generateFileExcel({
-  //       module: 'Cat7',
-  //       dateFrom: formik.values.dateFrom,
-  //       dateTo: formik.values.dateTo,
-  //       factory: formik.values.factory,
-  //     })
-  //   );
-  //   if (generateFileExcel.fulfilled.match(result)) {
-  //     const { statusCode, message } = result.payload as {
-  //       statusCode: number;
-  //       message: string;
-  //     };
-  //     Toast.fire({
-  //       title: message,
-  //       icon: statusCode === 200 ? 'success' : 'error',
-  //     });
-  //   }
-  // };
+  const onExportExcel = async () => {
+    // const result = await dispatch(
+    //   generateFileExcel({
+    //     module: 'Cat7',
+    //     dateFrom: formik.values.dateFrom,
+    //     dateTo: formik.values.dateTo,
+    //     factory: formik.values.factory,
+    //   })
+    // );
+    // if (generateFileExcel.fulfilled.match(result)) {
+    //   const { statusCode, message } = result.payload as {
+    //     statusCode: number;
+    //     message: string;
+    //   };
+    //   Toast.fire({
+    //     title: message,
+    //     icon: statusCode === 200 ? 'success' : 'error',
+    //   });
+    // }
+    try {
+      const response = await logcatApi.exportExcelCat5(
+        formik.values.dateFrom,
+        formik.values.dateTo,
+        formik.values.factory
+      );
+      const url = window.URL.createObjectURL(new Blob([response]));
+      const link = document.createElement('a');
+      link.href = url;
+      const fileName = `Log_Cat_5_${new Date()
+        .toISOString()
+        .slice(0, 10)}.xlsx`;
+      link.setAttribute('download', fileName);
+      document.body.appendChild(link);
+      link.click();
+      link.parentNode?.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   //Export Excel
 
   return (
@@ -145,6 +163,13 @@ const Search = ({
             {t('main.export_excel_file')}
           </span>
         </button> */}
+        <Button
+          label={t('Export Excel file')}
+          type="button"
+          onClick={onExportExcel}
+          className="w-full sm:w-auto flex flex-row gap-2 items-center justify-center sm:justify-start cursor-pointer px-4 py-1.5 rounded-lg text-white bg-green-500 hover:bg-green-500/80 transition-colors duration-300"
+          imgSrc={ExcelIcon}
+        />
       </div>
     </form>
   );

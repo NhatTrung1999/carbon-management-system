@@ -109,6 +109,22 @@ const logcatApi = {
 
     return res.data;
   },
+  exportExcelCat5: async (
+    dateFrom: string,
+    dateTo: string,
+    factory: string
+  ) => {
+    const res = await axiosConfig.get('logcat/export-excel-cat5', {
+      params: {
+        dateFrom,
+        dateTo,
+        factory,
+      },
+      responseType: 'blob',
+    });
+
+    return res.data;
+  },
 };
 
 export default logcatApi;
