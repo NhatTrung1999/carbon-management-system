@@ -338,6 +338,10 @@ export const getDataCat1AndCat4 = createAsyncThunk(
       dateFrom,
       dateTo,
       factory,
+      usage,
+      unitWeight,
+      weight,
+      departure,
       page,
       sortField,
       sortOrder,
@@ -345,6 +349,10 @@ export const getDataCat1AndCat4 = createAsyncThunk(
       dateFrom: string;
       dateTo: string;
       factory: string;
+      usage: boolean;
+      unitWeight: boolean;
+      weight: boolean;
+      departure: boolean;
       page: number;
       sortField: string;
       sortOrder: string;
@@ -356,6 +364,10 @@ export const getDataCat1AndCat4 = createAsyncThunk(
         dateFrom,
         dateTo,
         factory,
+        usage,
+        unitWeight,
+        weight,
+        departure,
         page,
         sortField,
         sortOrder
@@ -552,7 +564,10 @@ export const categorySlice = createSlice({
         importExcelPortCodeCat1AndCat4.fulfilled,
         (
           state,
-          action: PayloadAction<{ message: string; records: IPortCodeDataCat1AndCat4[] }>
+          action: PayloadAction<{
+            message: string;
+            records: IPortCodeDataCat1AndCat4[];
+          }>
         ) => {
           const { records } = action.payload;
           state.loading = false;
@@ -617,7 +632,6 @@ export const categorySlice = createSlice({
         state.loading = false;
         state.error = action.payload as string;
       });
-    
   },
 });
 

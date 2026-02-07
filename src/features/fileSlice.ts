@@ -46,8 +46,22 @@ export const generateFileExcel = createAsyncThunk(
       dateFrom,
       dateTo,
       factory,
-      field
-    }: { module: string; dateFrom: string; dateTo: string; factory: string; field?: string[] },
+      field,
+      usage,
+      unitWeight,
+      weight,
+      departure,
+    }: {
+      module: string;
+      dateFrom: string;
+      dateTo: string;
+      factory: string;
+      field?: string[];
+      usage?: boolean;
+      unitWeight?: boolean;
+      weight?: boolean;
+      departure?: boolean;
+    },
     { rejectWithValue }
   ) => {
     try {
@@ -56,7 +70,11 @@ export const generateFileExcel = createAsyncThunk(
         dateFrom,
         dateTo,
         factory,
-        field
+        field,
+        usage,
+        unitWeight,
+        weight,
+        departure,
       });
       return res;
     } catch (error: any) {

@@ -93,7 +93,7 @@ const Search = ({
       const url = window.URL.createObjectURL(new Blob([response]));
       const link = document.createElement('a');
       link.href = url;
-      const fileName = `Log_Cat_5_${new Date()
+      const fileName = `Log_Cat5_${new Date()
         .toISOString()
         .slice(0, 10)}.xlsx`;
       link.setAttribute('download', fileName);

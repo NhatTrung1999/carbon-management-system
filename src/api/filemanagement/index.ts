@@ -23,12 +23,20 @@ const fileManagementApi = {
     dateTo,
     factory,
     field,
+    usage,
+    unitWeight,
+    weight,
+    departure,
   }: {
     module: string;
     dateFrom: string;
     dateTo: string;
     factory: string;
     field?: string[];
+    usage?: boolean;
+    unitWeight?: boolean;
+    weight?: boolean;
+    departure?: boolean;
   }) => {
     // console.log(field);
     const url = `filemanagement/generate-file-excel`;
@@ -39,6 +47,10 @@ const fileManagementApi = {
         DateTo: dateTo,
         Factory: factory,
         Fields: field,
+        Usage: usage,
+        UnitWeight: unitWeight,
+        Weight: weight,
+        Departure: departure,
       },
       paramsSerializer: (params) =>
         qs.stringify(params, { arrayFormat: 'repeat' }),

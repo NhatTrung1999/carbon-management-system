@@ -18,6 +18,7 @@ import { useState } from 'react';
 import { fetchDataAutoSendCMSCat1AndCat4 } from '../../../features/autosendcmsSlice';
 import { createLogCat1AndCat4 } from '../../../features/logcatSlice';
 import cmsApi from '../../../api/cms';
+import Checkbox from '../../common/Checkbox';
 
 type Props = {
   activeSort: {
@@ -30,6 +31,14 @@ type Props = {
   setDateTo: (dateVal: string) => void;
   factory: string;
   setFactory: (factoryVal: string) => void;
+  usage: boolean;
+  setUsage: (data: boolean) => void;
+  unitWeight: boolean;
+  setUnitWeight: (data: boolean) => void;
+  weight: boolean;
+  setWeight: (data: boolean) => void;
+  departure: boolean;
+  setDeparture: (data: boolean) => void;
 };
 
 const Search = ({
@@ -40,6 +49,14 @@ const Search = ({
   setDateTo,
   factory,
   setFactory,
+  usage,
+  setUsage,
+  unitWeight,
+  setUnitWeight,
+  weight,
+  setWeight,
+  departure,
+  setDeparture,
 }: Props) => {
   const { autoSendCMSCat1AndCat4 } = useAppSelector(
     (state) => state.autosendcms
@@ -47,12 +64,17 @@ const Search = ({
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const [loading, setLoading] = useState<boolean>(false);
+  const [loadingExcel, setLoadingExcel] = useState<boolean>(false);
 
   const formik = useFormik({
     initialValues: {
       dateFrom: dateFrom,
       dateTo: dateTo,
       factory: factory,
+      usage,
+      unitWeight,
+      weight,
+      departure,
     },
     onSubmit: async (data) => {
       try {
@@ -60,11 +82,19 @@ const Search = ({
         setDateFrom(data.dateFrom);
         setDateTo(data.dateTo);
         setFactory(data.factory);
+        setUsage(data.usage);
+        setUnitWeight(data.unitWeight);
+        setWeight(data.weight);
+        setDeparture(data.departure);
         await dispatch(
           getDataCat1AndCat4({
             dateFrom: data.dateFrom,
             dateTo: data.dateTo,
             factory: data.factory,
+            usage: data.usage,
+            unitWeight: data.unitWeight,
+            weight: data.weight,
+            departure: data.departure,
             page: 1,
             sortField: activeSort.sortField,
             sortOrder: activeSort.sortOrder,
@@ -85,12 +115,17 @@ const Search = ({
 
   //Export Excel
   const onExportExcel = async () => {
+    setLoadingExcel(true);
     const result = await dispatch(
       generateFileExcel({
         module: 'Cat1AndCat4',
         dateFrom: formik.values.dateFrom,
         dateTo: formik.values.dateTo,
         factory: formik.values.factory,
+        usage: formik.values.usage,
+        unitWeight: formik.values.unitWeight,
+        weight: formik.values.weight,
+        departure: formik.values.departure,
       })
     );
     if (generateFileExcel.fulfilled.match(result)) {
@@ -98,6 +133,7 @@ const Search = ({
         statusCode: number;
         message: string;
       };
+      setLoadingExcel(false);
       Toast.fire({
         title: message,
         icon: statusCode === 200 ? 'success' : 'error',
@@ -208,11 +244,42 @@ const Search = ({
           disabled={loading}
         />
         <Button
-          label={t('Export Excel file')}
+          label={loadingExcel ? 'Loading...' : t('Export Excel file')}
           type="button"
           onClick={onExportExcel}
-          className="w-full sm:w-auto flex flex-row gap-2 items-center justify-center sm:justify-start cursor-pointer px-4 py-2 rounded-lg text-white bg-green-500 hover:bg-green-500/80 transition-colors duration-300"
+          className={`w-full sm:w-auto flex flex-row gap-2 items-center justify-center sm:justify-start cursor-pointer px-4 py-2 rounded-lg text-white bg-green-500 hover:bg-green-500/80 transition-colors duration-300 ${
+            loadingExcel ? 'hover:cursor-not-allowed' : ''
+          }`}
           imgSrc={ExcelIcon}
+          disabled={loadingExcel}
+        />
+        <Checkbox
+          title="Qty.(Usage)"
+          id="usage"
+          name="usage"
+          checked={formik.values.usage}
+          onChange={formik.handleChange}
+        />
+        <Checkbox
+          title="Unit Weight"
+          id="unitweight"
+          name="unitWeight"
+          checked={formik.values.unitWeight}
+          onChange={formik.handleChange}
+        />
+        <Checkbox
+          title="Weight (Unit: KG)"
+          id="weight"
+          name="weight"
+          checked={formik.values.weight}
+          onChange={formik.handleChange}
+        />
+        <Checkbox
+          title="Departure"
+          id="departure"
+          name="departure"
+          checked={formik.values.departure}
+          onChange={formik.handleChange}
         />
         {/* <button
           type="button"

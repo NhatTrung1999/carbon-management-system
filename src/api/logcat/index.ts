@@ -109,12 +109,60 @@ const logcatApi = {
 
     return res.data;
   },
+  exportExcelCat1And4: async (
+    dateFrom: string,
+    dateTo: string,
+    factory: string
+  ) => {
+    const res = await axiosConfig.get('logcat/export-excel-cat1-4', {
+      params: {
+        dateFrom,
+        dateTo,
+        factory,
+      },
+      responseType: 'blob',
+    });
+
+    return res.data;
+  },
   exportExcelCat5: async (
     dateFrom: string,
     dateTo: string,
     factory: string
   ) => {
     const res = await axiosConfig.get('logcat/export-excel-cat5', {
+      params: {
+        dateFrom,
+        dateTo,
+        factory,
+      },
+      responseType: 'blob',
+    });
+
+    return res.data;
+  },
+  exportExcelCat7: async (
+    dateFrom: string,
+    dateTo: string,
+    factory: string
+  ) => {
+    const res = await axiosConfig.get('logcat/export-excel-cat7', {
+      params: {
+        dateFrom,
+        dateTo,
+        factory,
+      },
+      responseType: 'blob',
+    });
+
+    return res.data;
+  },
+  exportExcelCat9And12: async (
+    dateFrom: string,
+    dateTo: string,
+    factory: string
+  ) => {
+    const res = await axiosConfig.get('logcat/export-excel-cat9-12', {
       params: {
         dateFrom,
         dateTo,

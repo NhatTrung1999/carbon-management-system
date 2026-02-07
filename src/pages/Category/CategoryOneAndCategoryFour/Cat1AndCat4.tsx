@@ -25,6 +25,11 @@ const Cat1AndCat4 = () => {
 
   const [factory, setFactory] = useState<string>('LYV');
 
+  const [usage, setUsage] = useState<boolean>(false);
+  const [unitWeight, setUnitWeight] = useState<boolean>(false);
+  const [weight, setWeight] = useState<boolean>(false);
+  const [departure, setDeparture] = useState<boolean>(false);
+
   const { cat1andcat4, page, loading, hasMore } = useAppSelector(
     (state) => state.category
   );
@@ -39,12 +44,16 @@ const Cat1AndCat4 = () => {
         dateFrom,
         dateTo,
         factory,
+        usage,
+        unitWeight,
+        weight,
+        departure,
         page: 1,
         sortField: activeSort.sortField,
         sortOrder: activeSort.sortOrder,
       })
     );
-  }, [dispatch, activeSort, dateFrom, dateTo, factory]);
+  }, [dispatch, activeSort, dateFrom, dateTo, factory, usage, unitWeight, weight, departure]);
 
   const onScroll = useCallback(() => {
     const el = tableRef.current;
@@ -57,13 +66,17 @@ const Cat1AndCat4 = () => {
           dateFrom,
           dateTo,
           factory,
+          usage,
+          unitWeight,
+          weight,
+          departure,
           page,
           sortField: activeSort.sortField,
           sortOrder: activeSort.sortOrder,
         })
       );
     }
-  }, [dispatch, loading, hasMore, page, activeSort, dateFrom, dateTo, factory]);
+  }, [dispatch, loading, hasMore, page, activeSort, dateFrom, dateTo, factory, usage, unitWeight, weight, departure]);
 
   return (
     <div className="w-full">
@@ -76,6 +89,14 @@ const Cat1AndCat4 = () => {
           setDateTo={setDateTo}
           factory={factory}
           setFactory={setFactory}
+          usage={usage}
+          setUsage={setUsage}
+          unitWeight={unitWeight}
+          setUnitWeight={setUnitWeight}
+          weight={weight}
+          setWeight={setWeight}
+          departure={departure}
+          setDeparture={setDeparture}
         />
       </div>
       <div className="mt-4 overflow-x-auto">
