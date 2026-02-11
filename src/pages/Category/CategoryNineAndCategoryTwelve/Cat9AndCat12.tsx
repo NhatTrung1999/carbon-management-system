@@ -16,6 +16,8 @@ type Props = {
   setDateTo: (dateVal: string) => void;
   factory: string;
   setFactory: (factoryVal: string) => void;
+  dockey: string;
+  setDockey: (factoryVal: string) => void;
   setActiveSort: (data: any) => void;
   data: ICat9AndCat12Data[];
   tableRef: RefObject<HTMLDivElement | null>;
@@ -32,6 +34,8 @@ const Cat9AndCat12 = ({
   setDateTo,
   factory,
   setFactory,
+  dockey,
+  setDockey,
   setActiveSort,
   data,
   header,
@@ -47,6 +51,8 @@ const Cat9AndCat12 = ({
           factory={factory}
           setFactory={setFactory}
           activeSort={activeSort}
+          dockey={dockey}
+          setDockey={setDockey}
         />
       </div>
 

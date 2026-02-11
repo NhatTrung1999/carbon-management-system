@@ -4,9 +4,9 @@ export interface TypeProps {
 }
 
 export interface SelectProps {
-  label: string;
   options: Array<TypeProps>;
   name: string;
+  label?: string;
   value?: string | number | undefined;
   helperText?: string | null | any;
   onChange?: (event: React.ChangeEvent<HTMLSelectElement>) => void;

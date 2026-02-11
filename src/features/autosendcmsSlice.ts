@@ -31,7 +31,12 @@ export const fetchDataAutoSendCMSCat1AndCat4 = createAsyncThunk(
 export const fetchDataAutoSendCMSCat5 = createAsyncThunk(
   'autosendcms/fetch-data-auto-send-cms-cat5',
   async (
-    payload: { dateFrom: string; dateTo: string; factory: string },
+    payload: {
+      dateFrom: string;
+      dateTo: string;
+      factory: string;
+      dockey: string;
+    },
     { rejectWithValue }
   ) => {
     try {
@@ -76,7 +81,12 @@ export const fetchDataAutoSendCMSCat7 = createAsyncThunk(
 export const fetchDataAutoSendCMSCat9AndCat12 = createAsyncThunk(
   'autosendcms/fetch-data-auto-send-cms-cat9-and-cat12',
   async (
-    payload: { dateFrom: string; dateTo: string; factory: string },
+    payload: {
+      dateFrom: string;
+      dateTo: string;
+      factory: string;
+      dockey: string;
+    },
     { rejectWithValue }
   ) => {
     try {

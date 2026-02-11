@@ -37,6 +37,7 @@ const CategoryNineAndCategoryTwelvePage = () => {
     new Date().toISOString().slice(0, 10)
   );
 
+  const [dockey, setDockey] = useState<string>('3.2');
   const [factory, setFactory] = useState<string>('LYV');
   const { t } = useTranslation();
 
@@ -54,7 +55,9 @@ const CategoryNineAndCategoryTwelvePage = () => {
         sortOrder: activeSort.sortOrder,
       })
     );
-    dispatch(fetchDataAutoSendCMSCat9AndCat12({ dateFrom, dateTo, factory }));
+    dispatch(
+      fetchDataAutoSendCMSCat9AndCat12({ dateFrom, dateTo, factory, dockey })
+    );
   }, [dispatch, activeSort, dateFrom, dateTo, factory]);
   // }, [dispatch, activeSort, date]);
 
@@ -113,6 +116,8 @@ const CategoryNineAndCategoryTwelvePage = () => {
                       setDateTo={setDateTo}
                       factory={factory}
                       setFactory={setFactory}
+                      dockey={dockey}
+                      setDockey={setDockey}
                       setActiveSort={setActiveSort}
                       data={cat9andcat12}
                       header={HEADER}

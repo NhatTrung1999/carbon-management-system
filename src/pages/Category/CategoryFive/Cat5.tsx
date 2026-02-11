@@ -22,6 +22,7 @@ const Cat5 = () => {
   );
 
   const [factory, setFactory] = useState<string>('LYV');
+  const [dockey, setDockey] = useState<string>('3.6');
 
   const { cat5, page, loading, hasMore } = useAppSelector(
     (state) => state.category
@@ -48,6 +49,7 @@ const Cat5 = () => {
         dateFrom,
         dateTo,
         factory,
+        dockey,
       })
     );
   }, [dispatch, activeSort, dateFrom, dateTo, factory]);
@@ -82,6 +84,8 @@ const Cat5 = () => {
           setDateTo={setDateTo}
           factory={factory}
           setFactory={setFactory}
+          dockey={dockey}
+          setDockey={setDockey}
         />
       </div>
       <div className="mt-4 overflow-x-auto">

@@ -31,6 +31,8 @@ type Props = {
   setDateTo: (dateVal: string) => void;
   factory: string;
   setFactory: (factoryVal: string) => void;
+  dockey: string;
+  setDockey: (factoryVal: string) => void;
 };
 
 const Search = ({
@@ -41,6 +43,8 @@ const Search = ({
   setDateTo,
   factory,
   setFactory,
+  dockey,
+  setDockey,
 }: Props) => {
   const { autoSendCMSCat9AndCat12 } = useAppSelector(
     (state) => state.autosendcms
@@ -54,6 +58,7 @@ const Search = ({
       dateFrom: dateFrom,
       dateTo: dateTo,
       factory: factory,
+      dockey: dockey,
     },
     onSubmit: async (data) => {
       try {
@@ -62,6 +67,7 @@ const Search = ({
         setDateFrom(data.dateFrom);
         setDateTo(data.dateTo);
         setFactory(data.factory);
+        setDockey(data.dockey);
         dispatch(
           getDataCat9AndCat12({
             dateFrom: data.dateFrom,
@@ -77,6 +83,7 @@ const Search = ({
             dateFrom: data.dateFrom,
             dateTo: data.dateTo,
             factory: data.factory,
+            dockey: data.dockey,
           })
         );
       } catch (error: any) {
@@ -155,7 +162,7 @@ const Search = ({
 
   return (
     <form className="mb-4 sm:mb-5 space-y-4" onSubmit={formik.handleSubmit}>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         <div>
           <Input
             label={t('main.date_from')}
@@ -186,6 +193,21 @@ const Search = ({
             isShowAllSelect={true}
             showAllSelect={true}
             options={FACTORIES}
+          />
+        </div>
+        <div className="sm:col-span-2 lg:col-span-1">
+          <Select
+            label={'Dockey'}
+            name="dockey"
+            classNameLabel="mb-2 text-sm sm:text-base"
+            value={formik.values.dockey}
+            onChange={formik.handleChange}
+            // isShowAllSelect={true}
+            // showAllSelect={true}
+            options={[
+              { name: '3.2 (CAT9)', value: '3.2' },
+              { name: '5.3 (CAT12)', value: '5.3' },
+            ]}
           />
         </div>
       </div>
