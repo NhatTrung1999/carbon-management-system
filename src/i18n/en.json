@@ -36,7 +36,7 @@
     "qty_usage": "Qty.(Usage)",
     "qty_receive": "Qty.(Receive)",
     "unit_weight": "Unit Weight",
-    "weight": "Weight (Unit: Ton)",
+    "weight": "Weight (Unit: Kg)",
     "supplier_code": "Supplier Code",
     "factory_code": "Factory Code",
     "style": "Style",

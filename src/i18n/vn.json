@@ -263,7 +263,7 @@
     "article_name_style_name": "Tên sản phẩm (Tên mã)",
     "article_id": "Mã sản phẩm",
     "quantity": "Số lượng",
-    "gross_weight_unit_ton": "Khối lượng tổng (Đơn vị: tấn)",
+    "gross_weight_unit_ton": "Khối lượng tổng (Đơn vị: Kilogam)",
     "customer_id": "Mã khách hàng",
     "local_land_transportation_factory_port": "Vận chuyển đường bộ nội địa Nhà máy → Cảng",
     "port_of_departure": "Cảng xuất phát",

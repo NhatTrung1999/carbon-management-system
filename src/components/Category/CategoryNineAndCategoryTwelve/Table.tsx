@@ -148,7 +148,7 @@ const Table = ({
                 <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-xs sm:text-sm">{item.Article_ID}</td>
                 <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-xs sm:text-sm">{item.Quantity}</td>
                 <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-xs sm:text-sm">
-                  {item.Gross_Weight ? item.Gross_Weight.toFixed(2) : ''}
+                  {item.Gross_Weight ? item.Gross_Weight.toFixed(2) : 0}
                 </td>
                 <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-xs sm:text-sm">{item.Customer_ID}</td>
                 <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-xs sm:text-sm">
