@@ -11,6 +11,7 @@ import type { ICat6Data } from '../types/cat6';
 import type {
   ICat1AndCat4Data,
   IPortCodeDataCat1AndCat4,
+  ITaxFreeZoneAddress,
 } from '../types/cat1andcat4';
 import type { ICustomExportData } from '../types/customexport';
 import type { ILoggingCat7Data } from '../types/loggingcat7';
@@ -26,6 +27,7 @@ interface CategoryState {
   cat9andcat12: ICat9AndCat12Data[];
   portCode: IPortCodeData[];
   portCodeCat1AndCat4: IPortCodeDataCat1AndCat4[];
+  taxFreeZoneAddress: ITaxFreeZoneAddress[];
   customExport: ICustomExportData[];
   loggingcat1and4: ILoggingCat1AndCat4Data[];
   loggingcat5: ILoggingCat5Data[];
@@ -47,6 +49,7 @@ const initialState: CategoryState = {
   cat9andcat12: [],
   portCode: [],
   portCodeCat1AndCat4: [],
+  taxFreeZoneAddress: [],
   customExport: [],
   loggingcat1and4: [],
   loggingcat5: [],
@@ -130,6 +133,21 @@ export const importExcelPortCodeCat1AndCat4 = createAsyncThunk(
   }
 );
 
+export const importExcelTaxFreeZoneAddress = createAsyncThunk(
+  'category/import-excel-tax-free-zone-address',
+  async (file: File, { rejectWithValue }) => {
+    try {
+      const res = await categoryApi.importExcelTaxFreeZoneAddress(file);
+      return res as { message: string; records: ITaxFreeZoneAddress[] };
+    } catch (error: any) {
+      return rejectWithValue(
+        error?.response?.data?.message || 'Import failed!'
+      );
+    }
+  }
+);
+
+
 export const getPortCode = createAsyncThunk(
   'category/get-port-code',
   async (
@@ -157,6 +175,21 @@ export const getPortCodeCat1AndCat4 = createAsyncThunk(
         sortOrder
       );
       return res as IPortCodeDataCat1AndCat4[];
+    } catch (error: any) {
+      return rejectWithValue(error?.response?.data?.message || 'Get failed!');
+    }
+  }
+);
+
+export const getTaxFreeZoneAddress = createAsyncThunk(
+  'category/get-tax-free-zone-address',
+  async (
+    { sortField, sortOrder }: { sortField: string; sortOrder: string },
+    { rejectWithValue }
+  ) => {
+    try {
+      const res = await categoryApi.getTaxFreeZoneAddress(sortField, sortOrder);
+      return res as ITaxFreeZoneAddress[];
     } catch (error: any) {
       return rejectWithValue(error?.response?.data?.message || 'Get failed!');
     }
@@ -612,6 +645,24 @@ export const categorySlice = createSlice({
         }
       )
       .addCase(getPortCodeCat1AndCat4.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      });
+
+    //get tax free zone address
+    builder
+      .addCase(getTaxFreeZoneAddress.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(
+        getTaxFreeZoneAddress.fulfilled,
+        (state, action: PayloadAction<ITaxFreeZoneAddress[]>) => {
+          state.loading = false;
+          state.taxFreeZoneAddress = action.payload;
+        }
+      )
+      .addCase(getTaxFreeZoneAddress.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       });

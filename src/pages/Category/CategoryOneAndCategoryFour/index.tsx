@@ -10,11 +10,17 @@ import Tabs from '../../../components/common/Tabs';
 import Cat1AndCat4 from './Cat1AndCat4';
 import PortCode from './PortCode';
 import Logging from './Logging';
-import { HEADER_PORTCODE } from '../../../types/cat1andcat4';
+import {
+  HEADER_PORTCODE,
+  HEADER_TAX_FREE_ZONE_ADDRESS,
+} from '../../../types/cat1andcat4';
 import { useAppSelector } from '../../../app/hooks';
+import TaxFreeZoneAddress from './TaxFreeZoneAddress';
 
 const CategoryOneAndCategoryFour = () => {
-  const { portCodeCat1AndCat4 } = useAppSelector((state) => state.category);
+  const { portCodeCat1AndCat4, taxFreeZoneAddress } = useAppSelector(
+    (state) => state.category
+  );
   const { t } = useTranslation();
 
   return (
@@ -46,13 +52,25 @@ const CategoryOneAndCategoryFour = () => {
                 {
                   label: 'Port Code',
                   content: (
-                    <PortCode header={HEADER_PORTCODE} data={portCodeCat1AndCat4} />
+                    <PortCode
+                      header={HEADER_PORTCODE}
+                      data={portCodeCat1AndCat4}
+                    />
                   ),
                 },
                 {
                   label: 'Logging',
                   content: <Logging />,
-                }
+                },
+                {
+                  label: 'Tax-Free Zone Address',
+                  content: (
+                    <TaxFreeZoneAddress
+                      header={HEADER_TAX_FREE_ZONE_ADDRESS}
+                      data={taxFreeZoneAddress}
+                    />
+                  ),
+                },
               ]}
             />
           </div>

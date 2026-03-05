@@ -14,6 +14,7 @@ import {
 } from '../../../../features/logcatSlice';
 import logcatApi from '../../../../api/logcat';
 import ExcelIcon from '../../../../assets/images/excel-icon.png';
+import { useState } from 'react';
 
 type Props = {
   activeSort: {
@@ -39,6 +40,7 @@ const Search = ({
 }: Props) => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
+  const [loading, setLoading] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -70,7 +72,9 @@ const Search = ({
 
   //Export Excel
   const onExportExcel = async () => {
+    if (loading) return;
     try {
+      setLoading(true);
       const response = await logcatApi.exportExcelCat9And12(
         formik.values.dateFrom,
         formik.values.dateTo,
@@ -89,6 +93,8 @@ const Search = ({
       window.URL.revokeObjectURL(url);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
   //Export Excel
@@ -151,7 +157,7 @@ const Search = ({
           </span>
         </button> */}
         <Button
-          label={t('Export Excel file')}
+          label={loading ? 'Loading...' : t('Export Excel file')}
           type="button"
           onClick={onExportExcel}
           className="w-full sm:w-auto flex flex-row gap-2 items-center justify-center sm:justify-start cursor-pointer px-4 py-1.5 rounded-lg text-white bg-green-500 hover:bg-green-500/80 transition-colors duration-300"

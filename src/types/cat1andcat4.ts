@@ -45,6 +45,21 @@ export interface IPortCodeDataCat1AndCat4 {
   UpdatedDate: string;
 }
 
+export interface ITaxFreeZoneAddress {
+  ID: string;
+  No: string;
+  Factory: string;
+  SupplierID: string;
+  Country: string;
+  TaxFreeZoneAddress: string;
+  CreatedBy: string;
+  CreatedFactory: string;
+  CreatedAt: string;
+  UpdatedBy: string;
+  UpdatedFactory: string;
+  UpdatedAt: string;
+}
+
 // export const HEADER = [
 //   {
 //     name: 'cat1andcat4.no',
@@ -347,6 +362,43 @@ export const HEADER_PORTCODE = [
   },
 ];
 
+export const HEADER_TAX_FREE_ZONE_ADDRESS = [
+  {
+    name: 'No',
+    state: 'No',
+    sort: true,
+  },
+  {
+    name: 'Factory',
+    state: 'Factory',
+    sort: true,
+  },
+  {
+    name: 'Supplier ID',
+    state: 'SupplierID',
+    sort: true,
+  },
+  {
+    name: 'Country',
+    state: 'Country',
+    sort: true,
+  },
+  {
+    name: 'Tax-Free Zone Address',
+    state: 'TaxFreeZoneAddress',
+    sort: true,
+  },
+  {
+    name: 'Created By',
+    state: 'CreatedBy',
+    sort: true,
+  },
+  {
+    name: 'Created At',
+    state: 'Created At',
+    sort: true,
+  },
+];
 
 export interface ILogCat1AndCat4Payload {
   System: string;
