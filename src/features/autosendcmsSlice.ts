@@ -14,7 +14,12 @@ interface IAutoSendCMSState {
 export const fetchDataAutoSendCMSCat1AndCat4 = createAsyncThunk(
   'autosendcms/fetch-data-auto-send-cms-cat1-and-cat4',
   async (
-    payload: { dateFrom: string; dateTo: string; factory: string },
+    payload: {
+      dateFrom: string;
+      dateTo: string;
+      factory: string;
+      dockey: string;
+    },
     { rejectWithValue }
   ) => {
     try {

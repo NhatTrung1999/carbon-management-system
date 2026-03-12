@@ -7,6 +7,7 @@ import {
   getDataCat1AndCat4,
   resetDataCat1AndCat4,
 } from '../../../features/categorySlice';
+import { fetchDataAutoSendCMSCat1AndCat4 } from '../../../features/autosendcmsSlice';
 
 const Cat1AndCat4 = () => {
   const tableRef = useRef<HTMLDivElement | null>(null);
@@ -24,6 +25,7 @@ const Cat1AndCat4 = () => {
   );
 
   const [factory, setFactory] = useState<string>('LYV');
+  const [dockey, setDockey] = useState<string>('4.1');
 
   const [usage, setUsage] = useState<boolean>(false);
   const [unitWeight, setUnitWeight] = useState<boolean>(false);
@@ -53,7 +55,25 @@ const Cat1AndCat4 = () => {
         sortOrder: activeSort.sortOrder,
       })
     );
-  }, [dispatch, activeSort, dateFrom, dateTo, factory, usage, unitWeight, weight, departure]);
+    dispatch(
+      fetchDataAutoSendCMSCat1AndCat4({
+        dateFrom,
+        dateTo,
+        factory,
+        dockey,
+      })
+    );
+  }, [
+    dispatch,
+    activeSort,
+    dateFrom,
+    dateTo,
+    factory,
+    usage,
+    unitWeight,
+    weight,
+    departure,
+  ]);
 
   const onScroll = useCallback(() => {
     const el = tableRef.current;
@@ -76,7 +96,20 @@ const Cat1AndCat4 = () => {
         })
       );
     }
-  }, [dispatch, loading, hasMore, page, activeSort, dateFrom, dateTo, factory, usage, unitWeight, weight, departure]);
+  }, [
+    dispatch,
+    loading,
+    hasMore,
+    page,
+    activeSort,
+    dateFrom,
+    dateTo,
+    factory,
+    usage,
+    unitWeight,
+    weight,
+    departure,
+  ]);
 
   return (
     <div className="w-full">
@@ -89,6 +122,8 @@ const Cat1AndCat4 = () => {
           setDateTo={setDateTo}
           factory={factory}
           setFactory={setFactory}
+          dockey={dockey}
+          setDockey={setDockey}
           usage={usage}
           setUsage={setUsage}
           unitWeight={unitWeight}

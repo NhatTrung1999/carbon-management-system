@@ -6,6 +6,7 @@ const autosendcmsApi = {
     dateFrom: string;
     dateTo: string;
     factory: string;
+    dockey: string;
   }) => {
     const res = await axiosConfig.get(`cat1andcat4/auto-sent-cms`, {
       params: {
