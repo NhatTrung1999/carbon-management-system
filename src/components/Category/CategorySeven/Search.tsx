@@ -27,6 +27,8 @@ type Props = {
   setDateTo: (dateVal: string) => void;
   factory: string;
   setFactory: (factoryVal: string) => void;
+  loadingFetch: boolean;
+  setLoadingFetch: (val: boolean) => void;
 };
 
 const Search = ({
@@ -37,6 +39,8 @@ const Search = ({
   setDateTo,
   factory,
   setFactory,
+  loadingFetch,
+  setLoadingFetch,
 }: Props) => {
   const { autoSendCMSCat7 } = useAppSelector((state) => state.autosendcms);
   const dispatch = useAppDispatch();
@@ -66,6 +70,7 @@ const Search = ({
           })
         );
 
+        setLoadingFetch(true);
         await dispatch(
           fetchDataAutoSendCMSCat7({
             dateFrom: data.dateFrom,
@@ -73,6 +78,7 @@ const Search = ({
             factory: data.factory,
           })
         );
+        setLoadingFetch(false);
       } catch (error: any) {
         console.log(error);
       }
@@ -167,13 +173,18 @@ const Search = ({
           className="w-full sm:w-auto text-white bg-[#FF9119] hover:bg-[#FF9119]/80 focus:ring-4 focus:outline-none focus:ring-[#FF9119]/50 font-medium rounded-lg text-sm px-5 py-2.5 dark:hover:bg-[#FF9119]/80 dark:focus:ring-[#FF9119]/40 cursor-pointer transition-colors duration-300"
         />
         <Button
-          label={loading ? 'Loading...' : t('Send to CMS')}
+          label={
+            loading || loadingFetch
+              ? 'Loading...'
+              : `${t('Send to CMS')} (${autoSendCMSCat7?.length ?? 0})`
+          }
           type="button"
           onClick={onSendToCMS}
           className={`w-full sm:w-auto flex flex-row gap-2 items-center justify-center sm:justify-start cursor-pointer px-4 py-2 rounded-lg text-white bg-[#FFB619] hover:bg-[#FFB619]/80 transition-colors duration-300 ${
-            loading ? 'hover:cursor-not-allowed' : ''
+            loading || loadingFetch ? 'hover:cursor-not-allowed' : ''
           }`}
           imgSrc={SendIcon}
+          disabled={loading || loadingFetch}
         />
         <Button
           label={t('Export Excel file')}
@@ -182,6 +193,7 @@ const Search = ({
           className="w-full sm:w-auto flex flex-row gap-2 items-center justify-center sm:justify-start cursor-pointer px-4 py-2 rounded-lg text-white bg-green-500 hover:bg-green-500/80 transition-colors duration-300"
           imgSrc={ExcelIcon}
         />
+
         {/* <button
           type="button"
           className="w-full sm:w-auto flex flex-row gap-2 items-center justify-center sm:justify-start cursor-pointer px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors duration-300"

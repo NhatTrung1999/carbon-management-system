@@ -43,6 +43,7 @@ const Cat7 = () => {
   );
 
   const [factory, setFactory] = useState<string>('LYV');
+  const [loadingFetch, setLoadingFetch] = useState<boolean>(false);
 
   const { cat7, page, loading, hasMore } = useAppSelector(
     (state) => state.category
@@ -63,13 +64,14 @@ const Cat7 = () => {
         sortOrder: activeSort.sortOrder,
       })
     );
+    setLoadingFetch(true);
     dispatch(
       fetchDataAutoSendCMSCat7({
         dateFrom,
         dateTo,
         factory,
       })
-    );
+    ).finally(() => setLoadingFetch(false));
   }, [dispatch, activeSort, dateFrom, dateTo, factory]);
 
   const onScroll = useCallback(() => {
@@ -102,6 +104,8 @@ const Cat7 = () => {
           setDateTo={setDateTo}
           factory={factory}
           setFactory={setFactory}
+          loadingFetch={loadingFetch}
+          setLoadingFetch={setLoadingFetch}
         />
       </div>
       <div className="mt-4 overflow-x-auto">

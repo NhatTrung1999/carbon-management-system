@@ -398,6 +398,11 @@ export const HEADER_TAX_FREE_ZONE_ADDRESS = [
     state: 'Created At',
     sort: true,
   },
+  {
+    name: 'Action',
+    state: 'Action',
+    sort: false,
+  },
 ];
 
 export interface ILogCat1AndCat4Payload {

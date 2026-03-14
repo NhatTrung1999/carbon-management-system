@@ -39,6 +39,7 @@ const CategoryNineAndCategoryTwelvePage = () => {
 
   const [dockey, setDockey] = useState<string>('3.2');
   const [factory, setFactory] = useState<string>('LYV');
+  const [loadingFetch, setLoadingFetch] = useState<boolean>(false);
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -55,9 +56,10 @@ const CategoryNineAndCategoryTwelvePage = () => {
         sortOrder: activeSort.sortOrder,
       })
     );
+    setLoadingFetch(true);
     dispatch(
       fetchDataAutoSendCMSCat9AndCat12({ dateFrom, dateTo, factory, dockey })
-    );
+    ).finally(() => setLoadingFetch(false));
   }, [dispatch, activeSort, dateFrom, dateTo, factory]);
   // }, [dispatch, activeSort, date]);
 
@@ -117,6 +119,8 @@ const CategoryNineAndCategoryTwelvePage = () => {
                       factory={factory}
                       setFactory={setFactory}
                       dockey={dockey}
+                      loadingFetch={loadingFetch}
+                      setLoadingFetch={setLoadingFetch}
                       setDockey={setDockey}
                       setActiveSort={setActiveSort}
                       data={cat9andcat12}

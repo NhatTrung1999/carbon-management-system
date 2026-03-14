@@ -31,6 +31,7 @@ const Cat1AndCat4 = () => {
   const [unitWeight, setUnitWeight] = useState<boolean>(false);
   const [weight, setWeight] = useState<boolean>(false);
   const [departure, setDeparture] = useState<boolean>(false);
+  const [loadingFetch, setLoadingFetch] = useState<boolean>(false);
 
   const { cat1andcat4, page, loading, hasMore } = useAppSelector(
     (state) => state.category
@@ -55,6 +56,7 @@ const Cat1AndCat4 = () => {
         sortOrder: activeSort.sortOrder,
       })
     );
+    setLoadingFetch(true);
     dispatch(
       fetchDataAutoSendCMSCat1AndCat4({
         dateFrom,
@@ -62,7 +64,7 @@ const Cat1AndCat4 = () => {
         factory,
         dockey,
       })
-    );
+    ).finally(() => setLoadingFetch(false));
   }, [
     dispatch,
     activeSort,
@@ -132,6 +134,8 @@ const Cat1AndCat4 = () => {
           setWeight={setWeight}
           departure={departure}
           setDeparture={setDeparture}
+          loadingFetch={loadingFetch}
+          setLoadingFetch={setLoadingFetch}
         />
       </div>
       <div className="mt-4 overflow-x-auto">

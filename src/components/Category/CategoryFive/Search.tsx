@@ -30,6 +30,8 @@ type Props = {
   setFactory: (factoryVal: string) => void;
   dockey: string;
   setDockey: (factoryVal: string) => void;
+  loadingFetch: boolean;
+  setLoadingFetch: (val: boolean) => void;
 };
 
 const Search = ({
@@ -42,6 +44,8 @@ const Search = ({
   setFactory,
   dockey,
   setDockey,
+  loadingFetch,
+  setLoadingFetch,
 }: Props) => {
   const { autoSendCMSCat5 } = useAppSelector((state) => state.autosendcms);
   const [loading, setLoading] = useState<boolean>(false);
@@ -72,6 +76,7 @@ const Search = ({
             sortOrder: activeSort.sortOrder,
           })
         );
+        setLoadingFetch(true);
         await dispatch(
           fetchDataAutoSendCMSCat5({
             dateFrom: data.dateFrom,
@@ -80,6 +85,7 @@ const Search = ({
             dockey: data.dockey,
           })
         );
+        setLoadingFetch(false);
         // console.log(res);
       } catch (error: any) {
         console.log(error);
@@ -210,14 +216,18 @@ const Search = ({
           className="w-full sm:w-auto text-white bg-[#FF9119] hover:bg-[#FF9119]/80 focus:ring-4 focus:outline-none focus:ring-[#FF9119]/50 font-medium rounded-lg text-sm px-5 py-2.5 dark:hover:bg-[#FF9119]/80 dark:focus:ring-[#FF9119]/40 cursor-pointer transition-colors duration-300"
         />
         <Button
-          label={loading ? 'Loading...' : t('Send to CMS')}
+          label={
+            loading || loadingFetch
+              ? 'Loading...'
+              : `${t('Send to CMS')} (${autoSendCMSCat5?.length ?? 0})`
+          }
           type="button"
           onClick={onSendToCMS}
           className={`w-full sm:w-auto flex flex-row gap-2 items-center justify-center sm:justify-start cursor-pointer px-4 py-2 rounded-lg text-white bg-[#FFB619] hover:bg-[#FFB619]/80 transition-colors duration-300 ${
-            loading ? 'hover:cursor-not-allowed' : ''
+            loading || loadingFetch ? 'hover:cursor-not-allowed' : ''
           }`}
           imgSrc={SendIcon}
-          disabled={loading}
+          disabled={loading || loadingFetch}
         />
         <Button
           label={t('Export Excel file')}

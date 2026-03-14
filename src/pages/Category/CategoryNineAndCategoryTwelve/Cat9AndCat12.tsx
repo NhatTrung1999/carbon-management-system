@@ -18,6 +18,8 @@ type Props = {
   setFactory: (factoryVal: string) => void;
   dockey: string;
   setDockey: (factoryVal: string) => void;
+  loadingFetch: boolean;
+  setLoadingFetch: (val: boolean) => void;
   setActiveSort: (data: any) => void;
   data: ICat9AndCat12Data[];
   tableRef: RefObject<HTMLDivElement | null>;
@@ -36,6 +38,8 @@ const Cat9AndCat12 = ({
   setFactory,
   dockey,
   setDockey,
+  loadingFetch,
+  setLoadingFetch,
   setActiveSort,
   data,
   header,
@@ -53,6 +57,8 @@ const Cat9AndCat12 = ({
           activeSort={activeSort}
           dockey={dockey}
           setDockey={setDockey}
+          loadingFetch={loadingFetch}
+          setLoadingFetch={setLoadingFetch}
         />
       </div>
 

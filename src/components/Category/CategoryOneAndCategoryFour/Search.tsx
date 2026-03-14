@@ -41,6 +41,8 @@ type Props = {
   setDeparture: (data: boolean) => void;
   dockey: string;
   setDockey: (factoryVal: string) => void;
+  loadingFetch: boolean;
+  setLoadingFetch: (val: boolean) => void;
 };
 
 const Search = ({
@@ -61,6 +63,8 @@ const Search = ({
   setDeparture,
   dockey,
   setDockey,
+  loadingFetch,
+  setLoadingFetch,
 }: Props) => {
   const { autoSendCMSCat1AndCat4 } = useAppSelector(
     (state) => state.autosendcms
@@ -106,6 +110,7 @@ const Search = ({
             sortOrder: activeSort.sortOrder,
           })
         );
+        setLoadingFetch(true);
         await dispatch(
           fetchDataAutoSendCMSCat1AndCat4({
             dateFrom: data.dateFrom,
@@ -114,6 +119,7 @@ const Search = ({
             dockey: data.dockey,
           })
         );
+        setLoadingFetch(false);
       } catch (error: any) {
         console.log(error);
       }
@@ -151,29 +157,6 @@ const Search = ({
 
   //Send to CMS
   const onSendToCMS = async () => {
-    // console.log(autoSendCMSCat1AndCat4);
-    // setLoading(true);
-    // const response = await axios.post(
-    //   '/api/dataIntegrate/create',
-    //   autoSendCMSCat1AndCat4
-    // );
-    // if (response.data.std_data.execution.code === '0') {
-    //   let result = await dispatch(
-    //     createLogCat1AndCat4(autoSendCMSCat1AndCat4 as any)
-    //   );
-    //   Toast.fire({
-    //     title: result.payload.message,
-    //     icon: result.payload.success ? 'success' : 'error',
-    //   });
-    //   setLoading(false);
-    //   return;
-    // } else {
-    //   Toast.fire({
-    //     title: 'Send to CMS failed!',
-    //     icon: 'error',
-    //   });
-    //   setLoading(false);
-    // }
     setLoading(true);
     const response = await cmsApi.createCMS(autoSendCMSCat1AndCat4);
     if (response.std_data.execution.code === '0') {
@@ -256,14 +239,18 @@ const Search = ({
           className="w-full sm:w-auto text-white bg-[#FF9119] hover:bg-[#FF9119]/80 focus:ring-4 focus:outline-none focus:ring-[#FF9119]/50 font-medium rounded-lg text-sm px-5 py-2.5 dark:hover:bg-[#FF9119]/80 dark:focus:ring-[#FF9119]/40 cursor-pointer transition-colors duration-300"
         />
         <Button
-          label={loading ? 'Loading...' : t('Send to CMS')}
+          label={
+            loading || loadingFetch
+              ? 'Loading...'
+              : `${t('Send to CMS')} (${autoSendCMSCat1AndCat4?.length ?? 0})`
+          }
           type="button"
           onClick={onSendToCMS}
           className={`w-full sm:w-auto flex flex-row gap-2 items-center justify-center sm:justify-start cursor-pointer px-4 py-2 rounded-lg text-white bg-[#FFB619] hover:bg-[#FFB619]/80 transition-colors duration-300 ${
-            loading ? 'hover:cursor-not-allowed' : ''
+            loading || loadingFetch ? 'hover:cursor-not-allowed' : ''
           }`}
           imgSrc={SendIcon}
-          disabled={loading}
+          disabled={loading || loadingFetch}
         />
         <Button
           label={loadingExcel ? 'Loading...' : t('Export Excel file')}
@@ -303,34 +290,6 @@ const Search = ({
           checked={formik.values.departure}
           onChange={formik.handleChange}
         />
-        {/* <button
-          type="button"
-          className="w-full sm:w-auto flex flex-row gap-2 items-center justify-center sm:justify-start cursor-pointer px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors duration-300"
-          onClick={() => onExportExcel()}
-        >
-          <img
-            src={ExcelIcon}
-            alt="excel-icon"
-            className="w-8 sm:w-10 object-contain"
-          />
-          <span className="whitespace-nowrap text-sm sm:text-base">
-            {t('main.export_excel_file')}
-          </span>
-        </button> */}
-        {/* <button
-          type="button"
-          className="w-full sm:w-auto flex flex-row gap-2 items-center justify-center sm:justify-start cursor-pointer px-4 py-2 rounded-lg text-white bg-[#FFB619] hover:bg-[#FFB619]/80 transition-colors duration-300"
-          onClick={() => onSendToCMS}
-        >
-          <img
-            src={SendIcon}
-            alt="excel-icon"
-            className="w-8 sm:w-10 object-contain"
-          />
-          <span className="whitespace-nowrap text-sm sm:text-base">
-            {t('Send to CMS')}
-          </span>
-        </button> */}
       </div>
     </form>
   );
