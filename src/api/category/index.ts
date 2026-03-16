@@ -135,6 +135,15 @@ const categoryApi = {
     });
     return res.data;
   },
+  updateTaxFreeZoneAddress: async (id: string, taxFreeZoneAddress: string) => {
+    const response = await axiosConfig.patch(
+      `cat1andcat4/tax-free-zone-address/${id}`,
+      {
+        TaxFreeZoneAddress: taxFreeZoneAddress,
+      }
+    );
+    return response.data;
+  },
   importExcelPortCode: async (file: File) => {
     const formData = new FormData();
     formData.append('file', file);

@@ -13,15 +13,32 @@ import Logging from './Logging';
 import {
   HEADER_PORTCODE,
   HEADER_TAX_FREE_ZONE_ADDRESS,
+  type ITaxFreeZoneAddress,
 } from '../../../types/cat1andcat4';
-import { useAppSelector } from '../../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import TaxFreeZoneAddress from './TaxFreeZoneAddress';
+import { updateTaxFreeZoneAddress } from '../../../features/categorySlice';
 
 const CategoryOneAndCategoryFour = () => {
   const { portCodeCat1AndCat4, taxFreeZoneAddress } = useAppSelector(
     (state) => state.category
   );
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
+
+  const handleUpdateRow = async (updatedItem: ITaxFreeZoneAddress) => {
+    try {
+      await dispatch(
+        updateTaxFreeZoneAddress({
+          id: updatedItem.ID,
+          taxFreeZoneAddress: updatedItem.TaxFreeZoneAddress,
+        })
+      ).unwrap();
+      console.log('Update success');
+    } catch (error) {
+      console.error('Lỗi khi update:', error);
+    }
+  };
 
   return (
     <Fragment>
@@ -68,6 +85,7 @@ const CategoryOneAndCategoryFour = () => {
                     <TaxFreeZoneAddress
                       header={HEADER_TAX_FREE_ZONE_ADDRESS}
                       data={taxFreeZoneAddress}
+                      onSave={handleUpdateRow}
                     />
                   ),
                 },

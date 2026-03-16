@@ -147,7 +147,6 @@ export const importExcelTaxFreeZoneAddress = createAsyncThunk(
   }
 );
 
-
 export const getPortCode = createAsyncThunk(
   'category/get-port-code',
   async (
@@ -192,6 +191,30 @@ export const getTaxFreeZoneAddress = createAsyncThunk(
       return res as ITaxFreeZoneAddress[];
     } catch (error: any) {
       return rejectWithValue(error?.response?.data?.message || 'Get failed!');
+    }
+  }
+);
+
+export const updateTaxFreeZoneAddress = createAsyncThunk(
+  'category/update-tax-free-zone-address',
+  async (
+    {
+      id,
+      taxFreeZoneAddress,
+    }: {
+      id: string;
+      taxFreeZoneAddress: string;
+    },
+    { rejectWithValue }
+  ) => {
+    try {
+      const res = await categoryApi.updateTaxFreeZoneAddress(
+        id,
+        taxFreeZoneAddress
+      );
+      return res;
+    } catch (error: any) {
+      return rejectWithValue(error || '');
     }
   }
 );
@@ -663,6 +686,29 @@ export const categorySlice = createSlice({
         }
       )
       .addCase(getTaxFreeZoneAddress.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      });
+
+    builder
+      .addCase(updateTaxFreeZoneAddress.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateTaxFreeZoneAddress.fulfilled, (state, action) => {
+        state.loading = false;
+        const updatedItem = action.payload;
+        const index = state.taxFreeZoneAddress.findIndex(
+          (item) => item.ID === updatedItem.ID
+        );
+        if (index !== -1) {
+          state.taxFreeZoneAddress[index] = {
+            ...state.taxFreeZoneAddress[index],
+            ...updatedItem,
+          };
+        }
+      })
+      .addCase(updateTaxFreeZoneAddress.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       });

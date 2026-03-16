@@ -2,6 +2,7 @@ import Button from '../../../components/common/Button';
 import ExcelIcon from '../../../assets/images/excel-icon.png';
 import type { TableHeaderProps } from '../../../types/table';
 import { TiArrowSortedDown, TiArrowSortedUp } from 'react-icons/ti';
+import { FaEdit, FaSave, FaTimes } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
 
 import NoData from '../../../assets/images/no-data.png';
@@ -18,9 +19,10 @@ import {
 type Props = {
   header: TableHeaderProps[];
   data: ITaxFreeZoneAddress[];
+  onSave: (item: ITaxFreeZoneAddress) => void;
 };
 
-const TaxFreeZoneAddress = ({ header, data }: Props) => {
+const TaxFreeZoneAddress = ({ header, data, onSave }: Props) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const { loading } = useAppSelector((state) => state.category);
@@ -29,6 +31,11 @@ const TaxFreeZoneAddress = ({ header, data }: Props) => {
     sortOrder: 'asc',
   });
   const { t } = useTranslation();
+
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editFormData, setEditFormData] = useState<ITaxFreeZoneAddress | null>(
+    null
+  );
 
   useEffect(() => {
     dispatch(
@@ -41,6 +48,35 @@ const TaxFreeZoneAddress = ({ header, data }: Props) => {
 
   const handleSorting = (sortField: string, sortOrder: string): void => {
     setActiveSort({ sortField, sortOrder });
+  };
+
+  const handleEditClick = (item: ITaxFreeZoneAddress) => {
+    setEditingId(item.ID);
+    setEditFormData(item);
+  };
+
+  const handleCancelClick = () => {
+    setEditingId(null);
+    setEditFormData(null);
+  };
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    if (editFormData) {
+      setEditFormData({
+        ...editFormData,
+        [e.target.name]: e.target.value,
+      });
+    }
+  };
+
+  const handleSaveClick = () => {
+    if (editFormData) {
+      onSave(editFormData);
+      setEditingId(null);
+      setEditFormData(null);
+    }
   };
 
   const renderSortIcon = (item: TableHeaderProps) =>
@@ -121,34 +157,81 @@ const TaxFreeZoneAddress = ({ header, data }: Props) => {
             </thead>
             <tbody>
               {data.length > 0 &&
-                data.map((item, index) => (
-                  <tr
-                    key={index}
-                    className="border-b border-gray-200 hover:bg-gray-50 transition-colors"
-                  >
-                    <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-xs sm:text-sm whitespace-nowrap">
-                      {item.No}
-                    </td>
-                    <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-xs sm:text-sm whitespace-nowrap">
-                      {item.Factory}
-                    </td>
-                    <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-xs sm:text-sm whitespace-nowrap">
-                      {item.SupplierID}
-                    </td>
-                    <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-xs sm:text-sm">
-                      {item.Country}
-                    </td>
-                    <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-xs sm:text-sm">
-                      {item.TaxFreeZoneAddress}
-                    </td>
-                    <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-xs sm:text-sm">
-                      {item.CreatedBy}
-                    </td>
-                    <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-xs sm:text-sm whitespace-nowrap">
-                      {formatDate(item.CreatedAt)}
-                    </td>
-                  </tr>
-                ))}
+                data.map((item, index) => {
+                  const isEditing = editingId === item.ID;
+                  return (
+                    <tr
+                      key={index}
+                      className="border-b border-gray-200 hover:bg-gray-50 transition-colors"
+                    >
+                      <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-xs sm:text-sm whitespace-nowrap">
+                        {item.No}
+                      </td>
+                      <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-xs sm:text-sm whitespace-nowrap">
+                        {item.Factory}
+                      </td>
+                      <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-xs sm:text-sm whitespace-nowrap">
+                        {item.SupplierID}
+                      </td>
+                      <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-xs sm:text-sm">
+                        {item.Country}
+                      </td>
+                      <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-xs sm:text-sm">
+                        {isEditing ? (
+                          <input
+                            type="text"
+                            name="TaxFreeZoneAddress"
+                            value={editFormData?.TaxFreeZoneAddress}
+                            onChange={handleInputChange}
+                            className="border rounded p-1 w-full"
+                          />
+                        ) : (
+                          item.TaxFreeZoneAddress
+                        )}
+                      </td>
+                      <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-xs sm:text-sm">
+                        {item.CreatedBy}
+                      </td>
+                      <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-xs sm:text-sm whitespace-nowrap">
+                        {formatDate(item.CreatedAt)}
+                      </td>
+                      <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-xs sm:text-sm">
+                        {item.UpdatedBy}
+                      </td>
+                      <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-xs sm:text-sm whitespace-nowrap">
+                        {formatDate(item.UpdatedAt)}
+                      </td>
+                      <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-xs sm:text-sm text-center">
+                        {isEditing ? (
+                          <div className="flex gap-2 justify-center">
+                            <button
+                              onClick={handleSaveClick}
+                              className="text-green-600 hover:text-green-800"
+                              title="Save"
+                            >
+                              <FaSave size={18} />
+                            </button>
+                            <button
+                              onClick={handleCancelClick}
+                              className="text-red-500 hover:text-red-700"
+                              title="Cancel"
+                            >
+                              <FaTimes size={18} />
+                            </button>
+                          </div>
+                        ) : (
+                          <button
+                            onClick={() => handleEditClick(item)}
+                            className="text-blue-600 hover:text-blue-800"
+                            title="Edit"
+                          >
+                            <FaEdit size={18} />
+                          </button>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })}
 
               {loading &&
                 data.length > 0 &&

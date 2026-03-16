@@ -395,7 +395,17 @@ export const HEADER_TAX_FREE_ZONE_ADDRESS = [
   },
   {
     name: 'Created At',
-    state: 'Created At',
+    state: 'CreatedAt',
+    sort: true,
+  },
+  {
+    name: 'Updated By',
+    state: 'UpdatedBy',
+    sort: true,
+  },
+  {
+    name: 'Updated At',
+    state: 'UpdatedAt',
     sort: true,
   },
   {
