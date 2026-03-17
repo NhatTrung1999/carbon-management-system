@@ -46,6 +46,7 @@ const Search = ({
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const [loading, setLoading] = useState<boolean>(false);
+  const [loadingExcel, setLoadingExcel] = useState<boolean>(false);
 
   const formik = useFormik({
     initialValues: {
@@ -87,6 +88,7 @@ const Search = ({
 
   //Export Excel
   const onExportExcel = async () => {
+    setLoadingExcel(true);
     const result = await dispatch(
       generateFileExcel({
         module: 'Cat7',
@@ -100,6 +102,7 @@ const Search = ({
         statusCode: number;
         message: string;
       };
+      setLoadingExcel(false);
       Toast.fire({
         title: message,
         icon: statusCode === 200 ? 'success' : 'error',
@@ -187,11 +190,14 @@ const Search = ({
           disabled={loading || loadingFetch}
         />
         <Button
-          label={t('Export Excel file')}
+          label={loadingExcel ? 'Loading...' : t('Export Excel file')}
           type="button"
           onClick={onExportExcel}
-          className="w-full sm:w-auto flex flex-row gap-2 items-center justify-center sm:justify-start cursor-pointer px-4 py-2 rounded-lg text-white bg-green-500 hover:bg-green-500/80 transition-colors duration-300"
+          className={`w-full sm:w-auto flex flex-row gap-2 items-center justify-center sm:justify-start cursor-pointer px-4 py-2 rounded-lg text-white bg-green-500 hover:bg-green-500/80 transition-colors duration-300 ${
+            loadingExcel ? 'hover:cursor-not-allowed' : ''
+          }`}
           imgSrc={ExcelIcon}
+          disabled={loadingExcel}
         />
 
         {/* <button
