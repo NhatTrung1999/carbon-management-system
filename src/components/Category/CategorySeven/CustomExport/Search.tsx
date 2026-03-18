@@ -2,10 +2,13 @@ import { useFormik } from 'formik';
 
 import ExcelIcon from '../../../../assets/images/excel-icon.png';
 import SendIcon from '../../../../assets/images/send-to-CMS.png';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch } from '../../../../app/hooks';
-import { getCustomExport, resetDataCustomExport } from '../../../../features/categorySlice';
+import {
+  getCustomExport,
+  resetDataCustomExport,
+} from '../../../../features/categorySlice';
 import { generateFileExcel } from '../../../../features/fileSlice';
 import { Toast } from '../../../../utils/Toast';
 import Input from '../../../common/Input';
@@ -14,7 +17,7 @@ import { FACTORIES } from '../../../../utils/constanst';
 import Button from '../../../common/Button';
 
 type Props = {
-  field: string[]
+  field: string[];
   activeSort: {
     sortField: string;
     sortOrder: string;
@@ -39,6 +42,7 @@ const Search = ({
 }: Props) => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
+  const [loadingExcel, setLoadingExcel] = useState<boolean>(false);
 
   const formik = useFormik({
     initialValues: {
@@ -72,13 +76,14 @@ const Search = ({
 
   //Export Excel
   const onExportExcel = async () => {
+    setLoadingExcel(true);
     const result = await dispatch(
       generateFileExcel({
         module: 'CustomExport',
         dateFrom: formik.values.dateFrom,
         dateTo: formik.values.dateTo,
         factory: formik.values.factory,
-        field: field
+        field: field,
       })
     );
     if (generateFileExcel.fulfilled.match(result)) {
@@ -86,6 +91,7 @@ const Search = ({
         statusCode: number;
         message: string;
       };
+      setLoadingExcel(false);
       Toast.fire({
         title: message,
         icon: statusCode === 200 ? 'success' : 'error',
@@ -94,15 +100,10 @@ const Search = ({
   };
   //Export Excel
 
-  const onSendToCMS = async () => {
-
-  };
+  const onSendToCMS = async () => {};
 
   return (
-    <form
-      className="mb-4 sm:mb-5 space-y-4"
-      onSubmit={formik.handleSubmit}
-    >
+    <form className="mb-4 sm:mb-5 space-y-4" onSubmit={formik.handleSubmit}>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
         <div>
           <Input
@@ -146,17 +147,20 @@ const Search = ({
         />
         <Button
           label={t('Send to CMS')}
-          type='button'
+          type="button"
           onClick={onSendToCMS}
           className="w-full sm:w-auto flex flex-row gap-2 items-center justify-center sm:justify-start cursor-pointer px-4 py-2 rounded-lg text-white bg-[#FFB619] hover:bg-[#FFB619]/80 transition-colors duration-300"
           imgSrc={SendIcon}
         />
         <Button
-          label={t('Export Excel file')}
-          type='button'
+          label={loadingExcel ? 'Loading...' : t('Export Excel file')}
+          type="button"
           onClick={onExportExcel}
-          className="w-full sm:w-auto flex flex-row gap-2 items-center justify-center sm:justify-start cursor-pointer px-4 py-2 rounded-lg text-white bg-green-500 hover:bg-green-500/80 transition-colors duration-300"
+          className={`w-full sm:w-auto flex flex-row gap-2 items-center justify-center sm:justify-start cursor-pointer px-4 py-2 rounded-lg text-white bg-green-500 hover:bg-green-500/80 transition-colors duration-300 ${
+            loadingExcel ? 'hover:cursor-not-allowed' : ''
+          }`}
           imgSrc={ExcelIcon}
+          disabled={loadingExcel}
         />
         {/* <button
           type="button"

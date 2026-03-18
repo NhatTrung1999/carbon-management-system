@@ -12,6 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { fetchLogCat7, resetLogCat7 } from '../../../../features/logcatSlice';
 import ExcelIcon from '../../../../assets/images/excel-icon.png';
 import logcatApi from '../../../../api/logcat';
+import { useState } from 'react';
 
 type Props = {
   activeSort: {
@@ -37,6 +38,7 @@ const Search = ({
 }: Props) => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
+  const [loadingExcel, setLoadingExcel] = useState<boolean>(false);
 
   const formik = useFormik({
     initialValues: {
@@ -70,6 +72,7 @@ const Search = ({
 
   //Export Excel
   const onExportExcel = async () => {
+    setLoadingExcel(true);
     try {
       const response = await logcatApi.exportExcelCat7(
         formik.values.dateFrom,
@@ -87,6 +90,8 @@ const Search = ({
       window.URL.revokeObjectURL(url);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoadingExcel(false);
     }
   };
   //Export Excel
@@ -149,11 +154,14 @@ const Search = ({
           </span>
         </button> */}
         <Button
-          label={t('Export Excel file')}
+          label={loadingExcel ? 'Loading...' : t('Export Excel file')}
           type="button"
           onClick={onExportExcel}
-          className="w-full sm:w-auto flex flex-row gap-2 items-center justify-center sm:justify-start cursor-pointer px-4 py-1.5 rounded-lg text-white bg-green-500 hover:bg-green-500/80 transition-colors duration-300"
+          className={`w-full sm:w-auto flex flex-row gap-2 items-center justify-center sm:justify-start cursor-pointer px-4 py-1.5 rounded-lg text-white bg-green-500 hover:bg-green-500/80 transition-colors duration-300 ${
+            loadingExcel ? 'hover:cursor-not-allowed' : ''
+          }`}
           imgSrc={ExcelIcon}
+          disabled={loadingExcel}
         />
       </div>
     </form>
