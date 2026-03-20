@@ -1,7 +1,7 @@
 import { useFormik } from 'formik';
 
 import ExcelIcon from '../../../../assets/images/excel-icon.png';
-import SendIcon from '../../../../assets/images/send-to-CMS.png';
+// import SendIcon from '../../../../assets/images/send-to-CMS.png';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch } from '../../../../app/hooks';
@@ -100,7 +100,7 @@ const Search = ({
   };
   //Export Excel
 
-  const onSendToCMS = async () => {};
+  // const onSendToCMS = async () => {};
 
   return (
     <form className="mb-4 sm:mb-5 space-y-4" onSubmit={formik.handleSubmit}>
@@ -145,13 +145,13 @@ const Search = ({
           type="submit"
           className="w-full sm:w-auto text-white bg-[#FF9119] hover:bg-[#FF9119]/80 focus:ring-4 focus:outline-none focus:ring-[#FF9119]/50 font-medium rounded-lg text-sm px-5 py-2.5 dark:hover:bg-[#FF9119]/80 dark:focus:ring-[#FF9119]/40 cursor-pointer transition-colors duration-300"
         />
-        <Button
+        {/* <Button
           label={t('Send to CMS')}
           type="button"
           onClick={onSendToCMS}
           className="w-full sm:w-auto flex flex-row gap-2 items-center justify-center sm:justify-start cursor-pointer px-4 py-2 rounded-lg text-white bg-[#FFB619] hover:bg-[#FFB619]/80 transition-colors duration-300"
           imgSrc={SendIcon}
-        />
+        /> */}
         <Button
           label={loadingExcel ? 'Loading...' : t('Export Excel file')}
           type="button"

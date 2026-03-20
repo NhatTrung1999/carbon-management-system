@@ -29,7 +29,7 @@ const Table = ({
   tableRef,
   onScroll,
 }: Props) => {
-  const { loading } = useAppSelector((state) => state.category);
+  const { loading } = useAppSelector((state) => state.logcat);
 
   const scrollPositionRef = useRef({ top: 0, left: 0 });
   const isRefLoading = useRef(false);
@@ -318,3 +318,5 @@ const Table = ({
 };
 
 export default Table;
+
+

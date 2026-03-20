@@ -207,7 +207,9 @@ const Search = ({
         />
         <Button
           label={
-            loading || loadingFetch
+            loadingFetch
+              ? 'loading from ERP...'
+              : loading
               ? 'Loading...'
               : `${t('Send to CMS')} (${autoSendCMSCat9AndCat12?.length ?? 0})`
           }
