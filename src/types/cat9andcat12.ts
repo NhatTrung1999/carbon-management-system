@@ -44,7 +44,7 @@ export const HEADER = [
     sort: true,
   },
   {
-    name: 'cat9andcat12.date',
+    name: 'Invoice Date',
     state: 'Date',
     sort: true,
   },
