@@ -120,6 +120,14 @@ const Search = ({
       Toast.fire({
         title: result.payload.message,
         icon: result.payload.success ? 'success' : 'error',
+        confirmButtonText: 'OK',
+        toast: false,
+        position: 'center',
+        showConfirmButton: true,
+        timerProgressBar: false,
+        timer: undefined,
+        allowOutsideClick: false,
+        allowEscapeKey: false,
       });
       return;
     } else {
@@ -127,6 +135,14 @@ const Search = ({
       Toast.fire({
         title: 'Send to CMS failed!',
         icon: 'error',
+        confirmButtonText: 'OK',
+        toast: false,
+        position: 'center',
+        showConfirmButton: true,
+        timerProgressBar: false,
+        timer: undefined,
+        allowOutsideClick: false,
+        allowEscapeKey: false,
       });
       return;
     }

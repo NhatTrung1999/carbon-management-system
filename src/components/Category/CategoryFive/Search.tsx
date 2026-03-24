@@ -115,26 +115,6 @@ const Search = ({
   };
 
   const onSendToCMS = async () => {
-    // setLoading(true);
-    // const response = await axios.post(
-    //   '/api/dataIntegrate/create',
-    //   autoSendCMSCat5
-    // );
-    // if (response.data.std_data.execution.code === '0') {
-    //   let result = await dispatch(createLogCat5(autoSendCMSCat5 as any));
-    //   Toast.fire({
-    //     title: result.payload.message,
-    //     icon: result.payload.success ? 'success' : 'error',
-    //   });
-    //   setLoading(false);
-    //   return;
-    // } else {
-    //   Toast.fire({
-    //     title: 'Send to CMS failed!',
-    //     icon: 'error',
-    //   });
-    //   setLoading(false);
-    // }
     setLoading(true);
     const response = await cmsApi.createCMS(autoSendCMSCat5);
     if (response.std_data.execution.code === '0') {
@@ -143,6 +123,14 @@ const Search = ({
       Toast.fire({
         title: result.payload.message,
         icon: result.payload.success ? 'success' : 'error',
+        confirmButtonText: 'OK',
+        toast: false,
+        position: 'center',
+        showConfirmButton: true,
+        timerProgressBar: false,
+        timer: undefined,
+        allowOutsideClick: false,
+        allowEscapeKey: false,
       });
       return;
     } else {
@@ -150,6 +138,14 @@ const Search = ({
       Toast.fire({
         title: 'Send to CMS failed!',
         icon: 'error',
+        confirmButtonText: 'OK',
+        toast: false,
+        position: 'center',
+        showConfirmButton: true,
+        timerProgressBar: false,
+        timer: undefined,
+        allowOutsideClick: false,
+        allowEscapeKey: false,
       });
       return;
     }
