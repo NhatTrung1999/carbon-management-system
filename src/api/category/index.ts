@@ -211,6 +211,24 @@ const categoryApi = {
 
     return res.data;
   },
+  exportExportPreviewPayload: async (
+    dateFrom: string,
+    dateTo: string,
+    factory: string,
+    dockey: string
+  ) => {
+    const res = await axiosConfig.get('cat1andcat4/export-preview-payload', {
+      params: {
+        dateFrom,
+        dateTo,
+        factory,
+        dockey,
+      },
+      responseType: 'blob',
+    });
+
+    return res.data;
+  },
 };
 
 export default categoryApi;

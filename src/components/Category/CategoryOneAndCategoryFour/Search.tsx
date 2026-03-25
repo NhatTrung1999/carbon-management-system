@@ -19,6 +19,7 @@ import { fetchDataAutoSendCMSCat1AndCat4 } from '../../../features/autosendcmsSl
 import { createLogCat1AndCat4 } from '../../../features/logcatSlice';
 import cmsApi from '../../../api/cms';
 import Checkbox from '../../common/Checkbox';
+import categoryApi from '../../../api/category';
 
 type Props = {
   activeSort: {
@@ -73,6 +74,7 @@ const Search = ({
   const { t } = useTranslation();
   const [loading, setLoading] = useState<boolean>(false);
   const [loadingExcel, setLoadingExcel] = useState<boolean>(false);
+  const [loadingPreview, setLoadingPreview] = useState<boolean>(false);
 
   const formik = useFormik({
     initialValues: {
@@ -154,6 +156,42 @@ const Search = ({
     }
   };
   //Export Excel
+
+  // Preview Payload
+  const onPreviewPayload = async () => {
+    // console.log(autoSendCMSCat1AndCat4);
+    // console.log(
+    //   formik.values.dateFrom,
+    //   formik.values.dateTo,
+    //   formik.values.factory
+    // );
+    setLoadingPreview(true);
+    try {
+      const response = await categoryApi.exportExportPreviewPayload(
+        formik.values.dateFrom,
+        formik.values.dateTo,
+        formik.values.factory,
+        formik.values.dockey
+      );
+      // console.log(response);
+      const url = window.URL.createObjectURL(new Blob([response]));
+      const link = document.createElement('a');
+      link.href = url;
+      const fileName = `Preview_Payload_Cat1_And_Cat4_${new Date()
+        .toISOString()
+        .slice(0, 10)}.xlsx`;
+      link.setAttribute('download', fileName);
+      document.body.appendChild(link);
+      link.click();
+      link.parentNode?.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoadingPreview(false);
+    }
+  };
+  // Preview Payload
 
   //Send to CMS
   const onSendToCMS = async () => {
@@ -279,6 +317,16 @@ const Search = ({
           }`}
           imgSrc={ExcelIcon}
           disabled={loadingExcel}
+        />
+        <Button
+          label={loadingPreview ? 'Loading...' : 'Preview Payload'}
+          type="button"
+          onClick={onPreviewPayload}
+          className={`w-full sm:w-auto flex flex-row gap-2 items-center justify-center sm:justify-start cursor-pointer px-4 py-2 rounded-lg text-white bg-green-500 hover:bg-green-500/80 transition-colors duration-300 ${
+            loadingPreview ? 'hover:cursor-not-allowed' : ''
+          }`}
+          imgSrc={ExcelIcon}
+          disabled={loadingPreview}
         />
         <Checkbox
           title="Qty.(Usage)"
