@@ -177,7 +177,7 @@ const Search = ({
       const url = window.URL.createObjectURL(new Blob([response]));
       const link = document.createElement('a');
       link.href = url;
-      const fileName = `Preview_Payload_Cat1_And_Cat4_${new Date()
+      const fileName = `Preview_Payload_${formik.values.factory}_Cat1_And_Cat4_${new Date()
         .toISOString()
         .slice(0, 10)}.xlsx`;
       link.setAttribute('download', fileName);
