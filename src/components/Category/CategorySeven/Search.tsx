@@ -8,7 +8,7 @@ import { useState } from 'react';
 import Select from '../../common/Select';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { getDataCat7, resetDataCat7 } from '../../../features/categorySlice';
-import { generateFileExcel } from '../../../features/fileSlice';
+import { generateFileExcel, previewPayload } from '../../../features/fileSlice';
 import { Toast } from '../../../utils/Toast';
 import { FACTORIES } from '../../../utils/constanst';
 import { useTranslation } from 'react-i18next';
@@ -47,6 +47,7 @@ const Search = ({
   const { t } = useTranslation();
   const [loading, setLoading] = useState<boolean>(false);
   const [loadingExcel, setLoadingExcel] = useState<boolean>(false);
+  const [loadingPreview, setLoadingPreview] = useState<boolean>(false);
 
   const formik = useFormik({
     initialValues: {
@@ -110,6 +111,30 @@ const Search = ({
     }
   };
   //Export Excel
+
+  const onPreviewPayload = async () => {
+      setLoadingPreview(true);
+      const result = await dispatch(
+        previewPayload({
+          module: 'Cat7',
+          dateFrom: formik.values.dateFrom,
+          dateTo: formik.values.dateTo,
+          factory: formik.values.factory,
+          dockeyCMS: '3.3'
+        })
+      );
+      if (previewPayload.fulfilled.match(result)) {
+        const { statusCode, message } = result.payload as {
+          statusCode: number;
+          message: string;
+        };
+        setLoadingPreview(false);
+        Toast.fire({
+          title: message,
+          icon: statusCode === 200 ? 'success' : 'error',
+        });
+      }
+    };
 
   const onSendToCMS = async () => {
     setLoading(true);
@@ -217,7 +242,16 @@ const Search = ({
           imgSrc={ExcelIcon}
           disabled={loadingExcel}
         />
-
+        <Button
+          label={loadingPreview ? 'Loading...' : 'Preview Payload'}
+          type="button"
+          onClick={onPreviewPayload}
+          className={`w-full sm:w-auto flex flex-row gap-2 items-center justify-center sm:justify-start cursor-pointer px-4 py-2 rounded-lg text-white bg-green-500 hover:bg-green-500/80 transition-colors duration-300 ${
+            loadingPreview ? 'hover:cursor-not-allowed' : ''
+          }`}
+          imgSrc={ExcelIcon}
+          disabled={loadingPreview}
+        />
         {/* <button
           type="button"
           className="w-full sm:w-auto flex flex-row gap-2 items-center justify-center sm:justify-start cursor-pointer px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors duration-300"

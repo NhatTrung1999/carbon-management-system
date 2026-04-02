@@ -10,7 +10,7 @@ import {
   resetDataCat1AndCat4,
 } from '../../../features/categorySlice';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { generateFileExcel } from '../../../features/fileSlice';
+import { generateFileExcel, previewPayload } from '../../../features/fileSlice';
 import { Toast } from '../../../utils/Toast';
 import { FACTORIES } from '../../../utils/constanst';
 import { useTranslation } from 'react-i18next';
@@ -19,7 +19,6 @@ import { fetchDataAutoSendCMSCat1AndCat4 } from '../../../features/autosendcmsSl
 import { createLogCat1AndCat4 } from '../../../features/logcatSlice';
 import cmsApi from '../../../api/cms';
 import Checkbox from '../../common/Checkbox';
-import categoryApi from '../../../api/category';
 
 type Props = {
   activeSort: {
@@ -165,30 +164,51 @@ const Search = ({
     //   formik.values.dateTo,
     //   formik.values.factory
     // );
+    // setLoadingPreview(true);
+    // try {
+    //   const response = await categoryApi.exportExportPreviewPayload(
+    //     formik.values.dateFrom,
+    //     formik.values.dateTo,
+    //     formik.values.factory,
+    //     formik.values.dockey
+    //   );
+    //   // console.log(response);
+    //   const url = window.URL.createObjectURL(new Blob([response]));
+    //   const link = document.createElement('a');
+    //   link.href = url;
+    //   const fileName = `Preview_Payload_${formik.values.factory}_Cat1_And_Cat4_${new Date()
+    //     .toISOString()
+    //     .slice(0, 10)}.xlsx`;
+    //   link.setAttribute('download', fileName);
+    //   document.body.appendChild(link);
+    //   link.click();
+    //   link.parentNode?.removeChild(link);
+    //   window.URL.revokeObjectURL(url);
+    // } catch (error) {
+    //   console.log(error);
+    // } finally {
+    //   setLoadingPreview(false);
+    // }
     setLoadingPreview(true);
-    try {
-      const response = await categoryApi.exportExportPreviewPayload(
-        formik.values.dateFrom,
-        formik.values.dateTo,
-        formik.values.factory,
-        formik.values.dockey
-      );
-      // console.log(response);
-      const url = window.URL.createObjectURL(new Blob([response]));
-      const link = document.createElement('a');
-      link.href = url;
-      const fileName = `Preview_Payload_${formik.values.factory}_Cat1_And_Cat4_${new Date()
-        .toISOString()
-        .slice(0, 10)}.xlsx`;
-      link.setAttribute('download', fileName);
-      document.body.appendChild(link);
-      link.click();
-      link.parentNode?.removeChild(link);
-      window.URL.revokeObjectURL(url);
-    } catch (error) {
-      console.log(error);
-    } finally {
+    const result = await dispatch(
+      previewPayload({
+        module: 'Cat1AndCat4',
+        dateFrom: formik.values.dateFrom,
+        dateTo: formik.values.dateTo,
+        factory: formik.values.factory,
+        dockeyCMS: formik.values.dockey,
+      })
+    );
+    if (previewPayload.fulfilled.match(result)) {
+      const { statusCode, message } = result.payload as {
+        statusCode: number;
+        message: string;
+      };
       setLoadingPreview(false);
+      Toast.fire({
+        title: message,
+        icon: statusCode === 200 ? 'success' : 'error',
+      });
     }
   };
   // Preview Payload

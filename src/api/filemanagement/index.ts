@@ -62,6 +62,31 @@ const fileManagementApi = {
     const res = await axiosConfig.get(url, { responseType: 'blob' });
     return res.data;
   },
+  previewPayload: async ({
+    module,
+    dateFrom,
+    dateTo,
+    factory,
+    dockeyCMS,
+  }: {
+    module: string;
+    dateFrom: string;
+    dateTo: string;
+    factory: string;
+    dockeyCMS?: string;
+  }) => {
+    const url = `previewpayload/preview-excel`;
+    const res = await axiosConfig.get(url, {
+      params: {
+        module,
+        dateFrom,
+        dateTo,
+        factory,
+        dockeyCMS,
+      },
+    });
+    return res.data;
+  },
 };
 
 export default fileManagementApi;

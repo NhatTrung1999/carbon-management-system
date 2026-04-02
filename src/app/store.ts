@@ -7,6 +7,7 @@ import infofactoryReducer from '../features/infofactorySlice';
 import hrmoduleReducer from '../features/hrmoduleSlice';
 import autosendcmsReducer from '../features/autosendcmsSlice';
 import logcatReducer from '../features/logcatSlice';
+import defaultaddressReducer from '../features/defaultaddressSlice';
 
 export const store = configureStore({
   reducer: {
@@ -18,6 +19,7 @@ export const store = configureStore({
     hrmodule: hrmoduleReducer,
     autosendcms: autosendcmsReducer,
     logcat: logcatReducer,
+    defaultaddress: defaultaddressReducer,
   },
 });
 

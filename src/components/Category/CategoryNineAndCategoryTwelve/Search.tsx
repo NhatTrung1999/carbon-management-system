@@ -9,7 +9,7 @@ import {
   getDataCat9AndCat12,
   resetDataCat9AndCat12,
 } from '../../../features/categorySlice';
-import { generateFileExcel } from '../../../features/fileSlice';
+import { generateFileExcel, previewPayload } from '../../../features/fileSlice';
 import { Toast } from '../../../utils/Toast';
 import Select from '../../common/Select';
 import { FACTORIES } from '../../../utils/constanst';
@@ -57,6 +57,7 @@ const Search = ({
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const [loadingExcel, setLoadingExcel] = useState<boolean>(false);
+  const [loadingPreview, setLoadingPreview] = useState<boolean>(false);
 
   const formik = useFormik({
     initialValues: {
@@ -163,6 +164,30 @@ const Search = ({
     }
   };
 
+  const onPreviewPayload = async () => {
+    setLoadingPreview(true);
+    const result = await dispatch(
+      previewPayload({
+        module: 'Cat9AndCat12',
+        dateFrom: formik.values.dateFrom,
+        dateTo: formik.values.dateTo,
+        factory: formik.values.factory,
+        dockeyCMS: formik.values.dockey
+      })
+    );
+    if (previewPayload.fulfilled.match(result)) {
+      const { statusCode, message } = result.payload as {
+        statusCode: number;
+        message: string;
+      };
+      setLoadingPreview(false);
+      Toast.fire({
+        title: message,
+        icon: statusCode === 200 ? 'success' : 'error',
+      });
+    }
+  };
+
   return (
     <form className="mb-4 sm:mb-5 space-y-4" onSubmit={formik.handleSubmit}>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
@@ -247,34 +272,16 @@ const Search = ({
           imgSrc={ExcelIcon}
           disabled={loadingExcel}
         />
-        {/* <button
+        <Button
+          label={loadingPreview ? 'Loading...' : 'Preview Payload'}
           type="button"
-          className="w-full sm:w-auto flex flex-row gap-2 items-center justify-center sm:justify-start cursor-pointer px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors duration-300"
-          onClick={() => onExportExcel()}
-        >
-          <img
-            src={ExcelIcon}
-            alt="excel-icon"
-            className="w-8 sm:w-10 object-contain"
-          />
-          <span className="whitespace-nowrap text-sm sm:text-base">
-            {t('main.export_excel_file')}
-          </span>
-        </button> */}
-        {/* <button
-          type="button"
-          className="w-full sm:w-auto flex flex-row gap-2 items-center justify-center sm:justify-start cursor-pointer px-4 py-2 rounded-lg text-white bg-[#FFB619] hover:bg-[#FFB619]/80 transition-colors duration-300"
-          onClick={() => onSendToCMS}
-        >
-          <img
-            src={SendIcon}
-            alt="excel-icon"
-            className="w-8 sm:w-10 object-contain"
-          />
-          <span className="whitespace-nowrap text-sm sm:text-base">
-            {t('Send to CMS')}
-          </span>
-        </button> */}
+          onClick={onPreviewPayload}
+          className={`w-full sm:w-auto flex flex-row gap-2 items-center justify-center sm:justify-start cursor-pointer px-4 py-2 rounded-lg text-white bg-green-500 hover:bg-green-500/80 transition-colors duration-300 ${
+            loadingPreview ? 'hover:cursor-not-allowed' : ''
+          }`}
+          imgSrc={ExcelIcon}
+          disabled={loadingPreview}
+        />
       </div>
     </form>
   );

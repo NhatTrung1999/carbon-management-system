@@ -12,6 +12,8 @@ import Tabs from '../../../components/common/Tabs';
 import Cat7 from './Cat7';
 import CustomExport from './CustomExport';
 import Logging from './Logging';
+import DefaultAddress from './DefaultAddress';
+import { HEADER_DEFAULT_ADDRESS } from '../../../types/defaultaddress';
 // import { HEADER_CUSTOM_EXPORT } from '../../../types/customexport';
 
 const CategorySeven = () => {
@@ -89,7 +91,7 @@ const CategorySeven = () => {
         </div>
 
         <Card>
-          <div className='overflow-hidden'>
+          <div className="overflow-hidden">
             <Tabs
               tabs={[
                 {
@@ -100,9 +102,13 @@ const CategorySeven = () => {
                   label: 'Custom Export',
                   content: <CustomExport />,
                 },
-                { 
-                  label: 'Logging', 
-                  content: <Logging /> ,
+                {
+                  label: 'Logging',
+                  content: <Logging />,
+                },
+                {
+                  label: 'Default Address',
+                  content: <DefaultAddress data={[]} header={HEADER_DEFAULT_ADDRESS} onSave={() => {}}/>,
                 },
               ]}
             />

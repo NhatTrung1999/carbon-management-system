@@ -9,10 +9,7 @@ import { useAppDispatch } from '../../../../app/hooks';
 // import { Toast } from '../../../../utils/Toast';
 import { FACTORIES } from '../../../../utils/constanst';
 import { useTranslation } from 'react-i18next';
-import {
-  fetchLogCat1AndCat4,
-  resetLogCat1And4,
-} from '../../../../features/logcatSlice';
+import { fetchLogCat7, resetLogCat7 } from '../../../../features/logcatSlice';
 import ExcelIcon from '../../../../assets/images/excel-icon.png';
 import logcatApi from '../../../../api/logcat';
 import { useState } from 'react';
@@ -51,12 +48,12 @@ const Search = ({
     },
     onSubmit: async (data) => {
       try {
-        dispatch(resetLogCat1And4());
+        dispatch(resetLogCat7());
         setDateFrom(data.dateFrom);
         setDateTo(data.dateTo);
         setFactory(data.factory);
         dispatch(
-          fetchLogCat1AndCat4({
+          fetchLogCat7({
             dateFrom: data.dateFrom,
             dateTo: data.dateTo,
             factory: data.factory,
@@ -77,7 +74,7 @@ const Search = ({
   const onExportExcel = async () => {
     setLoadingExcel(true);
     try {
-      const response = await logcatApi.exportExcelCat1And4(
+      const response = await logcatApi.exportExcelCat7(
         formik.values.dateFrom,
         formik.values.dateTo,
         formik.values.factory
@@ -85,7 +82,7 @@ const Search = ({
       const url = window.URL.createObjectURL(new Blob([response]));
       const link = document.createElement('a');
       link.href = url;
-      const fileName = `Log_Cat1_And_Cat4_${formik.values.dateFrom}_${formik.values.dateTo}.xlsx`;
+      const fileName = `Log_Cat7_${new Date().toISOString().slice(0, 10)}.xlsx`;
       link.setAttribute('download', fileName);
       document.body.appendChild(link);
       link.click();
@@ -125,7 +122,7 @@ const Search = ({
         <div className="sm:col-span-2 lg:col-span-1">
           <Select
             label={t('main.factory')}
-            name={'factory'}
+            name="factory"
             classNameLabel="mb-2 text-sm sm:text-base"
             value={formik.values.factory}
             onChange={formik.handleChange}
@@ -135,6 +132,7 @@ const Search = ({
           />
         </div>
       </div>
+
       <div className="flex flex-col sm:flex-row gap-3 sm:gap-2 items-stretch sm:items-center">
         <Button
           label={t('main.search')}

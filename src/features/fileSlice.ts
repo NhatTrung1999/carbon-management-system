@@ -83,6 +83,39 @@ export const generateFileExcel = createAsyncThunk(
   }
 );
 
+export const previewPayload = createAsyncThunk(
+  'file/preview-payload',
+  async (
+    {
+      module,
+      dateFrom,
+      dateTo,
+      factory,
+      dockeyCMS,
+    }: {
+      module: string;
+      dateFrom: string;
+      dateTo: string;
+      factory: string;
+      dockeyCMS?: string;
+    },
+    { rejectWithValue }
+  ) => {
+    try {
+      const res = await fileManagementApi.previewPayload({
+        module,
+        dateFrom,
+        dateTo,
+        factory,
+        dockeyCMS,
+      });
+      return res;
+    } catch (error: any) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
 const initialState: IFileState = {
   file: [],
   loading: false,
