@@ -2,32 +2,33 @@ import Button from '../../../components/common/Button';
 import ExcelIcon from '../../../assets/images/excel-icon.png';
 import type { TableHeaderProps } from '../../../types/table';
 import { TiArrowSortedDown, TiArrowSortedUp } from 'react-icons/ti';
-import { FaEdit, FaSave, FaTimes } from 'react-icons/fa';
+import { FaEdit, FaSave, FaSync, FaTimes, FaTrash } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
 
 import NoData from '../../../assets/images/no-data.png';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { getTaxFreeZoneAddress } from '../../../features/categorySlice';
 import { formatDate } from '../../../utils/formatDate';
 import { useTranslation } from 'react-i18next';
-
 
 import {
   type IDefaultAddress,
   HEADER_DEFAULT_ADDRESS,
 } from '../../../types/defaultaddress';
 import ModalDefaultAddress from '../../../components/Category/CategorySeven/DefaultAddress/ModalDefaultAddress';
+import {
+  deleteDefaultAddress,
+  getDefaultAddress,
+  syncDefaultAddress,
+  updateDefaultAddress,
+} from '../../../features/defaultaddressSlice';
+import { Toast } from '../../../utils/Toast';
 
-type Props = {
-  header: TableHeaderProps[];
-  data: IDefaultAddress[];
-  onSave: (item: IDefaultAddress) => void;
-};
-
-const DefaultAddress = ({ header, data, onSave }: Props) => {
+const DefaultAddress = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const dispatch = useAppDispatch();
-  const { loading } = useAppSelector((state) => state.category);
+  const { defaultAddress, loading, loadingDelete } = useAppSelector(
+    (state) => state.defaultaddress
+  );
   const [activeSort, setActiveSort] = useState({
     sortField: HEADER_DEFAULT_ADDRESS[0].state,
     sortOrder: 'asc',
@@ -38,10 +39,11 @@ const DefaultAddress = ({ header, data, onSave }: Props) => {
   const [editFormData, setEditFormData] = useState<IDefaultAddress | null>(
     null
   );
+  const [syncingId, setSyncingId] = useState<string | null>(null);
 
   useEffect(() => {
     dispatch(
-      getTaxFreeZoneAddress({
+      getDefaultAddress({
         sortField: activeSort.sortField,
         sortOrder: activeSort.sortOrder,
       })
@@ -73,9 +75,14 @@ const DefaultAddress = ({ header, data, onSave }: Props) => {
     }
   };
 
-  const handleSaveClick = () => {
+  const handleSaveClick = async () => {
     if (editFormData) {
-      onSave(editFormData);
+      await dispatch(
+        updateDefaultAddress({
+          id: editFormData.ID,
+          defaultAddress: editFormData.DefaultAddress,
+        })
+      );
       setEditingId(null);
       setEditFormData(null);
     }
@@ -111,14 +118,51 @@ const DefaultAddress = ({ header, data, onSave }: Props) => {
     setIsOpen(true);
   };
 
+  const handleDeleteClick = async (id: string) => {
+    const res = await dispatch(deleteDefaultAddress({ id }));
+    if (deleteDefaultAddress.fulfilled.match(res)) {
+      Toast.fire({
+        title: res.payload.message,
+        icon: 'success',
+      });
+    } else {
+      Toast.fire({
+        title: res.payload as string,
+        icon: 'error',
+      });
+    }
+  };
+
   const getTableHeight = () => {
-    if (loading && data.length === 0) {
+    if (loading && defaultAddress.length === 0) {
       return 'max-h-[250px]';
     }
-    if (data.length === 0 && !loading) {
+    if (defaultAddress.length === 0 && !loading) {
       return 'max-h-[300px]';
     }
     return 'max-h-[400px] sm:max-h-[500px] md:max-h-[600px]';
+  };
+
+  const handleSyncClick = async (item: IDefaultAddress) => {
+    setSyncingId(item.ID);
+    const result = await dispatch(
+      syncDefaultAddress({
+        factory: item.Factory,
+        defaultAddress: item.DefaultAddress,
+      })
+    );
+    setSyncingId(null);
+    if (syncDefaultAddress.fulfilled.match(result)) {
+      Toast.fire({
+        title: result.payload.message,
+        icon: 'success',
+      });
+    } else {
+      Toast.fire({
+        title: result.payload as string,
+        icon: 'error',
+      });
+    }
   };
 
   return (
@@ -140,7 +184,7 @@ const DefaultAddress = ({ header, data, onSave }: Props) => {
           <table className="w-full text-left min-w-max">
             <thead className="bg-[#636e61] text-xs sm:text-sm sticky top-0 text-white z-10">
               <tr>
-                {header.map((item, index) => (
+                {HEADER_DEFAULT_ADDRESS.map((item, index) => (
                   <th
                     className="px-2 sm:px-3 md:px-4 py-3 sm:py-4 whitespace-nowrap"
                     key={index}
@@ -158,8 +202,8 @@ const DefaultAddress = ({ header, data, onSave }: Props) => {
               </tr>
             </thead>
             <tbody>
-              {data.length > 0 &&
-                data.map((item, index) => {
+              {defaultAddress.length > 0 &&
+                defaultAddress.map((item, index) => {
                   const isEditing = editingId === item.ID;
                   return (
                     <tr
@@ -216,13 +260,39 @@ const DefaultAddress = ({ header, data, onSave }: Props) => {
                             </button>
                           </div>
                         ) : (
-                          <button
-                            onClick={() => handleEditClick(item)}
-                            className="text-blue-600 hover:text-blue-800"
-                            title="Edit"
-                          >
-                            <FaEdit size={18} />
-                          </button>
+                          <div className="flex gap-2 justify-center">
+                            <button
+                              onClick={() => handleSyncClick(item)}
+                              className="text-yellow-500 hover:text-yellow-700"
+                              title="Sync"
+                              disabled={syncingId === item.ID}
+                            >
+                              {syncingId === item.ID ? (
+                                <span className="animate-spin inline-block w-4 h-4 border-2 border-yellow-500 border-t-transparent rounded-full" />
+                              ) : (
+                                <FaSync size={18} />
+                              )}
+                            </button>
+                            <button
+                              onClick={() => handleEditClick(item)}
+                              className="text-blue-600 hover:text-blue-800"
+                              title="Edit"
+                            >
+                              <FaEdit size={18} />
+                            </button>
+                            <button
+                              onClick={() => handleDeleteClick(item.ID)}
+                              className="text-red-500 hover:text-red-700"
+                              title="Delete"
+                              disabled={loadingDelete}
+                            >
+                              {loadingDelete ? (
+                                <span className="animate-spin inline-block w-4 h-4 border-2 border-red-500 border-t-transparent rounded-full" />
+                              ) : (
+                                <FaTrash size={18} />
+                              )}
+                            </button>
+                          </div>
                         )}
                       </td>
                     </tr>
@@ -230,13 +300,13 @@ const DefaultAddress = ({ header, data, onSave }: Props) => {
                 })}
 
               {loading &&
-                data.length > 0 &&
+                defaultAddress.length > 0 &&
                 Array.from({ length: 3 }).map((_, i) => (
                   <tr
                     key={`skeleton-${i}`}
                     className="border-b border-gray-200"
                   >
-                    {header.map((_, colIndex) => (
+                    {HEADER_DEFAULT_ADDRESS.map((_, colIndex) => (
                       <td
                         key={colIndex}
                         className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3"
@@ -248,13 +318,13 @@ const DefaultAddress = ({ header, data, onSave }: Props) => {
                 ))}
 
               {loading &&
-                data.length === 0 &&
+                defaultAddress.length === 0 &&
                 Array.from({ length: 5 }).map((_, i) => (
                   <tr
                     key={`skeleton-loading-${i}`}
                     className="border-b border-gray-200"
                   >
-                    {header.map((_, colIndex) => (
+                    {HEADER_DEFAULT_ADDRESS.map((_, colIndex) => (
                       <td
                         key={colIndex}
                         className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3"
@@ -270,17 +340,17 @@ const DefaultAddress = ({ header, data, onSave }: Props) => {
                   </tr>
                 ))}
 
-              {!loading && data.length === 0 && (
+              {!loading && defaultAddress.length === 0 && (
                 <tr>
                   <td
-                    colSpan={header.length}
+                    colSpan={HEADER_DEFAULT_ADDRESS.length}
                     className="text-center box-border px-4 sm:px-6 py-8 sm:py-12"
                   >
                     <div className="flex justify-center items-center flex-col space-y-3">
                       <img
                         src={NoData}
                         className="w-20 h-20 sm:w-24 sm:h-24 md:w-30 md:h-30 object-contain"
-                        alt="No data"
+                        alt="No defaultAddress"
                       />
                       <div className="text-sm sm:text-base md:text-lg font-semibold text-gray-600">
                         No data available

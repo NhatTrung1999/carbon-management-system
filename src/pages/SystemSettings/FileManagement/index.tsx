@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BreadcrumbData } from '../../../types/breadcrumb';
 
 import Card from '../../../components/common/Card';
@@ -12,16 +12,18 @@ import { getData } from '../../../features/fileSlice';
 import { useTranslation } from 'react-i18next';
 import { BREADCRUMB } from '../../../utils/constanst';
 
-const FileManagement = () => {
-  // const [getFileManagementData, setGetFileManagementData] = useState<
-  //   IFileManagement[] | any
-  // >([]);
-  const { file } = useAppSelector((state) => state.file);
-  const {t} = useTranslation()
+interface SortState {
+  sortField: string;
+  sortOrder: 'asc' | 'desc';
+}
 
-  const [activeSort, setActiveSort] = useState({
+const FileManagement = () => {
+  const { file } = useAppSelector((state) => state.file);
+  const { t } = useTranslation();
+
+  const [activeSort, setActiveSort] = useState<SortState>({
     sortField: HEADER[4].state,
-    sortOrder: 'desc',
+    sortOrder: 'desc' as const,
   });
 
   const dispatch = useAppDispatch();
@@ -38,15 +40,13 @@ const FileManagement = () => {
   }, [activeSort]);
 
   return (
-    <Fragment>
+    <>
       <div className="px-3 sm:px-4 md:px-6">
-        <Breadcrumb
-          items={BreadcrumbData(t(BREADCRUMB), 'File Management')}
-        />
+        <Breadcrumb items={BreadcrumbData(t(BREADCRUMB), 'File Management')} />
 
         <div className="mb-4 sm:mb-6">
           <Typography
-            name="File Management"
+            name={t('File Management')}
             className="text-xl sm:text-2xl md:text-3xl bg-gradient-to-r from-[#081c1b] via-[#3f4a42] to-[#636e61] inline-block text-transparent bg-clip-text leading-tight"
           />
         </div>
@@ -63,7 +63,7 @@ const FileManagement = () => {
           </div>
         </Card>
       </div>
-    </Fragment>
+    </>
   );
 };
 

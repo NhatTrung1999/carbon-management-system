@@ -3,10 +3,12 @@ export interface IDefaultAddress {
   No: string;
   Factory: string;
   DefaultAddress: string;
-  CreatedBy: string;
   CreatedAt: string;
-  UpdatedBy: string;
+  CreatedBy: string;
+  CreatedFactory: string;
   UpdatedAt: string;
+  UpdatedBy: string;
+  UpdatedFactory: string;
 }
 
 export const HEADER_DEFAULT_ADDRESS: {

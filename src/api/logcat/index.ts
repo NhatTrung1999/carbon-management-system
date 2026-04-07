@@ -31,6 +31,21 @@ const logcatApi = {
 
     return res.data;
   },
+  fetchLogCat1AndCat4All: async (
+    dateFrom: string,
+    dateTo: string,
+    factory: string
+  ) => {
+    const res = await axiosConfig.get('logcat/get-log-cat1-4-all', {
+      params: {
+        dateFrom,
+        dateTo,
+        factory,
+      },
+    });
+
+    return res.data;
+  },
   createLogCat5: async (data: ILogCat5Payload) => {
     const response = await axiosConfig.post(`logcat/create-log-cat5`, data);
     return response.data;

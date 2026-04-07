@@ -48,7 +48,7 @@ const ModalTaxFreeZoneAddress = ({ setIsOpen }: Props) => {
       Toast.close();
       Toast.fire({
         title: res.payload as string,
-        icon: 'success',
+        icon: 'error',
       });
     }
   };

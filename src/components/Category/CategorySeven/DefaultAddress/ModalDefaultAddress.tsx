@@ -2,8 +2,8 @@ import { IoClose } from 'react-icons/io5';
 import { useState } from 'react';
 import { useAppDispatch } from '../../../../app/hooks';
 import { Toast } from '../../../../utils/Toast';
-import { importExcelTaxFreeZoneAddress } from '../../../../features/categorySlice';
 import Button from '../../../common/Button';
+import { importExcelDefaultAddress } from '../../../../features/defaultaddressSlice';
 
 type Props = {
   setIsOpen: (isOpen: boolean) => void;
@@ -37,8 +37,8 @@ const ModalDefaultAddress = ({ setIsOpen }: Props) => {
       },
     });
 
-    const res = await dispatch(importExcelTaxFreeZoneAddress(file));
-    if (importExcelTaxFreeZoneAddress.fulfilled.match(res)) {
+    const res = await dispatch(importExcelDefaultAddress(file));
+    if (importExcelDefaultAddress.fulfilled.match(res)) {
       Toast.close();
       Toast.fire({
         title: res.payload.message,
@@ -48,7 +48,7 @@ const ModalDefaultAddress = ({ setIsOpen }: Props) => {
       Toast.close();
       Toast.fire({
         title: res.payload as string,
-        icon: 'success',
+        icon: 'error',
       });
     }
   };
@@ -64,7 +64,7 @@ const ModalDefaultAddress = ({ setIsOpen }: Props) => {
         </div>
         <div className="py-5 px-2">
           <div className="text-end mb-3 text-lg font-medium hover:underline hover:opacity-80">
-            <a href="/excel/Example_Tax_Free_Zone_Address.xlsx" download>
+            <a href="/excel/Example_Default_Address.xlsx" download>
               Example File
             </a>
           </div>

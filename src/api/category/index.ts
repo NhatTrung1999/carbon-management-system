@@ -229,6 +229,21 @@ const categoryApi = {
 
     return res.data;
   },
+  getVerificationReport: async (payload: {
+    dateFrom: string;
+    dateTo: string;
+    factory: string;
+    category: string;
+    status: string;
+    page: number;
+    limit: number;
+  }) => {
+    const res = await axiosConfig.get('cat1andcat4/verification-report', {
+      params: payload,
+    });
+
+    return res.data;
+  },
 };
 
 export default categoryApi;
