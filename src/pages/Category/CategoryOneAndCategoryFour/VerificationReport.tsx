@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import categoryApi from '../../../api/category';
 import Button from '../../../components/common/Button';
 import Input from '../../../components/common/Input';
@@ -201,6 +201,13 @@ const VerificationReport = () => {
   const [factory, setFactory] = useState('LYV');
   const [statusFilter, setStatusFilter] = useState<StatusFilter>('ALL');
   const [activeCategory, setActiveCategory] = useState<CategoryView>('CAT1');
+  const [submittedFilters, setSubmittedFilters] = useState<{
+    dateFrom: string;
+    dateTo: string;
+    factory: string;
+    statusFilter: StatusFilter;
+    activeCategory: CategoryView;
+  } | null>(null);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
@@ -212,7 +219,15 @@ const VerificationReport = () => {
   const tableRef = useRef<HTMLDivElement | null>(null);
 
   const loadVerificationData = useCallback(
-    async (targetPage: number, append = false) => {
+    async (
+      targetPage: number,
+      append = false,
+      filters = submittedFilters
+    ) => {
+      if (!filters) {
+        return;
+      }
+
       if (append) {
         setLoadingMore(true);
       } else {
@@ -222,11 +237,11 @@ const VerificationReport = () => {
 
       try {
         const response = (await categoryApi.getVerificationReport({
-          dateFrom,
-          dateTo,
-          factory,
-          category: activeCategory,
-          status: statusFilter,
+          dateFrom: filters.dateFrom,
+          dateTo: filters.dateTo,
+          factory: filters.factory,
+          category: filters.activeCategory,
+          status: filters.statusFilter,
           page: targetPage,
           limit: PAGE_SIZE,
         })) as VerificationResponse;
@@ -249,13 +264,8 @@ const VerificationReport = () => {
         setLoadingMore(false);
       }
     },
-    [activeCategory, dateFrom, dateTo, factory, statusFilter]
+    [submittedFilters]
   );
-
-  useEffect(() => {
-    setPage(1);
-    loadVerificationData(1, false);
-  }, [loadVerificationData]);
 
   const handleTableScroll = useCallback(() => {
     const el = tableRef.current;
@@ -267,7 +277,10 @@ const VerificationReport = () => {
     }
   }, [hasMore, loadVerificationData, loading, loadingMore, page]);
 
-  const activeConfig = activeCategory === 'CAT1' ? CAT_CONFIG[0] : CAT_CONFIG[1];
+  const hasCompared = submittedFilters !== null;
+  const displayedCategory = submittedFilters?.activeCategory ?? activeCategory;
+  const activeConfig =
+    displayedCategory === 'CAT1' ? CAT_CONFIG[0] : CAT_CONFIG[1];
 
   return (
     <div className="space-y-6">
@@ -324,8 +337,23 @@ const VerificationReport = () => {
               label={loading ? 'Loading...' : 'Compare Data'}
               type="button"
               onClick={() => {
+                const nextFilters = {
+                  dateFrom,
+                  dateTo,
+                  factory,
+                  statusFilter,
+                  activeCategory,
+                };
+                setSubmittedFilters(nextFilters);
                 setPage(1);
-                loadVerificationData(1, false);
+                setRows([]);
+                setSummary(EMPTY_SUMMARY);
+                setTotal(0);
+                setHasMore(false);
+                if (tableRef.current) {
+                  tableRef.current.scrollTop = 0;
+                }
+                loadVerificationData(1, false, nextFilters);
               }}
               disabled={loading}
               className={`w-full bg-[#FF9119] hover:bg-[#FF9119]/80 ${
@@ -398,23 +426,33 @@ const VerificationReport = () => {
         {error ? <p className="mt-4 text-sm text-red-600">{error}</p> : null}
       </div>
 
-      <VerificationTable
-        title={activeConfig.title}
-        description={activeConfig.description}
-        rows={rows}
-        emptyText={`No preview payload data found for ${activeConfig.title}.`}
-        tableRef={tableRef}
-        onScroll={handleTableScroll}
-        loading={loading}
-        loadingMore={loadingMore}
-      />
+      {hasCompared ? (
+        <>
+          <VerificationTable
+            title={activeConfig.title}
+            description={activeConfig.description}
+            rows={rows}
+            emptyText={`No preview payload data found for ${activeConfig.title}.`}
+            tableRef={tableRef}
+            onScroll={handleTableScroll}
+            loading={loading}
+            loadingMore={loadingMore}
+          />
 
-      <div className="rounded-xl border border-gray-200 bg-white px-5 py-4 shadow-sm">
-        <p className="text-sm text-gray-600">
-          Loaded {rows.length} / {total} rows
-          {hasMore ? ' | Scroll down to load more' : ' | All rows loaded'}
-        </p>
-      </div>
+          <div className="rounded-xl border border-gray-200 bg-white px-5 py-4 shadow-sm">
+            <p className="text-sm text-gray-600">
+              Loaded {rows.length} / {total} rows
+              {hasMore ? ' | Scroll down to load more' : ' | All rows loaded'}
+            </p>
+          </div>
+        </>
+      ) : (
+        <div className="rounded-xl border border-dashed border-gray-300 bg-white px-5 py-12 text-center shadow-sm">
+          <p className="text-sm text-gray-500">
+            Chon dieu kien va bam `Compare Data` de bat dau doi chieu du lieu.
+          </p>
+        </div>
+      )}
     </div>
   );
 };
