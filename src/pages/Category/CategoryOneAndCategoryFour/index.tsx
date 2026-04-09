@@ -17,7 +17,7 @@ import {
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import TaxFreeZoneAddress from './TaxFreeZoneAddress';
 import { updateTaxFreeZoneAddress } from '../../../features/categorySlice';
-import VerificationReport from './VerificationReport';
+// import VerificationReport from './VerificationReport';
 
 const CategoryOneAndCategoryFour = () => {
   const { portCodeCat1AndCat4, taxFreeZoneAddress } = useAppSelector(
@@ -65,10 +65,10 @@ const CategoryOneAndCategoryFour = () => {
         />
       ),
     },
-    {
-      label: 'Verification Report',
-      content: <VerificationReport />,
-    },
+    // {
+    //   label: 'Verification Report',
+    //   content: <VerificationReport />,
+    // },
   ];
 
   return (

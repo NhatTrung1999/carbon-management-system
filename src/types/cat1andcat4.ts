@@ -6,7 +6,7 @@ export interface ICat1AndCat4Data {
   ReceivedNo: string;
   MatID: string;
   MatName: string;
-  QtyUsage: number;
+  // QtyUsage: number;
   QtyReceive: number;
   UnitWeight: number;
   WeightUnitkg: number;
@@ -284,7 +284,7 @@ export const HEADER = [
   { name: 'Purchase Order', state: 'PurNo', sort: true },
   { name: 'Received No.', state: 'ReceivedNo', sort: true },
   { name: 'Material No.', state: 'MatID', sort: true },
-  { name: 'Qty.(Usage)', state: 'QtyUsage', sort: true },
+  // { name: 'Qty.(Usage)', state: 'QtyUsage', sort: true },
   { name: 'Qty.(receive)', state: 'QtyReceive', sort: true },
   { name: 'Unit weight', state: 'UnitWeight', sort: true },
   { name: 'Weight (Unit：KG)', state: 'Weight_Unitkg', sort: true },
