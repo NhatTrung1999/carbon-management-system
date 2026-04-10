@@ -14,11 +14,11 @@ type ComparisonColumn = {
   label: string;
 };
 
-type StatusFilter = 'ALL' | 'MATCHED' | 'MISSING';
+type StatusFilter = 'ALL' | 'MATCHED' | 'MISSING' | 'EXTRA';
 type CategoryView = 'CAT1' | 'CAT4';
 
 type VerificationRow = Partial<ILoggingCat1AndCat4Data> & {
-  VerificationStatus?: 'MATCHED' | 'MISSING';
+  VerificationStatus?: 'MATCHED' | 'MISSING' | 'EXTRA';
 };
 
 type VerificationSummary = {
@@ -153,12 +153,16 @@ const VerificationTable = ({
                         className={`inline-flex rounded-full px-2.5 py-1 text-xs font-medium ${
                           row.VerificationStatus === 'MATCHED'
                             ? 'bg-green-100 text-green-700'
-                            : 'bg-red-100 text-red-700'
+                            : row.VerificationStatus === 'EXTRA'
+                              ? 'bg-amber-100 text-amber-700'
+                              : 'bg-red-100 text-red-700'
                         }`}
                       >
                         {row.VerificationStatus === 'MATCHED'
                           ? 'Matched'
-                          : 'Missing'}
+                          : row.VerificationStatus === 'EXTRA'
+                            ? 'Extra'
+                            : 'Missing'}
                       </span>
                     </td>
                     {COMPARISON_COLUMNS.map((column) => (
@@ -196,14 +200,18 @@ const VerificationTable = ({
 
 const VerificationReport = () => {
   const today = useMemo(() => new Date().toISOString().slice(0, 10), []);
-  const [dateFrom, setDateFrom] = useState(today);
-  const [dateTo, setDateTo] = useState(today);
+  const [previewDateFrom, setPreviewDateFrom] = useState(today);
+  const [previewDateTo, setPreviewDateTo] = useState(today);
+  const [loggingDateFrom, setLoggingDateFrom] = useState(today);
+  const [loggingDateTo, setLoggingDateTo] = useState(today);
   const [factory, setFactory] = useState('LYV');
   const [statusFilter, setStatusFilter] = useState<StatusFilter>('ALL');
   const [activeCategory, setActiveCategory] = useState<CategoryView>('CAT1');
   const [submittedFilters, setSubmittedFilters] = useState<{
-    dateFrom: string;
-    dateTo: string;
+    previewDateFrom: string;
+    previewDateTo: string;
+    loggingDateFrom: string;
+    loggingDateTo: string;
     factory: string;
     statusFilter: StatusFilter;
     activeCategory: CategoryView;
@@ -237,8 +245,10 @@ const VerificationReport = () => {
 
       try {
         const response = (await categoryApi.getVerificationReport({
-          dateFrom: filters.dateFrom,
-          dateTo: filters.dateTo,
+          previewDateFrom: filters.previewDateFrom,
+          previewDateTo: filters.previewDateTo,
+          loggingDateFrom: filters.loggingDateFrom,
+          loggingDateTo: filters.loggingDateTo,
           factory: filters.factory,
           category: filters.activeCategory,
           status: filters.statusFilter,
@@ -285,24 +295,44 @@ const VerificationReport = () => {
   return (
     <div className="space-y-6">
       <div className="sticky top-0 z-20 rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-5">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3 xl:grid-cols-6">
           <div>
             <Input
-              label="Date From"
+              label="Preview Date From"
               type="date"
-              name="dateFrom"
-              value={dateFrom}
-              onChange={(event) => setDateFrom(event.target.value)}
+              name="previewDateFrom"
+              value={previewDateFrom}
+              onChange={(event) => setPreviewDateFrom(event.target.value)}
               classNameLabel="mb-2 text-sm"
             />
           </div>
           <div>
             <Input
-              label="Date To"
+              label="Preview Date To"
               type="date"
-              name="dateTo"
-              value={dateTo}
-              onChange={(event) => setDateTo(event.target.value)}
+              name="previewDateTo"
+              value={previewDateTo}
+              onChange={(event) => setPreviewDateTo(event.target.value)}
+              classNameLabel="mb-2 text-sm"
+            />
+          </div>
+          <div>
+            <Input
+              label="Logging Date From"
+              type="date"
+              name="loggingDateFrom"
+              value={loggingDateFrom}
+              onChange={(event) => setLoggingDateFrom(event.target.value)}
+              classNameLabel="mb-2 text-sm"
+            />
+          </div>
+          <div>
+            <Input
+              label="Logging Date To"
+              type="date"
+              name="loggingDateTo"
+              value={loggingDateTo}
+              onChange={(event) => setLoggingDateTo(event.target.value)}
               classNameLabel="mb-2 text-sm"
             />
           </div>
@@ -329,6 +359,7 @@ const VerificationReport = () => {
                 { name: 'All', value: 'ALL' },
                 { name: 'Matched', value: 'MATCHED' },
                 { name: 'Missing', value: 'MISSING' },
+                { name: 'Extra', value: 'EXTRA' },
               ]}
             />
           </div>
@@ -338,8 +369,10 @@ const VerificationReport = () => {
               type="button"
               onClick={() => {
                 const nextFilters = {
-                  dateFrom,
-                  dateTo,
+                  previewDateFrom,
+                  previewDateTo,
+                  loggingDateFrom,
+                  loggingDateTo,
                   factory,
                   statusFilter,
                   activeCategory,

@@ -230,8 +230,10 @@ const categoryApi = {
     return res.data;
   },
   getVerificationReport: async (payload: {
-    dateFrom: string;
-    dateTo: string;
+    previewDateFrom: string;
+    previewDateTo: string;
+    loggingDateFrom: string;
+    loggingDateTo: string;
     factory: string;
     category: string;
     status: string;
