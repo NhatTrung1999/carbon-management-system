@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
 import { IoClose } from 'react-icons/io5';
-import { useAppDispatch } from '../../../app/hooks';
-import { Toast } from '../../../utils/Toast';
-import Button from '../../common/Button';
-import { importExcelHRModule } from '../../../features/hrmoduleSlice';
+import { useState } from 'react';
+import { useAppDispatch } from '../../../../app/hooks';
+import { Toast } from '../../../../utils/Toast';
+import { importExcelStyleAutoFill } from '../../../../features/categorySlice';
+import Button from '../../../common/Button';
+
 type Props = {
   setIsOpen: (isOpen: boolean) => void;
 };
 
-const ModalHR = ({ setIsOpen }: Props) => {
+const ModalStyleAutoFill = ({ setIsOpen }: Props) => {
   const [file, setFile] = useState<File | null>(null);
   const [fileName, setFileName] = useState<string>('No file chosen');
   const dispatch = useAppDispatch();
@@ -37,8 +38,8 @@ const ModalHR = ({ setIsOpen }: Props) => {
       },
     });
 
-    const res = await dispatch(importExcelHRModule(file));
-    if (importExcelHRModule.fulfilled.match(res)) {
+    const res = await dispatch(importExcelStyleAutoFill(file));
+    if (importExcelStyleAutoFill.fulfilled.match(res)) {
       Toast.close();
       Toast.fire({
         title: res.payload.message,
@@ -57,14 +58,16 @@ const ModalHR = ({ setIsOpen }: Props) => {
     <div className="fixed inset-0 z-20 flex justify-center items-center">
       <div className="bg-white max-w-md w-full shadow-xl flex flex-col">
         <div className="h-[70px] flex items-center justify-between px-2 border-b border-gray-200">
-          <h1 className="font-semibold text-xl">Import Excel File</h1>
+          <h1 className="font-semibold text-xl">
+            Style Auto Fill
+          </h1>
           <div className="cursor-pointer" onClick={() => setIsOpen(false)}>
             <IoClose size={25} />
           </div>
         </div>
         <div className="py-5 px-2">
           <div className="text-end mb-3 text-lg font-medium hover:underline hover:opacity-80">
-            <a href="/excel/Template_HR_Module.xlsx" download>
+            <a href="/excel/Example_Style_Auto_Fill.xlsx" download>
               Example File
             </a>
           </div>
@@ -107,4 +110,4 @@ const ModalHR = ({ setIsOpen }: Props) => {
   );
 };
 
-export default ModalHR;
+export default ModalStyleAutoFill;

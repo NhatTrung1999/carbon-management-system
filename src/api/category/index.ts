@@ -135,6 +135,27 @@ const categoryApi = {
     });
     return res.data;
   },
+  getStyleAutoFill: async (sortField: string, sortOrder: string) => {
+    const res = await axiosConfig.get('cat1andcat4/get-style-auto-fill', {
+      params: { sortField, sortOrder },
+    });
+    return res.data;
+  },
+  importExcelStyleAutoFill: async (file: File) => {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const res = await axiosConfig.post(
+      'cat1andcat4/import-excel-style-auto-fill',
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }
+    );
+    return res.data;
+  },
   updateTaxFreeZoneAddress: async (id: string, taxFreeZoneAddress: string) => {
     const response = await axiosConfig.patch(
       `cat1andcat4/tax-free-zone-address/${id}`,

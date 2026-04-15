@@ -11,6 +11,7 @@ import type { ICat6Data } from '../types/cat6';
 import type {
   ICat1AndCat4Data,
   IPortCodeDataCat1AndCat4,
+  IStyleAutoFill,
   ITaxFreeZoneAddress,
 } from '../types/cat1andcat4';
 import type { ICustomExportData } from '../types/customexport';
@@ -28,6 +29,7 @@ interface CategoryState {
   portCode: IPortCodeData[];
   portCodeCat1AndCat4: IPortCodeDataCat1AndCat4[];
   taxFreeZoneAddress: ITaxFreeZoneAddress[];
+  styleAutoFill: IStyleAutoFill[];
   customExport: ICustomExportData[];
   loggingcat1and4: ILoggingCat1AndCat4Data[];
   loggingcat5: ILoggingCat5Data[];
@@ -50,6 +52,7 @@ const initialState: CategoryState = {
   portCode: [],
   portCodeCat1AndCat4: [],
   taxFreeZoneAddress: [],
+  styleAutoFill: [],
   customExport: [],
   loggingcat1and4: [],
   loggingcat5: [],
@@ -215,6 +218,35 @@ export const updateTaxFreeZoneAddress = createAsyncThunk(
       return res;
     } catch (error: any) {
       return rejectWithValue(error || '');
+    }
+  }
+);
+
+export const getStyleAutoFill = createAsyncThunk(
+  'category/get-style-auto-fill',
+  async (
+    { sortField, sortOrder }: { sortField: string; sortOrder: string },
+    { rejectWithValue }
+  ) => {
+    try {
+      const res = await categoryApi.getStyleAutoFill(sortField, sortOrder);
+      return res as IStyleAutoFill[];
+    } catch (error: any) {
+      return rejectWithValue(error?.response?.data?.message || 'Get failed!');
+    }
+  }
+);
+
+export const importExcelStyleAutoFill = createAsyncThunk(
+  'category/import-excel-style-auto-fill',
+  async (file: File, { rejectWithValue }) => {
+    try {
+      const res = await categoryApi.importExcelPortCodeCat1AndCat4(file);
+      return res as { message: string; records: IStyleAutoFill[] };
+    } catch (error: any) {
+      return rejectWithValue(
+        error?.response?.data?.message || 'Import failed!'
+      );
     }
   }
 );
@@ -709,6 +741,50 @@ export const categorySlice = createSlice({
         }
       })
       .addCase(updateTaxFreeZoneAddress.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      });
+
+    // get style auto fill
+    builder
+      .addCase(getStyleAutoFill.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(
+        getStyleAutoFill.fulfilled,
+        (state, action: PayloadAction<IStyleAutoFill[]>) => {
+          state.loading = false;
+          state.styleAutoFill = action.payload;
+        }
+      )
+      .addCase(getStyleAutoFill.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      });
+
+    // import excel style auto fill
+    builder
+      .addCase(importExcelStyleAutoFill.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(
+        importExcelStyleAutoFill.fulfilled,
+        (
+          state,
+          action: PayloadAction<{
+            message: string;
+            records: IStyleAutoFill[];
+          }>
+        ) => {
+          const { records } = action.payload;
+          state.loading = false;
+          state.styleAutoFill = records;
+          // console.log(action.payload);
+        }
+      )
+      .addCase(importExcelStyleAutoFill.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       });

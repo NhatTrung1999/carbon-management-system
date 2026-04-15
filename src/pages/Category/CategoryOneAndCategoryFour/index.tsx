@@ -11,6 +11,7 @@ import PortCode from './PortCode';
 import Logging from './Logging';
 import {
   HEADER_PORTCODE,
+  HEADER_STYLE_AUTO_FILL,
   HEADER_TAX_FREE_ZONE_ADDRESS,
   type ITaxFreeZoneAddress,
 } from '../../../types/cat1andcat4';
@@ -18,11 +19,11 @@ import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import TaxFreeZoneAddress from './TaxFreeZoneAddress';
 import { updateTaxFreeZoneAddress } from '../../../features/categorySlice';
 import VerificationReport from './VerificationReport';
+import StyleAutoFill from './StyleAutoFill';
 
 const CategoryOneAndCategoryFour = () => {
-  const { portCodeCat1AndCat4, taxFreeZoneAddress } = useAppSelector(
-    (state) => state.category
-  );
+  const { portCodeCat1AndCat4, taxFreeZoneAddress, styleAutoFill } =
+    useAppSelector((state) => state.category);
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
 
@@ -47,9 +48,7 @@ const CategoryOneAndCategoryFour = () => {
     },
     {
       label: 'Port Code',
-      content: (
-        <PortCode header={HEADER_PORTCODE} data={portCodeCat1AndCat4} />
-      ),
+      content: <PortCode header={HEADER_PORTCODE} data={portCodeCat1AndCat4} />,
     },
     {
       label: 'Logging',
@@ -68,6 +67,12 @@ const CategoryOneAndCategoryFour = () => {
     {
       label: 'Verification Report',
       content: <VerificationReport />,
+    },
+    {
+      label: 'Style Auto-fill',
+      content: (
+        <StyleAutoFill header={HEADER_STYLE_AUTO_FILL} data={styleAutoFill} />
+      ),
     },
   ];
 

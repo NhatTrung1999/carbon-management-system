@@ -60,6 +60,19 @@ export interface ITaxFreeZoneAddress {
   UpdatedAt: string;
 }
 
+export interface IStyleAutoFill {
+  ID: string;
+  No: string;
+  PrefixOfMatCode: string;
+  Style: string;
+  CreatedBy: string;
+  CreatedFactory: string;
+  CreatedAt: string;
+  UpdatedBy: string;
+  UpdatedFactory: string;
+  UpdatedAt: string;
+}
+
 // export const HEADER = [
 //   {
 //     name: 'cat1andcat4.no',
@@ -413,6 +426,44 @@ export const HEADER_TAX_FREE_ZONE_ADDRESS = [
     state: 'Action',
     sort: false,
   },
+];
+
+export const HEADER_STYLE_AUTO_FILL = [
+  {
+    name: 'No.',
+    state: 'No',
+    sort: true,
+  },
+  {
+    name: 'Prefix of Mat. Code',
+    state: 'PrefixOfMatCode',
+    sort: true,
+  },
+  {
+    name: 'Style',
+    state: 'Style',
+    sort: true,
+  },
+  {
+    name: 'Created By',
+    state: 'CreatedBy',
+    sort: true,
+  },
+  {
+    name: 'Created At',
+    state: 'CreatedAt',
+    sort: true,
+  },
+  {
+    name: 'Updated By',
+    state: 'UpdatedBy',
+    sort: true,
+  },
+  {
+    name: 'Updated At',
+    state: 'UpdatedAt',
+    sort: true,
+  }
 ];
 
 export interface ILogCat1AndCat4Payload {
