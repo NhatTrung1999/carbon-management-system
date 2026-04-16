@@ -241,12 +241,24 @@ export const importExcelStyleAutoFill = createAsyncThunk(
   'category/import-excel-style-auto-fill',
   async (file: File, { rejectWithValue }) => {
     try {
-      const res = await categoryApi.importExcelPortCodeCat1AndCat4(file);
+      const res = await categoryApi.importExcelStyleAutoFill(file);
       return res as { message: string; records: IStyleAutoFill[] };
     } catch (error: any) {
       return rejectWithValue(
         error?.response?.data?.message || 'Import failed!'
       );
+    }
+  }
+);
+
+export const deleteStyleAutoFill = createAsyncThunk(
+  'category/delete-style-auto-fill',
+  async ({ id }: { id: string }, { rejectWithValue }) => {
+    try {
+      const res = await categoryApi.deleteStyleAutoFill(id);
+      return res as { message: string; Id: string };
+    } catch (error: any) {
+      return rejectWithValue(error?.response?.data?.message || 'Delete failed!');
     }
   }
 );
@@ -788,6 +800,15 @@ export const categorySlice = createSlice({
         state.loading = false;
         state.error = action.payload as string;
       });
+
+    builder.addCase(deleteStyleAutoFill.fulfilled, (state, action) => {
+      state.styleAutoFill = state.styleAutoFill
+        .filter((item) => item.Id !== action.payload.Id)
+        .map((item, index) => ({
+          ...item,
+          No: String(index + 1),
+        }));
+    });
 
     //custom export
     builder

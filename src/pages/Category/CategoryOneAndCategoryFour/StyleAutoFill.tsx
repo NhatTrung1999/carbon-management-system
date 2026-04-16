@@ -2,11 +2,15 @@ import Button from '../../../components/common/Button';
 import ExcelIcon from '../../../assets/images/excel-icon.png';
 import type { TableHeaderProps } from '../../../types/table';
 import { TiArrowSortedDown, TiArrowSortedUp } from 'react-icons/ti';
+import { FaTrash } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
 
 import NoData from '../../../assets/images/no-data.png';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { getStyleAutoFill } from '../../../features/categorySlice';
+import {
+  deleteStyleAutoFill,
+  getStyleAutoFill,
+} from '../../../features/categorySlice';
 import { formatDate } from '../../../utils/formatDate';
 import { useTranslation } from 'react-i18next';
 import {
@@ -14,6 +18,8 @@ import {
   HEADER_STYLE_AUTO_FILL,
 } from '../../../types/cat1andcat4';
 import ModalStyleAutoFill from '../../../components/Category/CategoryOneAndCategoryFour/StyleAutoFill/ModalStyleAutoFill';
+import Swal from 'sweetalert2';
+import { Toast } from '../../../utils/Toast';
 
 type Props = {
   header: TableHeaderProps[];
@@ -22,6 +28,7 @@ type Props = {
 
 const StyleAutoFill = ({ header, data }: Props) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
   const dispatch = useAppDispatch();
   const { loading } = useAppSelector((state) => state.category);
   const [activeSort, setActiveSort] = useState({
@@ -73,6 +80,37 @@ const StyleAutoFill = ({ header, data }: Props) => {
     setIsOpen(true);
   };
 
+  const handleDeleteClick = async (item: IStyleAutoFill) => {
+    const result = await Swal.fire({
+      text: `Do you want to delete prefix "${item.PrefixOfMatCode}"?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes',
+    });
+
+    if (result.isConfirmed) {
+      setDeletingId(item.Id);
+      try {
+        const res = await dispatch(deleteStyleAutoFill({ id: item.Id }));
+        if (deleteStyleAutoFill.fulfilled.match(res)) {
+          Toast.fire({
+            title: res.payload.message,
+            icon: 'success',
+          });
+        } else {
+          Toast.fire({
+            title: res.payload as string,
+            icon: 'error',
+          });
+        }
+      } finally {
+        setDeletingId(null);
+      }
+    }
+  };
+
   const getTableHeight = () => {
     if (loading && data.length === 0) {
       return 'max-h-[250px]';
@@ -121,9 +159,9 @@ const StyleAutoFill = ({ header, data }: Props) => {
             </thead>
             <tbody>
               {data.length > 0 &&
-                data.map((item, index) => (
+                data.map((item) => (
                   <tr
-                    key={index}
+                    key={item.Id}
                     className="border-b border-gray-200 hover:bg-gray-50 transition-colors"
                   >
                     <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-xs sm:text-sm whitespace-nowrap">
@@ -146,6 +184,20 @@ const StyleAutoFill = ({ header, data }: Props) => {
                     </td>
                     <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-xs sm:text-sm whitespace-nowrap">
                       {formatDate(item.UpdatedAt)}
+                    </td>
+                    <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-xs sm:text-sm text-center">
+                      <button
+                        onClick={() => handleDeleteClick(item)}
+                        className="text-red-500 hover:text-red-700"
+                        title="Delete"
+                        disabled={deletingId === item.Id}
+                      >
+                        {deletingId === item.Id ? (
+                          <span className="animate-spin inline-block w-4 h-4 border-2 border-red-500 border-t-transparent rounded-full" />
+                        ) : (
+                          <FaTrash size={18} />
+                        )}
+                      </button>
                     </td>
                   </tr>
                 ))}

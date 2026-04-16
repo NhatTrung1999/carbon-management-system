@@ -61,7 +61,7 @@ export interface ITaxFreeZoneAddress {
 }
 
 export interface IStyleAutoFill {
-  ID: string;
+  Id: string;
   No: string;
   PrefixOfMatCode: string;
   Style: string;
@@ -463,7 +463,12 @@ export const HEADER_STYLE_AUTO_FILL = [
     name: 'Updated At',
     state: 'UpdatedAt',
     sort: true,
-  }
+  },
+  {
+    name: 'Action',
+    state: 'Action',
+    sort: false,
+  },
 ];
 
 export interface ILogCat1AndCat4Payload {

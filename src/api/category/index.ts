@@ -156,6 +156,10 @@ const categoryApi = {
     );
     return res.data;
   },
+  deleteStyleAutoFill: async (id: string) => {
+    const response = await axiosConfig.delete(`cat1andcat4/style-auto-fill/${id}`);
+    return response.data;
+  },
   updateTaxFreeZoneAddress: async (id: string, taxFreeZoneAddress: string) => {
     const response = await axiosConfig.patch(
       `cat1andcat4/tax-free-zone-address/${id}`,
