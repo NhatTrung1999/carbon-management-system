@@ -195,7 +195,7 @@ const StyleAutoFill = ({ header, data }: Props) => {
                         {deletingId === item.Id ? (
                           <span className="animate-spin inline-block w-4 h-4 border-2 border-red-500 border-t-transparent rounded-full" />
                         ) : (
-                          <FaTrash size={18} />
+                          <FaTrash size={18} color='#316fb5' />
                         )}
                       </button>
                     </td>
