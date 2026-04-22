@@ -7,7 +7,6 @@ import { getDataCat6, resetDataCat6 } from '../../../features/categorySlice';
 
 const Cat6 = () => {
   const tableRef = useRef<HTMLDivElement | null>(null);
-  const didFetch = useRef(false);
   const [activeSort, setActiveSort] = useState({
     sortField: HEADER[0].state,
     sortOrder: 'asc',
@@ -28,8 +27,6 @@ const Cat6 = () => {
   const [factory, setFactory] = useState<string>('LYV');
 
   useEffect(() => {
-    if (didFetch.current) return;
-    didFetch.current = true;
     dispatch(resetDataCat6());
     dispatch(
       getDataCat6({
@@ -41,7 +38,7 @@ const Cat6 = () => {
         sortOrder: activeSort.sortOrder,
       })
     );
-  }, [dispatch, activeSort]);
+  }, [dispatch, activeSort.sortField, activeSort.sortOrder]);
 
   const onScroll = useCallback(() => {
     const el = tableRef.current;

@@ -33,7 +33,7 @@ const Search = ({
   setDateTo,
   factory,
   setFactory,
-}: Props) => {
+  }: Props) => {
   const dispatch = useAppDispatch();
   const {t} = useTranslation()
 

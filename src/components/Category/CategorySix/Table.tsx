@@ -159,7 +159,6 @@ const Table = ({
                   <th
                     className="px-4 py-1 whitespace-break-spaces"
                     key={`${index}-${idx}`}
-                    rowSpan={2}
                   >
                     <div className="flex flex-row gap-6 items-center justify-between">
                       <span>{t(child.name)}</span>
