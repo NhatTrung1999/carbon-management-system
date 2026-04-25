@@ -7,6 +7,7 @@ import { getDataCat6, resetDataCat6 } from '../../../features/categorySlice';
 
 const Cat6 = () => {
   const tableRef = useRef<HTMLDivElement | null>(null);
+  const lastQueryRef = useRef<string>('');
   const [activeSort, setActiveSort] = useState({
     sortField: HEADER[0].state,
     sortOrder: 'asc',
@@ -25,8 +26,27 @@ const Cat6 = () => {
   );
 
   const [factory, setFactory] = useState<string>('LYV');
+  const [searchSeq, setSearchSeq] = useState(0);
+
+  const handleSearch = () => {
+    setSearchSeq((value) => value + 1);
+  };
 
   useEffect(() => {
+    const queryKey = [
+      dateFrom,
+      dateTo,
+      factory,
+      activeSort.sortField,
+      activeSort.sortOrder,
+      searchSeq,
+    ].join('|');
+
+    if (lastQueryRef.current === queryKey) {
+      return;
+    }
+
+    lastQueryRef.current = queryKey;
     dispatch(resetDataCat6());
     dispatch(
       getDataCat6({
@@ -38,7 +58,15 @@ const Cat6 = () => {
         sortOrder: activeSort.sortOrder,
       })
     );
-  }, [dispatch, activeSort.sortField, activeSort.sortOrder]);
+  }, [
+    dispatch,
+    dateFrom,
+    dateTo,
+    factory,
+    activeSort.sortField,
+    activeSort.sortOrder,
+    searchSeq,
+  ]);
 
   const onScroll = useCallback(() => {
     const el = tableRef.current;
@@ -57,19 +85,29 @@ const Cat6 = () => {
         })
       );
     }
-  }, [dispatch, loading, hasMore, page, activeSort]);
+  }, [
+    dispatch,
+    loading,
+    hasMore,
+    page,
+    activeSort.sortField,
+    activeSort.sortOrder,
+    dateFrom,
+    dateTo,
+    factory,
+  ]);
 
   return (
     <div className="w-full">
       <div className="mt-4 overflow-x-auto">
         <Search
-          activeSort={activeSort}
           dateFrom={dateFrom}
           setDateFrom={setDateFrom}
           dateTo={dateTo}
           setDateTo={setDateTo}
           factory={factory}
           setFactory={setFactory}
+          onSearch={handleSearch}
         />
       </div>
       <div className="mt-4 overflow-x-auto">

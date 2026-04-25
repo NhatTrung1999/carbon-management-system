@@ -6,36 +6,35 @@ import ExcelIcon from '../../../assets/images/excel-icon.png';
 import SendIcon from '../../../assets/images/send-to-CMS.png';
 import Select from '../../common/Select';
 import { useAppDispatch } from '../../../app/hooks';
-import { generateFileExcel } from '../../../features/fileSlice';
+import { generateFileExcel, previewPayload } from '../../../features/fileSlice';
 import { Toast } from '../../../utils/Toast';
-import { getDataCat6, resetDataCat6 } from '../../../features/categorySlice';
 import { FACTORIES } from '../../../utils/constanst';
 import { useTranslation } from 'react-i18next';
+import { useState } from 'react';
 
 type Props = {
-  activeSort: {
-    sortField: string;
-    sortOrder: string;
-  };
   dateFrom: string;
   setDateFrom: (dateVal: string) => void;
   dateTo: string;
   setDateTo: (dateVal: string) => void;
   factory: string;
   setFactory: (factoryVal: string) => void;
+  onSearch: () => void;
 };
 
 const Search = ({
-  activeSort,
   dateFrom,
   setDateFrom,
   dateTo,
   setDateTo,
   factory,
   setFactory,
+  onSearch,
   }: Props) => {
   const dispatch = useAppDispatch();
   const {t} = useTranslation()
+  const [loadingExport, setLoadingExport] = useState(false);
+  const [loadingPreview, setLoadingPreview] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -46,21 +45,11 @@ const Search = ({
 
     onSubmit: async (data) => {
       try {
-        dispatch(resetDataCat6());
         setDateFrom(data.dateFrom);
         setDateTo(data.dateTo);
         setFactory(data.factory);
-        dispatch(
-          getDataCat6({
-            dateFrom: data.dateFrom,
-            dateTo: data.dateTo,
-            factory: data.factory,
-            page: 1,
-            sortField: activeSort.sortField,
-            sortOrder: activeSort.sortOrder,
-          })
-        );
-      } catch (error: any) {
+        onSearch();
+      } catch (error: unknown) {
         console.log(error);
       }
     },
@@ -68,26 +57,58 @@ const Search = ({
 
   //Export Excel
   const onExportExcel = async () => {
-    const result = await dispatch(
-      generateFileExcel({
-        module: 'Cat6',
-        dateFrom: formik.values.dateFrom,
-        dateTo: formik.values.dateTo,
-        factory: formik.values.factory,
-      })
-    );
-    if (generateFileExcel.fulfilled.match(result)) {
-      const { statusCode, message } = result.payload as {
-        statusCode: number;
-        message: string;
-      };
-      Toast.fire({
-        title: message,
-        icon: statusCode === 200 ? 'success' : 'error',
-      });
+    try {
+      setLoadingExport(true);
+      const result = await dispatch(
+        generateFileExcel({
+          module: 'Cat6',
+          dateFrom: formik.values.dateFrom,
+          dateTo: formik.values.dateTo,
+          factory: formik.values.factory,
+        })
+      );
+      if (generateFileExcel.fulfilled.match(result)) {
+        const { statusCode, message } = result.payload as {
+          statusCode: number;
+          message: string;
+        };
+        Toast.fire({
+          title: message,
+          icon: statusCode === 200 ? 'success' : 'error',
+        });
+      }
+    } finally {
+      setLoadingExport(false);
     }
   };
   //Export Excel
+
+  const onPreviewPayload = async () => {
+    try {
+      setLoadingPreview(true);
+      const result = await dispatch(
+        previewPayload({
+          module: 'Cat6',
+          dateFrom: formik.values.dateFrom,
+          dateTo: formik.values.dateTo,
+          factory: formik.values.factory,
+          dockeyCMS: '3.6',
+        })
+      );
+      if (previewPayload.fulfilled.match(result)) {
+        const { statusCode, message } = result.payload as {
+          statusCode: number;
+          message: string;
+        };
+        Toast.fire({
+          title: message,
+          icon: statusCode === 200 ? 'success' : 'error',
+        });
+      }
+    } finally {
+      setLoadingPreview(false);
+    }
+  };
 
   const onSendToCMS = async () => {
 
@@ -147,11 +168,22 @@ const Search = ({
           imgSrc={SendIcon}
         />
         <Button
-          label={t('Export Excel file')}
+          label={loadingExport ? 'Loading...' : t('Export Excel file')}
           type='button'
           onClick={onExportExcel}
           className="w-full sm:w-auto flex flex-row gap-2 items-center justify-center sm:justify-start cursor-pointer px-4 py-2 rounded-lg text-white bg-green-500 hover:bg-green-500/80 transition-colors duration-300"
           imgSrc={ExcelIcon}
+          disabled={loadingExport}
+        />
+        <Button
+          label={loadingPreview ? 'Loading...' : 'Preview Payload'}
+          type='button'
+          onClick={onPreviewPayload}
+          className={`w-full sm:w-auto flex flex-row gap-2 items-center justify-center sm:justify-start cursor-pointer px-4 py-2 rounded-lg text-white bg-green-500 hover:bg-green-500/80 transition-colors duration-300 ${
+            loadingPreview ? 'hover:cursor-not-allowed' : ''
+          }`}
+          imgSrc={ExcelIcon}
+          disabled={loadingPreview}
         />
         {/* <button
           type="button"

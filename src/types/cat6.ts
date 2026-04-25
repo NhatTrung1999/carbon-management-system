@@ -1,3 +1,12 @@
+export interface ICat6RouteItem {
+  AddressName: string;
+  Transport: string;
+  AddressDetail: string;
+  isAirport: boolean;
+  From: string;
+  To: string;
+}
+
 export interface ICat6Data {
   // Document_Date: string;
   // Document_Number: string;
@@ -39,6 +48,8 @@ export interface ICat6Data {
   Destination_6: string;
   Land_Transportation_Type: string;
   Land_Transport_Distance_km: string;
+  Routes?: ICat6RouteItem[];
+  Accommodation?: any[];
   Number_of_nights_stayed: number;
   TotalRow: number;
 }
