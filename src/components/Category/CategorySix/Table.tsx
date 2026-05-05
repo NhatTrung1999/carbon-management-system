@@ -1,5 +1,4 @@
-import { TiArrowSortedDown } from 'react-icons/ti';
-import { TiArrowSortedUp } from 'react-icons/ti';
+import { TiArrowSortedDown, TiArrowSortedUp } from 'react-icons/ti';
 import type { TableHeaderProps } from '../../../types/table';
 import NoData from '../../../assets/images/no-data.png';
 import type { RefObject, UIEventHandler } from 'react';
@@ -20,6 +19,8 @@ type Props = {
   tableRef?: RefObject<HTMLDivElement | null>;
   onScroll: UIEventHandler<HTMLDivElement>;
 };
+
+type Cat6Row = ICat6Data & Record<string, string | number | undefined>;
 
 const Table = ({
   header,
@@ -61,6 +62,7 @@ const Table = ({
   }, [loading, tableRef, data.length]);
 
   const { t } = useTranslation();
+
   const handleSorting = (sortField: string, sortOrder: string): void => {
     setActiveSort({ sortField, sortOrder });
   };
@@ -101,16 +103,19 @@ const Table = ({
     return 'max-h-[400px] sm:max-h-[500px] md:max-h-[600px]';
   };
 
-  const getTotalColumns = () => {
-    let count = 0;
-    header.forEach((item) => {
-      if (item.children && item.children.length > 0) {
-        count += item.children.length;
-      } else {
-        count += 1;
-      }
-    });
-    return count;
+  const getColumns = () =>
+    header.flatMap((item) =>
+      item.children && item.children.length > 0 ? item.children : [item]
+    );
+
+  const columns = getColumns();
+
+  const getCellValue = (row: Cat6Row, state: string) => {
+    const value = row[state];
+    if (state === 'Document_Date' || state === 'Start_Time' || state === 'End_Time') {
+      return formatDate(value as string);
+    }
+    return value ?? '';
   };
 
   return (
@@ -154,11 +159,11 @@ const Table = ({
               })}
             </tr>
             <tr>
-              {header.map((item, index) =>
-                item.children?.map((child, idx) => (
+              {header.flatMap((item) =>
+                item.children?.map((child) => (
                   <th
-                    className="px-4 py-1 whitespace-break-spaces"
-                    key={`${index}-${idx}`}
+                    className="px-4 py-1 whitespace-nowrap"
+                    key={child.state}
                   >
                     <div className="flex flex-row gap-6 items-center justify-between">
                       <span>{t(child.name)}</span>
@@ -169,7 +174,7 @@ const Table = ({
                       )}
                     </div>
                   </th>
-                ))
+                )) ?? []
               )}
             </tr>
           </thead>
@@ -180,78 +185,14 @@ const Table = ({
                   key={index}
                   className="border-b border-gray-200 hover:bg-gray-50 transition-colors"
                 >
-                  <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 text-xs sm:text-sm">
-                    {formatDate(item.Document_Date)}
-                  </td>
-                  <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 text-xs sm:text-sm">
-                    {item.Document_Number}
-                  </td>
-                  <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 text-xs sm:text-sm">
-                    {item.Staff_ID}
-                  </td>
-                  <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 text-xs sm:text-sm">
-                    {item.Round_trip_One_way}
-                  </td>
-                  <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 text-xs sm:text-sm">
-                    {formatDate(item.Start_Time)}
-                  </td>
-                  <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 text-xs sm:text-sm">
-                    {formatDate(item.End_Time)}
-                  </td>
-                  <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 text-xs sm:text-sm">
-                    {item.Business_Trip_Type}
-                  </td>
-                  <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 text-xs sm:text-sm">
-                    {item.Place_of_Departure}
-                  </td>
-                  <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 text-xs sm:text-sm">
-                    {item.Departure_Airport}
-                  </td>
-                  <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 text-xs sm:text-sm">
-                    {item.Land_Transport_Distance_km_A}
-                  </td>
-                  <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 text-xs sm:text-sm">
-                    {item.Land_Trasportation_Type_A}
-                  </td>
-                  <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 text-xs sm:text-sm">
-                    {item.Destination_Airport}
-                  </td>
-                  <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 text-xs sm:text-sm">
-                    {item.Third_country_transfer_Destination}
-                  </td>
-                  <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 text-xs sm:text-sm">
-                    {item.Land_Transport_Distance_km_B}
-                  </td>
-                  <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 text-xs sm:text-sm">
-                    {item.Land_Transportation_Type_B}
-                  </td>
-                  <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 text-xs sm:text-sm">
-                    {item.Destination_2}
-                  </td>
-                  <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 text-xs sm:text-sm">
-                    {item.Destination_3}
-                  </td>
-                  <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 text-xs sm:text-sm">
-                    {item.Destination_4}
-                  </td>
-                  <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 text-xs sm:text-sm">
-                    {item.Destination_5}
-                  </td>
-                  <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 text-xs sm:text-sm">
-                    {item.Destination_6}
-                  </td>
-                  <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 text-xs sm:text-sm">
-                    {item.Land_Transport_Distance_km}
-                  </td>
-                  <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 text-xs sm:text-sm">
-                    {item.Land_Transportation_Type}
-                  </td>
-                  <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 text-xs sm:text-sm">
-                    {item.Air_Transport_Distance_km}
-                  </td>
-                  <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 text-xs sm:text-sm">
-                    {item.Number_of_nights_stayed}
-                  </td>
+                  {columns.map((column) => (
+                    <td
+                      key={`${index}-${column.state}`}
+                      className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 text-xs sm:text-sm"
+                    >
+                      {String(getCellValue(item as Cat6Row, column.state))}
+                    </td>
+                  ))}
                 </tr>
               ))}
 
@@ -259,40 +200,21 @@ const Table = ({
               data.length > 0 &&
               Array.from({ length: 3 }).map((_, i) => (
                 <tr key={`skeleton-${i}`} className="border-b border-gray-200">
-                  {Array.from({ length: getTotalColumns() }).map(
-                    (_, colIndex) => (
-                      <td
-                        key={colIndex}
-                        className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3"
-                      >
-                        <div className="h-4 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 rounded animate-shimmer bg-[length:200%_100%]"></div>
-                      </td>
-                    )
-                  )}
-                </tr>
-              ))}
-
-            {/* {loading && data.length === 0 && (
-              Array.from({ length: 5 }).map((_, i) => (
-                <tr key={`skeleton-loading-${i}`} className="border-b border-gray-200">
-                  {Array.from({ length: getTotalColumns() }).map((_, colIndex) => (
-                    <td key={colIndex} className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3">
-                      <div 
-                        className="h-4 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 rounded animate-shimmer bg-[length:200%_100%]"
-                        style={{
-                          animationDelay: `${i * 0.1}s`
-                        }}
-                      ></div>
+                  {Array.from({ length: columns.length }).map((_, colIndex) => (
+                    <td
+                      key={colIndex}
+                      className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3"
+                    >
+                      <div className="h-4 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 rounded animate-shimmer bg-[length:200%_100%]"></div>
                     </td>
                   ))}
                 </tr>
-              ))
-            )} */}
+              ))}
 
             {!loading && data.length === 0 && (
               <tr>
                 <td
-                  colSpan={getTotalColumns()}
+                  colSpan={columns.length}
                   className="text-center box-border px-4 sm:px-6 py-8 sm:py-12"
                 >
                   <div className="flex justify-center items-center flex-col space-y-3">

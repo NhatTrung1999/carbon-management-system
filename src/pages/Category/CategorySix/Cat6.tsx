@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Search from '../../../components/Category/CategorySix/Search';
 import Table from '../../../components/Category/CategorySix/Table';
-import { HEADER } from '../../../types/cat6';
+import { getCat6Header } from '../../../types/cat6';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { getDataCat6, resetDataCat6 } from '../../../features/categorySlice';
 
@@ -9,7 +9,7 @@ const Cat6 = () => {
   const tableRef = useRef<HTMLDivElement | null>(null);
   const lastQueryRef = useRef<string>('');
   const [activeSort, setActiveSort] = useState({
-    sortField: HEADER[0].state,
+    sortField: 'Document_Date',
     sortOrder: 'asc',
   });
 
@@ -27,6 +27,22 @@ const Cat6 = () => {
 
   const [factory, setFactory] = useState<string>('LYV');
   const [searchSeq, setSearchSeq] = useState(0);
+
+  const maxPlaceCount = Math.max(
+    0,
+    ...cat6.map((row) =>
+      Object.keys(row).filter((key) => /^Place\d+$/.test(key)).length
+    )
+  );
+  const placeCount = Math.max(maxPlaceCount, 1);
+  const transportCount = Math.max(
+    0,
+    placeCount - 1,
+    ...cat6.map((row) =>
+      Object.keys(row).filter((key) => /^Transport_\d+$/.test(key)).length
+    )
+  );
+  const header = getCat6Header(placeCount, transportCount);
 
   const handleSearch = () => {
     setSearchSeq((value) => value + 1);
@@ -112,7 +128,7 @@ const Cat6 = () => {
       </div>
       <div className="mt-4 overflow-x-auto">
         <Table
-          header={HEADER}
+          header={header}
           activeSort={activeSort}
           setActiveSort={setActiveSort}
           data={cat6}
