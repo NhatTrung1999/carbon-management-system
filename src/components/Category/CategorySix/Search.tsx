@@ -5,6 +5,7 @@ import Input from '../../common/Input';
 import ExcelIcon from '../../../assets/images/excel-icon.png';
 import SendIcon from '../../../assets/images/send-to-CMS.png';
 import Select from '../../common/Select';
+// import Checkbox from '../../common/Checkbox';
 import { useAppDispatch } from '../../../app/hooks';
 import { generateFileExcel, previewPayload } from '../../../features/fileSlice';
 import { Toast } from '../../../utils/Toast';
@@ -20,6 +21,8 @@ type Props = {
   factory: string;
   setFactory: (factoryVal: string) => void;
   onSearch: () => void;
+  // checkedDormShuttle: boolean;
+  // setCheckedDormShuttle: (value: boolean) => void;
 };
 
 const Search = ({
@@ -30,6 +33,8 @@ const Search = ({
   factory,
   setFactory,
   onSearch,
+  // checkedDormShuttle,
+  // setCheckedDormShuttle,
   }: Props) => {
   const dispatch = useAppDispatch();
   const {t} = useTranslation()
@@ -160,6 +165,12 @@ const Search = ({
           type="submit"
           className="w-full sm:w-auto text-white bg-[#FF9119] hover:bg-[#FF9119]/80 focus:ring-4 focus:outline-none focus:ring-[#FF9119]/50 font-medium rounded-lg text-sm px-5 py-2.5 dark:hover:bg-[#FF9119]/80 dark:focus:ring-[#FF9119]/40 cursor-pointer transition-colors duration-300"
         />
+        {/* <Checkbox
+          id="cat6-dorm-shuttle-check"
+          title="Check"
+          checked={checkedDormShuttle}
+          onChange={(event) => setCheckedDormShuttle(event.target.checked)}
+        /> */}
         <Button
           label={t('Send to CMS')}
           type='button'

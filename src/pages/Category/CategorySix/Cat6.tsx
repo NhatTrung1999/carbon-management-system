@@ -27,6 +27,11 @@ const Cat6 = () => {
 
   const [factory, setFactory] = useState<string>('LYV');
   const [searchSeq, setSearchSeq] = useState(0);
+  // const [checkedDormShuttle, setCheckedDormShuttle] = useState(false);
+
+  // const filteredCat6 = checkedDormShuttle
+  //   ? cat6.filter((row) => Boolean(row.IsDormShuttleCase))
+  //   : cat6;
 
   const maxPlaceCount = Math.max(
     0,
@@ -124,6 +129,8 @@ const Cat6 = () => {
           factory={factory}
           setFactory={setFactory}
           onSearch={handleSearch}
+          // checkedDormShuttle={checkedDormShuttle}
+          // setCheckedDormShuttle={setCheckedDormShuttle}
         />
       </div>
       <div className="mt-4 overflow-x-auto">
