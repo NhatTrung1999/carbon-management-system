@@ -9,81 +9,79 @@ import {
 } from '../../../types/loggingcat1and4';
 import { FACTORIES } from '../../../utils/constanst';
 
-type ComparisonColumn = {
-  key: string;
-  label: string;
-};
+// ─── Types ───────────────────────────────────────────────────────────────────
 
-type StatusFilter = 'ALL' | 'MATCHED' | 'MISSING' | 'EXTRA';
-type CategoryView = 'CAT1' | 'CAT4';
+type ComparisonColumn = { key: string; label: string };
+type StatusFilter     = 'ALL' | 'MATCHED' | 'MISSING' | 'EXTRA';
+type CategoryView     = 'CAT1' | 'CAT4';
 
 type VerificationRow = Partial<ILoggingCat1AndCat4Data> & {
   VerificationStatus?: 'MATCHED' | 'MISSING' | 'EXTRA';
 };
 
 type VerificationSummary = {
-  previewCount: number;
-  loggingCount: number;
-  matchedCount: number;
-  missingCount: number;
-  extraCount: number;
+  previewCount : number;
+  loggingCount : number;
+  matchedCount : number;
+  missingCount : number;
+  extraCount   : number;
 };
 
 type VerificationResponse = {
-  summary: VerificationSummary;
-  rows: VerificationRow[];
-  page: number;
-  limit: number;
-  total: number;
-  hasMore: boolean;
-  category: CategoryView;
-  status: StatusFilter;
+  summary  : VerificationSummary;
+  rows     : VerificationRow[];
+  page     : number;
+  limit    : number;
+  total    : number;
+  hasMore  : boolean;
+  category : CategoryView;
+  status   : StatusFilter;
 };
+
+// ─── Constants ───────────────────────────────────────────────────────────────
 
 const PAGE_SIZE = 50;
 
 const CAT_CONFIG = [
-  {
-    title: 'CAT1',
-    description: 'Preview Payload dockey `4.1` so voi Logging.',
-  },
-  {
-    title: 'CAT4',
-    description: 'Preview Payload dockey `3.1` so voi Logging.',
-  },
+  { title: 'CAT1', description: 'Preview Payload dockey `4.1` so sánh với Logging.' },
+  { title: 'CAT4', description: 'Preview Payload dockey `3.1` so sánh với Logging.' },
 ] as const;
 
-const COMPARISON_COLUMNS: ComparisonColumn[] = LOGGING_HEADERS.map((header) => ({
-  key: header.state,
-  label: header.name,
+const COMPARISON_COLUMNS: ComparisonColumn[] = LOGGING_HEADERS.map((h) => ({
+  key: h.state, label: h.name,
 }));
 
 const EMPTY_SUMMARY: VerificationSummary = {
-  previewCount: 0,
-  loggingCount: 0,
-  matchedCount: 0,
-  missingCount: 0,
-  extraCount: 0,
+  previewCount: 0, loggingCount: 0,
+  matchedCount: 0, missingCount: 0, extraCount: 0,
 };
 
-const getDisplayValue = (value: unknown) => {
-  if (value === null || value === undefined || value === '') {
-    return '-';
-  }
+const getDisplayValue = (value: unknown) =>
+  value === null || value === undefined || value === '' ? '—' : String(value);
 
-  return String(value);
+// ─── Status badge config ─────────────────────────────────────────────────────
+
+const STATUS_BADGE: Record<string, { label: string; className: string }> = {
+  MATCHED: { label: 'Matched', className: 'bg-emerald-400/15 text-emerald-300 ring-1 ring-emerald-400/30' },
+  MISSING: { label: 'Missing', className: 'bg-red-400/15    text-red-300    ring-1 ring-red-400/30'     },
+  EXTRA  : { label: 'Extra',   className: 'bg-amber-400/15  text-amber-300  ring-1 ring-amber-400/30'   },
 };
+
+// ─── SkeletonRows ─────────────────────────────────────────────────────────────
 
 const SkeletonRows = ({ rowCount = 6 }: { rowCount?: number }) => (
   <>
-    {Array.from({ length: rowCount }).map((_, rowIndex) => (
-      <tr key={`skeleton-${rowIndex}`} className="border-b border-gray-100">
+    {Array.from({ length: rowCount }).map((_, i) => (
+      <tr key={`sk-${i}`} className="border-b border-white/[0.05]">
         <td className="px-4 py-3">
-          <div className="h-6 w-20 animate-pulse rounded-full bg-gray-200" />
+          <div className="h-5 w-20 animate-pulse rounded-full bg-white/[0.07]" />
         </td>
-        {COMPARISON_COLUMNS.map((column) => (
-          <td key={`${column.key}-${rowIndex}`} className="px-4 py-3">
-            <div className="h-4 min-w-[7rem] animate-pulse rounded bg-gray-200" />
+        {COMPARISON_COLUMNS.map((col) => (
+          <td key={`${col.key}-${i}`} className="px-4 py-3">
+            <div
+              className="h-3.5 min-w-[6rem] animate-pulse rounded-md bg-white/[0.06]"
+              style={{ animationDelay: `${i * 0.06}s` }}
+            />
           </td>
         ))}
       </tr>
@@ -91,374 +89,320 @@ const SkeletonRows = ({ rowCount = 6 }: { rowCount?: number }) => (
   </>
 );
 
+// ─── VerificationTable ────────────────────────────────────────────────────────
+
 const VerificationTable = ({
-  title,
-  description,
-  rows,
-  emptyText,
-  tableRef,
-  onScroll,
-  loading,
-  loadingMore,
+  title, description, rows, emptyText,
+  tableRef, onScroll, loading, loadingMore,
 }: {
-  title: string;
-  description: string;
-  rows: VerificationRow[];
-  emptyText: string;
-  tableRef: React.RefObject<HTMLDivElement | null>;
-  onScroll: () => void;
-  loading: boolean;
-  loadingMore: boolean;
+  title       : string;
+  description : string;
+  rows        : VerificationRow[];
+  emptyText   : string;
+  tableRef    : React.RefObject<HTMLDivElement | null>;
+  onScroll    : () => void;
+  loading     : boolean;
+  loadingMore : boolean;
 }) => (
-  <div className="rounded-xl border border-gray-200 bg-white shadow-sm">
-    <div className="border-b border-gray-200 px-5 py-4">
-      <h3 className="text-base font-semibold text-[#081c1b]">{title}</h3>
-      <p className="mt-1 text-sm text-gray-600">{description}</p>
+  <div className="relative overflow-hidden rounded-2xl border border-white/[0.10]
+    bg-white/[0.04] backdrop-blur-sm">
+    {/* Top shimmer */}
+    <div className="absolute inset-x-0 top-0 h-px
+      bg-gradient-to-r from-transparent via-white/15 to-transparent" />
+
+    {/* Panel header */}
+    <div className="border-b border-white/[0.07] px-5 py-4">
+      <h3 className="text-sm font-semibold text-white">{title}</h3>
+      <p className="mt-0.5 text-xs text-white/40">{description}</p>
     </div>
 
-    <div className="px-5 py-4">
-      <div
-        ref={tableRef}
-        onScroll={onScroll}
-        className="max-h-[32rem] overflow-auto rounded-lg border border-gray-200"
-      >
-        <table className="min-w-full text-left">
-          <thead className="sticky top-0 z-10 bg-[#636e61] text-xs text-white">
-            <tr>
-              <th className="px-4 py-3 font-semibold align-middle whitespace-nowrap">
-                Status
+    {/* Scrollable table */}
+    <div
+      ref={tableRef}
+      onScroll={onScroll}
+      className="max-h-[32rem] overflow-auto
+        [scrollbar-width:thin] [scrollbar-color:rgba(52,211,153,0.2)_transparent]
+        [&::-webkit-scrollbar]:h-[3px] [&::-webkit-scrollbar]:w-[3px]
+        [&::-webkit-scrollbar-thumb]:rounded-full
+        [&::-webkit-scrollbar-thumb]:bg-emerald-400/20"
+    >
+      <table className="min-w-full text-left">
+        {/* Header */}
+        <thead className="sticky top-0 z-10">
+          <tr className="bg-[#0d1f1b]/90 backdrop-blur-md">
+            <th className="whitespace-nowrap px-4 py-3 text-xs font-semibold
+              uppercase tracking-[0.10em] text-white/50">
+              Status
+            </th>
+            {COMPARISON_COLUMNS.map((col) => (
+              <th key={col.key}
+                className="whitespace-nowrap px-4 py-3 text-xs font-semibold
+                  uppercase tracking-[0.10em] text-white/50">
+                {col.label}
               </th>
-              {COMPARISON_COLUMNS.map((column) => (
-                <th
-                  key={column.key}
-                  className="px-4 py-3 font-semibold align-middle whitespace-nowrap"
-                >
-                  {column.label}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {loading && rows.length === 0 ? (
-              <SkeletonRows rowCount={8} />
-            ) : rows.length > 0 ? (
-              <>
-                {rows.map((row, index) => (
+            ))}
+          </tr>
+        </thead>
+
+        {/* Body */}
+        <tbody>
+          {loading && rows.length === 0 ? (
+            <SkeletonRows rowCount={8} />
+          ) : rows.length > 0 ? (
+            <>
+              {rows.map((row, i) => {
+                const badge = STATUS_BADGE[row.VerificationStatus ?? ''];
+                return (
                   <tr
-                    key={`${row.DocKey ?? 'row'}-${row.DocNo ?? 'doc'}-${index}`}
-                    className="border-b border-gray-100 align-top text-sm hover:bg-gray-50"
+                    key={`${row.DocKey ?? 'row'}-${row.DocNo ?? 'doc'}-${i}`}
+                    className="border-b border-white/[0.05] align-top text-sm
+                      transition-colors duration-150 hover:bg-white/[0.03]"
                   >
-                    <td className="px-4 py-3 whitespace-nowrap">
-                      <span
-                        className={`inline-flex rounded-full px-2.5 py-1 text-xs font-medium ${
-                          row.VerificationStatus === 'MATCHED'
-                            ? 'bg-green-100 text-green-700'
-                            : row.VerificationStatus === 'EXTRA'
-                              ? 'bg-amber-100 text-amber-700'
-                              : 'bg-red-100 text-red-700'
-                        }`}
-                      >
-                        {row.VerificationStatus === 'MATCHED'
-                          ? 'Matched'
-                          : row.VerificationStatus === 'EXTRA'
-                            ? 'Extra'
-                            : 'Missing'}
-                      </span>
+                    <td className="whitespace-nowrap px-4 py-3">
+                      {badge && (
+                        <span className={`inline-flex items-center rounded-full
+                          px-2.5 py-0.5 text-xs font-medium ${badge.className}`}>
+                          {badge.label}
+                        </span>
+                      )}
                     </td>
-                    {COMPARISON_COLUMNS.map((column) => (
-                      <td
-                        key={`${row.DocKey ?? 'row'}-${String(column.key)}-${index}`}
-                        className="px-4 py-3 whitespace-nowrap"
-                      >
-                        {getDisplayValue(
-                          (row as unknown as Record<string, unknown>)[column.key]
-                        )}
+                    {COMPARISON_COLUMNS.map((col) => (
+                      <td key={`${row.DocKey ?? 'r'}-${col.key}-${i}`}
+                        className="whitespace-nowrap px-4 py-3 text-xs text-white/70">
+                        {getDisplayValue((row as Record<string, unknown>)[col.key])}
                       </td>
                     ))}
                   </tr>
-                ))}
-                {loadingMore ? (
-                  <SkeletonRows rowCount={3} />
-                ) : null}
-              </>
-            ) : (
-              <tr>
-                <td
-                  colSpan={COMPARISON_COLUMNS.length + 1}
-                  className="px-4 py-8 text-center text-sm text-gray-500"
-                >
-                  {emptyText}
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
+                );
+              })}
+              {loadingMore && <SkeletonRows rowCount={3} />}
+            </>
+          ) : (
+            <tr>
+              <td
+                colSpan={COMPARISON_COLUMNS.length + 1}
+                className="px-4 py-12 text-center text-sm text-white/30"
+              >
+                {emptyText}
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </table>
     </div>
   </div>
 );
 
+// ─── Summary card ─────────────────────────────────────────────────────────────
+
+const SummaryCard = ({
+  label, value, valueClass,
+}: {
+  label      : string;
+  value      : number;
+  valueClass?: string;
+}) => (
+  <div className="rounded-xl border border-white/[0.08] bg-white/[0.05] px-3 py-2.5
+    backdrop-blur-sm">
+    <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-white/40">
+      {label}
+    </p>
+    <p className={`mt-1 text-xl font-bold ${valueClass ?? 'text-white'}`}>
+      {value}
+    </p>
+  </div>
+);
+
+// ─── Main component ───────────────────────────────────────────────────────────
+
 const VerificationReport = () => {
   const today = useMemo(() => new Date().toISOString().slice(0, 10), []);
-  const [previewDateFrom, setPreviewDateFrom] = useState(today);
-  const [previewDateTo, setPreviewDateTo] = useState(today);
-  const [loggingDateFrom, setLoggingDateFrom] = useState(today);
-  const [loggingDateTo, setLoggingDateTo] = useState(today);
-  const [factory, setFactory] = useState('LYV');
-  const [statusFilter, setStatusFilter] = useState<StatusFilter>('ALL');
-  const [activeCategory, setActiveCategory] = useState<CategoryView>('CAT1');
+
+  const [previewDateFrom,  setPreviewDateFrom]  = useState(today);
+  const [previewDateTo,    setPreviewDateTo]    = useState(today);
+  const [loggingDateFrom,  setLoggingDateFrom]  = useState(today);
+  const [loggingDateTo,    setLoggingDateTo]    = useState(today);
+  const [factory,          setFactory]          = useState('LYV');
+  const [statusFilter,     setStatusFilter]     = useState<StatusFilter>('ALL');
+  const [activeCategory,   setActiveCategory]   = useState<CategoryView>('CAT1');
   const [submittedFilters, setSubmittedFilters] = useState<{
-    previewDateFrom: string;
-    previewDateTo: string;
-    loggingDateFrom: string;
-    loggingDateTo: string;
-    factory: string;
-    statusFilter: StatusFilter;
-    activeCategory: CategoryView;
+    previewDateFrom : string; previewDateTo  : string;
+    loggingDateFrom : string; loggingDateTo  : string;
+    factory         : string; statusFilter   : StatusFilter;
+    activeCategory  : CategoryView;
   } | null>(null);
-  const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(false);
+
+  const [page,        setPage]        = useState(1);
+  const [loading,     setLoading]     = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [summary, setSummary] = useState<VerificationSummary>(EMPTY_SUMMARY);
-  const [rows, setRows] = useState<VerificationRow[]>([]);
-  const [total, setTotal] = useState(0);
-  const [hasMore, setHasMore] = useState(false);
+  const [error,       setError]       = useState<string | null>(null);
+  const [summary,     setSummary]     = useState<VerificationSummary>(EMPTY_SUMMARY);
+  const [rows,        setRows]        = useState<VerificationRow[]>([]);
+  const [total,       setTotal]       = useState(0);
+  const [hasMore,     setHasMore]     = useState(false);
+
   const tableRef = useRef<HTMLDivElement | null>(null);
 
-  const loadVerificationData = useCallback(
-    async (
-      targetPage: number,
-      append = false,
-      filters = submittedFilters
-    ) => {
-      if (!filters) {
-        return;
-      }
+  // ── Load data ───────────────────────────────────────────────────────────────
+  const loadVerificationData = useCallback(async (
+    targetPage: number,
+    append     = false,
+    filters    = submittedFilters,
+  ) => {
+    if (!filters) return;
+    append ? setLoadingMore(true) : setLoading(true);
+    setError(null);
+    try {
+      const response = (await categoryApi.getVerificationReport({
+        previewDateFrom : filters.previewDateFrom,
+        previewDateTo   : filters.previewDateTo,
+        loggingDateFrom : filters.loggingDateFrom,
+        loggingDateTo   : filters.loggingDateTo,
+        factory         : filters.factory,
+        category        : filters.activeCategory,
+        status          : filters.statusFilter,
+        page            : targetPage,
+        limit           : PAGE_SIZE,
+      })) as VerificationResponse;
 
-      if (append) {
-        setLoadingMore(true);
-      } else {
-        setLoading(true);
-      }
-      setError(null);
+      setSummary(response.summary ?? EMPTY_SUMMARY);
+      setRows((prev) => append ? [...prev, ...(response.rows ?? [])] : (response.rows ?? []));
+      setTotal(response.total ?? 0);
+      setHasMore(Boolean(response.hasMore));
+      setPage(response.page ?? targetPage);
+    } catch {
+      setError('Cannot load verification data.');
+      setSummary(EMPTY_SUMMARY);
+      setRows([]); setTotal(0); setHasMore(false);
+    } finally {
+      setLoading(false); setLoadingMore(false);
+    }
+  }, [submittedFilters]);
 
-      try {
-        const response = (await categoryApi.getVerificationReport({
-          previewDateFrom: filters.previewDateFrom,
-          previewDateTo: filters.previewDateTo,
-          loggingDateFrom: filters.loggingDateFrom,
-          loggingDateTo: filters.loggingDateTo,
-          factory: filters.factory,
-          category: filters.activeCategory,
-          status: filters.statusFilter,
-          page: targetPage,
-          limit: PAGE_SIZE,
-        })) as VerificationResponse;
-
-        setSummary(response.summary ?? EMPTY_SUMMARY);
-        setRows((prev) =>
-          append ? [...prev, ...(response.rows ?? [])] : response.rows ?? []
-        );
-        setTotal(response.total ?? 0);
-        setHasMore(Boolean(response.hasMore));
-        setPage(response.page ?? targetPage);
-      } catch (err) {
-        setError('Cannot load verification data.');
-        setSummary(EMPTY_SUMMARY);
-        setRows([]);
-        setTotal(0);
-        setHasMore(false);
-      } finally {
-        setLoading(false);
-        setLoadingMore(false);
-      }
-    },
-    [submittedFilters]
-  );
-
+  // ── Infinite scroll ─────────────────────────────────────────────────────────
   const handleTableScroll = useCallback(() => {
     const el = tableRef.current;
     if (!el || loading || loadingMore || !hasMore) return;
-
-    const reachedBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - 24;
-    if (reachedBottom) {
+    if (el.scrollTop + el.clientHeight >= el.scrollHeight - 24)
       loadVerificationData(page + 1, true);
-    }
   }, [hasMore, loadVerificationData, loading, loadingMore, page]);
 
-  const hasCompared = submittedFilters !== null;
-  const displayedCategory = submittedFilters?.activeCategory ?? activeCategory;
-  const activeConfig =
-    displayedCategory === 'CAT1' ? CAT_CONFIG[0] : CAT_CONFIG[1];
+  // ── Submit ──────────────────────────────────────────────────────────────────
+  const handleCompare = () => {
+    const nextFilters = {
+      previewDateFrom, previewDateTo,
+      loggingDateFrom, loggingDateTo,
+      factory, statusFilter, activeCategory,
+    };
+    setSubmittedFilters(nextFilters);
+    setPage(1); setRows([]); setSummary(EMPTY_SUMMARY);
+    setTotal(0); setHasMore(false);
+    if (tableRef.current) tableRef.current.scrollTop = 0;
+    loadVerificationData(1, false, nextFilters);
+  };
+
+  const hasCompared     = submittedFilters !== null;
+  const displayedCat    = submittedFilters?.activeCategory ?? activeCategory;
+  const activeConfig    = displayedCat === 'CAT1' ? CAT_CONFIG[0] : CAT_CONFIG[1];
 
   return (
-    <div className="space-y-6">
-      <div className="sticky top-0 z-20 rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-3 xl:grid-cols-6">
-          <div>
-            <Input
-              label="Preview Date From"
-              type="date"
-              name="previewDateFrom"
+    <div className="flex flex-col gap-5">
+
+      {/* ── Filter panel ── */}
+      <div className="relative overflow-hidden rounded-2xl border border-white/[0.10]
+        bg-white/[0.05] backdrop-blur-[32px]
+        shadow-[0_8px_32px_rgba(0,0,0,0.25)]">
+        {/* Top shimmer */}
+        <div className="absolute inset-x-0 top-0 h-px
+          bg-gradient-to-r from-transparent via-white/15 to-transparent" />
+
+        <div className="p-5">
+          {/* Date + filter inputs */}
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-7">
+            <Input label="Preview Date From" type="date" name="previewDateFrom"
               value={previewDateFrom}
-              onChange={(event) => setPreviewDateFrom(event.target.value)}
-              classNameLabel="mb-2 text-sm"
-            />
-          </div>
-          <div>
-            <Input
-              label="Preview Date To"
-              type="date"
-              name="previewDateTo"
+              onChange={(e) => setPreviewDateFrom(e.target.value)} />
+            <Input label="Preview Date To" type="date" name="previewDateTo"
               value={previewDateTo}
-              onChange={(event) => setPreviewDateTo(event.target.value)}
-              classNameLabel="mb-2 text-sm"
-            />
-          </div>
-          <div>
-            <Input
-              label="Logging Date From"
-              type="date"
-              name="loggingDateFrom"
+              onChange={(e) => setPreviewDateTo(e.target.value)} />
+            <Input label="Logging Date From" type="date" name="loggingDateFrom"
               value={loggingDateFrom}
-              onChange={(event) => setLoggingDateFrom(event.target.value)}
-              classNameLabel="mb-2 text-sm"
-            />
-          </div>
-          <div>
-            <Input
-              label="Logging Date To"
-              type="date"
-              name="loggingDateTo"
+              onChange={(e) => setLoggingDateFrom(e.target.value)} />
+            <Input label="Logging Date To" type="date" name="loggingDateTo"
               value={loggingDateTo}
-              onChange={(event) => setLoggingDateTo(event.target.value)}
-              classNameLabel="mb-2 text-sm"
-            />
-          </div>
-          <div>
-            <Select
-              label="Factory"
-              name="factory"
-              value={factory}
-              onChange={(event) => setFactory(event.target.value)}
-              classNameLabel="mb-2 text-sm"
-              options={FACTORIES}
-              isShowAllSelect={true}
-              showAllSelect={true}
-            />
-          </div>
-          <div>
-            <Select
-              label="Status"
-              name="statusFilter"
-              value={statusFilter}
-              onChange={(event) => setStatusFilter(event.target.value as StatusFilter)}
-              classNameLabel="mb-2 text-sm"
+              onChange={(e) => setLoggingDateTo(e.target.value)} />
+            <Select label="Factory" name="factory" value={factory}
+              onChange={(e) => setFactory(e.target.value)}
+              options={FACTORIES} isShowAllSelect showAllSelect />
+            <Select label="Status" name="statusFilter" value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value as StatusFilter)}
               options={[
-                { name: 'All', value: 'ALL' },
+                { name: 'All',     value: 'ALL'     },
                 { name: 'Matched', value: 'MATCHED' },
                 { name: 'Missing', value: 'MISSING' },
-                { name: 'Extra', value: 'EXTRA' },
-              ]}
-            />
+                { name: 'Extra',   value: 'EXTRA'   },
+              ]} />
+            <div className="flex items-end">
+              <Button
+                label={loading ? 'Loading...' : 'Compare Data'}
+                type="button"
+                variant="primary"
+                onClick={handleCompare}
+                disabled={loading}
+                className="w-full"
+              />
+            </div>
           </div>
-          <div className="flex items-end">
-            <Button
-              label={loading ? 'Loading...' : 'Compare Data'}
-              type="button"
-              onClick={() => {
-                const nextFilters = {
-                  previewDateFrom,
-                  previewDateTo,
-                  loggingDateFrom,
-                  loggingDateTo,
-                  factory,
-                  statusFilter,
-                  activeCategory,
-                };
-                setSubmittedFilters(nextFilters);
-                setPage(1);
-                setRows([]);
-                setSummary(EMPTY_SUMMARY);
-                setTotal(0);
-                setHasMore(false);
-                if (tableRef.current) {
-                  tableRef.current.scrollTop = 0;
-                }
-                loadVerificationData(1, false, nextFilters);
-              }}
-              disabled={loading}
-              className={`w-full bg-[#FF9119] hover:bg-[#FF9119]/80 ${
-                loading ? 'cursor-not-allowed' : 'cursor-pointer'
-              }`}
-            />
+
+          {/* Category toggle + summary */}
+          <div className="mt-4 flex flex-col gap-3 border-t border-white/[0.07]
+            pt-4 lg:flex-row lg:items-center lg:justify-between">
+
+            {/* CAT toggle pills */}
+            <div className="flex gap-2">
+              {CAT_CONFIG.map((cat) => {
+                const isActive = activeCategory === cat.title;
+                return (
+                  <button
+                    key={cat.title}
+                    type="button"
+                    onClick={() => setActiveCategory(cat.title as CategoryView)}
+                    className={`rounded-xl border px-5 py-2 text-sm font-semibold
+                      transition-all duration-200
+                      ${isActive
+                        ? 'border-emerald-400/40 bg-emerald-400/15 text-emerald-300'
+                        : 'border-white/[0.10] bg-white/[0.05] text-white/50 hover:border-white/20 hover:text-white/80'
+                      }`}
+                  >
+                    {cat.title}
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Summary cards */}
+            <div className="grid grid-cols-2 gap-2 sm:grid-cols-5 lg:min-w-[34rem]">
+              <SummaryCard label="Preview"  value={summary.previewCount} />
+              <SummaryCard label="Logging"  value={summary.loggingCount} />
+              <SummaryCard label="Matched"  value={summary.matchedCount}  valueClass="text-emerald-300" />
+              <SummaryCard label="Missing"  value={summary.missingCount}  valueClass="text-red-300"     />
+              <SummaryCard label="Extra"    value={summary.extraCount}    valueClass="text-amber-300"   />
+            </div>
           </div>
+
+          {/* Error */}
+          {error && (
+            <p className="mt-3 flex items-center gap-2 text-xs text-red-400">
+              <svg viewBox="0 0 12 12" className="h-3 w-3 shrink-0" fill="currentColor">
+                <path d="M6 1a5 5 0 1 0 0 10A5 5 0 0 0 6 1zm0 7.5a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5zM5.25 4.5a.75.75 0 0 1 1.5 0v2a.75.75 0 0 1-1.5 0v-2z" />
+              </svg>
+              {error}
+            </p>
+          )}
         </div>
-
-        <div className="mt-4 flex flex-col gap-3 border-t border-gray-100 pt-4 lg:flex-row lg:items-center lg:justify-between">
-          <div className="flex flex-wrap gap-2">
-            <button
-              type="button"
-              onClick={() => setActiveCategory('CAT1')}
-              className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
-                activeCategory === 'CAT1'
-                  ? 'bg-[#081c1b] text-white'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}
-            >
-              CAT1
-            </button>
-            <button
-              type="button"
-              onClick={() => setActiveCategory('CAT4')}
-              className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
-                activeCategory === 'CAT4'
-                  ? 'bg-[#081c1b] text-white'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}
-            >
-              CAT4
-            </button>
-          </div>
-
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-5 lg:min-w-[34rem]">
-            <div className="rounded-lg bg-[#f7faf7] px-3 py-2">
-              <p className="text-[11px] text-gray-500">Preview</p>
-              <p className="mt-1 text-lg font-semibold text-[#081c1b]">
-                {summary.previewCount}
-              </p>
-            </div>
-            <div className="rounded-lg bg-[#f7faf7] px-3 py-2">
-              <p className="text-[11px] text-gray-500">Logging</p>
-              <p className="mt-1 text-lg font-semibold text-[#081c1b]">
-                {summary.loggingCount}
-              </p>
-            </div>
-            <div className="rounded-lg bg-[#eef8f1] px-3 py-2">
-              <p className="text-[11px] text-gray-500">Matched</p>
-              <p className="mt-1 text-lg font-semibold text-green-700">
-                {summary.matchedCount}
-              </p>
-            </div>
-            <div className="rounded-lg bg-[#fff4f1] px-3 py-2">
-              <p className="text-[11px] text-gray-500">Missing</p>
-              <p className="mt-1 text-lg font-semibold text-red-700">
-                {summary.missingCount}
-              </p>
-            </div>
-            <div className="rounded-lg bg-[#fff9ec] px-3 py-2">
-              <p className="text-[11px] text-gray-500">Extra</p>
-              <p className="mt-1 text-lg font-semibold text-[#b97800]">
-                {summary.extraCount}
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {error ? <p className="mt-4 text-sm text-red-600">{error}</p> : null}
       </div>
 
+      {/* ── Results ── */}
       {hasCompared ? (
         <>
           <VerificationTable
@@ -472,17 +416,36 @@ const VerificationReport = () => {
             loadingMore={loadingMore}
           />
 
-          <div className="rounded-xl border border-gray-200 bg-white px-5 py-4 shadow-sm">
-            <p className="text-sm text-gray-600">
-              Loaded {rows.length} / {total} rows
-              {hasMore ? ' | Scroll down to load more' : ' | All rows loaded'}
-            </p>
+          {/* Row count footer */}
+          <div className="flex items-center gap-2 rounded-xl border border-white/[0.08]
+            bg-white/[0.04] px-5 py-3 text-xs text-white/40 backdrop-blur-sm">
+            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor"
+              strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"
+              className="h-3 w-3 shrink-0 text-emerald-400/60">
+              <circle cx="6" cy="6" r="5" />
+              <path d="M6 5v4M6 3.5v.5" />
+            </svg>
+            Loaded <span className="font-semibold text-white/70">{rows.length}</span>
+            &nbsp;/ {total} rows
+            {hasMore
+              ? ' · Scroll down to load more'
+              : ' · All rows loaded'}
           </div>
         </>
       ) : (
-        <div className="rounded-xl border border-dashed border-gray-300 bg-white px-5 py-12 text-center shadow-sm">
-          <p className="text-sm text-gray-500">
-            Chon dieu kien va bam `Compare Data` de bat dau doi chieu du lieu.
+        /* Empty state */
+        <div className="flex flex-col items-center justify-center gap-3 rounded-2xl
+          border border-dashed border-white/[0.12] bg-white/[0.03] px-5 py-16
+          text-center backdrop-blur-sm">
+          <svg viewBox="0 0 40 40" fill="none" stroke="currentColor"
+            strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"
+            className="h-10 w-10 text-white/20">
+            <rect x="6" y="6" width="28" height="28" rx="4" />
+            <path d="M6 14h28M14 6v8M26 6v8" />
+            <path d="M13 22h6M13 28h14" />
+          </svg>
+          <p className="text-sm text-white/30">
+            Chọn điều kiện và bấm <span className="text-emerald-400/70">Compare Data</span> để bắt đầu đối chiếu dữ liệu.
           </p>
         </div>
       )}

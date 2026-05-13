@@ -332,7 +332,7 @@ const Search = ({
           label={loadingExcel ? 'Loading...' : t('Export Excel file')}
           type="button"
           onClick={onExportExcel}
-          className={`w-full sm:w-auto flex flex-row gap-2 items-center justify-center sm:justify-start cursor-pointer px-4 py-2 rounded-lg text-white bg-green-500 hover:bg-green-500/80 transition-colors duration-300 ${
+          className={`w-full sm:w-auto bg-green-500/20 border-green-400/40 hover:bg-green-500 text-white ${
             loadingExcel ? 'hover:cursor-not-allowed' : ''
           }`}
           imgSrc={ExcelIcon}
@@ -342,7 +342,7 @@ const Search = ({
           label={loadingPreview ? 'Loading...' : 'Preview Payload'}
           type="button"
           onClick={onPreviewPayload}
-          className={`w-full sm:w-auto flex flex-row gap-2 items-center justify-center sm:justify-start cursor-pointer px-4 py-2 rounded-lg text-white bg-green-500 hover:bg-green-500/80 transition-colors duration-300 ${
+          className={`w-full sm:w-auto bg-green-500/20 border-green-400/40 hover:bg-green-500 text-white ${
             loadingPreview ? 'hover:cursor-not-allowed' : ''
           }`}
           imgSrc={ExcelIcon}

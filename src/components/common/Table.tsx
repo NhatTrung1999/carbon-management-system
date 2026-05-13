@@ -1,30 +1,39 @@
 import { TiArrowSortedDown, TiArrowSortedUp } from 'react-icons/ti';
-import type { RefObject, UIEventHandler } from 'react';
+import type { RefObject, UIEventHandler, ReactNode } from 'react';
 import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useAppSelector } from '../../../app/hooks';
-import type { ICat1AndCat4Data } from '../../../types/cat1andcat4';
-import type { TableHeaderProps } from '../../../types/table';
-import { formatDate } from '../../../utils/formatDate';
 import NoData from '../../../assets/images/no-data.png';
+import type { TableHeaderProps } from '../../types/table';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
-type SortState = { sortField: string; sortOrder: string };
+export type SortState = { sortField: string; sortOrder: string };
 
-type Props = {
-  header       : TableHeaderProps[];
-  activeSort   : SortState;
-  setActiveSort: (data: SortState) => void;
-  data         : ICat1AndCat4Data[];
-  tableRef    ?: RefObject<HTMLDivElement | null>;
-  onScroll     : UIEventHandler<HTMLDivElement>;
+export type TableProps<T extends Record<string, unknown>> = {
+  // Data
+  header        : TableHeaderProps[];
+  data          : T[];
+  loading       : boolean;
+  renderRow     : (item: T, index: number) => ReactNode;   // caller owns cell rendering
+
+  // Sort — optional (omit to hide sort icons)
+  activeSort   ?: SortState;
+  onSortChange ?: (sort: SortState) => void;
+
+  // Scroll preservation
+  tableRef     ?: RefObject<HTMLDivElement | null>;
+  onScroll     ?: UIEventHandler<HTMLDivElement>;
+
+  // Customisation
+  maxHeight    ?: string;   // override default responsive max-height
+  noDataText   ?: string;
+  className    ?: string;
 };
 
 // ─── Sub-components ──────────────────────────────────────────────────────────
 
-const Td = ({ children }: { children: React.ReactNode }) => (
-  <td className="whitespace-nowrap px-4 py-3 text-xs text-white/90 sm:text-sm">
+export const Td = ({ children, className }: { children?: ReactNode; className?: string }) => (
+  <td className={`whitespace-nowrap px-4 py-3 text-sm text-white ${className ?? ''}`}>
     {children ?? '—'}
   </td>
 );
@@ -34,7 +43,7 @@ const SkeletonRow = ({ cols, delay = 0 }: { cols: number; delay?: number }) => (
     {Array.from({ length: cols }).map((_, i) => (
       <td key={i} className="px-4 py-3">
         <div
-          className="h-3.5 rounded-md bg-white/[0.06] animate-pulse"
+          className="h-3.5 animate-pulse rounded-md bg-white/[0.06]"
           style={{ animationDelay: `${delay + i * 0.03}s`, width: `${60 + (i % 3) * 20}%` }}
         />
       </td>
@@ -74,9 +83,9 @@ const SortIcon = ({
   );
 };
 
-// ─── Helpers ─────────────────────────────────────────────────────────────────
+// ─── Default max-height helper ────────────────────────────────────────────────
 
-const getHeight = (loading: boolean, rowCount: number) => {
+const defaultMaxHeight = (loading: boolean, rowCount: number) => {
   if (loading && rowCount === 0) return 'max-h-[250px]';
   if (!loading && rowCount === 0) return 'max-h-[300px]';
   return 'max-h-[400px] sm:max-h-[500px] md:max-h-[600px]';
@@ -84,13 +93,24 @@ const getHeight = (loading: boolean, rowCount: number) => {
 
 // ─── Component ───────────────────────────────────────────────────────────────
 
-const Table = ({ header, activeSort, setActiveSort, data, tableRef, onScroll }: Props) => {
-  const { loading } = useAppSelector((state) => state.category);
+const Table = <T extends Record<string, unknown>>({
+  header,
+  data,
+  loading,
+  renderRow,
+  activeSort,
+  onSortChange,
+  tableRef,
+  onScroll,
+  maxHeight,
+  noDataText = 'No data available',
+  className,
+}: TableProps<T>) => {
   const { t } = useTranslation();
 
-  // Preserve scroll position across loading cycles
-  const scrollPos    = useRef({ top: 0, left: 0 });
-  const wasLoading   = useRef(false);
+  // ── Preserve scroll position across loading cycles ────────────────────────
+  const scrollPos  = useRef({ top: 0, left: 0 });
+  const wasLoading = useRef(false);
 
   useEffect(() => {
     if (loading && !wasLoading.current) {
@@ -117,13 +137,15 @@ const Table = ({ header, activeSort, setActiveSort, data, tableRef, onScroll }: 
   }, [loading, tableRef, data.length]);
 
   const handleSort = (field: string, order: string) =>
-    setActiveSort({ sortField: field, sortOrder: order });
+    onSortChange?.({ sortField: field, sortOrder: order });
+
+  const heightClass = maxHeight ?? defaultMaxHeight(loading, data.length);
 
   return (
     <div
       ref={tableRef}
       onScroll={onScroll}
-      className={`${getHeight(loading, data.length)}
+      className={`${heightClass}
         relative overflow-auto rounded-xl
         border border-white/[0.08] bg-white/[0.03]
         backdrop-blur-sm transition-all duration-300
@@ -131,29 +153,31 @@ const Table = ({ header, activeSort, setActiveSort, data, tableRef, onScroll }: 
         [&::-webkit-scrollbar]:h-[3px] [&::-webkit-scrollbar]:w-[3px]
         [&::-webkit-scrollbar-track]:bg-transparent
         [&::-webkit-scrollbar-thumb]:rounded-full
-        [&::-webkit-scrollbar-thumb]:bg-emerald-400/20`}
+        [&::-webkit-scrollbar-thumb]:bg-emerald-400/20
+        ${className ?? ''}`}
     >
       <table className="w-full min-w-max text-left">
 
         {/* ── Header ── */}
         <thead className="sticky top-0 z-10">
-          {/* Top shimmer */}
           <tr>
             <th
               colSpan={header.length}
               className="h-px p-0 bg-gradient-to-r from-transparent via-white/10 to-transparent"
             />
           </tr>
-          <tr className="bg-[#636e61]/90 backdrop-blur-md">
+          <tr className="bg-[#0d1f1b]/90 backdrop-blur-md">
             {header.map((item, i) => (
               <th
                 key={i}
                 className="whitespace-nowrap px-4 py-3 text-xs font-semibold
-                  uppercase tracking-[0.10em] text-white/90"
+                  uppercase tracking-[0.10em] text-white/50"
               >
                 <div className="flex items-center gap-1">
                   {t(item.name)}
-                  <SortIcon item={item} activeSort={activeSort} onSort={handleSort} />
+                  {activeSort && onSortChange && (
+                    <SortIcon item={item} activeSort={activeSort} onSort={handleSort} />
+                  )}
                 </div>
               </th>
             ))}
@@ -163,48 +187,24 @@ const Table = ({ header, activeSort, setActiveSort, data, tableRef, onScroll }: 
         {/* ── Body ── */}
         <tbody>
 
-          {/* Data rows */}
+          {/* Data rows — caller renders cells via renderRow */}
           {data.map((item, i) => (
             <tr
               key={i}
               className="border-b border-white/[0.05] transition-colors duration-150
                 hover:bg-white/[0.04]"
             >
-              <Td>{item.No}</Td>
-              <Td>{item.FactoryCode}</Td>
-              <Td>{formatDate(item.PurDate)}</Td>
-              <Td>{formatDate(item.RKDate)}</Td>
-              <Td>{item.PurNo}</Td>
-              <Td>{item.ReceivedNo}</Td>
-              <Td>{item.MatID}</Td>
-              <Td>{item.QtyReceive}</Td>
-              <Td>{item.UnitWeight}</Td>
-              <Td>{item.WeightUnitkg}</Td>
-              <Td>{item.SupplierCode}</Td>
-              <Td>{item.Style}</Td>
-              <Td>{item.TransportationMethod}</Td>
-              <Td>{item.Departure}</Td>
-              <Td>{item.ThirdCountryLandTransport}</Td>
-              <Td>{item.PortOfDeparture}</Td>
-              <Td>{item.PortOfArrival}</Td>
-              <Td>{item.FactoryDomesticLandTransport}</Td>
-              <Td>{item.Destination}</Td>
-              <Td>{item.LandTransportDistance}</Td>
-              <Td>{item.SeaTransportDistance}</Td>
-              <Td>{item.AirTransportDistance}</Td>
-              <Td>{item.LandTransportTonKilometers}</Td>
-              <Td>{item.SeaTransportTonKilometers}</Td>
-              <Td>{item.AirTransportTonKilometers}</Td>
+              {renderRow(item, i)}
             </tr>
           ))}
 
-          {/* Skeleton — appended below existing data while loading more */}
+          {/* Skeleton — while loading more rows */}
           {loading && data.length > 0 &&
             Array.from({ length: 3 }).map((_, i) => (
               <SkeletonRow key={`sk-more-${i}`} cols={header.length} delay={i * 0.05} />
             ))}
 
-          {/* Skeleton — full empty state on first load */}
+          {/* Skeleton — initial empty load */}
           {loading && data.length === 0 &&
             Array.from({ length: 6 }).map((_, i) => (
               <SkeletonRow key={`sk-init-${i}`} cols={header.length} delay={i * 0.08} />
@@ -220,9 +220,7 @@ const Table = ({ header, activeSort, setActiveSort, data, tableRef, onScroll }: 
                     alt="No data"
                     className="h-20 w-20 object-contain opacity-40 sm:h-24 sm:w-24"
                   />
-                  <p className="text-sm font-medium text-white/30">
-                    No data available
-                  </p>
+                  <p className="text-sm font-medium text-white/30">{noDataText}</p>
                 </div>
               </td>
             </tr>

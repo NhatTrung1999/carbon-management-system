@@ -1,200 +1,231 @@
 import { Link, useLocation } from 'react-router';
-
-import { MENU_SIDEBAR } from '../../utils/constanst';
-
-import { IoIosArrowForward } from 'react-icons/io';
+import { useMemo, useCallback } from 'react';
 import { IoIosArrowBack } from 'react-icons/io';
-import { useState } from 'react';
 import { useAppSelector } from '../../app/hooks';
 import { useTranslation } from 'react-i18next';
+import { MENU_SIDEBAR } from '../../utils/constanst';
+
+// ─── Types ───────────────────────────────────────────────────────────────────
 
 type Props = {
   isOpenSideBar: boolean;
-  setIsOpenSideBar: (item: boolean) => void;
+  setIsOpenSideBar: (value: boolean) => void;
 };
+
+// ─── Helpers ─────────────────────────────────────────────────────────────────
+
+const ADMIN_ONLY_PATHS = new Set([
+  '/dashboard/user-management',
+  '/dashboard/info-factory-management',
+  '/dashboard/system-decentralization',
+]);
+
+const HR_ONLY_PATH = '/dashboard/data-collection-hr-module';
+
+// Easing dùng chung — material-style standard curve
+const EASE = 'cubic-bezier(0.4, 0, 0.2, 1)';
+
+// ─── Component ───────────────────────────────────────────────────────────────
 
 const Sidebar = ({ isOpenSideBar, setIsOpenSideBar }: Props) => {
   const { user } = useAppSelector((state) => state.auth);
   const location = useLocation();
   const { t } = useTranslation();
-  const [activePath, setActivePath] = useState<string>(location.pathname);
 
-  const shouldShowItem = (path: string) => {
-    const role = user?.Role?.toLowerCase()?.trim();
-    const department = user?.Department?.toLowerCase().trim();
-    if (department === 'hr') {
-      return path === '/dashboard/data-collection-hr-module';
-    }
-    if (
-      path === '/dashboard/user-management' ||
-      path === '/dashboard/info-factory-management' ||
-      path === '/dashboard/system-decentralization'
-    ) {
-      return role === 'admin';
-    }
-    if (path === '/dashboard/data-collection-hr-module') {
-      return department === 'esg' || role === 'admin';
-    }
-    return true;
-    // if (path === '/dashboard/user-management') {
-    //   return user?.Role.toLowerCase() === 'admin';
-    // }
-    // if (path === '/dashboard/info-factory-management') {
-    //   return user?.Role.toLowerCase() === 'admin';
-    // }
-    // if (path === '/dashboard/data-collection-hr-module') {
-    //   return (
-    //     user?.Department?.toLowerCase().trim() === 'esg' ||
-    //     user?.Department?.toLowerCase().trim() === 'hr'
-    //   );
-    // }
-    // return true;
-  };
+  const role       = user?.Role?.toLowerCase().trim();
+  const department = user?.Department?.toLowerCase().trim();
+
+  const visibleMenu = useMemo(() => {
+    const canSeeItem = (path: string): boolean => {
+      if (department === 'hr') return path === HR_ONLY_PATH;
+      if (ADMIN_ONLY_PATHS.has(path)) return role === 'admin';
+      if (path === HR_ONLY_PATH) return department === 'esg' || role === 'admin';
+      return true;
+    };
+    return MENU_SIDEBAR
+      .map((group) => ({
+        ...group,
+        sidebarItem: group.sidebarItem.filter((item) => canSeeItem(item.path)),
+      }))
+      .filter((group) => group.sidebarItem.length > 0);
+  }, [role, department]);
+
+  const toggleSidebar = useCallback(
+    () => setIsOpenSideBar(!isOpenSideBar),
+    [isOpenSideBar, setIsOpenSideBar],
+  );
+
+  const collapsed = isOpenSideBar;
 
   return (
     <>
-      {!isOpenSideBar && (
-        <div
-          className="md:hidden fixed inset-0 bg-[#E6E1E1] bg-opacity-50 z-[9] top-[70px]"
-          onClick={() => setIsOpenSideBar(true)}
-        />
-      )}
-
+      {/* Mobile overlay — fade, không unmount */}
       <div
-        className={`${
-          isOpenSideBar ? 'w-[60px] md:w-[120px]' : 'w-[300px] sm:w-[320px]'
-        } 
-        bg-white fixed z-10 left-0 top-0 bottom-0 pt-[70px] h-screen border-gray-200 shadow-xl transition-all duration-300 ease-in-out`}
+        onClick={toggleSidebar}
+        className={`fixed inset-0 z-30 bg-black/20 backdrop-blur-sm md:hidden
+          transition-[opacity,visibility] duration-300
+          ${collapsed ? 'invisible opacity-0' : 'visible opacity-100'}`}
+      />
+
+      {/*
+        overflow-hidden bắt buộc để clip content trong lúc width đang transition.
+        Dùng inline style cho width vì cần custom cubic-bezier (Tailwind không hỗ trợ).
+      */}
+      <aside
+        style={{ transition: `width 320ms ${EASE}` }}
+        className={`fixed bottom-0 left-0 z-40 overflow-hidden
+          border-r border-white/[0.12] bg-[#11211d]/70
+          backdrop-blur-[40px] shadow-[0_10px_50px_rgba(0,0,0,0.20)]
+          top-[60px] sm:top-[70px]
+          ${collapsed ? 'w-[78px]' : 'w-[300px]'}`}
       >
-        <div className="h-full overflow-y-auto pt-4">
-          {/* {MENU_SIDEBAR.map((itemParent, indexParent) => (
-            <div key={indexParent}>
-              <div
-                className={`${
-                  isOpenSideBar
-                    ? 'text-[14px] md:text-[16px] text-center'
-                    : 'text-[16px]'
-                } font-semibold mt-4 mb-3 px-5`}
-                key={indexParent}
-              >
-                {isOpenSideBar ? '' : t(itemParent.name)}
-              </div>
-              {itemParent.sidebarItem
-                .filter((item) => shouldShowItem(item.path))
-                .map((itemChild, indexChild) => {
-                  const isActive = itemChild.path === activePath;
+        {/* Ambient gradient */}
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b
+          from-white/[0.06] via-emerald-400/[0.03] to-transparent" />
 
-                  return (
-                    <Link to={itemChild.path} key={indexChild}>
-                      <li
-                        className={`${
-                          isOpenSideBar ? 'px-2 md:px-4' : 'px-6'
-                        } py-3 cursor-pointer text-base ${
-                          isActive
-                            ? 'bg-gray-100 border-l-4 border-primary text-[#1d2d29] font-medium'
-                            : ''
-                        }`}
-                        onClick={() => setActivePath(itemChild.path)}
-                      >
-                        <div
-                          className={`${
-                            isOpenSideBar ? 'justify-center' : ''
-                          } flex items-center gap-3`}
-                        >
-                          <span
-                            className={`${
-                              isActive ? 'text-primary' : ''
-                            } flex-shrink-0`}
-                          >
-                            {isActive && itemChild.activeIcon
-                              ? itemChild.activeIcon
-                              : itemChild.icon}
-                          </span>
-                          {!isOpenSideBar && (
-                            <span
-                              className="flex-1 whitespace-normal leading-snug"
-                              title={itemChild.text}
-                            >
-                              {t(itemChild.text)}
-                            </span>
-                          )}
-                        </div>
-                      </li>
-                    </Link>
-                  );
-                })}
-            </div>
-          ))} */}
-          {MENU_SIDEBAR.map((itemParent, indexParent) => {
-            const visibleItems = itemParent.sidebarItem.filter((item) =>
-              shouldShowItem(item.path)
-            );
+        <div className="relative flex h-full flex-col">
 
-            if (visibleItems.length === 0) return null;
+          {/* ── Scrollable nav ── */}
+          <nav className="min-h-0 flex-1 overflow-y-auto px-3 py-4
+            [scrollbar-width:thin] [scrollbar-color:rgba(52,211,153,0.2)_transparent]
+            [&::-webkit-scrollbar]:w-[3px]
+            [&::-webkit-scrollbar-track]:bg-transparent
+            [&::-webkit-scrollbar-thumb]:rounded-full
+            [&::-webkit-scrollbar-thumb]:bg-emerald-400/20
+            hover:[&::-webkit-scrollbar-thumb]:bg-emerald-400/40">
 
-            return (
-              <div key={indexParent}>
+            {visibleMenu.map((group, gi) => (
+              <div key={gi} className="mb-1 last:mb-0">
+
+                {/*
+                  Group label — max-height + opacity thay vì unmount.
+                  Tạo hiệu ứng slide-up khi collapse, slide-down khi expand.
+                */}
                 <div
-                  className={`${
-                    isOpenSideBar
-                      ? 'text-[14px] md:text-[16px] text-center'
-                      : 'text-[16px]'
-                  } font-semibold mt-4 mb-3 px-5`}
+                  style={{
+                    transition: `max-height 280ms ${EASE}, opacity 220ms ${EASE}, margin 280ms ${EASE}`,
+                  }}
+                  className={`overflow-hidden px-3 text-[10px] font-bold
+                    uppercase tracking-[0.18em] text-emerald-200/50
+                    ${collapsed
+                      ? 'max-h-0 opacity-0 mb-0 mt-0'
+                      : 'max-h-6 opacity-100 mb-1 mt-4 first:mt-0'}`}
                 >
-                  {isOpenSideBar ? '' : t(itemParent.name)}
+                  {t(group.name)}
                 </div>
 
-                {visibleItems.map((itemChild, indexChild) => {
-                  const isActive = itemChild.path === activePath;
-
-                  return (
-                    <Link to={itemChild.path} key={indexChild}>
-                      <li
-                        className={`${
-                          isOpenSideBar ? 'px-2 md:px-4' : 'px-6'
-                        } py-3 cursor-pointer text-base ${
-                          isActive
-                            ? 'bg-gray-100 border-l-4 border-primary text-[#1d2d29] font-medium'
-                            : ''
-                        }`}
-                        onClick={() => setActivePath(itemChild.path)}
-                      >
-                        <div
-                          className={`${
-                            isOpenSideBar ? 'justify-center' : ''
-                          } flex items-center gap-3`}
-                        >
-                          <span className={isActive ? 'text-primary' : ''}>
-                            {isActive && itemChild.activeIcon
-                              ? itemChild.activeIcon
-                              : itemChild.icon}
-                          </span>
-                          {!isOpenSideBar && <span>{t(itemChild.text)}</span>}
-                        </div>
-                      </li>
-                    </Link>
-                  );
-                })}
+                <div className="space-y-0.5">
+                  {group.sidebarItem.map((item, ii) => (
+                    <NavItem
+                      key={ii}
+                      item={item}
+                      isActive={item.path === location.pathname}
+                      isCollapsed={collapsed}
+                      label={t(item.text)}
+                    />
+                  ))}
+                </div>
               </div>
-            );
-          })}
+            ))}
+          </nav>
+
+          {/* ── Toggle footer ── */}
+          <div className="shrink-0 border-t border-white/[0.08] px-3 py-3">
+            <button
+              type="button"
+              onClick={toggleSidebar}
+              aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+              className="group flex w-full items-center gap-3 rounded-xl px-3 py-2.5
+                border border-white/[0.08] bg-white/[0.04] text-slate-400
+                transition-colors duration-200
+                hover:border-emerald-400/30 hover:bg-emerald-400/10 hover:text-emerald-300"
+            >
+              {/* Arrow xoay 180° — dùng inline style để dùng cùng EASE */}
+              <span
+                style={{ transition: `transform 320ms ${EASE}` }}
+                className={`flex h-5 w-5 shrink-0 items-center justify-center
+                  ${collapsed ? 'rotate-180' : 'rotate-0'}`}
+              >
+                <IoIosArrowBack size={15} />
+              </span>
+
+              {/* "Thu gọn" — max-width clip, không unmount */}
+              <span
+                style={{
+                  transition: `max-width 280ms ${EASE}, opacity 200ms ${EASE}`,
+                }}
+                className={`overflow-hidden whitespace-nowrap
+                  text-xs font-semibold tracking-wide
+                  ${collapsed ? 'max-w-0 opacity-0' : 'max-w-[160px] opacity-100'}`}
+              >
+                Thu gọn
+              </span>
+            </button>
+          </div>
+
         </div>
-        <div className="absolute top-[80px] -right-4">
-          <button
-            type="button"
-            className="flex items-center justify-center w-8 h-8 bg-[#4059f6] rounded-full text-white cursor-pointer"
-            onClick={() => setIsOpenSideBar(!isOpenSideBar)}
-          >
-            {!isOpenSideBar ? (
-              <IoIosArrowBack size={18} />
-            ) : (
-              <IoIosArrowForward size={18} />
-            )}
-          </button>
-        </div>
-      </div>
+      </aside>
     </>
   );
 };
+
+// ─── NavItem ─────────────────────────────────────────────────────────────────
+
+type NavItemProps = {
+  item: (typeof MENU_SIDEBAR)[number]['sidebarItem'][number];
+  isActive: boolean;
+  isCollapsed: boolean;
+  label: string;
+};
+
+const NavItem = ({ item, isActive, isCollapsed, label }: NavItemProps) => (
+  <Link to={item.path}>
+    <div
+      className={`group relative flex items-center gap-3 overflow-hidden
+        rounded-xl px-3 py-2.5 transition-colors duration-200
+        ${isActive
+          ? 'bg-emerald-400/20 text-white shadow-[0_4px_16px_rgba(16,185,129,0.10)]'
+          : 'text-slate-300 hover:bg-white/[0.07] hover:text-white'}`}
+    >
+      {/* Active bar — slide in từ trái */}
+      <div
+        style={{ transition: `opacity 250ms ${EASE}, transform 250ms ${EASE}` }}
+        className={`absolute bottom-2 left-0 top-2 w-[3px] rounded-r-full bg-emerald-300
+          ${isActive ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-1'}`}
+      />
+
+      {/* Icon — kích thước cố định, không bị layout shift */}
+      <div
+        className={`relative z-10 flex h-9 w-9 shrink-0 items-center justify-center
+          rounded-lg transition-colors duration-200
+          ${isActive
+            ? 'bg-emerald-400/25 text-emerald-100'
+            : 'bg-white/[0.06] group-hover:bg-white/[0.10]'}`}
+      >
+        {isActive && item.activeIcon ? item.activeIcon : item.icon}
+      </div>
+
+      {/*
+        Label — max-width clip + opacity fade, KHÔNG unmount.
+        Giúp text không "bật" đột ngột khi sidebar mở ra.
+        opacity delay 40ms để chữ bắt đầu fade sau khi width đã mở một chút.
+      */}
+      <span
+        style={{
+          transition: `max-width 280ms ${EASE}, opacity 220ms 40ms ${EASE}`,
+        }}
+        className={`relative z-10 overflow-hidden whitespace-nowrap
+          text-sm font-semibold
+          ${isCollapsed ? 'max-w-0 opacity-0' : 'max-w-[200px] opacity-100'}`}
+      >
+        {label}
+      </span>
+
+      {/* Hover shimmer */}
+      <div className="absolute inset-0 bg-gradient-to-r from-white/[0.05] to-transparent
+        opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+    </div>
+  </Link>
+);
 
 export default Sidebar;
