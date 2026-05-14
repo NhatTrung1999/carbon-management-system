@@ -278,7 +278,7 @@ const Table = ({
               className="h-px p-0 bg-gradient-to-r from-transparent via-white/10 to-transparent"
             />
           </tr>
-          <tr className="bg-[#636e61]/90 backdrop-blur-md">
+          <tr className="bg-[#636e61] backdrop-blur-md">
             {header.map((item, i) => (
               <th
                 key={i}

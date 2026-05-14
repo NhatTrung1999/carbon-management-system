@@ -27,11 +27,7 @@ const Cat6 = () => {
 
   const [factory, setFactory] = useState<string>('LYV');
   const [searchSeq, setSearchSeq] = useState(0);
-  // const [checkedDormShuttle, setCheckedDormShuttle] = useState(false);
-
-  // const filteredCat6 = checkedDormShuttle
-  //   ? cat6.filter((row) => Boolean(row.IsDormShuttleCase))
-  //   : cat6;
+  const [checkedDormShuttle, setCheckedDormShuttle] = useState(false);
 
   const maxPlaceCount = Math.max(
     0,
@@ -60,6 +56,7 @@ const Cat6 = () => {
       factory,
       activeSort.sortField,
       activeSort.sortOrder,
+      checkedDormShuttle,
       searchSeq,
     ].join('|');
 
@@ -77,6 +74,7 @@ const Cat6 = () => {
         page: 1,
         sortField: activeSort.sortField,
         sortOrder: activeSort.sortOrder,
+        checkedDormShuttle,
       })
     );
   }, [
@@ -86,6 +84,7 @@ const Cat6 = () => {
     factory,
     activeSort.sortField,
     activeSort.sortOrder,
+    checkedDormShuttle,
     searchSeq,
   ]);
 
@@ -103,6 +102,7 @@ const Cat6 = () => {
           page,
           sortField: activeSort.sortField,
           sortOrder: activeSort.sortOrder,
+          checkedDormShuttle,
         })
       );
     }
@@ -116,6 +116,7 @@ const Cat6 = () => {
     dateFrom,
     dateTo,
     factory,
+    checkedDormShuttle,
   ]);
 
   return (
@@ -129,8 +130,8 @@ const Cat6 = () => {
           factory={factory}
           setFactory={setFactory}
           onSearch={handleSearch}
-          // checkedDormShuttle={checkedDormShuttle}
-          // setCheckedDormShuttle={setCheckedDormShuttle}
+          checkedDormShuttle={checkedDormShuttle}
+          setCheckedDormShuttle={setCheckedDormShuttle}
         />
       </div>
       <div className="mt-4 overflow-x-auto">

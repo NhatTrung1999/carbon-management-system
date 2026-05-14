@@ -1,30 +1,140 @@
-import { TiArrowSortedDown } from 'react-icons/ti';
-import { TiArrowSortedUp } from 'react-icons/ti';
-import NoData from '../../../../assets/images/no-data.png';
+import { TiArrowSortedDown, TiArrowSortedUp } from 'react-icons/ti';
 import type {
   Dispatch,
   RefObject,
   SetStateAction,
   UIEventHandler,
 } from 'react';
+import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { TableHeaderProps } from '../../../../types/table';
 import { useAppSelector } from '../../../../app/hooks';
 import type { ICustomExportData } from '../../../../types/customexport';
-import { useEffect, useRef } from 'react';
+import type { TableHeaderProps } from '../../../../types/table';
+import NoData from '../../../../assets/images/no-data.png';
+
+// ─── Types ───────────────────────────────────────────────────────────────────
+
+type SortState = { sortField: string; sortOrder: string };
 
 type Props = {
   header: TableHeaderProps[];
-  activeSort: {
-    sortField: string;
-    sortOrder: string;
-  };
-  setActiveSort: (data: any) => void;
+  activeSort: SortState;
+  setActiveSort: (data: SortState) => void;
   data: ICustomExportData[];
   tableRef?: RefObject<HTMLDivElement | null>;
   onScroll: UIEventHandler<HTMLDivElement>;
   setField?: Dispatch<SetStateAction<string[]>>;
 };
+
+// ─── Constants ───────────────────────────────────────────────────────────────
+
+const TH =
+  'whitespace-nowrap px-4 py-3 text-xs font-semibold uppercase tracking-[0.10em] text-white align-middle';
+
+const getMaxHeight = (loading: boolean, rowCount: number) => {
+  if (loading && rowCount === 0) return 'max-h-[250px]';
+  if (!loading && rowCount === 0) return 'max-h-[300px]';
+  return 'max-h-[400px] sm:max-h-[500px] md:max-h-[600px]';
+};
+
+// ─── Sub-components ──────────────────────────────────────────────────────────
+
+const Td = ({ children }: { children?: React.ReactNode }) => (
+  <td className="whitespace-nowrap px-4 py-3 text-sm text-white">
+    {children ?? '—'}
+  </td>
+);
+
+const SkeletonRow = ({ cols, delay = 0 }: { cols: number; delay?: number }) => (
+  <tr className="border-b border-white/[0.05]">
+    {Array.from({ length: cols }).map((_, i) => (
+      <td key={i} className="px-4 py-3">
+        <div
+          className="h-3.5 animate-pulse rounded-md bg-white/[0.06]"
+          style={{
+            animationDelay: `${delay + i * 0.03}s`,
+            width: `${60 + (i % 3) * 20}%`,
+          }}
+        />
+      </td>
+    ))}
+  </tr>
+);
+
+const SortIcon = ({
+  item,
+  activeSort,
+  onSort,
+}: {
+  item: TableHeaderProps;
+  activeSort: SortState;
+  onSort: (f: string, o: string) => void;
+}) => {
+  if (item.state === 'Action' || !item.sort) return null;
+  const isAsc =
+    activeSort.sortField === item.state && activeSort.sortOrder === 'asc';
+  const isDesc =
+    activeSort.sortField === item.state && activeSort.sortOrder === 'desc';
+  return (
+    <div className="flex flex-col gap-px">
+      <TiArrowSortedUp
+        size={14}
+        onClick={() => onSort(item.state, 'asc')}
+        className={`cursor-pointer transition-colors duration-150
+          ${isAsc ? 'text-emerald-300' : 'text-white/25 hover:text-white/60'}`}
+      />
+      <TiArrowSortedDown
+        size={14}
+        onClick={() => onSort(item.state, 'desc')}
+        className={`cursor-pointer transition-colors duration-150
+          ${isDesc ? 'text-emerald-300' : 'text-white/25 hover:text-white/60'}`}
+      />
+    </div>
+  );
+};
+
+// Glass checkbox — đồng bộ với Checkbox.tsx đã tối ưu
+const GlassCheckbox = ({
+  state,
+  onChange,
+}: {
+  state: string;
+  onChange: (value: string, checked: boolean) => void;
+}) => (
+  <label className="group flex cursor-pointer items-center">
+    <input
+      type="checkbox"
+      className="peer sr-only"
+      onClick={(e) => onChange(state, e.currentTarget.checked)}
+    />
+    <span
+      className="relative flex h-4 w-4 shrink-0 items-center justify-center
+      rounded-md border border-white/[0.25] bg-white/[0.06]
+      transition-all duration-200
+      peer-checked:border-emerald-400/60 peer-checked:bg-emerald-400/20
+      peer-focus-visible:ring-2 peer-focus-visible:ring-emerald-400/50
+      group-hover:border-white/40"
+    >
+      <svg
+        viewBox="0 0 10 10"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="h-2.5 w-2.5 text-emerald-300
+          scale-0 opacity-0 transition-all duration-150
+          peer-checked:[&]:scale-100
+          [.peer:checked~span>&]:scale-100 [.peer:checked~span>&]:opacity-100"
+        aria-hidden="true"
+      >
+        <polyline points="1,5 3.5,8 9,2" />
+      </svg>
+    </span>
+  </label>
+);
+
+// ─── Component ───────────────────────────────────────────────────────────────
 
 const Table = ({
   header,
@@ -36,208 +146,151 @@ const Table = ({
   setField,
 }: Props) => {
   const { loading } = useAppSelector((state) => state.category);
+  const { t } = useTranslation();
 
-  const scrollPositionRef = useRef({ top: 0, left: 0 });
-  const isRefLoading = useRef(false);
+  // ── Preserve scroll position ──────────────────────────────────────────────
+  const scrollPos = useRef({ top: 0, left: 0 });
+  const wasLoading = useRef(false);
 
   useEffect(() => {
-    if (loading && !isRefLoading.current) {
-      isRefLoading.current = true;
-      if (tableRef?.current) {
-        scrollPositionRef.current = {
+    if (loading && !wasLoading.current) {
+      wasLoading.current = true;
+      if (tableRef?.current)
+        scrollPos.current = {
           top: tableRef.current.scrollTop,
           left: tableRef.current.scrollLeft,
         };
-      }
     }
   }, [loading, tableRef]);
 
   useEffect(() => {
-    if (!loading && isRefLoading.current) {
-      isRefLoading.current = false;
-      if (tableRef?.current) {
-        setTimeout(() => {
-          if (tableRef?.current) {
-            tableRef.current.scrollTop = scrollPositionRef.current.top;
-            tableRef.current.scrollLeft = scrollPositionRef.current.left;
-          }
-        }, 0);
-      }
+    if (!loading && wasLoading.current) {
+      wasLoading.current = false;
+      setTimeout(() => {
+        if (tableRef?.current) {
+          tableRef.current.scrollTop = scrollPos.current.top;
+          tableRef.current.scrollLeft = scrollPos.current.left;
+        }
+      }, 0);
     }
   }, [loading, tableRef, data.length]);
 
-  const handleSorting = (sortField: string, sortOrder: string): void => {
-    setActiveSort({ sortField, sortOrder });
-  };
-  const { t } = useTranslation();
+  const handleSort = (field: string, order: string) =>
+    setActiveSort({ sortField: field, sortOrder: order });
 
-  const renderSortIcon = (item: TableHeaderProps) =>
-    item.state !== 'Action' && (
-      <div className="flex flex-col ml-1">
-        <TiArrowSortedUp
-          size={16}
-          className={`cursor-pointer transition-colors ${
-            activeSort.sortField === item.state &&
-            activeSort.sortOrder === 'asc'
-              ? 'text-stone-700'
-              : 'text-white/60 hover:text-white'
-          }`}
-          onClick={() => handleSorting(item.state, 'asc')}
-        />
-        <TiArrowSortedDown
-          size={16}
-          className={`cursor-pointer transition-colors ${
-            activeSort.sortField === item.state &&
-            activeSort.sortOrder === 'desc'
-              ? 'text-stone-700'
-              : 'text-white/60 hover:text-white'
-          }`}
-          onClick={() => handleSorting(item.state, 'desc')}
-        />
-      </div>
+  const handleCheckbox = (value: string, checked: boolean) => {
+    setField?.((prev) =>
+      checked
+        ? prev.includes(value)
+          ? prev
+          : [...prev, value]
+        : prev.filter((v) => v !== value)
     );
-
-  const getTableHeight = () => {
-    if (loading && data.length === 0) {
-      return 'max-h-[250px]';
-    }
-    if (data.length === 0 && !loading) {
-      return 'max-h-[300px]';
-    }
-    return 'max-h-[400px] sm:max-h-[500px] md:max-h-[600px]';
-  };
-
-  const handleClickInput = (value: string, checked: boolean) => {
-    // const checked = e.target.checked;
-    setField &&
-      setField((prev: string[]) =>
-        checked
-          ? prev.includes(value)
-            ? prev
-            : [...prev, value]
-          : prev.filter((item) => item !== value)
-      );
   };
 
   return (
     <div
-      className={`${getTableHeight()} overflow-auto relative rounded-lg border border-gray-200 bg-white transition-all duration-300`}
       ref={tableRef}
       onScroll={onScroll}
+      className={`${getMaxHeight(loading, data.length)}
+        relative overflow-auto rounded-xl
+        border border-white/[0.08] bg-white/[0.03] backdrop-blur-sm
+        transition-all duration-300
+        [scrollbar-width:thin] [scrollbar-color:rgba(52,211,153,0.2)_transparent]
+        [&::-webkit-scrollbar]:h-[3px] [&::-webkit-scrollbar]:w-[3px]
+        [&::-webkit-scrollbar-track]:bg-transparent
+        [&::-webkit-scrollbar-thumb]:rounded-full
+        [&::-webkit-scrollbar-thumb]:bg-emerald-400/20`}
     >
-      <table className="w-full text-left min-w-max">
-        <thead className="bg-[#636e61] text-xs sm:text-sm sticky top-0 text-white z-10">
+      <table className="w-full min-w-max text-left">
+        {/* ── Header ── */}
+        <thead
+          className="sticky top-0 z-10 bg-[#636e61]/90 backdrop-blur-md"
+          style={{ boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.08)' }}
+        >
           <tr>
-            {header.map((item, index) => (
-              <th 
-                className="px-2 sm:px-3 md:px-4 py-3 sm:py-4 whitespace-nowrap" 
-                key={index}
-              >
-                <div className="flex flex-row gap-2 sm:gap-4 md:gap-6 items-center justify-between">
-                  <span className="font-semibold">{t(item.name)}</span>
-                  <span className="flex items-center gap-1">
-                    <input
-                      type="checkbox"
-                      className="size-4.5 accent-green-500"
-                      onClick={(e) =>
-                        handleClickInput(item.state, e.currentTarget.checked)
-                      }
-                    />
-                    {item.sort && (
-                      <span className="flex flex-col cursor-pointer">
-                        {renderSortIcon(item)}
-                      </span>
+            {header.map((item, i) => (
+              <th key={i} className={TH}>
+                <div className="flex items-center justify-between gap-3">
+                  <span>{t(item.name)}</span>
+
+                  {/* Checkbox + sort grouped on the right */}
+                  <div className="flex items-center gap-2 shrink-0">
+                    {setField && (
+                      <GlassCheckbox
+                        state={item.state}
+                        onChange={handleCheckbox}
+                      />
                     )}
-                  </span>
+                    <SortIcon
+                      item={item}
+                      activeSort={activeSort}
+                      onSort={handleSort}
+                    />
+                  </div>
                 </div>
               </th>
             ))}
           </tr>
         </thead>
-        <tbody className="min-h-[300px] sm:min-h-[400px] md:min-h-[500px]">
-          {data.length > 0 &&
-            data.map((item, index) => (
-              <tr
-                key={index}
-                className="border-b border-gray-200 hover:bg-gray-50 transition-colors"
-              >
-                <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-xs sm:text-sm whitespace-nowrap">
-                  {item.No}
-                </td>
-                <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-xs sm:text-sm whitespace-nowrap">
-                  {item.Factory}
-                </td>
-                <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-xs sm:text-sm whitespace-nowrap">
-                  {item.Department}
-                </td>
-                <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-xs sm:text-sm whitespace-nowrap">
-                  {item.ID}
-                </td>
-                <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-xs sm:text-sm whitespace-nowrap">
-                  {item.Full_Name}
-                </td>
-                <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-xs sm:text-sm whitespace-nowrap">
-                  {item.Current_Address}
-                </td>
-                <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-xs sm:text-sm whitespace-nowrap">
-                  {item.Transportation_Mode}
-                </td>
-                <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-xs sm:text-sm whitespace-nowrap">
-                  {item.Bus_Route}
-                </td>
-                <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-xs sm:text-sm whitespace-nowrap">
-                  {item.Pickup_Point}
-                </td>
-                <td className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-xs sm:text-sm whitespace-nowrap">
-                  {item.Number_of_Working_Days}
-                </td>
-              </tr>
-            ))}
 
+        {/* ── Body ── */}
+        <tbody>
+          {/* Data rows */}
+          {data.map((item, i) => (
+            <tr
+              key={i}
+              className="border-b border-white/[0.05] transition-colors duration-150
+                hover:bg-white/[0.04]"
+            >
+              <Td>{item.No}</Td>
+              <Td>{item.Factory}</Td>
+              <Td>{item.Department}</Td>
+              <Td>{item.ID}</Td>
+              <Td>{item.Full_Name}</Td>
+              <Td>{item.Current_Address}</Td>
+              <Td>{item.Transportation_Mode}</Td>
+              <Td>{item.Bus_Route}</Td>
+              <Td>{item.Pickup_Point}</Td>
+              <Td>{item.Number_of_Working_Days}</Td>
+            </tr>
+          ))}
+
+          {/* Skeleton — loading more */}
           {loading &&
             data.length > 0 &&
             Array.from({ length: 3 }).map((_, i) => (
-              <tr key={`skeleton-${i}`} className="border-b border-gray-200">
-                {header.map((_, colIndex) => (
-                  <td key={colIndex} className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3">
-                    <div className="h-4 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 rounded animate-shimmer bg-[length:200%_100%]"></div>
-                  </td>
-                ))}
-              </tr>
+              <SkeletonRow
+                key={`sk-more-${i}`}
+                cols={header.length}
+                delay={i * 0.05}
+              />
             ))}
 
-          {loading && data.length === 0 && (
-            Array.from({ length: 5 }).map((_, i) => (
-              <tr key={`skeleton-loading-${i}`} className="border-b border-gray-200">
-                {header.map((_, colIndex) => (
-                  <td key={colIndex} className="box-border px-2 sm:px-3 md:px-4 py-2 sm:py-3">
-                    <div 
-                      className="h-4 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 rounded animate-shimmer bg-[length:200%_100%]"
-                      style={{
-                        animationDelay: `${i * 0.1}s`
-                      }}
-                    ></div>
-                  </td>
-                ))}
-              </tr>
-            ))
-          )}
+          {/* Skeleton — initial empty */}
+          {loading &&
+            data.length === 0 &&
+            Array.from({ length: 6 }).map((_, i) => (
+              <SkeletonRow
+                key={`sk-init-${i}`}
+                cols={header.length}
+                delay={i * 0.08}
+              />
+            ))}
 
+          {/* No data */}
           {!loading && data.length === 0 && (
             <tr>
-              <td
-                colSpan={header.length}
-                className="text-center box-border px-4 sm:px-6 py-8 sm:py-12"
-              >
-                <div className="flex justify-center items-center flex-col space-y-3">
-                  <img 
-                    src={NoData} 
-                    className="w-20 h-20 sm:w-24 sm:h-24 md:w-30 md:h-30 object-contain" 
+              <td colSpan={header.length} className="px-6 py-14 text-center">
+                <div className="flex flex-col items-center gap-3">
+                  <img
+                    src={NoData}
                     alt="No data"
+                    className="h-20 w-20 object-contain opacity-40 sm:h-24 sm:w-24"
                   />
-                  <div className="text-sm sm:text-base md:text-lg font-semibold text-gray-600">
+                  <p className="text-sm font-medium text-white/30">
                     No data available
-                  </div>
+                  </p>
                 </div>
               </td>
             </tr>

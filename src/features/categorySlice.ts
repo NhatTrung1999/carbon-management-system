@@ -399,6 +399,7 @@ export const getDataCat6 = createAsyncThunk(
       page,
       sortField,
       sortOrder,
+      checkedDormShuttle,
     }: {
       dateFrom: string;
       dateTo: string;
@@ -406,6 +407,7 @@ export const getDataCat6 = createAsyncThunk(
       page: number;
       sortField: string;
       sortOrder: string;
+      checkedDormShuttle: boolean;
     },
     { rejectWithValue }
   ) => {
@@ -416,7 +418,8 @@ export const getDataCat6 = createAsyncThunk(
         factory,
         page,
         sortField,
-        sortOrder
+        sortOrder,
+        checkedDormShuttle
       );
       return res as {
         data: ICat6Data[];

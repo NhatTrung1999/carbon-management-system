@@ -192,16 +192,6 @@ const Header = () => {
               className="h-[42px] w-auto object-contain"
               alt="logo"
             />
-
-            <div className="hidden sm:block">
-              <div className="text-lg font-black uppercase tracking-[0.18em] text-white">
-                Carbon
-              </div>
-
-              <div className="-mt-1 text-xs font-semibold tracking-[0.2em] text-emerald-300">
-                MANAGEMENT WEBSITE
-              </div>
-            </div>
           </button>
 
           {/* DESKTOP MENU */}

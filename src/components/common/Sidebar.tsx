@@ -158,7 +158,7 @@ const Sidebar = ({ isOpenSideBar, setIsOpenSideBar }: Props) => {
                   text-xs font-semibold tracking-wide
                   ${collapsed ? 'max-w-0 opacity-0' : 'max-w-[160px] opacity-100'}`}
               >
-                Thu gọn
+                Narraw
               </span>
             </button>
           </div>

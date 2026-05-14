@@ -73,7 +73,8 @@ const categoryApi = {
     factory: string,
     page: number,
     sortField: string,
-    sortOrder: string
+    sortOrder: string,
+    checkedDormShuttle: boolean
   ) => {
     const res = await axiosConfig.get('cat6/get-data-cat6', {
       params: {
@@ -84,6 +85,7 @@ const categoryApi = {
         limit: 20,
         sortField,
         sortOrder,
+        checkedDormShuttle,
       },
     });
     return res.data;

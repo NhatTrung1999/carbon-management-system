@@ -1,102 +1,120 @@
-import { TiArrowSortedDown } from 'react-icons/ti';
-import { TiArrowSortedUp } from 'react-icons/ti';
+import { TiArrowSortedDown, TiArrowSortedUp } from 'react-icons/ti';
+import { FaCircleCheck } from 'react-icons/fa6';
+import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useAppDispatch } from '../../../app/hooks';
+import { useSocket } from '../../../hooks/useSocket';
+import fileManagementApi from '../../../api/filemanagement';
+import { getData } from '../../../features/fileSlice';
 import type { TableHeaderProps } from '../../../types/table';
 import type { IFileManagement } from '../../../types/filemanagement';
 import { formatDate } from '../../../utils/formatDate';
-import fileManagementApi from '../../../api/filemanagement';
 import { Toast } from '../../../utils/Toast';
-import { FaCircleCheck } from 'react-icons/fa6';
-import { useEffect } from 'react';
-import { useSocket } from '../../../hooks/useSocket';
-import { useAppDispatch } from '../../../app/hooks';
-import { getData } from '../../../features/fileSlice';
-import { useTranslation } from 'react-i18next';
+
+// ─── Types ───────────────────────────────────────────────────────────────────
+
+type SortState = { sortField: string; sortOrder: string };
 
 type Props = {
   header: TableHeaderProps[];
-  activeSort: {
-    sortField: string;
-    sortOrder: string;
-  };
-  setActiveSort: (data: any) => void;
+  activeSort: SortState;
+  setActiveSort: (data: SortState) => void;
   data: IFileManagement[];
 };
 
+// ─── Constants ───────────────────────────────────────────────────────────────
+
+const TH =
+  'whitespace-nowrap px-4 py-3 text-xs font-semibold uppercase tracking-[0.10em] text-white align-middle';
+
+// ─── Sub-components ──────────────────────────────────────────────────────────
+
+const Td = ({
+  children,
+  className,
+}: {
+  children?: React.ReactNode;
+  className?: string;
+}) => (
+  <td
+    className={`whitespace-nowrap px-4 py-3 text-sm text-white ${
+      className ?? ''
+    }`}
+  >
+    {children ?? '—'}
+  </td>
+);
+
+const SortIcon = ({
+  item,
+  activeSort,
+  onSort,
+}: {
+  item: TableHeaderProps;
+  activeSort: SortState;
+  onSort: (f: string, o: string) => void;
+}) => {
+  if (item.state === 'Action' || !item.sort) return null;
+  const isAsc =
+    activeSort.sortField === item.state && activeSort.sortOrder === 'asc';
+  const isDesc =
+    activeSort.sortField === item.state && activeSort.sortOrder === 'desc';
+  return (
+    <div className="ml-1.5 flex flex-col gap-px">
+      <TiArrowSortedUp
+        size={14}
+        onClick={() => onSort(item.state, 'asc')}
+        className={`cursor-pointer transition-colors duration-150
+          ${isAsc ? 'text-emerald-300' : 'text-white/25 hover:text-white/60'}`}
+      />
+      <TiArrowSortedDown
+        size={14}
+        onClick={() => onSort(item.state, 'desc')}
+        className={`cursor-pointer transition-colors duration-150
+          ${isDesc ? 'text-emerald-300' : 'text-white/25 hover:text-white/60'}`}
+      />
+    </div>
+  );
+};
+
+// Status badge — Done / Pending
+const StatusBadge = ({ done }: { done: boolean }) =>
+  done ? (
+    <span
+      className="inline-flex items-center gap-1.5 rounded-full
+      bg-emerald-400/15 px-2.5 py-1 text-xs font-medium
+      text-emerald-300 ring-1 ring-emerald-400/30"
+    >
+      <FaCircleCheck className="h-3 w-3 shrink-0" />
+      Done
+    </span>
+  ) : (
+    <span
+      className="inline-flex items-center gap-1.5 rounded-full
+      bg-blue-400/15 px-2.5 py-1 text-xs font-medium
+      text-blue-300 ring-1 ring-blue-400/30"
+    >
+      <span
+        className="h-3 w-3 shrink-0 animate-spin rounded-full
+        border-2 border-blue-400/30 border-t-blue-400"
+      />
+      Pending
+    </span>
+  );
+
+// ─── Component ───────────────────────────────────────────────────────────────
+
 const Table = ({ header, activeSort, setActiveSort, data }: Props) => {
   const { t } = useTranslation();
-  const socketRef = useSocket(import.meta.env.VITE_URLS);
   const dispatch = useAppDispatch();
-  
-  const handleSorting = (sortField: string, sortOrder: string): void => {
-    setActiveSort({ sortField, sortOrder });
-  };
+  const socketRef = useSocket(import.meta.env.VITE_URLS);
 
-  const renderSortIcon = (item: TableHeaderProps) =>
-    item.state !== 'Action' && (
-      <div className="flex flex-col ml-1">
-        <TiArrowSortedUp
-          size={16}
-          className={`cursor-pointer transition-colors ${
-            activeSort.sortField === item.state &&
-            activeSort.sortOrder === 'asc'
-              ? 'text-stone-700'
-              : 'text-white/60 hover:text-white'
-          }`}
-          onClick={() => handleSorting(item.state, 'asc')}
-        />
-        <TiArrowSortedDown
-          size={16}
-          className={`cursor-pointer transition-colors ${
-            activeSort.sortField === item.state &&
-            activeSort.sortOrder === 'desc'
-              ? 'text-stone-700'
-              : 'text-white/60 hover:text-white'
-          }`}
-          onClick={() => handleSorting(item.state, 'desc')}
-        />
-      </div>
-    );
-
-  const handleDownloadFile = async (id: string, fileName: string) => {
-    try {
-      const res = await fileManagementApi.downloadFile(id);
-      const url = window.URL.createObjectURL(new Blob([res]));
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = fileName || 'file.xlsx';
-      document.body.appendChild(a);
-      a.click();
-
-      window.URL.revokeObjectURL(url);
-      document.body.removeChild(a);
-    } catch (error) {
-      console.log('Download error: ', error);
-      Toast.fire({
-        text: 'Error',
-        title: 'File not found!',
-      });
-    }
-  };
-
-  const handleStatus = (item: IFileManagement) => {
-    if (item.Status) {
-      handleDownloadFile(item.ID, item.File_Name);
-    } else {
-      Toast.fire({
-        title: 'File excel is still pending!',
-        icon: 'warning',
-      });
-    }
-  };
-
+  // ── Socket listeners ──────────────────────────────────────────────────────
   useEffect(() => {
-    if (!socketRef.current) return;
+    const socket = socketRef.current;
+    if (!socket) return;
 
-    socketRef.current.on('file-excel-done', (data) => {
-      Toast.fire({
-        title: data,
-        icon: 'success',
-      });
+    const refreshData = () =>
       dispatch(
         getData({
           file_name: '',
@@ -105,91 +123,115 @@ const Table = ({ header, activeSort, setActiveSort, data }: Props) => {
           sortOrder: activeSort.sortOrder,
         })
       );
+
+    socket.on('file-excel-done', (msg: string) => {
+      Toast.fire({ title: msg, icon: 'success' });
+      refreshData();
     });
 
-    socketRef.current.on('file-excel-error', (data) => {
-      Toast.fire({
-        title: data,
-        icon: 'error',
-      });
+    socket.on('file-excel-error', (msg: string) => {
+      Toast.fire({ title: msg, icon: 'error' });
     });
 
     return () => {
-      socketRef.current?.off('file-excel-done');
-      socketRef.current?.off('file-excel-error');
+      socket.off('file-excel-done');
+      socket.off('file-excel-error');
     };
   }, [socketRef]);
 
+  // ── Handlers ──────────────────────────────────────────────────────────────
+  const handleDownload = async (id: string, fileName: string) => {
+    try {
+      const res = await fileManagementApi.downloadFile(id);
+      const url = window.URL.createObjectURL(new Blob([res]));
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = fileName || 'file.xlsx';
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+    } catch {
+      Toast.fire({ text: 'Error', title: 'File not found!' });
+    }
+  };
+
+  const handleRowClick = (item: IFileManagement) => {
+    if (item.Status) {
+      handleDownload(item.ID, item.File_Name);
+    } else {
+      Toast.fire({ title: 'File excel is still pending!', icon: 'warning' });
+    }
+  };
+
+  const handleSort = (field: string, order: string) =>
+    setActiveSort({ sortField: field, sortOrder: order });
+
   return (
-    <div className="overflow-x-auto">
-      <div className="max-h-[400px] sm:max-h-[500px] md:max-h-[600px] overflow-y-auto relative rounded-lg border border-gray-200">
-        <table className="w-full text-left min-w-max">
-          <thead className="bg-[#636e61] text-xs sm:text-sm sticky top-0 text-white z-10">
+    <div
+      className="max-h-[400px] sm:max-h-[500px] md:max-h-[600px]
+        relative overflow-auto rounded-xl
+        border border-white/[0.08] bg-white/[0.03] backdrop-blur-sm
+        [scrollbar-width:thin] [scrollbar-color:rgba(52,211,153,0.2)_transparent]
+        [&::-webkit-scrollbar]:h-[3px] [&::-webkit-scrollbar]:w-[3px]
+        [&::-webkit-scrollbar-track]:bg-transparent
+        [&::-webkit-scrollbar-thumb]:rounded-full
+        [&::-webkit-scrollbar-thumb]:bg-emerald-400/20"
+    >
+      <table className="w-full min-w-max text-left">
+        {/* ── Header ── */}
+        <thead
+          className="sticky top-0 z-10 bg-[#636e61]/90 backdrop-blur-md"
+          style={{ boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.08)' }}
+        >
+          <tr>
+            {header.map((item, i) => (
+              <th key={i} className={TH}>
+                <div className="flex items-center gap-1">
+                  {t(item.name)}
+                  <SortIcon
+                    item={item}
+                    activeSort={activeSort}
+                    onSort={handleSort}
+                  />
+                </div>
+              </th>
+            ))}
+          </tr>
+        </thead>
+
+        {/* ── Body ── */}
+        <tbody>
+          {data.length === 0 ? (
             <tr>
-              {header.map((item, index) => (
-                <th className="px-2 sm:px-3 md:px-4 py-3 sm:py-4 whitespace-nowrap" key={index}>
-                  <div className="flex flex-row gap-2 sm:gap-4 md:gap-6 items-center justify-between">
-                    <span className="font-semibold">{t(item.name)}</span>
-                    {item.sort && (
-                      <span className="flex flex-col cursor-pointer">
-                        {renderSortIcon(item)}
-                      </span>
-                    )}
-                  </div>
-                </th>
-              ))}
+              <td
+                colSpan={header.length}
+                className="px-6 py-14 text-center
+                text-sm font-medium text-white/30"
+              >
+                No data available
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            {data.length === 0 ? (
-              <tr>
-                <td
-                  colSpan={header.length}
-                  className="text-center box-border px-4 sm:px-6 py-8 sm:py-12"
-                >
-                  <div className="text-sm sm:text-base text-gray-600">No data available</div>
+          ) : (
+            data.map((item, i) => (
+              <tr
+                key={item.ID ?? i}
+                onClick={() => handleRowClick(item)}
+                className="cursor-pointer border-b border-white/[0.05]
+                  transition-colors duration-150 hover:bg-white/[0.04]"
+              >
+                <Td>{item.Module}</Td>
+                <Td>{item.File_Name}</Td>
+                <td className="whitespace-nowrap px-4 py-3">
+                  <StatusBadge done={Boolean(item.Status)} />
                 </td>
+                <Td>{item.CreatedAt}</Td>
+                <Td>{formatDate(item.CreatedDate)}</Td>
               </tr>
-            ) : (
-              <>
-                {data.map((item, index) => (
-                  <tr
-                    key={index}
-                    onClick={() => handleStatus(item)}
-                    className="cursor-pointer hover:bg-gray-100 border-b border-gray-200 transition-colors"
-                  >
-                    <td className="box-border px-2 sm:px-3 md:px-4 py-3 sm:py-4 text-xs sm:text-sm font-medium">
-                      {item.Module}
-                    </td>
-                    <td className="box-border px-2 sm:px-3 md:px-4 py-3 sm:py-4 text-xs sm:text-sm font-medium">
-                      {item.File_Name}
-                    </td>
-                    <td className="box-border px-2 sm:px-3 md:px-4 py-3 sm:py-4 text-xs sm:text-sm">
-                      {item.Status ? (
-                        <div className="text-green-600 flex items-center gap-1.5 sm:gap-2">
-                          <FaCircleCheck className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
-                          <span className="font-medium">Done</span>
-                        </div>
-                      ) : (
-                        <div className="text-blue-600 flex items-center gap-1.5 sm:gap-2">
-                          <div className="animate-spin border-2 sm:border-4 border-blue-300 border-t-blue-600 rounded-full w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0"></div>
-                          <span className="font-medium">Pending...</span>
-                        </div>
-                      )}
-                    </td>
-                    <td className="box-border px-2 sm:px-3 md:px-4 py-3 sm:py-4 text-xs sm:text-sm">
-                      {item.CreatedAt}
-                    </td>
-                    <td className="box-border px-2 sm:px-3 md:px-4 py-3 sm:py-4 text-xs sm:text-sm whitespace-nowrap">
-                      {formatDate(item.CreatedDate)}
-                    </td>
-                  </tr>
-                ))}
-              </>
-            )}
-          </tbody>
-        </table>
-      </div>
+            ))
+          )}
+        </tbody>
+      </table>
     </div>
   );
 };
