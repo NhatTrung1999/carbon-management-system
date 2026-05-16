@@ -155,7 +155,7 @@ const Table = ({ header, activeSort, setActiveSort, data, tableRef, onScroll }: 
           box-shadow thay shimmer row — tránh thêm <tr> làm lệch layout.
         */}
         <thead
-          className="sticky top-0 z-10 bg-[#636e61]/90 backdrop-blur-md"
+          className="sticky top-0 z-10 bg-[#636e61] backdrop-blur-md"
           style={{ boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.08)' }}
         >
           {/* Row 1 — parent group labels + leaf headers (rowSpan=2) */}

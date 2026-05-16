@@ -279,12 +279,12 @@ const Table = ({
               className="h-px p-0 bg-gradient-to-r from-transparent via-white/10 to-transparent"
             />
           </tr>
-          <tr className="bg-[#636e61]/90 backdrop-blur-md">
+          <tr className="bg-[#636e61] backdrop-blur-md">
             {header.map((item, i) => (
               <th
                 key={i}
                 className="whitespace-nowrap px-4 py-3 text-xs font-semibold
-                  uppercase tracking-[0.10em] text-white/90"
+                  uppercase tracking-[0.10em] text-white"
               >
                 <div className="flex items-center gap-1">
                   {t(item.name)}
