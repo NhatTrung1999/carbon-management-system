@@ -8,7 +8,7 @@ import CustomExport from './CustomExport';
 import Logging from './Logging';
 import DefaultAddress from './DefaultAddress';
 
-type Tab = { label: string; content: React.ReactNode };
+type Tab = { label: string; render: () => React.ReactNode };
 const EASE = 'cubic-bezier(0.4, 0, 0.2, 1)';
 
 const CategorySeven = () => {
@@ -18,19 +18,19 @@ const CategorySeven = () => {
   const tabs: Tab[] = [
     {
       label: 'GHG Inventory Template',
-      content: <Cat7 />,
+      render: () => <Cat7 />,
     },
     {
       label: 'Custom Export',
-      content: <CustomExport />,
+      render: () => <CustomExport />,
     },
     {
       label: 'Logging',
-      content: <Logging />,
+      render: () => <Logging />,
     },
     {
       label: 'Default Address',
-      content: <DefaultAddress />,
+      render: () => <DefaultAddress />,
     },
   ];
 
@@ -114,12 +114,12 @@ const CategorySeven = () => {
                 key={i}
                 type="button"
                 onClick={() => setActiveTab(i)}
-                className="group relative shrink-0 px-4 pb-3 pt-1 text-sm font-medium
+                className={`group relative shrink-0 px-4 pb-3 pt-1 text-sm font-medium
                   transition-colors duration-200 focus:outline-none
                   whitespace-nowrap
                   ${activeTab === i
                     ? 'text-white'
-                    : 'text-slate-400 hover:text-slate-200'}"
+                    : 'text-slate-400 hover:text-slate-200'}`}
                 style={{
                   color: activeTab === i ? '#fff' : undefined,
                 }}
@@ -154,18 +154,13 @@ const CategorySeven = () => {
 
         {/* ── Tab content ── */}
         <div className="p-4 sm:p-5">
-          {tabs.map((tab, i) => (
-            <div
-              key={i}
-              style={{
-                transition: `opacity 250ms ${EASE}`,
-                display: activeTab === i ? 'block' : 'none',
-              }}
-              className="opacity-100"
-            >
-              {tab.content}
-            </div>
-          ))}
+          <div
+            key={activeTab}
+            style={{ transition: `opacity 250ms ${EASE}` }}
+            className="opacity-100"
+          >
+            {tabs[activeTab].render()}
+          </div>
         </div>
       </div>
     </div>

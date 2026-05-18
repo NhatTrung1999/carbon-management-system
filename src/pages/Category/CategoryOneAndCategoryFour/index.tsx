@@ -20,7 +20,7 @@ import { useState } from 'react';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
-type Tab = { label: string; content: React.ReactNode };
+type Tab = { label: string; render: () => React.ReactNode };
 
 // ─── Constants ───────────────────────────────────────────────────────────────
 
@@ -49,12 +49,31 @@ const CategoryOneAndCategoryFour = () => {
   };
 
   const tabs: Tab[] = [
-    { label: t('cat1andcat4.cat_1_4'),       content: <Cat1AndCat4 /> },
-    { label: 'Port Code',                     content: <PortCode header={HEADER_PORTCODE} data={portCodeCat1AndCat4} /> },
-    { label: 'Logging',                       content: <Logging /> },
-    { label: 'Tax-Free Zone Address',         content: <TaxFreeZoneAddress header={HEADER_TAX_FREE_ZONE_ADDRESS} data={taxFreeZoneAddress} onSave={handleUpdateRow} /> },
-    { label: 'Verification Report',           content: <VerificationReport /> },
-    { label: 'Style Auto-fill',               content: <StyleAutoFill header={HEADER_STYLE_AUTO_FILL} data={styleAutoFill} /> },
+    { label: t('cat1andcat4.cat_1_4'), render: () => <Cat1AndCat4 /> },
+    {
+      label: 'Port Code',
+      render: () => (
+        <PortCode header={HEADER_PORTCODE} data={portCodeCat1AndCat4} />
+      ),
+    },
+    { label: 'Logging', render: () => <Logging /> },
+    {
+      label: 'Tax-Free Zone Address',
+      render: () => (
+        <TaxFreeZoneAddress
+          header={HEADER_TAX_FREE_ZONE_ADDRESS}
+          data={taxFreeZoneAddress}
+          onSave={handleUpdateRow}
+        />
+      ),
+    },
+    { label: 'Verification Report', render: () => <VerificationReport /> },
+    {
+      label: 'Style Auto-fill',
+      render: () => (
+        <StyleAutoFill header={HEADER_STYLE_AUTO_FILL} data={styleAutoFill} />
+      ),
+    },
   ];
 
   return (
@@ -98,12 +117,12 @@ const CategoryOneAndCategoryFour = () => {
                 key={i}
                 type="button"
                 onClick={() => setActiveTab(i)}
-                className="group relative shrink-0 px-4 pb-3 pt-1 text-sm font-medium
+                className={`group relative shrink-0 px-4 pb-3 pt-1 text-sm font-medium
                   transition-colors duration-200 focus:outline-none
                   whitespace-nowrap
                   ${activeTab === i
                     ? 'text-white'
-                    : 'text-slate-400 hover:text-slate-200'}"
+                    : 'text-slate-400 hover:text-slate-200'}`}
                 style={{
                   color: activeTab === i ? '#fff' : undefined,
                 }}
@@ -126,18 +145,13 @@ const CategoryOneAndCategoryFour = () => {
 
         {/* ── Tab content ── */}
         <div className="p-4 sm:p-5">
-          {tabs.map((tab, i) => (
-            <div
-              key={i}
-              style={{
-                transition: `opacity 250ms ${EASE}`,
-                display: activeTab === i ? 'block' : 'none',
-              }}
-              className="opacity-100"
-            >
-              {tab.content}
-            </div>
-          ))}
+          <div
+            key={activeTab}
+            style={{ transition: `opacity 250ms ${EASE}` }}
+            className="opacity-100"
+          >
+            {tabs[activeTab].render()}
+          </div>
         </div>
 
       </div>

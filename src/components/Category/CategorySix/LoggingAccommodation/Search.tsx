@@ -9,7 +9,10 @@ import { useAppDispatch } from '../../../../app/hooks';
 // import { Toast } from '../../../../utils/Toast';
 import { FACTORIES } from '../../../../utils/constanst';
 import { useTranslation } from 'react-i18next';
-import { fetchLogCat6, resetLogCat6 } from '../../../../features/logcatSlice';
+import {
+  fetchLogCat6BusinessTravel,
+  resetLogCat6BusinessTravel,
+} from '../../../../features/logcatSlice';
 
 type Props = {
   activeSort: {
@@ -44,12 +47,12 @@ const Search = ({
     },
     onSubmit: async (data) => {
       try {
-        dispatch(resetLogCat6());
+        dispatch(resetLogCat6BusinessTravel());
         setDateFrom(data.dateFrom);
         setDateTo(data.dateTo);
         setFactory(data.factory);
         dispatch(
-          fetchLogCat6({
+          fetchLogCat6BusinessTravel({
             dateFrom: data.dateFrom,
             dateTo: data.dateTo,
             factory: data.factory,

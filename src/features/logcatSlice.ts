@@ -2,7 +2,10 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import type { ILogCat5Payload, ILoggingCat5Data } from '../types/loggingcat5';
 import logcatApi from '../api/logcat';
 import type { ILoggingCat1AndCat4Data } from '../types/loggingcat1and4';
-import type { ILoggingCat6Data } from '../types/loggingcat6';
+import type {
+  ILoggingCat6BusinessTravelData,
+  ILoggingCat6Accommodation,
+} from '../types/loggingcat6';
 import type { ILogCat7Payload, ILoggingCat7Data } from '../types/loggingcat7';
 import type {
   ILogCat9AndCat12Payload,
@@ -13,7 +16,8 @@ import type { ILogCat1AndCat4Payload } from '../types/cat1andcat4';
 interface LogcatState {
   logcat1and4: ILoggingCat1AndCat4Data[];
   logcat5: ILoggingCat5Data[];
-  logcat6: ILoggingCat6Data[];
+  logcat6businesstravel: ILoggingCat6BusinessTravelData[];
+  logcat6accommodation: ILoggingCat6Accommodation[];
   logcat7: ILoggingCat7Data[];
   logcat9and12: ILoggingCat9AndCat12Data[];
   loading: boolean;
@@ -26,7 +30,8 @@ interface LogcatState {
 const initialState: LogcatState = {
   logcat1and4: [],
   logcat5: [],
-  logcat6: [],
+  logcat6businesstravel: [],
+  logcat6accommodation: [],
   logcat7: [],
   logcat9and12: [],
   loading: false,
@@ -157,8 +162,51 @@ export const createLogCat6 = createAsyncThunk(
   }
 );
 
-export const fetchLogCat6 = createAsyncThunk(
-  'logcat/fetch-log-cat6',
+export const fetchLogCat6BusinessTravel = createAsyncThunk(
+  'logcat/fetch-log-cat6-business-travel',
+  async (
+    {
+      dateFrom,
+      dateTo,
+      factory,
+      page,
+      sortField,
+      sortOrder,
+    }: {
+      dateFrom: string;
+      dateTo: string;
+      factory: string;
+      page: number;
+      sortField: string;
+      sortOrder: string;
+    },
+    { rejectWithValue }
+  ) => {
+    try {
+      console.log(dateFrom, dateTo, factory, page, sortField, sortOrder);
+      // const res = await logcatApi.fetchLogCat5(
+      //   dateFrom,
+      //   dateTo,
+      //   factory,
+      //   page,
+      //   sortField,
+      //   sortOrder
+      // );
+      return {
+        data: [],
+        page: 1,
+        limit: 20,
+        total: 0,
+        hasMore: false,
+      };
+    } catch (error: any) {
+      return rejectWithValue(error || '');
+    }
+  }
+);
+
+export const fetchLogCat6Accommodation = createAsyncThunk(
+  'logcat/fetch-log-cat6-accommodation',
   async (
     {
       dateFrom,
@@ -330,8 +378,14 @@ const logcatSlice = createSlice({
       state.hasMore = true;
       state.error = null;
     },
-    resetLogCat6: (state) => {
-      state.logcat6 = [];
+    resetLogCat6BusinessTravel: (state) => {
+      state.logcat6businesstravel = [];
+      state.page = 1;
+      state.hasMore = true;
+      state.error = null;
+    },
+    resetLogCat6Accommodation: (state) => {
+      state.logcat6accommodation = [];
       state.page = 1;
       state.hasMore = true;
       state.error = null;
@@ -377,17 +431,32 @@ const logcatSlice = createSlice({
       });
 
     builder
-      .addCase(fetchLogCat6.pending, (state) => {
+      .addCase(fetchLogCat6BusinessTravel.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(fetchLogCat6.fulfilled, (state, action) => {
+      .addCase(fetchLogCat6BusinessTravel.fulfilled, (state, action) => {
         state.loading = false;
-        state.logcat6.push(...action.payload.data);
+        state.logcat6businesstravel.push(...action.payload.data);
         state.page += 1;
         state.hasMore = action.payload.hasMore;
       })
-      .addCase(fetchLogCat6.rejected, (state, action) => {
+      .addCase(fetchLogCat6BusinessTravel.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      });
+    builder
+      .addCase(fetchLogCat6Accommodation.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchLogCat6Accommodation.fulfilled, (state, action) => {
+        state.loading = false;
+        state.logcat6accommodation.push(...action.payload.data);
+        state.page += 1;
+        state.hasMore = action.payload.hasMore;
+      })
+      .addCase(fetchLogCat6Accommodation.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       });
@@ -429,7 +498,8 @@ const logcatSlice = createSlice({
 export const {
   resetLogCat1And4,
   resetLogCat5,
-  resetLogCat6,
+  resetLogCat6BusinessTravel,
+  resetLogCat6Accommodation,
   resetLogCat7,
   resetLogCat9And12,
 } = logcatSlice.actions;

@@ -19,7 +19,6 @@ import type { ILoggingCat7Data } from '../types/loggingcat7';
 import type { ILoggingCat9AndCat12Data } from '../types/loggingcat9and12';
 import type { ILoggingCat5Data } from '../types/loggingcat5';
 import type { ILoggingCat1AndCat4Data } from '../types/loggingcat1and4';
-import type { ILoggingCat6Data } from '../types/loggingcat6';
 interface CategoryState {
   cat1andcat4: ICat1AndCat4Data[];
   cat5: ICat5Data[];
@@ -33,7 +32,6 @@ interface CategoryState {
   customExport: ICustomExportData[];
   loggingcat1and4: ILoggingCat1AndCat4Data[];
   loggingcat5: ILoggingCat5Data[];
-  loggingcat6: ILoggingCat6Data[];
   loggingcat7: ILoggingCat7Data[];
   loggingcat9and12: ILoggingCat9AndCat12Data[];
   loading: boolean;
@@ -56,7 +54,6 @@ const initialState: CategoryState = {
   customExport: [],
   loggingcat1and4: [],
   loggingcat5: [],
-  loggingcat6: [],
   loggingcat7: [],
   loggingcat9and12: [],
   loading: false,

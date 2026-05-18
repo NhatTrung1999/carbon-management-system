@@ -153,7 +153,7 @@ const TaxFreeZoneAddress = ({ header, data, onSave }: Props) => {
         <Button
           label={t('main.import_excel_file')}
           type="button"
-          className="w-full sm:w-auto bg-green-500 hover:bg-green-500/80 cursor-pointer flex items-center justify-center gap-2 px-4 sm:px-5 py-2.5 rounded-lg text-sm font-medium text-white transition-colors duration-300"
+          className="w-full sm:w-auto bg-green-500/20 border-green-400/40 hover:bg-green-500 text-white"
           imgSrc={ExcelIcon}
           onClick={handleImportExcel}
         />

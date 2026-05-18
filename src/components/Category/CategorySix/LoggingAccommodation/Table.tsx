@@ -3,10 +3,11 @@ import { TiArrowSortedUp } from 'react-icons/ti';
 import type { TableHeaderProps } from '../../../../types/table';
 import NoData from '../../../../assets/images/no-data.png';
 import type { RefObject, UIEventHandler } from 'react';
-import type { ILoggingCat6Data } from '../../../../types/loggingcat6';
+import type { ILoggingCat6Accommodation } from '../../../../types/loggingcat6';
 import { useAppSelector } from '../../../../app/hooks';
 import { useTranslation } from 'react-i18next';
 import { useEffect, useRef } from 'react';
+import { formatDate } from '../../../../utils/formatDate';
 
 type SortState = { sortField: string; sortOrder: string };
 
@@ -14,7 +15,7 @@ type Props = {
   header: TableHeaderProps[];
   activeSort: SortState;
   setActiveSort: (data: SortState) => void;
-  data: ILoggingCat6Data[];
+  data: ILoggingCat6Accommodation[];
   tableRef?: RefObject<HTMLDivElement | null>;
   onScroll: UIEventHandler<HTMLDivElement>;
 };
@@ -311,41 +312,27 @@ const Table = ({
               <Td>{item.System}</Td>
               <Td>{item.Corporation}</Td>
               <Td>{item.Factory}</Td>
+              <Td>{item.Fac}</Td>
               <Td>{item.Department}</Td>
               <Td>{item.DocKey}</Td>
+              <Td>{item.ActivitySource}</Td>
               <Td>{item.SPeriodData}</Td>
               <Td>{item.EPeriodData}</Td>
               <Td>{item.ActivityType}</Td>
               <Td>{item.DataType}</Td>
               <Td>{item.DocType}</Td>
-              <Td>{item.UndDoc}</Td>
-              <Td>{item.DocFlow}</Td>
               <Td>{item.DocDate}</Td>
               <Td>{item.DocDate2}</Td>
               <Td>{item.DocNo}</Td>
               <Td>{item.UndDocNo}</Td>
-              <Td>{item.CustVenName}</Td>
-              <Td>{item.InvoiceNo}</Td>
               <Td>{item.TransType}</Td>
-              <Td>{item.Departure}</Td>
-              <Td>{item.Destination}</Td>
-              <Td>{item.PortType}</Td>
-              <Td>{item.StPort}</Td>
-              <Td>{item.ThPort}</Td>
-              <Td>{item.EndPort}</Td>
-              <Td>{item.Product}</Td>
-              <Td>{item.Quity}</Td>
-              <Td>{item.Amount}</Td>
               <Td>{item.ActivityData}</Td>
-              <Td>{item.ActivityUnit}</Td>
-              <Td>{item.Unit}</Td>
-              <Td>{item.UnitWeight}</Td>
               <Td>{item.Memo}</Td>
               <Td>{item.CreateDateTime}</Td>
               <Td>{item.Creator}</Td>
               <Td>{item.CreatedUser}</Td>
               <Td>{item.CreatedFactory}</Td>
-              <Td>{item.CreatedAt}</Td>
+              <Td>{formatDate(item.CreatedAt)}</Td>
             </tr>
           ))}
 

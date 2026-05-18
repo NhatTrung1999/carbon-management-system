@@ -1,16 +1,19 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 // import Search from '../../../components/Category/CategorySix/LoggingCat6/Search';
-import Table from '../../../components/Category/CategorySix/LoggingCat6/Table';
-import { HEADER } from '../../../types/loggingcat6';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { fetchLogCat6, resetLogCat6 } from '../../../features/logcatSlice';
-import Search from '../../../components/Category/CategorySix/LoggingCat6/Search';
+import {
+  fetchLogCat6Accommodation,
+  resetLogCat6Accommodation,
+} from '../../../features/logcatSlice';
+import Search from '../../../components/Category/CategorySix/LoggingAccommodation/Search';
+import Table from '../../../components/Category/CategorySix/LoggingAccommodation/Table';
+import { HEADER_ACCOMMODATION } from '../../../types/loggingcat6';
 
-const Logging = () => {
+const LoggingAccommodation = () => {
   const tableRef = useRef<HTMLDivElement | null>(null);
   const didFetch = useRef(false);
   const [activeSort, setActiveSort] = useState({
-    sortField: HEADER[0].state,
+    sortField: HEADER_ACCOMMODATION[0].state,
     sortOrder: 'asc',
   });
 
@@ -23,17 +26,17 @@ const Logging = () => {
 
   const [factory, setFactory] = useState<string>('LYV');
 
-  const { loggingcat6, page, loading, hasMore } = useAppSelector(
-    (state) => state.category
+  const { logcat6accommodation, page, loading, hasMore } = useAppSelector(
+    (state) => state.logcat
   );
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (didFetch.current) return;
     didFetch.current = true;
-    dispatch(resetLogCat6());
+    dispatch(resetLogCat6Accommodation());
     dispatch(
-      fetchLogCat6({
+      fetchLogCat6Accommodation({
         dateFrom,
         dateTo,
         factory,
@@ -51,7 +54,7 @@ const Logging = () => {
       el.scrollTop + el.clientHeight >= el.scrollHeight - 20;
     if (bottomReached) {
       dispatch(
-        fetchLogCat6({
+        fetchLogCat6Accommodation({
           dateFrom,
           dateTo,
           factory,
@@ -78,9 +81,9 @@ const Logging = () => {
       </div>
       <div className="overflow-x-auto">
         <Table
-          header={HEADER}
+          header={HEADER_ACCOMMODATION}
           tableRef={tableRef}
-          data={loggingcat6}
+          data={logcat6accommodation}
           activeSort={activeSort}
           setActiveSort={setActiveSort}
           onScroll={onScroll}
@@ -90,4 +93,4 @@ const Logging = () => {
   );
 };
 
-export default Logging;
+export default LoggingAccommodation;

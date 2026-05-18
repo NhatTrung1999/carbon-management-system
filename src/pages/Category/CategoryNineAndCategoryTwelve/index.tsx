@@ -7,7 +7,7 @@ import Logging from '../CategoryNineAndCategoryTwelve/Logging';
 import { BREADCRUMB } from '../../../utils/constanst';
 import { useTranslation } from 'react-i18next';
 
-type Tab = { label: string; content: React.ReactNode };
+type Tab = { label: string; render: () => React.ReactNode };
 const EASE = 'cubic-bezier(0.4, 0, 0.2, 1)';
 
 const CategoryNineAndCategoryTwelvePage = () => {
@@ -18,15 +18,15 @@ const CategoryNineAndCategoryTwelvePage = () => {
   const tabs: Tab[] = [
     {
       label: t('cat9andcat12.cat_9_12'),
-      content: <Cat9AndCat12 />,
+      render: () => <Cat9AndCat12 />,
     },
     {
       label: t('cat9andcat12.port_code'),
-      content: <PortCode />,
+      render: () => <PortCode />,
     },
     {
       label: 'Logging',
-      content: <Logging />,
+      render: () => <Logging />,
     },
   ];
 
@@ -110,12 +110,12 @@ const CategoryNineAndCategoryTwelvePage = () => {
                 key={i}
                 type="button"
                 onClick={() => setActiveTab(i)}
-                className="group relative shrink-0 px-4 pb-3 pt-1 text-sm font-medium
+                className={`group relative shrink-0 px-4 pb-3 pt-1 text-sm font-medium
                   transition-colors duration-200 focus:outline-none
                   whitespace-nowrap
                   ${activeTab === i
                     ? 'text-white'
-                    : 'text-slate-400 hover:text-slate-200'}"
+                    : 'text-slate-400 hover:text-slate-200'}`}
                 style={{
                   color: activeTab === i ? '#fff' : undefined,
                 }}
@@ -150,18 +150,13 @@ const CategoryNineAndCategoryTwelvePage = () => {
 
         {/* ── Tab content ── */}
         <div className="p-4 sm:p-5">
-          {tabs.map((tab, i) => (
-            <div
-              key={i}
-              style={{
-                transition: `opacity 250ms ${EASE}`,
-                display: activeTab === i ? 'block' : 'none',
-              }}
-              className="opacity-100"
-            >
-              {tab.content}
-            </div>
-          ))}
+          <div
+            key={activeTab}
+            style={{ transition: `opacity 250ms ${EASE}` }}
+            className="opacity-100"
+          >
+            {tabs[activeTab].render()}
+          </div>
         </div>
       </div>
     </div>

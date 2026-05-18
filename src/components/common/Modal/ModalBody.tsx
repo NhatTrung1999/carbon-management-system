@@ -1,12 +1,12 @@
-import type { ReactNode } from "react";
+import type { ReactNode } from 'react';
 
-type Props = {
-  className?: string;
+type BodyProps = {
   children: ReactNode;
+  className?: string;
 };
 
-const ModalBody = ({ className, children }: Props) => {
-  return <div className={`${className} p-4 md:p-5 space-y-4`}>{children}</div>;
-};
-
-export default ModalBody;
+export const ModalBody = ({ children, className }: BodyProps) => (
+  <div className={`flex-1 overflow-y-auto px-5 py-5 ${className ?? ''}`}>
+    {children}
+  </div>
+);
