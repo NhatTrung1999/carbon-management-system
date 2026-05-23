@@ -67,7 +67,7 @@ const Search = ({ activeSort }: Props) => {
         </div>
       </div>
     
-      <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
+      <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:gap-3">
         <Button
           label={t('main.search')}
           type="submit"

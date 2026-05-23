@@ -39,7 +39,15 @@ import {
 
 import { logout } from '../../features/authSlice';
 
-const Header = () => {
+type HeaderProps = {
+  isOpenSideBar?: boolean;
+  setIsOpenSideBar?: (value: boolean) => void;
+};
+
+const Header = ({
+  isOpenSideBar = true,
+  setIsOpenSideBar,
+}: HeaderProps) => {
   const navigate = useNavigate();
 
   const location = useLocation();
@@ -224,7 +232,7 @@ const Header = () => {
 
               {/* LANGUAGE DROPDOWN */}
               <div
-                className={`absolute right-0 top-14 w-[220px] overflow-hidden rounded-2xl border border-white/[0.08] bg-[#0d1512]/90 shadow-[0_20px_50px_rgba(0,0,0,0.35)] backdrop-blur-[30px] transition-all duration-300 ${
+                className={`absolute right-0 top-14 w-[220px] overflow-hidden rounded-2xl border border-white/[0.08] bg-[#253725]/90 shadow-[0_20px_50px_rgba(0,0,0,0.35)] backdrop-blur-[30px] transition-all duration-300 ${
                   isShowLanguage
                     ? 'visible translate-y-0 opacity-100'
                     : 'invisible -translate-y-2 opacity-0'
@@ -311,7 +319,7 @@ const Header = () => {
 
               {/* USER DROPDOWN */}
               <div
-                className={`absolute right-0 top-14 w-[220px] overflow-hidden rounded-2xl border border-white/[0.08] bg-[#0d1512]/90 shadow-[0_20px_50px_rgba(0,0,0,0.35)] backdrop-blur-[30px] transition-all duration-300 ${
+                className={`absolute right-0 top-14 w-[220px] overflow-hidden rounded-2xl border border-white/[0.08] bg-[#253725]/90 shadow-[0_20px_50px_rgba(0,0,0,0.35)] backdrop-blur-[30px] transition-all duration-300 ${
                   isShow
                     ? 'visible translate-y-0 opacity-100'
                     : 'invisible -translate-y-2 opacity-0'
@@ -353,17 +361,18 @@ const Header = () => {
 
           {/* MOBILE BUTTON */}
           <button
-            onClick={() =>
-              setIsMobileMenuOpen(
-                !isMobileMenuOpen
-              )
-            }
+            onClick={() => {
+              setIsShow(false);
+              setIsShowLanguage(false);
+              setIsMobileMenuOpen(false);
+              setIsOpenSideBar?.(!isOpenSideBar);
+            }}
             className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/[0.08] bg-white/[0.05] text-white transition-all duration-300 hover:bg-white/[0.10] md:hidden"
           >
-            {isMobileMenuOpen ? (
-              <IoClose size={25} />
-            ) : (
+            {isOpenSideBar ? (
               <HiMenuAlt3 size={25} />
+            ) : (
+              <IoClose size={25} />
             )}
           </button>
         </div>

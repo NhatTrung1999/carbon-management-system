@@ -1,9 +1,5 @@
 import { GrLanguage } from 'react-icons/gr';
-import {
-  FaUser,
-  FaLock,
-  FaArrowRight,
-} from 'react-icons/fa6';
+import { FaUser, FaLock, FaArrowRight } from 'react-icons/fa6';
 import { useEffect, useState } from 'react';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
@@ -15,32 +11,27 @@ import { LANGUAGES } from '../utils/constanst';
 import { useAppDispatch } from '../app/hooks';
 import { login } from '../features/authSlice';
 
-import Swal from 'sweetalert2';
+// import Swal from 'sweetalert2';
 import { useTranslation } from 'react-i18next';
 import backgroundLogin from '../assets/images/background-login.jpg';
+import { Toast } from '../utils/Toast';
 
 const validationSchema = Yup.object().shape({
-  userid: Yup.string().required(
-    'Please do not leave it blank!'
-  ),
+  userid: Yup.string().required('Please do not leave it blank!'),
 
-  password: Yup.string().required(
-    'Please do not leave it blank!'
-  ),
+  password: Yup.string().required('Please do not leave it blank!'),
 });
 
 const Login = () => {
   const navigate = useNavigate();
 
-  const [loading, setLoading] =
-    useState(true);
+  const [loading, setLoading] = useState(true);
 
   const dispatch = useAppDispatch();
 
   const { t, i18n } = useTranslation();
 
-  const savedLang =
-    localStorage.getItem('lang') || 'en';
+  const savedLang = localStorage.getItem('lang') || 'en';
 
   const formik = useFormik({
     initialValues: {
@@ -64,14 +55,9 @@ const Login = () => {
       if (login.fulfilled.match(result)) {
         navigate('/');
       } else {
-        Swal.fire({
-          title: 'Login failed!',
-          text: result.payload as string,
+        Toast.fire({
           icon: 'error',
-          confirmButtonText: 'Close',
-          confirmButtonColor: '#22c55e',
-          background: '#101828',
-          color: '#ffffff',
+          title: result.payload as string,
         });
       }
     },
@@ -97,8 +83,7 @@ const Login = () => {
         <div
           className="absolute inset-0 scale-110 bg-cover bg-center blur-[3px] opacity-[0.65]"
           style={{
-            backgroundImage:
-              `url(${backgroundLogin})`,
+            backgroundImage: `url(${backgroundLogin})`,
           }}
         />
 
@@ -147,12 +132,10 @@ const Login = () => {
             </div>
 
             <p className="text-sm leading-8 text-slate-100">
-              An internal centralized platform that
-              automatically aggregates emissions
-              inventory data from LY App, BPM,
-              WMS, and ERP — enabling seamless
-              integration with our external
-              Carbon Management System (CMS).
+              An internal centralized platform that automatically aggregates
+              emissions inventory data from LY App, BPM, WMS, and ERP — enabling
+              seamless integration with our external Carbon Management System
+              (CMS).
             </p>
           </div>
         </div>
@@ -181,10 +164,7 @@ const Login = () => {
               </div>
 
               {/* FORM */}
-              <form
-                onSubmit={formik.handleSubmit}
-                className="mt-10 space-y-5"
-              >
+              <form onSubmit={formik.handleSubmit} className="mt-10 space-y-5">
                 {/* USER ID */}
                 <div>
                   <label className="block text-sm font-medium text-slate-100">
@@ -195,7 +175,7 @@ const Login = () => {
                     <input
                       type="text"
                       name="userid"
-                      className="block w-full bg-transparent px-5 py-3 text-sm text-white outline-none placeholder:text-slate-300"
+                      className="block w-full bg-transparent px-4 py-3 sm:px-5 text-sm text-white outline-none placeholder:text-slate-300"
                       value={formik.values.userid}
                       onChange={formik.handleChange}
                       autoComplete="off"
@@ -208,8 +188,7 @@ const Login = () => {
                   </div>
 
                   <div className="mt-1 text-xs text-red-200">
-                    {formik.errors.userid &&
-                      formik.touched.userid
+                    {formik.errors.userid && formik.touched.userid
                       ? formik.errors.userid
                       : null}
                   </div>
@@ -225,7 +204,7 @@ const Login = () => {
                     <input
                       type="password"
                       name="password"
-                      className="block w-full bg-transparent px-5 py-3 text-sm text-white outline-none placeholder:text-slate-300"
+                      className="block w-full bg-transparent px-4 py-3 sm:px-5 text-sm text-white outline-none placeholder:text-slate-300"
                       value={formik.values.password}
                       onChange={formik.handleChange}
                       autoComplete="off"
@@ -238,8 +217,7 @@ const Login = () => {
                   </div>
 
                   <div className="mt-1 text-xs text-red-200">
-                    {formik.errors.password &&
-                      formik.touched.password
+                    {formik.errors.password && formik.touched.password
                       ? formik.errors.password
                       : null}
                   </div>
@@ -259,42 +237,26 @@ const Login = () => {
                     <select
                       value={formik.values.language}
                       onChange={(e) => {
-                        const lang =
-                          e.target.value;
+                        const lang = e.target.value;
 
-                        formik.setFieldValue(
-                          'language',
-                          lang
-                        );
+                        formik.setFieldValue('language', lang);
 
-                        i18n.changeLanguage(
-                          lang
-                        );
+                        i18n.changeLanguage(lang);
 
-                        localStorage.setItem(
-                          'lang',
-                          lang
-                        );
+                        localStorage.setItem('lang', lang);
                       }}
                       name="language"
                       className="h-12 w-full rounded-2xl border border-white/[0.10] bg-white/[0.03] px-5 text-sm text-white outline-none backdrop-blur-2xl transition-all duration-300 focus:border-emerald-400/40 focus:bg-white/[0.05] focus:ring-4 focus:ring-emerald-500/10"
                     >
-                      {LANGUAGES.map(
-                        (
-                          itemLanguages,
-                          indexLanguages
-                        ) => (
-                          <option
-                            value={
-                              itemLanguages.value
-                            }
-                            key={indexLanguages}
-                            className="bg-[#0f172a]"
-                          >
-                            {itemLanguages.name}
-                          </option>
-                        )
-                      )}
+                      {LANGUAGES.map((itemLanguages, indexLanguages) => (
+                        <option
+                          value={itemLanguages.value}
+                          key={indexLanguages}
+                          className="bg-[#0f172a]"
+                        >
+                          {itemLanguages.name}
+                        </option>
+                      ))}
                     </select>
                   </div>
                 </div>

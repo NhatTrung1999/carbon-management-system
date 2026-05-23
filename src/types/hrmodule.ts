@@ -35,6 +35,21 @@ export const HEADER = [
     sort: true,
   },
   {
+    name: 'Bus Route',
+    state: 'BusRoute',
+    sort: true,
+  },
+  {
+    name: 'Bus Station',
+    state: 'BusStation',
+    sort: true,
+  },
+  {
+    name: 'Pick Up Point',
+    state: 'PickUpPoint',
+    sort: true,
+  },
+  {
     name: 'Number of Working Days',
     state: 'NumberOfWorkingDays',
     sort: true,
@@ -54,6 +69,9 @@ export interface IHRModule {
   PermanentAddress: string;
   CurrentAddress: string;
   TransportationMethod: string;
+  BusRoute: string;
+  BusStation: string;
+  PickUpPoint: string;
   Number_of_Working_Days: string;
 }
 

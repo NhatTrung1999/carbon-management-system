@@ -135,7 +135,7 @@ const Search = ({
           />
         </div>
       </div>
-      <div className="flex flex-col sm:flex-row gap-3 sm:gap-2 items-stretch sm:items-center">
+      <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-2 sm:items-center">
         <Button
           label={t('main.search')}
           type="submit"

@@ -82,10 +82,13 @@ const Select = (props: SelectProps) => {
     const r      = triggerRef.current.getBoundingClientRect();
     const spaceB = window.innerHeight - r.bottom;
     const openUp = spaceB < DROPDOWN_H + GAP && r.top > DROPDOWN_H + GAP;
+    const margin = 12;
+    const width  = Math.min(r.width, window.innerWidth - margin * 2);
+    const left   = Math.min(Math.max(r.left, margin), window.innerWidth - width - margin);
     return {
       top   : openUp ? r.top - GAP : r.bottom + GAP,
-      left  : r.left,
-      width : r.width,
+      left,
+      width,
       openUp,
     };
   }, []);

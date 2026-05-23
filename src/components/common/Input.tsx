@@ -95,7 +95,7 @@ const CalendarSelect = ({ value, options, onChange }: CalendarSelectProps) => {
         }}
         className={`absolute left-0 top-[calc(100%+4px)] z-10
           max-h-[180px] min-w-full overflow-y-auto rounded-xl
-          border border-white/[0.12] bg-[#0a1f18]/95
+          border border-white/[0.12] bg-[#23301e]
           shadow-[0_12px_40px_rgba(0,0,0,0.5)] backdrop-blur-[40px] py-1
           [scrollbar-width:thin] [scrollbar-color:rgba(52,211,153,0.2)_transparent]
           [&::-webkit-scrollbar]:w-[3px]
@@ -165,7 +165,10 @@ const DateInput = (props: InputProps) => {
     if (!triggerRef.current) return null;
     const r = triggerRef.current.getBoundingClientRect();
     const openUp = (window.innerHeight - r.bottom) < 320 && r.top > 320;
-    return { top: openUp ? r.top - 6 : r.bottom + 6, left: r.left, width: r.width, openUp };
+    const margin = 12;
+    const width = Math.min(Math.max(r.width, 288), window.innerWidth - margin * 2);
+    const left = Math.min(Math.max(r.left, margin), window.innerWidth - width - margin);
+    return { top: openUp ? r.top - 6 : r.bottom + 6, left, width, openUp };
   }, []);
 
   const openPicker  = () => { if (readonly || disabled) return; setPos(calcPos()); setOpen(true); };
@@ -229,7 +232,7 @@ const DateInput = (props: InputProps) => {
         top: pos.openUp ? undefined : pos.top,
         bottom: pos.openUp ? window.innerHeight - pos.top : undefined,
         left: pos.left,
-        width: Math.max(pos.width, 288),
+        width: pos.width,
         zIndex: 9999,
         transformOrigin: pos.openUp ? 'bottom center' : 'top center',
         transition: `opacity 200ms ${EASE}, transform 200ms ${EASE}`,

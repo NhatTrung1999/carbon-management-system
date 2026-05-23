@@ -93,21 +93,21 @@ const Table = ({
 
   const getTableHeight = () => {
     if (loading && data.length === 0) {
-      return 'max-h-[250px]';
+      return 'min-h-[320px] xl:min-h-0 xl:flex-1';
     }
     if (data.length === 0 && !loading) {
-      return 'max-h-[300px]';
+      return 'min-h-[320px] xl:min-h-0 xl:flex-1';
     }
-    return 'max-h-[400px] sm:max-h-[500px] md:max-h-[600px]';
+    return 'min-h-[320px] xl:min-h-0 xl:flex-1';
   };
 
   return (
     <div
-      className={`${getTableHeight()} overflow-auto relative rounded-lg border border-gray-200 bg-white transition-all duration-300`}
+      className={`${getTableHeight()} w-full min-w-0 overflow-auto relative rounded-lg border border-gray-200 bg-white transition-all duration-300`}
       ref={tableRef}
       onScroll={onScroll}
     >
-      <table className="w-full text-left min-w-max">
+      <table className="w-max min-w-full text-left">
         <thead className="bg-[#636e61] text-xs sm:text-sm sticky top-0 text-white z-10">
           <tr>
             {header.map((item, index) => (

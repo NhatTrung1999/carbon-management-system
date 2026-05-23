@@ -67,8 +67,8 @@ const LoggingAccommodation = () => {
   }, [dispatch, loading, hasMore, page, activeSort, dateFrom, dateTo, factory]);
 
   return (
-    <div className="w-full">
-      <div className="mt-4 overflow-x-auto">
+    <div className="flex min-h-full min-w-0 flex-col xl:h-full xl:min-h-0">
+      <div className="shrink-0 min-w-0 overflow-x-auto">
         <Search
           activeSort={activeSort}
           dateFrom={dateFrom}
@@ -79,7 +79,7 @@ const LoggingAccommodation = () => {
           setFactory={setFactory}
         />
       </div>
-      <div className="overflow-x-auto">
+      <div className="mt-4 flex min-h-[320px] min-w-0 flex-col overflow-hidden xl:min-h-0 xl:flex-1">
         <Table
           header={HEADER_ACCOMMODATION}
           tableRef={tableRef}

@@ -80,9 +80,9 @@ const SortIcon = ({
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
 const getHeight = (loading: boolean, rowCount: number) => {
-  if (loading && rowCount === 0) return 'max-h-[250px]';
-  if (!loading && rowCount === 0) return 'max-h-[300px]';
-  return 'max-h-[400px] sm:max-h-[500px] md:max-h-[600px]';
+  if (loading && rowCount === 0) return 'min-h-[320px] xl:min-h-0 xl:flex-1';
+  if (!loading && rowCount === 0) return 'min-h-[320px] xl:min-h-0 xl:flex-1';
+  return 'min-h-[320px] xl:min-h-0 xl:flex-1';
 };
 
 const PortCode = ({ header, data }: Props) => {
@@ -112,7 +112,7 @@ const PortCode = ({ header, data }: Props) => {
     setActiveSort({ sortField: field, sortOrder: order });
 
   return (
-    <div className="w-full">
+    <div className="flex min-h-full min-w-0 flex-col xl:h-full xl:min-h-0">
       <div className="mb-4 sm:mb-5 px-2 sm:px-0">
         <Button
           label={t('main.import_excel_file')}
@@ -123,9 +123,9 @@ const PortCode = ({ header, data }: Props) => {
         />
       </div>
 
-      {/* <div className="overflow-x-auto">
+      {/* <div className="mt-4 flex min-h-[320px] min-w-0 flex-col overflow-hidden xl:min-h-0 xl:flex-1">
         <div className={`${getTableHeight()} overflow-y-auto relative rounded-lg border border-gray-200 bg-white transition-all duration-300`}>
-          <table className="w-full text-left min-w-max">
+          <table className="w-max min-w-full text-left">
             <thead className="bg-[#636e61] text-xs sm:text-sm sticky top-0 text-white z-10">
               <tr>
                 {header.map((item, index) => (
@@ -227,7 +227,7 @@ const PortCode = ({ header, data }: Props) => {
       </div> */}
       <div
         className={`${getHeight(loading, data.length)}
-        relative overflow-auto rounded-xl
+        relative w-full min-w-0 overflow-auto rounded-xl
         border border-white/[0.08] bg-white/[0.03]
         backdrop-blur-sm transition-all duration-300
         [scrollbar-width:thin] [scrollbar-color:rgba(52,211,153,0.2)_transparent]
@@ -236,7 +236,7 @@ const PortCode = ({ header, data }: Props) => {
         [&::-webkit-scrollbar-thumb]:rounded-full
         [&::-webkit-scrollbar-thumb]:bg-emerald-400/20`}
       >
-        <table className="w-full min-w-max text-left">
+        <table className="w-max min-w-full text-left">
           {/* ── Header ── */}
           <thead className="sticky top-0 z-10">
             {/* Top shimmer */}

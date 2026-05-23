@@ -77,9 +77,9 @@ const SortIcon = ({
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
 const getHeight = (loading: boolean, rowCount: number) => {
-  if (loading && rowCount === 0) return 'max-h-[250px]';
-  if (!loading && rowCount === 0) return 'max-h-[300px]';
-  return 'max-h-[400px] sm:max-h-[500px] md:max-h-[600px]';
+  if (loading && rowCount === 0) return 'min-h-[320px] xl:min-h-0 xl:flex-1';
+  if (!loading && rowCount === 0) return 'min-h-[320px] xl:min-h-0 xl:flex-1';
+  return 'min-h-[320px] xl:min-h-0 xl:flex-1';
 };
 
 // ─── Component ───────────────────────────────────────────────────────────────
@@ -124,7 +124,7 @@ const Table = ({ header, activeSort, setActiveSort, data, tableRef, onScroll }: 
       ref={tableRef}
       onScroll={onScroll}
       className={`${getHeight(loading, data.length)}
-        relative overflow-auto rounded-xl
+        relative w-full min-w-0 overflow-auto rounded-xl
         border border-white/[0.08] bg-white/[0.03]
         backdrop-blur-sm transition-all duration-300
         [scrollbar-width:thin] [scrollbar-color:rgba(52,211,153,0.2)_transparent]
@@ -133,7 +133,7 @@ const Table = ({ header, activeSort, setActiveSort, data, tableRef, onScroll }: 
         [&::-webkit-scrollbar-thumb]:rounded-full
         [&::-webkit-scrollbar-thumb]:bg-emerald-400/20`}
     >
-      <table className="w-full min-w-max text-left">
+      <table className="w-max min-w-full text-left">
 
         {/* ── Header ── */}
         <thead className="sticky top-0 z-10">

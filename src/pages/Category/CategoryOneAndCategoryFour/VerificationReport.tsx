@@ -104,14 +104,14 @@ const VerificationTable = ({
   loading     : boolean;
   loadingMore : boolean;
 }) => (
-  <div className="relative overflow-hidden rounded-2xl border border-white/[0.10]
+  <div className="relative flex min-w-0 flex-col overflow-hidden xl:min-h-0 xl:flex-1 rounded-2xl border border-white/[0.10]
     bg-white/[0.04] backdrop-blur-sm">
     {/* Top shimmer */}
     <div className="absolute inset-x-0 top-0 h-px
       bg-gradient-to-r from-transparent via-white/15 to-transparent" />
 
     {/* Panel header */}
-    <div className="border-b border-white/[0.07] px-5 py-4">
+    <div className="shrink-0 border-b border-white/[0.07] px-4 py-3 sm:px-5 sm:py-4">
       <h3 className="text-sm font-semibold text-white">{title}</h3>
       <p className="mt-0.5 text-xs text-white/40">{description}</p>
     </div>
@@ -120,13 +120,13 @@ const VerificationTable = ({
     <div
       ref={tableRef}
       onScroll={onScroll}
-      className="max-h-[32rem] overflow-auto
+      className="min-h-[320px] xl:min-h-0 xl:flex-1 overflow-auto
         [scrollbar-width:thin] [scrollbar-color:rgba(52,211,153,0.2)_transparent]
         [&::-webkit-scrollbar]:h-[3px] [&::-webkit-scrollbar]:w-[3px]
         [&::-webkit-scrollbar-thumb]:rounded-full
         [&::-webkit-scrollbar-thumb]:bg-emerald-400/20"
     >
-      <table className="min-w-full text-left">
+      <table className="w-max min-w-full text-left">
         {/* Header */}
         <thead className="sticky top-0 z-10">
           <tr className="bg-[#0d1f1b]/90 backdrop-blur-md">
@@ -306,17 +306,17 @@ const VerificationReport = () => {
   const activeConfig    = displayedCat === 'CAT1' ? CAT_CONFIG[0] : CAT_CONFIG[1];
 
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex min-h-full min-w-0 flex-col xl:h-full xl:min-h-0 gap-4">
 
       {/* ── Filter panel ── */}
-      <div className="relative overflow-hidden rounded-2xl border border-white/[0.10]
+      <div className="relative shrink-0 overflow-hidden rounded-2xl border border-white/[0.10]
         bg-white/[0.05] backdrop-blur-[32px]
         shadow-[0_8px_32px_rgba(0,0,0,0.25)]">
         {/* Top shimmer */}
         <div className="absolute inset-x-0 top-0 h-px
           bg-gradient-to-r from-transparent via-white/15 to-transparent" />
 
-        <div className="p-5">
+        <div className="p-4 sm:p-5">
           {/* Date + filter inputs */}
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-7">
             <Input label="Preview Date From" type="date" name="previewDateFrom"
@@ -417,8 +417,8 @@ const VerificationReport = () => {
           />
 
           {/* Row count footer */}
-          <div className="flex items-center gap-2 rounded-xl border border-white/[0.08]
-            bg-white/[0.04] px-5 py-3 text-xs text-white/40 backdrop-blur-sm">
+          <div className="flex shrink-0 items-center gap-2 rounded-xl border border-white/[0.08]
+            bg-white/[0.04] px-4 py-3 sm:px-5 text-xs text-white/40 backdrop-blur-sm">
             <svg viewBox="0 0 12 12" fill="none" stroke="currentColor"
               strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"
               className="h-3 w-3 shrink-0 text-emerald-400/60">

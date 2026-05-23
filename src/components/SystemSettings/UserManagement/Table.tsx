@@ -83,8 +83,8 @@ const Table = ({
 
   return (
     // <div className="overflow-x-auto">
-    //   <div className="max-h-[400px] sm:max-h-[500px] md:max-h-[600px] overflow-y-auto relative rounded-lg border border-gray-200">
-    //     <table className="w-full text-left min-w-max">
+    //   <div className="min-h-[320px] xl:min-h-0 xl:flex-1 overflow-y-auto relative rounded-lg border border-gray-200">
+    //     <table className="w-max min-w-full text-left">
     //       <thead className="bg-[#636e61] text-xs sm:text-sm sticky top-0 text-white z-10">
     //         <tr>
     //           {header.map((item, index) => (
@@ -178,8 +178,8 @@ const Table = ({
     //   </div>
     // </div>
     <div
-      className="max-h-[400px] sm:max-h-[500px] md:max-h-[600px]
-            relative overflow-auto rounded-xl
+      className="min-h-[320px] xl:min-h-0 xl:flex-1
+            relative w-full min-w-0 overflow-auto rounded-xl
             border border-white/[0.08] bg-white/[0.03] backdrop-blur-sm
             [scrollbar-width:thin] [scrollbar-color:rgba(52,211,153,0.2)_transparent]
             [&::-webkit-scrollbar]:h-[3px] [&::-webkit-scrollbar]:w-[3px]
@@ -187,7 +187,7 @@ const Table = ({
             [&::-webkit-scrollbar-thumb]:rounded-full
             [&::-webkit-scrollbar-thumb]:bg-emerald-400/20"
     >
-      <table className="w-full min-w-max text-left">
+      <table className="w-max min-w-full text-left">
         {/* ── Header ── */}
         <thead
           className="sticky top-0 z-10 bg-[#636e61]/90 backdrop-blur-md"

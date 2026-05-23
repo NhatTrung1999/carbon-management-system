@@ -31,7 +31,7 @@ const VARIANTS = {
 } as const;
 
 const BASE = `relative inline-flex items-center justify-center gap-2 overflow-hidden
-  whitespace-nowrap rounded-xl border px-5 py-2.5
+  max-w-full whitespace-normal rounded-xl border px-4 py-2.5 text-center sm:px-5 sm:whitespace-nowrap
   text-sm font-medium backdrop-blur-sm
   transition-all duration-200
   focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-0

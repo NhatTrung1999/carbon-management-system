@@ -1,9 +1,11 @@
-import { Link, useLocation } from 'react-router';
+import { Link, useLocation, useNavigate } from 'react-router';
 import { useMemo, useCallback } from 'react';
 import { IoIosArrowBack } from 'react-icons/io';
-import { useAppSelector } from '../../app/hooks';
+import { IoLogOutOutline } from 'react-icons/io5';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { useTranslation } from 'react-i18next';
 import { MENU_SIDEBAR } from '../../utils/constanst';
+import { logout } from '../../features/authSlice';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -28,8 +30,10 @@ const EASE = 'cubic-bezier(0.4, 0, 0.2, 1)';
 // ─── Component ───────────────────────────────────────────────────────────────
 
 const Sidebar = ({ isOpenSideBar, setIsOpenSideBar }: Props) => {
+  const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.auth);
   const location = useLocation();
+  const navigate = useNavigate();
   const { t } = useTranslation();
 
   const role       = user?.Role?.toLowerCase().trim();
@@ -55,6 +59,18 @@ const Sidebar = ({ isOpenSideBar, setIsOpenSideBar }: Props) => {
     [isOpenSideBar, setIsOpenSideBar],
   );
 
+  const closeMobileSidebar = useCallback(() => {
+    if (typeof window !== 'undefined' && window.innerWidth < 768) {
+      setIsOpenSideBar(true);
+    }
+  }, [setIsOpenSideBar]);
+
+  const handleLogout = useCallback(() => {
+    dispatch(logout());
+    navigate('/login');
+    closeMobileSidebar();
+  }, [closeMobileSidebar, dispatch, navigate]);
+
   const collapsed = isOpenSideBar;
 
   return (
@@ -72,12 +88,14 @@ const Sidebar = ({ isOpenSideBar, setIsOpenSideBar }: Props) => {
         Dùng inline style cho width vì cần custom cubic-bezier (Tailwind không hỗ trợ).
       */}
       <aside
-        style={{ transition: `width 320ms ${EASE}` }}
+        style={{ transition: `width 320ms ${EASE}, transform 320ms ${EASE}` }}
         className={`fixed bottom-0 left-0 z-40 overflow-hidden
           border-r border-white/[0.12] bg-[#11211d]/70
           backdrop-blur-[40px] shadow-[0_10px_50px_rgba(0,0,0,0.20)]
-          top-[60px] sm:top-[70px]
-          ${collapsed ? 'w-[78px]' : 'w-[300px]'}`}
+          top-[78px]
+          ${collapsed
+            ? '-translate-x-full w-[300px] md:translate-x-0 md:w-[78px]'
+            : 'translate-x-0 w-[300px]'}`}
       >
         {/* Ambient gradient */}
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b
@@ -86,7 +104,7 @@ const Sidebar = ({ isOpenSideBar, setIsOpenSideBar }: Props) => {
         <div className="relative flex h-full flex-col">
 
           {/* ── Scrollable nav ── */}
-          <nav className="min-h-0 flex-1 overflow-y-auto px-3 py-4
+          <nav className="min-h-[320px] xl:min-h-0 xl:flex-1 overflow-y-auto px-3 py-4
             [scrollbar-width:thin] [scrollbar-color:rgba(52,211,153,0.2)_transparent]
             [&::-webkit-scrollbar]:w-[3px]
             [&::-webkit-scrollbar-track]:bg-transparent
@@ -122,6 +140,7 @@ const Sidebar = ({ isOpenSideBar, setIsOpenSideBar }: Props) => {
                       isActive={item.path === location.pathname}
                       isCollapsed={collapsed}
                       label={t(item.text)}
+                      onNavigate={closeMobileSidebar}
                     />
                   ))}
                 </div>
@@ -131,6 +150,20 @@ const Sidebar = ({ isOpenSideBar, setIsOpenSideBar }: Props) => {
 
           {/* ── Toggle footer ── */}
           <div className="shrink-0 border-t border-white/[0.08] px-3 py-3">
+            <button
+              type="button"
+              onClick={handleLogout}
+              className="mb-3 flex w-full items-center gap-3 rounded-xl border border-red-400/20 bg-red-500/15 px-3 py-2.5 text-sm font-semibold text-white transition-colors duration-200 hover:bg-red-500/25 md:hidden"
+            >
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-red-400/20">
+                <IoLogOutOutline size={20} />
+              </span>
+
+              <span className="min-w-0 truncate">
+                {t('main.logout')}
+              </span>
+            </button>
+
             <button
               type="button"
               onClick={toggleSidebar}
@@ -176,10 +209,17 @@ type NavItemProps = {
   isActive: boolean;
   isCollapsed: boolean;
   label: string;
+  onNavigate: () => void;
 };
 
-const NavItem = ({ item, isActive, isCollapsed, label }: NavItemProps) => (
-  <Link to={item.path}>
+const NavItem = ({
+  item,
+  isActive,
+  isCollapsed,
+  label,
+  onNavigate,
+}: NavItemProps) => (
+  <Link to={item.path} onClick={onNavigate}>
     <div
       className={`group relative flex items-center gap-3 overflow-hidden
         rounded-xl px-3 py-2.5 transition-colors duration-200

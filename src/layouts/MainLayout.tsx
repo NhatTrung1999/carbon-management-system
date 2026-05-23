@@ -6,7 +6,9 @@ import Loading from '../components/common/Loading';
 
 const MainLayout = () => {
   const [loading, setLoading] = useState(true);
-  const [isOpenSideBar, setIsOpenSideBar] = useState(false);
+  const [isOpenSideBar, setIsOpenSideBar] = useState(
+    () => typeof window !== 'undefined' && window.innerWidth < 768,
+  );
 
   useEffect(() => {
     setTimeout(() => setLoading(false), 3000);
@@ -15,7 +17,7 @@ const MainLayout = () => {
   if (loading) return <Loading />;
 
   return (
-    <div className="relative min-h-screen">
+    <div className="relative h-screen overflow-hidden">
 
       {/* ── Background layer ── */}
       <div className="fixed inset-0 -z-10">
@@ -40,9 +42,12 @@ const MainLayout = () => {
       </div>
 
       {/* ── App shell ── */}
-      <Header />
+      <Header
+        isOpenSideBar={isOpenSideBar}
+        setIsOpenSideBar={setIsOpenSideBar}
+      />
 
-      <div className="flex h-screen">
+      <div className="flex h-full min-h-0">
         <Sidebar
           isOpenSideBar={isOpenSideBar}
           setIsOpenSideBar={setIsOpenSideBar}
@@ -54,9 +59,9 @@ const MainLayout = () => {
         */}
         <main
           style={{ transition: 'padding-left 320ms cubic-bezier(0.4,0,0.2,1)' }}
-          className={`flex-1 overflow-y-auto overflow-x-hidden
-            pr-5 pt-[85px] pb-8
-            ${isOpenSideBar ? 'pl-[78px]' : 'pl-[300px]'}`}
+          className={`min-w-0 flex-1 overflow-y-auto overflow-x-hidden
+            px-3 pt-[78px] pb-3 sm:px-4 sm:pt-[85px] md:pr-5
+            ${isOpenSideBar ? 'md:pl-[78px]' : 'md:pl-[300px]'}`}
         >
           <Outlet />
         </main>
