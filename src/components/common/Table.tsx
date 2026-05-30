@@ -2,38 +2,43 @@ import { TiArrowSortedDown, TiArrowSortedUp } from 'react-icons/ti';
 import type { RefObject, UIEventHandler, ReactNode } from 'react';
 import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import NoData from '../../../assets/images/no-data.png';
+import NoData from '../../assets/images/no-data.png';
 import type { TableHeaderProps } from '../../types/table';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
 export type SortState = { sortField: string; sortOrder: string };
 
-export type TableProps<T extends Record<string, unknown>> = {
-  // Data
-  header        : TableHeaderProps[];
-  data          : T[];
-  loading       : boolean;
-  renderRow     : (item: T, index: number) => ReactNode;   // caller owns cell rendering
+export type TableProps<T> = {
+  header: TableHeaderProps[];
+  data: T[];
+  loading: boolean;
+  renderRow: (item: T, index: number) => ReactNode;
 
-  // Sort — optional (omit to hide sort icons)
-  activeSort   ?: SortState;
-  onSortChange ?: (sort: SortState) => void;
+  activeSort?: SortState;
+  onSortChange?: (sort: SortState) => void;
 
-  // Scroll preservation
-  tableRef     ?: RefObject<HTMLDivElement | null>;
-  onScroll     ?: UIEventHandler<HTMLDivElement>;
+  tableRef?: RefObject<HTMLDivElement | null>;
+  onScroll?: UIEventHandler<HTMLDivElement>;
 
-  // Customisation
-  maxHeight    ?: string;   // override default responsive max-height
-  noDataText   ?: string;
-  className    ?: string;
+  maxHeight?: string;
+  noDataText?: string;
+  className?: string;
+  headerClassName?: string;
 };
 
 // ─── Sub-components ──────────────────────────────────────────────────────────
 
-export const Td = ({ children, className }: { children?: ReactNode; className?: string }) => (
-  <td className={`whitespace-nowrap px-4 py-3 text-sm text-white ${className ?? ''}`}>
+export const Td = ({
+  children,
+  className,
+}: {
+  children?: ReactNode;
+  className?: string;
+}) => (
+  <td
+    className={`whitespace-nowrap px-4 py-3 text-xs sm:text-sm text-white/90 ${className ?? ''}`}
+  >
     {children ?? '—'}
   </td>
 );
@@ -44,7 +49,10 @@ const SkeletonRow = ({ cols, delay = 0 }: { cols: number; delay?: number }) => (
       <td key={i} className="px-4 py-3">
         <div
           className="h-3.5 animate-pulse rounded-md bg-white/[0.06]"
-          style={{ animationDelay: `${delay + i * 0.03}s`, width: `${60 + (i % 3) * 20}%` }}
+          style={{
+            animationDelay: `${delay + i * 0.03}s`,
+            width: `${60 + (i % 3) * 20}%`,
+          }}
         />
       </td>
     ))}
@@ -56,14 +64,16 @@ const SortIcon = ({
   activeSort,
   onSort,
 }: {
-  item      : TableHeaderProps;
+  item: TableHeaderProps;
   activeSort: SortState;
-  onSort    : (field: string, order: string) => void;
+  onSort: (field: string, order: string) => void;
 }) => {
   if (item.state === 'Action' || !item.sort) return null;
 
-  const isAsc  = activeSort.sortField === item.state && activeSort.sortOrder === 'asc';
-  const isDesc = activeSort.sortField === item.state && activeSort.sortOrder === 'desc';
+  const isAsc =
+    activeSort.sortField === item.state && activeSort.sortOrder === 'asc';
+  const isDesc =
+    activeSort.sortField === item.state && activeSort.sortOrder === 'desc';
 
   return (
     <div className="ml-1.5 flex flex-col gap-px">
@@ -83,17 +93,14 @@ const SortIcon = ({
   );
 };
 
-// ─── Default max-height helper ────────────────────────────────────────────────
+// ─── Shared TH style ─────────────────────────────────────────────────────────
 
-const defaultMaxHeight = (loading: boolean, rowCount: number) => {
-  if (loading && rowCount === 0) return 'min-h-[320px] xl:min-h-0 xl:flex-1';
-  if (!loading && rowCount === 0) return 'min-h-[320px] xl:min-h-0 xl:flex-1';
-  return 'min-h-[320px] xl:min-h-0 xl:flex-1';
-};
+const TH =
+  'whitespace-nowrap px-4 py-3 text-xs font-semibold uppercase tracking-[0.10em] text-white/90 align-middle';
 
 // ─── Component ───────────────────────────────────────────────────────────────
 
-const Table = <T extends Record<string, unknown>>({
+const Table = <T,>({
   header,
   data,
   loading,
@@ -105,11 +112,21 @@ const Table = <T extends Record<string, unknown>>({
   maxHeight,
   noDataText = 'No data available',
   className,
+  headerClassName,
 }: TableProps<T>) => {
   const { t } = useTranslation();
 
+  const hasGroups = header.some((h) => h.children?.length);
+  const flatColumns = header.flatMap((h) =>
+    h.children?.length ? h.children : [h],
+  );
+  const colCount = flatColumns.length;
+
+  const defaultHeaderCls = 'bg-[#0d1f1b]/90 backdrop-blur-md';
+  const hCls = headerClassName ?? defaultHeaderCls;
+
   // ── Preserve scroll position across loading cycles ────────────────────────
-  const scrollPos  = useRef({ top: 0, left: 0 });
+  const scrollPos = useRef({ top: 0, left: 0 });
   const wasLoading = useRef(false);
 
   useEffect(() => {
@@ -117,7 +134,7 @@ const Table = <T extends Record<string, unknown>>({
       wasLoading.current = true;
       if (tableRef?.current) {
         scrollPos.current = {
-          top : tableRef.current.scrollTop,
+          top: tableRef.current.scrollTop,
           left: tableRef.current.scrollLeft,
         };
       }
@@ -129,7 +146,7 @@ const Table = <T extends Record<string, unknown>>({
       wasLoading.current = false;
       setTimeout(() => {
         if (tableRef?.current) {
-          tableRef.current.scrollTop  = scrollPos.current.top;
+          tableRef.current.scrollTop = scrollPos.current.top;
           tableRef.current.scrollLeft = scrollPos.current.left;
         }
       }, 0);
@@ -139,7 +156,7 @@ const Table = <T extends Record<string, unknown>>({
   const handleSort = (field: string, order: string) =>
     onSortChange?.({ sortField: field, sortOrder: order });
 
-  const heightClass = maxHeight ?? defaultMaxHeight(loading, data.length);
+  const heightClass = maxHeight ?? 'min-h-[320px] xl:min-h-0 xl:flex-1';
 
   return (
     <div
@@ -157,37 +174,88 @@ const Table = <T extends Record<string, unknown>>({
         ${className ?? ''}`}
     >
       <table className="w-max min-w-full text-left">
-
         {/* ── Header ── */}
-        <thead className="sticky top-0 z-10">
-          <tr>
-            <th
-              colSpan={header.length}
-              className="h-px p-0 bg-gradient-to-r from-transparent via-white/10 to-transparent"
-            />
-          </tr>
-          <tr className="bg-[#0d1f1b]/90 backdrop-blur-md">
-            {header.map((item, i) => (
+        {hasGroups ? (
+          /* Grouped header: 2 rows — parents + children */
+          <thead
+            className={`sticky top-0 z-10 ${hCls}`}
+            style={{ boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.08)' }}
+          >
+            <tr>
+              {header.map((item, i) =>
+                item.children?.length ? (
+                  <th
+                    key={i}
+                    colSpan={item.children.length}
+                    className={`${TH} text-center`}
+                  >
+                    {t(item.name)}
+                  </th>
+                ) : (
+                  <th key={i} rowSpan={2} className={TH}>
+                    <div className="flex items-center gap-1">
+                      {t(item.name)}
+                      {activeSort && onSortChange && (
+                        <SortIcon
+                          item={item}
+                          activeSort={activeSort}
+                          onSort={handleSort}
+                        />
+                      )}
+                    </div>
+                  </th>
+                ),
+              )}
+            </tr>
+            <tr>
+              {header.flatMap((item) =>
+                (item.children ?? []).map((child) => (
+                  <th key={child.state} className={TH}>
+                    <div className="flex items-center gap-1">
+                      {t(child.name)}
+                      {activeSort && onSortChange && (
+                        <SortIcon
+                          item={child}
+                          activeSort={activeSort}
+                          onSort={handleSort}
+                        />
+                      )}
+                    </div>
+                  </th>
+                )),
+              )}
+            </tr>
+          </thead>
+        ) : (
+          /* Flat header: shimmer row + single header row */
+          <thead className="sticky top-0 z-10">
+            <tr>
               <th
-                key={i}
-                className="whitespace-nowrap px-4 py-3 text-xs font-semibold
-                  uppercase tracking-[0.10em] text-white/50"
-              >
-                <div className="flex items-center gap-1">
-                  {t(item.name)}
-                  {activeSort && onSortChange && (
-                    <SortIcon item={item} activeSort={activeSort} onSort={handleSort} />
-                  )}
-                </div>
-              </th>
-            ))}
-          </tr>
-        </thead>
+                colSpan={header.length}
+                className="h-px p-0 bg-gradient-to-r from-transparent via-white/10 to-transparent"
+              />
+            </tr>
+            <tr className={hCls}>
+              {header.map((item, i) => (
+                <th key={i} className={TH}>
+                  <div className="flex items-center gap-1">
+                    {t(item.name)}
+                    {activeSort && onSortChange && (
+                      <SortIcon
+                        item={item}
+                        activeSort={activeSort}
+                        onSort={handleSort}
+                      />
+                    )}
+                  </div>
+                </th>
+              ))}
+            </tr>
+          </thead>
+        )}
 
         {/* ── Body ── */}
         <tbody>
-
-          {/* Data rows — caller renders cells via renderRow */}
           {data.map((item, i) => (
             <tr
               key={i}
@@ -198,34 +266,42 @@ const Table = <T extends Record<string, unknown>>({
             </tr>
           ))}
 
-          {/* Skeleton — while loading more rows */}
-          {loading && data.length > 0 &&
+          {loading &&
+            data.length > 0 &&
             Array.from({ length: 3 }).map((_, i) => (
-              <SkeletonRow key={`sk-more-${i}`} cols={header.length} delay={i * 0.05} />
+              <SkeletonRow
+                key={`sk-more-${i}`}
+                cols={colCount}
+                delay={i * 0.05}
+              />
             ))}
 
-          {/* Skeleton — initial empty load */}
-          {loading && data.length === 0 &&
+          {loading &&
+            data.length === 0 &&
             Array.from({ length: 6 }).map((_, i) => (
-              <SkeletonRow key={`sk-init-${i}`} cols={header.length} delay={i * 0.08} />
+              <SkeletonRow
+                key={`sk-init-${i}`}
+                cols={colCount}
+                delay={i * 0.08}
+              />
             ))}
 
-          {/* No data */}
           {!loading && data.length === 0 && (
             <tr>
-              <td colSpan={header.length} className="px-6 py-14 text-center">
+              <td colSpan={colCount} className="px-6 py-14 text-center">
                 <div className="flex flex-col items-center gap-3">
                   <img
                     src={NoData}
                     alt="No data"
                     className="h-20 w-20 object-contain opacity-40 sm:h-24 sm:w-24"
                   />
-                  <p className="text-sm font-medium text-white/30">{noDataText}</p>
+                  <p className="text-sm font-medium text-white/30">
+                    {noDataText}
+                  </p>
                 </div>
               </td>
             </tr>
           )}
-
         </tbody>
       </table>
     </div>

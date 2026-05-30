@@ -1,65 +1,57 @@
 import { useFormik } from 'formik';
-import Button from '../../common/Button';
-import Input from '../../common/Input';
-
-import ExcelIcon from '../../../assets/images/excel-icon.png';
-import SendIcon from '../../../assets/images/send-to-CMS.png';
-import { getDataCat5, resetDataCat5 } from '../../../features/categorySlice';
-import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { generateFileExcel, previewPayload } from '../../../features/fileSlice';
-import { Toast } from '../../../utils/Toast';
-import Select from '../../common/Select';
-import { FACTORIES } from '../../../utils/constanst';
-import { useTranslation } from 'react-i18next';
-import { fetchDataAutoSendCMSCat5 } from '../../../features/autosendcmsSlice';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
+import { getDataCat5, resetDataCat5 } from '../../../features/categorySlice';
+import { generateFileExcel, previewPayload } from '../../../features/fileSlice';
+import { fetchDataAutoSendCMSCat5 } from '../../../features/autosendcmsSlice';
 import { createLogCat5 } from '../../../features/logcatSlice';
 import cmsApi from '../../../api/cms';
-// import axios from 'axios';
+import { Toast } from '../../../utils/Toast';
+import CategorySearchForm from '../CategorySearchForm';
+
+const DOCKEY_OPTIONS = [
+  { name: '3.6 (CAT4)', value: '3.6' },
+  { name: '4.4 (CAT5)', value: '4.4' },
+];
+
+const CMS_TOAST_BASE = {
+  confirmButtonText: 'OK',
+  toast: false,
+  position: 'center' as const,
+  showConfirmButton: true,
+  timerProgressBar: false,
+  timer: undefined,
+  allowOutsideClick: false,
+  allowEscapeKey: false,
+};
 
 type Props = {
-  activeSort: {
-    sortField: string;
-    sortOrder: string;
-  };
-  dateFrom: string;
-  setDateFrom: (dateVal: string) => void;
-  dateTo: string;
-  setDateTo: (dateVal: string) => void;
-  factory: string;
-  setFactory: (factoryVal: string) => void;
-  dockey: string;
-  setDockey: (factoryVal: string) => void;
-  loadingFetch: boolean;
-  setLoadingFetch: (val: boolean) => void;
+  activeSort    : { sortField: string; sortOrder: string };
+  dateFrom      : string; setDateFrom: (v: string) => void;
+  dateTo        : string; setDateTo  : (v: string) => void;
+  factory       : string; setFactory : (v: string) => void;
+  dockey        : string; setDockey  : (v: string) => void;
+  loadingFetch  : boolean; setLoadingFetch: (v: boolean) => void;
 };
 
 const Search = ({
   activeSort,
-  dateFrom,
-  setDateFrom,
-  dateTo,
-  setDateTo,
-  factory,
-  setFactory,
-  dockey,
-  setDockey,
-  loadingFetch,
-  setLoadingFetch,
+  dateFrom, setDateFrom,
+  dateTo,   setDateTo,
+  factory,  setFactory,
+  dockey,   setDockey,
+  loadingFetch, setLoadingFetch,
 }: Props) => {
   const { autoSendCMSCat5 } = useAppSelector((state) => state.autosendcms);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loadingCMS,     setLoadingCMS]     = useState(false);
+  const [loadingExcel,   setLoadingExcel]   = useState(false);
+  const [loadingPreview, setLoadingPreview] = useState(false);
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
-  const [loadingPreview, setLoadingPreview] = useState<boolean>(false);
 
   const formik = useFormik({
-    initialValues: {
-      dateFrom: dateFrom,
-      dateTo: dateTo,
-      factory: factory,
-      dockey: dockey,
-    },
+    initialValues: { dateFrom, dateTo, factory, dockey },
     onSubmit: async (data) => {
       try {
         dispatch(resetDataCat5());
@@ -67,238 +59,78 @@ const Search = ({
         setDateTo(data.dateTo);
         setFactory(data.factory);
         setDockey(data.dockey);
-        await dispatch(
-          getDataCat5({
-            dateFrom: data.dateFrom,
-            dateTo: data.dateTo,
-            factory: data.factory,
-            page: 1,
-            sortField: activeSort.sortField,
-            sortOrder: activeSort.sortOrder,
-          })
-        );
+        await dispatch(getDataCat5({
+          dateFrom: data.dateFrom, dateTo: data.dateTo, factory: data.factory,
+          page: 1, sortField: activeSort.sortField, sortOrder: activeSort.sortOrder,
+        }));
         setLoadingFetch(true);
-        await dispatch(
-          fetchDataAutoSendCMSCat5({
-            dateFrom: data.dateFrom,
-            dateTo: data.dateTo,
-            factory: data.factory,
-            dockey: data.dockey,
-          })
-        );
+        await dispatch(fetchDataAutoSendCMSCat5({
+          dateFrom: data.dateFrom, dateTo: data.dateTo, factory: data.factory, dockey: data.dockey,
+        }));
         setLoadingFetch(false);
-        // console.log(res);
-      } catch (error: any) {
+      } catch (error) {
         console.log(error);
       }
     },
   });
 
   const onExportExcel = async () => {
-    const result = await dispatch(
-      generateFileExcel({
-        module: 'Cat5',
-        dateFrom: formik.values.dateFrom,
-        dateTo: formik.values.dateTo,
-        factory: formik.values.factory,
-      })
-    );
+    setLoadingExcel(true);
+    const result = await dispatch(generateFileExcel({
+      module: 'Cat5',
+      dateFrom: formik.values.dateFrom, dateTo: formik.values.dateTo, factory: formik.values.factory,
+    }));
     if (generateFileExcel.fulfilled.match(result)) {
-      const { statusCode, message } = result.payload as {
-        statusCode: number;
-        message: string;
-      };
-      Toast.fire({
-        title: message,
-        icon: statusCode === 200 ? 'success' : 'error',
-      });
+      const { statusCode, message } = result.payload as { statusCode: number; message: string };
+      Toast.fire({ title: message, icon: statusCode === 200 ? 'success' : 'error' });
     }
+    setLoadingExcel(false);
   };
 
   const onPreviewPayload = async () => {
-      setLoadingPreview(true);
-      const result = await dispatch(
-        previewPayload({
-          module: 'Cat5',
-          dateFrom: formik.values.dateFrom,
-          dateTo: formik.values.dateTo,
-          factory: formik.values.factory,
-          dockeyCMS: formik.values.dockey
-        })
-      );
-      if (previewPayload.fulfilled.match(result)) {
-        const { statusCode, message } = result.payload as {
-          statusCode: number;
-          message: string;
-        };
-        setLoadingPreview(false);
-        Toast.fire({
-          title: message,
-          icon: statusCode === 200 ? 'success' : 'error',
-        });
-      }
-    };
+    setLoadingPreview(true);
+    const result = await dispatch(previewPayload({
+      module: 'Cat5',
+      dateFrom: formik.values.dateFrom, dateTo: formik.values.dateTo, factory: formik.values.factory,
+      dockeyCMS: formik.values.dockey,
+    }));
+    if (previewPayload.fulfilled.match(result)) {
+      const { statusCode, message } = result.payload as { statusCode: number; message: string };
+      Toast.fire({ title: message, icon: statusCode === 200 ? 'success' : 'error' });
+    }
+    setLoadingPreview(false);
+  };
 
   const onSendToCMS = async () => {
-    setLoading(true);
+    setLoadingCMS(true);
     const response = await cmsApi.createCMS(autoSendCMSCat5);
     if (response.std_data.execution.code === '0') {
-      let result = await dispatch(createLogCat5(autoSendCMSCat5 as any));
-      setLoading(false);
-      Toast.fire({
-        title: result.payload.message,
-        icon: result.payload.success ? 'success' : 'error',
-        confirmButtonText: 'OK',
-        toast: false,
-        position: 'center',
-        showConfirmButton: true,
-        timerProgressBar: false,
-        timer: undefined,
-        allowOutsideClick: false,
-        allowEscapeKey: false,
-      });
-      return;
+      const result = await dispatch(createLogCat5(autoSendCMSCat5 as any));
+      Toast.fire({ title: result.payload.message, icon: result.payload.success ? 'success' : 'error', ...CMS_TOAST_BASE });
     } else {
-      setLoading(false);
-      Toast.fire({
-        title: 'Send to CMS failed!',
-        icon: 'error',
-        confirmButtonText: 'OK',
-        toast: false,
-        position: 'center',
-        showConfirmButton: true,
-        timerProgressBar: false,
-        timer: undefined,
-        allowOutsideClick: false,
-        allowEscapeKey: false,
-      });
-      return;
+      Toast.fire({ title: 'Send to CMS failed!', icon: 'error', ...CMS_TOAST_BASE });
     }
+    setLoadingCMS(false);
   };
 
   return (
-    <form className="mb-4 sm:mb-5 space-y-4" onSubmit={formik.handleSubmit}>
-      {/* Filter Section */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-        <div>
-          <Input
-            label={t('main.date_from')}
-            type="date"
-            name="dateFrom"
-            classNameLabel="mb-2 text-sm sm:text-base"
-            value={formik.values.dateFrom}
-            onChange={formik.handleChange}
-          />
-        </div>
-        <div>
-          <Input
-            label={t('main.date_to')}
-            type="date"
-            name="dateTo"
-            classNameLabel="mb-2 text-sm sm:text-base"
-            value={formik.values.dateTo}
-            onChange={formik.handleChange}
-          />
-        </div>
-        <div className="sm:col-span-2 lg:col-span-1">
-          <Select
-            label={t('main.factory')}
-            name="factory"
-            classNameLabel="mb-2 text-sm sm:text-base"
-            value={formik.values.factory}
-            onChange={formik.handleChange}
-            isShowAllSelect={true}
-            showAllSelect={true}
-            options={FACTORIES}
-          />
-        </div>
-        <div className="sm:col-span-2 lg:col-span-1">
-          <Select
-            label={'Dockey'}
-            name="dockey"
-            classNameLabel="mb-2 text-sm sm:text-base"
-            value={formik.values.dockey}
-            onChange={formik.handleChange}
-            // isShowAllSelect={true}
-            // showAllSelect={true}
-            options={[
-              { name: '3.6 (CAT4)', value: '3.6' },
-              { name: '4.4 (CAT5)', value: '4.4' },
-            ]}
-          />
-        </div>
-      </div>
-
-      {/* Action Buttons */}
-      <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-2 sm:items-center">
-        <Button
-          label={t('main.search')}
-          type="submit"
-          className="w-full sm:w-auto text-white bg-[#FF9119] hover:bg-[#FF9119]/80 focus:ring-4 focus:outline-none focus:ring-[#FF9119]/50 font-medium rounded-lg text-sm px-5 py-2.5 dark:hover:bg-[#FF9119]/80 dark:focus:ring-[#FF9119]/40 cursor-pointer transition-colors duration-300"
-        />
-        <Button
-          label={
-            loadingFetch
-              ? 'loading from ERP...'
-              : loading
-              ? 'Loading...'
-              : `${t('Send to CMS')} (${autoSendCMSCat5?.length ?? 0})`
-          }
-          type="button"
-          onClick={onSendToCMS}
-          className={`w-full sm:w-auto flex flex-row gap-2 items-center justify-center sm:justify-start cursor-pointer px-4 py-2 rounded-lg text-white bg-[#FFB619] hover:bg-[#FFB619]/80 transition-colors duration-300 ${
-            loading || loadingFetch ? 'hover:cursor-not-allowed' : ''
-          }`}
-          imgSrc={SendIcon}
-          disabled={loading || loadingFetch}
-        />
-        <Button
-          label={t('Export Excel file')}
-          type="button"
-          onClick={onExportExcel}
-          className="w-full sm:w-auto bg-green-500/20 border-green-400/40 hover:bg-green-500 text-white"
-          imgSrc={ExcelIcon}
-        />
-        <Button
-          label={loadingPreview ? 'Loading...' : 'Preview Payload'}
-          type="button"
-          onClick={onPreviewPayload}
-          className={`w-full sm:w-auto bg-green-500/20 border-green-400/40 hover:bg-green-500 text-white ${
-            loadingPreview ? 'hover:cursor-not-allowed' : ''
-          }`}
-          imgSrc={ExcelIcon}
-          disabled={loadingPreview}
-        />
-        {/* <button
-          type="button"
-          className="w-full sm:w-auto flex flex-row gap-2 items-center justify-center sm:justify-start cursor-pointer px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors duration-300"
-          onClick={() => onExportExcel()}
-        >
-          <img
-            src={ExcelIcon}
-            alt="excel-icon"
-            className="w-8 sm:w-10 object-contain"
-          />
-          <span className="whitespace-nowrap text-sm sm:text-base">
-            {t('main.export_excel_file')}
-          </span>
-        </button> */}
-        {/* <button
-          type="button"
-          className="w-full sm:w-auto flex flex-row gap-2 items-center justify-center sm:justify-start cursor-pointer px-4 py-2 rounded-lg text-white bg-[#FFB619] hover:bg-[#FFB619]/80 transition-colors duration-300"
-          onClick={onSendToCMS}
-        >
-          <img
-            src={SendIcon}
-            alt="excel-icon"
-            className="w-8 sm:w-10 object-contain"
-          />
-          <span className="whitespace-nowrap text-sm sm:text-base">
-            {t('Send to CMS')}
-          </span>
-        </button> */}
-      </div>
-    </form>
+    <CategorySearchForm
+      onSubmit={formik.handleSubmit}
+      dateFrom={formik.values.dateFrom}
+      dateTo={formik.values.dateTo}
+      factory={formik.values.factory}
+      handleChange={formik.handleChange}
+      dockeyOptions={DOCKEY_OPTIONS}
+      dockey={formik.values.dockey}
+      cmsCount={autoSendCMSCat5?.length ?? 0}
+      loadingFetch={loadingFetch}
+      loadingCMS={loadingCMS}
+      loadingExcel={loadingExcel}
+      loadingPreview={loadingPreview}
+      onSendToCMS={onSendToCMS}
+      onExportExcel={onExportExcel}
+      onPreviewPayload={onPreviewPayload}
+    />
   );
 };
 

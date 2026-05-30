@@ -27,6 +27,11 @@ export interface SearchPayload {
   sortOrder?: string;
 }
 
+export interface ModulePermissionState {
+  permissionsConfigured: boolean;
+  modulePermissions: string[];
+}
+
 export interface Item {
   ID: string;
   UserID: string;

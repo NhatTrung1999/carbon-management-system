@@ -38,9 +38,21 @@ const Sidebar = ({ isOpenSideBar, setIsOpenSideBar }: Props) => {
 
   const role       = user?.Role?.toLowerCase().trim();
   const department = user?.Department?.toLowerCase().trim();
+  const permissionsConfigured = Boolean(user?.permissionsConfigured);
+  const modulePermissionSet = useMemo(
+    () => new Set<string>(user?.modulePermissions ?? []),
+    [user?.modulePermissions],
+  );
 
   const visibleMenu = useMemo(() => {
     const canSeeItem = (path: string): boolean => {
+      if (permissionsConfigured) {
+        return (
+          modulePermissionSet.has(path) ||
+          (role === 'admin' && path === '/dashboard/system-decentralization')
+        );
+      }
+
       if (department === 'hr') return path === HR_ONLY_PATH;
       if (ADMIN_ONLY_PATHS.has(path)) return role === 'admin';
       if (path === HR_ONLY_PATH) return department === 'esg' || role === 'admin';
@@ -52,7 +64,7 @@ const Sidebar = ({ isOpenSideBar, setIsOpenSideBar }: Props) => {
         sidebarItem: group.sidebarItem.filter((item) => canSeeItem(item.path)),
       }))
       .filter((group) => group.sidebarItem.length > 0);
-  }, [role, department]);
+  }, [role, department, permissionsConfigured, modulePermissionSet]);
 
   const toggleSidebar = useCallback(
     () => setIsOpenSideBar(!isOpenSideBar),

@@ -3,6 +3,7 @@ import type {
   SearchPayload,
   UpdateUserPayload,
   UserPayload,
+  ModulePermissionState,
 } from '../../types/users';
 
 const usersApi = {
@@ -23,6 +24,28 @@ const usersApi = {
   },
   deleteUser: async (id: string) => {
     const res = await axiosConfig.delete(`users/${id}`);
+    return res.data;
+  },
+  getModulePermissions: async (userid: string): Promise<ModulePermissionState> => {
+    const res = await axiosConfig.get(
+      `users/${encodeURIComponent(userid)}/module-permissions`
+    );
+    return res.data;
+  },
+  updateModulePermissions: async (
+    userid: string,
+    modulePaths: string[],
+    allModulePaths: string[],
+    updatedAt?: string
+  ): Promise<ModulePermissionState> => {
+    const res = await axiosConfig.patch(
+      `users/${encodeURIComponent(userid)}/module-permissions`,
+      {
+        modulePaths,
+        allModulePaths,
+        updatedAt,
+      }
+    );
     return res.data;
   },
 };

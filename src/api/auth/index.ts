@@ -10,6 +10,12 @@ const authApi = {
       factory,
     });
   },
+  refresh: (refreshToken: string) => {
+    const url = 'auth/refresh';
+    return axiosConfig.post(url, {
+      refresh_token: refreshToken,
+    });
+  },
 };
 
 export default authApi;

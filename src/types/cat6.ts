@@ -51,7 +51,6 @@ export interface ICat6Data {
   Transport_2: string;
   Transport_3: string;
   Number_of_nights_stayed: number;
-  Number_of_People: number;
   TotalRow: number;
   [key: string]: string | number | undefined;
 }
@@ -124,11 +123,6 @@ export const getCat6Header = (placeCount: number, transportCount: number) => [
   {
     name: 'cat6.number_of_nights_stayed',
     state: 'Number_of_nights_stayed',
-    sort: true,
-  },
-  {
-    name: 'Number of people',
-    state: 'Number_of_People',
     sort: true,
   },
 ];
