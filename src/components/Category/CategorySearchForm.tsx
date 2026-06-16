@@ -10,26 +10,30 @@ import { FACTORIES } from '../../utils/constanst';
 type SelectOption = { name: string; value: string };
 
 export type CategorySearchFormProps = {
-  onSubmit       : (e: FormEvent<HTMLFormElement>) => void;
+  onSubmit: (e: FormEvent<HTMLFormElement>) => void;
 
-  dateFrom       : string;
-  dateTo         : string;
-  factory        : string;
-  handleChange   : (e: ChangeEvent<any>) => void;
+  dateFrom: string;
+  dateTo: string;
+  factory: string;
+  handleChange: (e: ChangeEvent<any>) => void;
 
-  dockeyOptions ?: SelectOption[];
-  dockey        ?: string;
+  dockeyOptions?: SelectOption[];
+  dockey?: string;
 
-  extraFilters  ?: ReactNode;
+  ryOptions?: SelectOption[];
+  ry?: string;
+  isOpenRY?: boolean;
 
-  cmsCount       : number;
-  loadingFetch   : boolean;
-  loadingCMS     : boolean;
-  loadingExcel   : boolean;
-  loadingPreview : boolean;
+  extraFilters?: ReactNode;
 
-  onSendToCMS    : () => void;
-  onExportExcel  : () => void;
+  cmsCount: number;
+  loadingFetch: boolean;
+  loadingCMS: boolean;
+  loadingExcel: boolean;
+  loadingPreview: boolean;
+
+  onSendToCMS: () => void;
+  onExportExcel: () => void;
   onPreviewPayload: () => void;
 };
 
@@ -41,6 +45,9 @@ const CategorySearchForm = ({
   handleChange,
   dockeyOptions,
   dockey,
+  ryOptions,
+  ry,
+  isOpenRY = false,
   extraFilters,
   cmsCount,
   loadingFetch,
@@ -54,13 +61,14 @@ const CategorySearchForm = ({
   const { t } = useTranslation();
 
   const hasDockey = Boolean(dockeyOptions?.length);
-  const gridCols  = hasDockey ? 'lg:grid-cols-4' : 'lg:grid-cols-3';
+  const gridCols = hasDockey ? 'lg:grid-cols-4' : 'lg:grid-cols-3';
 
   return (
     <form className="mb-4 sm:mb-5 space-y-4" onSubmit={onSubmit}>
-
       {/* ── Filters ── */}
-      <div className={`grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 ${gridCols}`}>
+      <div
+        className={`grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 ${gridCols}`}
+      >
         <div>
           <Input
             label={t('main.date_from')}
@@ -105,6 +113,18 @@ const CategorySearchForm = ({
             />
           </div>
         )}
+        {isOpenRY && (
+          <div className="sm:col-span-2 lg:col-span-1">
+            <Select
+              label="RY"
+              name="ry"
+              classNameLabel="mb-2 text-sm sm:text-base"
+              value={ry ?? ''}
+              onChange={handleChange}
+              options={ryOptions!}
+            />
+          </div>
+        )}
       </div>
 
       {/* ── Actions ── */}
@@ -119,8 +139,8 @@ const CategorySearchForm = ({
             loadingFetch
               ? 'loading from ERP...'
               : loadingCMS
-              ? 'Loading...'
-              : `${t('Send to CMS')} (${cmsCount})`
+                ? 'Loading...'
+                : `${t('Send to CMS')} (${cmsCount})`
           }
           type="button"
           onClick={onSendToCMS}
@@ -152,7 +172,6 @@ const CategorySearchForm = ({
         />
         {extraFilters}
       </div>
-
     </form>
   );
 };

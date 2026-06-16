@@ -26,16 +26,17 @@ const HRModule = () => {
 
   const [dateFrom, setDateFrom] = useState<string>(getInitialDateFrom());
   const [dateTo, setDateTo] = useState<string>(
-    new Date().toISOString().slice(0, 10)
+    new Date().toISOString().slice(0, 10),
   );
 
   const [fullName, setFullName] = useState<string>('');
   const [id, setId] = useState<string>('');
   const [department, setDepartment] = useState<string>('');
-  const [joinDate, setJoinDate] = useState<string>('');
+  const [joinDateFrom, setJoinDateFrom] = useState<string>('');
+  const [joinDateTo, setJoinDateTo] = useState<string>('');
 
   const { hrmodule, page, loading, hasMore } = useAppSelector(
-    (state) => state.hrmodule
+    (state) => state.hrmodule,
   );
 
   const dispatch = useAppDispatch();
@@ -51,11 +52,12 @@ const HRModule = () => {
         fullName,
         id,
         department: department.toLowerCase().trim() === 'all' ? '' : department,
-        joinDate,
+        joinDateFrom,
+        joinDateTo,
         page: 1,
         sortField: activeSort.sortField,
         sortOrder: activeSort.sortOrder,
-      })
+      }),
     );
   }, [dispatch, activeSort, dateFrom, dateTo]);
 
@@ -73,11 +75,12 @@ const HRModule = () => {
           id,
           department:
             department.toLowerCase().trim() === 'all' ? '' : department,
-          joinDate,
+          joinDateFrom,
+          joinDateTo,
           page,
           sortField: activeSort.sortField,
           sortOrder: activeSort.sortOrder,
-        })
+        }),
       );
     }
   }, [dispatch, loading, hasMore, page, activeSort, dateFrom, dateTo]);
@@ -89,7 +92,7 @@ const HRModule = () => {
           id: updatedItem.ID,
           currentAddress: updatedItem.CurrentAddress,
           transportationMethod: updatedItem.TransportationMethod,
-        })
+        }),
       ).unwrap();
       console.log('Update success');
     } catch (error) {
@@ -173,13 +176,15 @@ const HRModule = () => {
             fullName={fullName}
             id={id}
             department={department}
-            joinDate={joinDate}
+            joinDateFrom={joinDateFrom}
+            joinDateTo={joinDateTo}
             setDateFrom={setDateFrom}
             setDateTo={setDateTo}
             setFullName={setFullName}
             setId={setId}
             setDepartment={setDepartment}
-            setJoinDate={setJoinDate}
+            setJoinDateFrom={setJoinDateFrom}
+            setJoinDateTo={setJoinDateTo}
           />
           <Table
             header={HEADER}

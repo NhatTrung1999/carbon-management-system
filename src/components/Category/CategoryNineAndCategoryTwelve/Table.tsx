@@ -7,15 +7,22 @@ import CommonTable, { Td } from '../../common/Table';
 import type { SortState } from '../../common/Table';
 
 type Props = {
-  header       : TableHeaderProps[];
-  activeSort   : SortState;
+  header: TableHeaderProps[];
+  activeSort: SortState;
   setActiveSort: (data: SortState) => void;
-  data         : ICat9AndCat12Data[];
-  tableRef    ?: RefObject<HTMLDivElement | null>;
-  onScroll     : UIEventHandler<HTMLDivElement>;
+  data: ICat9AndCat12Data[];
+  tableRef?: RefObject<HTMLDivElement | null>;
+  onScroll: UIEventHandler<HTMLDivElement>;
 };
 
-const Table = ({ header, activeSort, setActiveSort, data, tableRef, onScroll }: Props) => {
+const Table = ({
+  header,
+  activeSort,
+  setActiveSort,
+  data,
+  tableRef,
+  onScroll,
+}: Props) => {
   const { loading } = useAppSelector((state) => state.category);
 
   return (
@@ -27,6 +34,9 @@ const Table = ({ header, activeSort, setActiveSort, data, tableRef, onScroll }: 
         <>
           <Td>{item.No}</Td>
           <Td>{formatDate(item.Date)}</Td>
+          <Td>{item.RYProduct}</Td>
+          <Td>{item.RYComponent}</Td>
+          <Td>{item.ComponentName}</Td>
           <Td>{formatDate(item.Shipment_Date)}</Td>
           <Td>{item.Booking_No}</Td>
           <Td>{item.Invoice_Number}</Td>

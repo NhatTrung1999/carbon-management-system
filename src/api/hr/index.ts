@@ -7,10 +7,11 @@ const hrModuleAPi = {
     fullName: string,
     id: string,
     department: string,
-    joinDate: string,
+    joinDateFrom: string,
+    joinDateTo: string,
     page: number,
     sortField: string,
-    sortOrder: string
+    sortOrder: string,
   ) => {
     const url = `hr`;
     const res = await axiosConfig.get(url, {
@@ -20,7 +21,8 @@ const hrModuleAPi = {
         fullName,
         id,
         department,
-        joinDate,
+        joinDateFrom,
+        joinDateTo,
         page,
         limit: 20,
         sortField,
@@ -37,7 +39,7 @@ const hrModuleAPi = {
   updateHRModule: async (
     id: string,
     currentAddress: string,
-    transportationMethod: string
+    transportationMethod: string,
   ) => {
     const response = await axiosConfig.patch(`hr/${id}`, {
       CurrentAddress: currentAddress,
@@ -62,7 +64,8 @@ const hrModuleAPi = {
     fullName: string,
     id: string,
     department: string,
-    joinDate: string
+    joinDateFrom: string,
+    joinDateTo: string,
   ) => {
     const response = await axiosConfig.get('hr/export', {
       params: {
@@ -71,7 +74,8 @@ const hrModuleAPi = {
         fullName,
         id,
         department,
-        joinDate,
+        joinDateFrom,
+        joinDateTo,
       },
       responseType: 'blob',
     });

@@ -20,7 +20,7 @@ export const fetchDataAutoSendCMSCat1AndCat4 = createAsyncThunk(
       factory: string;
       dockey: string;
     },
-    { rejectWithValue }
+    { rejectWithValue },
   ) => {
     try {
       const res = await autosendcmsApi.fetchDataAutoSentCMSCat1AndCat4({
@@ -30,7 +30,7 @@ export const fetchDataAutoSendCMSCat1AndCat4 = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error || 'Error!');
     }
-  }
+  },
 );
 
 export const fetchDataAutoSendCMSCat5 = createAsyncThunk(
@@ -42,7 +42,7 @@ export const fetchDataAutoSendCMSCat5 = createAsyncThunk(
       factory: string;
       dockey: string;
     },
-    { rejectWithValue }
+    { rejectWithValue },
   ) => {
     try {
       const res = await autosendcmsApi.fetchDataAutoSentCMSCat5({ ...payload });
@@ -50,14 +50,14 @@ export const fetchDataAutoSendCMSCat5 = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error || 'Error!');
     }
-  }
+  },
 );
 
 export const fetchDataAutoSendCMSCat6 = createAsyncThunk(
   'autosendcms/fetch-data-auto-send-cms-cat6',
   async (
     payload: { dateFrom: string; dateTo: string; factory: string },
-    { rejectWithValue }
+    { rejectWithValue },
   ) => {
     try {
       const res = await autosendcmsApi.fetchDataAutoSentCMSCat6({ ...payload });
@@ -65,14 +65,14 @@ export const fetchDataAutoSendCMSCat6 = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error || 'Error!');
     }
-  }
+  },
 );
 
 export const fetchDataAutoSendCMSCat7 = createAsyncThunk(
   'autosendcms/fetch-data-auto-send-cms-cat7',
   async (
     payload: { dateFrom: string; dateTo: string; factory: string },
-    { rejectWithValue }
+    { rejectWithValue },
   ) => {
     try {
       const res = await autosendcmsApi.fetchDataAutoSentCMSCat7({ ...payload });
@@ -80,7 +80,7 @@ export const fetchDataAutoSendCMSCat7 = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error || 'Error!');
     }
-  }
+  },
 );
 
 export const fetchDataAutoSendCMSCat9AndCat12 = createAsyncThunk(
@@ -90,9 +90,10 @@ export const fetchDataAutoSendCMSCat9AndCat12 = createAsyncThunk(
       dateFrom: string;
       dateTo: string;
       factory: string;
+      ry: string;
       dockey: string;
     },
-    { rejectWithValue }
+    { rejectWithValue },
   ) => {
     try {
       const res = await autosendcmsApi.fetchDataAutoSentCMSCat9AndCat12({
@@ -102,7 +103,7 @@ export const fetchDataAutoSendCMSCat9AndCat12 = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error || 'Error!');
     }
-  }
+  },
 );
 
 const initialState: IAutoSendCMSState = {

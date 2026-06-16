@@ -8,7 +8,7 @@ export interface ICat6RouteItem {
 }
 
 export interface ICat6Data {
-  // Document_Date: string;
+  // Application_Day: string;
   // Document_Number: string;
   // Staff_ID: string;
   // Round_trip_One_way: string;
@@ -35,7 +35,7 @@ export interface ICat6Data {
   // Accommodation?: any[];
   // Number_of_nights_stayed: number;
   // TotalRow: number;
-  Document_Date: string;
+  Application_Day: string;
   Document_Number: string;
   Staff_ID: string;
   Dept: string;
@@ -58,7 +58,7 @@ export interface ICat6Data {
 const fixedCat6Header = [
   {
     name: 'cat6.document_date',
-    state: 'Document_Date',
+    state: 'Application_Day',
     sort: true,
   },
   {
@@ -135,7 +135,7 @@ export const getCat6Header = (placeCount: number, transportCount: number) => [
 // }[] = [
 //   {
 //     name: 'cat6.document_date',
-//     state: 'Document_Date',
+//     state: 'Application_Day',
 //     sort: true,
 //     children: [],
 //   },
@@ -284,7 +284,7 @@ export const HEADER: {
 }[] = [
   {
     name: 'cat6.document_date',
-    state: 'Document_Date',
+    state: 'Application_Day',
     sort: true,
   },
   {

@@ -70,6 +70,7 @@ export const getDataCat9AndCat12 = createAsyncThunk(
       dateFrom,
       dateTo,
       factory,
+      ry,
       page,
       sortField,
       sortOrder,
@@ -77,20 +78,22 @@ export const getDataCat9AndCat12 = createAsyncThunk(
       dateFrom: string;
       dateTo: string;
       factory: string;
+      ry: string;
       page: number;
       sortField: string;
       sortOrder: string;
     },
-    { rejectWithValue }
+    { rejectWithValue },
   ) => {
     try {
       const res = await categoryApi.getDataCat9AndCat12(
         dateFrom,
         dateTo,
         factory,
+        ry,
         page,
         sortField,
-        sortOrder
+        sortOrder,
       );
       return res as {
         data: ICat9AndCat12Data[];
@@ -102,7 +105,7 @@ export const getDataCat9AndCat12 = createAsyncThunk(
     } catch (error: any) {
       return rejectWithValue(error || '');
     }
-  }
+  },
 );
 
 export const importExcelPortCode = createAsyncThunk(
@@ -113,10 +116,10 @@ export const importExcelPortCode = createAsyncThunk(
       return res as { message: string; records: IPortCodeData[] };
     } catch (error: any) {
       return rejectWithValue(
-        error?.response?.data?.message || 'Import failed!'
+        error?.response?.data?.message || 'Import failed!',
       );
     }
-  }
+  },
 );
 
 export const importExcelPortCodeCat1AndCat4 = createAsyncThunk(
@@ -127,10 +130,10 @@ export const importExcelPortCodeCat1AndCat4 = createAsyncThunk(
       return res as { message: string; records: IPortCodeDataCat1AndCat4[] };
     } catch (error: any) {
       return rejectWithValue(
-        error?.response?.data?.message || 'Import failed!'
+        error?.response?.data?.message || 'Import failed!',
       );
     }
-  }
+  },
 );
 
 export const importExcelTaxFreeZoneAddress = createAsyncThunk(
@@ -141,17 +144,17 @@ export const importExcelTaxFreeZoneAddress = createAsyncThunk(
       return res as { message: string; records: ITaxFreeZoneAddress[] };
     } catch (error: any) {
       return rejectWithValue(
-        error?.response?.data?.message || 'Import failed!'
+        error?.response?.data?.message || 'Import failed!',
       );
     }
-  }
+  },
 );
 
 export const getPortCode = createAsyncThunk(
   'category/get-port-code',
   async (
     { sortField, sortOrder }: { sortField: string; sortOrder: string },
-    { rejectWithValue }
+    { rejectWithValue },
   ) => {
     try {
       const res = await categoryApi.getPortCode(sortField, sortOrder);
@@ -159,32 +162,32 @@ export const getPortCode = createAsyncThunk(
     } catch (error: any) {
       return rejectWithValue(error?.response?.data?.message || 'Get failed!');
     }
-  }
+  },
 );
 
 export const getPortCodeCat1AndCat4 = createAsyncThunk(
   'category/get-port-code-cat1-and-cat4',
   async (
     { sortField, sortOrder }: { sortField: string; sortOrder: string },
-    { rejectWithValue }
+    { rejectWithValue },
   ) => {
     try {
       const res = await categoryApi.getPortCodeCat1AndCat4(
         sortField,
-        sortOrder
+        sortOrder,
       );
       return res as IPortCodeDataCat1AndCat4[];
     } catch (error: any) {
       return rejectWithValue(error?.response?.data?.message || 'Get failed!');
     }
-  }
+  },
 );
 
 export const getTaxFreeZoneAddress = createAsyncThunk(
   'category/get-tax-free-zone-address',
   async (
     { sortField, sortOrder }: { sortField: string; sortOrder: string },
-    { rejectWithValue }
+    { rejectWithValue },
   ) => {
     try {
       const res = await categoryApi.getTaxFreeZoneAddress(sortField, sortOrder);
@@ -192,7 +195,7 @@ export const getTaxFreeZoneAddress = createAsyncThunk(
     } catch (error: any) {
       return rejectWithValue(error?.response?.data?.message || 'Get failed!');
     }
-  }
+  },
 );
 
 export const updateTaxFreeZoneAddress = createAsyncThunk(
@@ -205,25 +208,25 @@ export const updateTaxFreeZoneAddress = createAsyncThunk(
       id: string;
       taxFreeZoneAddress: string;
     },
-    { rejectWithValue }
+    { rejectWithValue },
   ) => {
     try {
       const res = await categoryApi.updateTaxFreeZoneAddress(
         id,
-        taxFreeZoneAddress
+        taxFreeZoneAddress,
       );
       return res;
     } catch (error: any) {
       return rejectWithValue(error || '');
     }
-  }
+  },
 );
 
 export const getStyleAutoFill = createAsyncThunk(
   'category/get-style-auto-fill',
   async (
     { sortField, sortOrder }: { sortField: string; sortOrder: string },
-    { rejectWithValue }
+    { rejectWithValue },
   ) => {
     try {
       const res = await categoryApi.getStyleAutoFill(sortField, sortOrder);
@@ -231,7 +234,7 @@ export const getStyleAutoFill = createAsyncThunk(
     } catch (error: any) {
       return rejectWithValue(error?.response?.data?.message || 'Get failed!');
     }
-  }
+  },
 );
 
 export const importExcelStyleAutoFill = createAsyncThunk(
@@ -242,10 +245,10 @@ export const importExcelStyleAutoFill = createAsyncThunk(
       return res as { message: string; records: IStyleAutoFill[] };
     } catch (error: any) {
       return rejectWithValue(
-        error?.response?.data?.message || 'Import failed!'
+        error?.response?.data?.message || 'Import failed!',
       );
     }
-  }
+  },
 );
 
 export const deleteStyleAutoFill = createAsyncThunk(
@@ -255,9 +258,11 @@ export const deleteStyleAutoFill = createAsyncThunk(
       const res = await categoryApi.deleteStyleAutoFill(id);
       return res as { message: string; Id: string };
     } catch (error: any) {
-      return rejectWithValue(error?.response?.data?.message || 'Delete failed!');
+      return rejectWithValue(
+        error?.response?.data?.message || 'Delete failed!',
+      );
     }
-  }
+  },
 );
 
 export const getDataCat5 = createAsyncThunk(
@@ -278,7 +283,7 @@ export const getDataCat5 = createAsyncThunk(
       sortField: string;
       sortOrder: string;
     },
-    { rejectWithValue }
+    { rejectWithValue },
   ) => {
     try {
       const res = await categoryApi.getDataCat5(
@@ -287,7 +292,7 @@ export const getDataCat5 = createAsyncThunk(
         factory,
         page,
         sortField,
-        sortOrder
+        sortOrder,
       );
       return res as {
         data: ICat5Data[];
@@ -299,7 +304,7 @@ export const getDataCat5 = createAsyncThunk(
     } catch (error: any) {
       return rejectWithValue(error || '');
     }
-  }
+  },
 );
 
 export const getDataCat7 = createAsyncThunk(
@@ -320,7 +325,7 @@ export const getDataCat7 = createAsyncThunk(
       sortField: string;
       sortOrder: string;
     },
-    { rejectWithValue }
+    { rejectWithValue },
   ) => {
     try {
       const res = await categoryApi.getDataCat7(
@@ -329,7 +334,7 @@ export const getDataCat7 = createAsyncThunk(
         factory,
         page,
         sortField,
-        sortOrder
+        sortOrder,
       );
       return res as {
         data: ICat7Data[];
@@ -341,7 +346,7 @@ export const getDataCat7 = createAsyncThunk(
     } catch (error: any) {
       return rejectWithValue(error || '');
     }
-  }
+  },
 );
 
 export const getCustomExport = createAsyncThunk(
@@ -362,7 +367,7 @@ export const getCustomExport = createAsyncThunk(
       sortField: string;
       sortOrder: string;
     },
-    { rejectWithValue }
+    { rejectWithValue },
   ) => {
     try {
       const res = await categoryApi.getCustomExport(
@@ -371,7 +376,7 @@ export const getCustomExport = createAsyncThunk(
         factory,
         page,
         sortField,
-        sortOrder
+        sortOrder,
       );
       return res as {
         data: ICustomExportData[];
@@ -383,7 +388,7 @@ export const getCustomExport = createAsyncThunk(
     } catch (error: any) {
       return rejectWithValue(error || '');
     }
-  }
+  },
 );
 
 export const getDataCat6 = createAsyncThunk(
@@ -406,7 +411,7 @@ export const getDataCat6 = createAsyncThunk(
       sortOrder: string;
       checkedDormShuttle: boolean;
     },
-    { rejectWithValue }
+    { rejectWithValue },
   ) => {
     try {
       const res = await categoryApi.getDataCat6(
@@ -416,7 +421,7 @@ export const getDataCat6 = createAsyncThunk(
         page,
         sortField,
         sortOrder,
-        checkedDormShuttle
+        checkedDormShuttle,
       );
       return res as {
         data: ICat6Data[];
@@ -428,7 +433,7 @@ export const getDataCat6 = createAsyncThunk(
     } catch (error: any) {
       return rejectWithValue(error || '');
     }
-  }
+  },
 );
 
 export const getDataCat1AndCat4 = createAsyncThunk(
@@ -457,7 +462,7 @@ export const getDataCat1AndCat4 = createAsyncThunk(
       sortField: string;
       sortOrder: string;
     },
-    { rejectWithValue }
+    { rejectWithValue },
   ) => {
     try {
       const res = await categoryApi.getDataCat1AndCat4(
@@ -470,7 +475,7 @@ export const getDataCat1AndCat4 = createAsyncThunk(
         departure,
         page,
         sortField,
-        sortOrder
+        sortOrder,
       );
       return res as {
         data: ICat1AndCat4Data[];
@@ -482,7 +487,7 @@ export const getDataCat1AndCat4 = createAsyncThunk(
     } catch (error: any) {
       return rejectWithValue(error || '');
     }
-  }
+  },
 );
 
 export const categorySlice = createSlice({
@@ -536,10 +541,10 @@ export const categorySlice = createSlice({
       .addCase(getDataCat9AndCat12.fulfilled, (state, action) => {
         state.loading = false;
         const existingKeys = new Set(
-          state.cat9andcat12.map((item) => item.Invoice_Number)
+          state.cat9andcat12.map((item) => item.Invoice_Number),
         );
         const filtered = action.payload.data.filter(
-          (item) => !existingKeys.has(item.Invoice_Number)
+          (item) => !existingKeys.has(item.Invoice_Number),
         );
         state.cat9andcat12.push(...filtered);
         state.page += 1;
@@ -641,13 +646,13 @@ export const categorySlice = createSlice({
         importExcelPortCode.fulfilled,
         (
           state,
-          action: PayloadAction<{ message: string; records: IPortCodeData[] }>
+          action: PayloadAction<{ message: string; records: IPortCodeData[] }>,
         ) => {
           const { records } = action.payload;
           state.loading = false;
           state.portCode = records;
           // console.log(action.payload);
-        }
+        },
       )
       .addCase(importExcelPortCode.rejected, (state, action) => {
         state.loading = false;
@@ -667,13 +672,13 @@ export const categorySlice = createSlice({
           action: PayloadAction<{
             message: string;
             records: IPortCodeDataCat1AndCat4[];
-          }>
+          }>,
         ) => {
           const { records } = action.payload;
           state.loading = false;
           state.portCodeCat1AndCat4 = records;
           // console.log(action.payload);
-        }
+        },
       )
       .addCase(importExcelPortCodeCat1AndCat4.rejected, (state, action) => {
         state.loading = false;
@@ -691,7 +696,7 @@ export const categorySlice = createSlice({
         (state, action: PayloadAction<IPortCodeData[]>) => {
           state.loading = false;
           state.portCode = action.payload;
-        }
+        },
       )
       .addCase(getPortCode.rejected, (state, action) => {
         state.loading = false;
@@ -709,7 +714,7 @@ export const categorySlice = createSlice({
         (state, action: PayloadAction<IPortCodeDataCat1AndCat4[]>) => {
           state.loading = false;
           state.portCodeCat1AndCat4 = action.payload;
-        }
+        },
       )
       .addCase(getPortCodeCat1AndCat4.rejected, (state, action) => {
         state.loading = false;
@@ -727,7 +732,7 @@ export const categorySlice = createSlice({
         (state, action: PayloadAction<ITaxFreeZoneAddress[]>) => {
           state.loading = false;
           state.taxFreeZoneAddress = action.payload;
-        }
+        },
       )
       .addCase(getTaxFreeZoneAddress.rejected, (state, action) => {
         state.loading = false;
@@ -743,7 +748,7 @@ export const categorySlice = createSlice({
         state.loading = false;
         const updatedItem = action.payload;
         const index = state.taxFreeZoneAddress.findIndex(
-          (item) => item.ID === updatedItem.ID
+          (item) => item.ID === updatedItem.ID,
         );
         if (index !== -1) {
           state.taxFreeZoneAddress[index] = {
@@ -768,7 +773,7 @@ export const categorySlice = createSlice({
         (state, action: PayloadAction<IStyleAutoFill[]>) => {
           state.loading = false;
           state.styleAutoFill = action.payload;
-        }
+        },
       )
       .addCase(getStyleAutoFill.rejected, (state, action) => {
         state.loading = false;
@@ -788,13 +793,13 @@ export const categorySlice = createSlice({
           action: PayloadAction<{
             message: string;
             records: IStyleAutoFill[];
-          }>
+          }>,
         ) => {
           const { records } = action.payload;
           state.loading = false;
           state.styleAutoFill = records;
           // console.log(action.payload);
-        }
+        },
       )
       .addCase(importExcelStyleAutoFill.rejected, (state, action) => {
         state.loading = false;

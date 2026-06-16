@@ -56,6 +56,7 @@ const autosendcmsApi = {
     dateFrom: string;
     dateTo: string;
     factory: string;
+    ry: string;
     dockey: string;
   }) => {
     const res = await axiosConfig.get(`cat9-and-cat12/auto-sent-cms`, {

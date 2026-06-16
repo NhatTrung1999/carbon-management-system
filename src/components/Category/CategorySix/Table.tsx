@@ -7,17 +7,17 @@ import CommonTable from '../../common/Table';
 import type { SortState } from '../../common/Table';
 
 type Props = {
-  header        : TableHeaderProps[];
-  activeSort    : SortState;
-  setActiveSort : (data: SortState) => void;
-  data          : ICat6Data[];
-  tableRef     ?: RefObject<HTMLDivElement | null>;
-  onScroll      : UIEventHandler<HTMLDivElement>;
+  header: TableHeaderProps[];
+  activeSort: SortState;
+  setActiveSort: (data: SortState) => void;
+  data: ICat6Data[];
+  tableRef?: RefObject<HTMLDivElement | null>;
+  onScroll: UIEventHandler<HTMLDivElement>;
 };
 
 type Cat6Row = ICat6Data & Record<string, string | number | undefined>;
 
-const DATE_FIELDS = new Set(['Document_Date', 'Start_Time', 'End_Time']);
+const DATE_FIELDS = new Set(['Application_Day', 'Start_Time', 'End_Time']);
 
 const getCellValue = (row: Cat6Row, state: string): string => {
   const value = row[state];
@@ -25,10 +25,19 @@ const getCellValue = (row: Cat6Row, state: string): string => {
   return value !== undefined && value !== null ? String(value) : '—';
 };
 
-const Table = ({ header, activeSort, setActiveSort, data, tableRef, onScroll }: Props) => {
+const Table = ({
+  header,
+  activeSort,
+  setActiveSort,
+  data,
+  tableRef,
+  onScroll,
+}: Props) => {
   const { loading } = useAppSelector((state) => state.category);
 
-  const columns = header.flatMap((h) => h.children?.length ? h.children : [h]);
+  const columns = header.flatMap((h) =>
+    h.children?.length ? h.children : [h],
+  );
 
   return (
     <CommonTable

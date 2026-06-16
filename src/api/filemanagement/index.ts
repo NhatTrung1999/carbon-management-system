@@ -22,6 +22,7 @@ const fileManagementApi = {
     dateFrom,
     dateTo,
     factory,
+    ry = 'ALL',
     field,
     usage,
     unitWeight,
@@ -32,6 +33,7 @@ const fileManagementApi = {
     dateFrom: string;
     dateTo: string;
     factory: string;
+    ry?: string;
     field?: string[];
     usage?: boolean;
     unitWeight?: boolean;
@@ -46,6 +48,7 @@ const fileManagementApi = {
         DateFrom: dateFrom,
         DateTo: dateTo,
         Factory: factory,
+        RY: ry,
         Fields: field,
         Usage: usage,
         UnitWeight: unitWeight,
@@ -67,12 +70,14 @@ const fileManagementApi = {
     dateFrom,
     dateTo,
     factory,
+    ry,
     dockeyCMS,
   }: {
     module: string;
     dateFrom: string;
     dateTo: string;
     factory: string;
+    ry: string;
     dockeyCMS?: string;
   }) => {
     const url = `previewpayload/preview-excel`;
@@ -82,6 +87,7 @@ const fileManagementApi = {
         dateFrom,
         dateTo,
         factory,
+        ry,
         dockeyCMS,
       },
     });

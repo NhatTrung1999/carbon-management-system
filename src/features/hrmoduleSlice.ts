@@ -20,7 +20,8 @@ export const fetchHRModule = createAsyncThunk(
       fullName,
       id,
       department,
-      joinDate,
+      joinDateFrom,
+      joinDateTo,
       page,
       sortField,
       sortOrder,
@@ -30,12 +31,13 @@ export const fetchHRModule = createAsyncThunk(
       fullName: string;
       id: string;
       department: string;
-      joinDate: string;
+      joinDateFrom: string;
+      joinDateTo: string;
       page: number;
       sortField: string;
       sortOrder: string;
     },
-    { rejectWithValue }
+    { rejectWithValue },
   ) => {
     try {
       const res = await hrModuleAPi.fetchHRModule(
@@ -44,10 +46,11 @@ export const fetchHRModule = createAsyncThunk(
         fullName,
         id,
         department,
-        joinDate,
+        joinDateFrom,
+        joinDateTo,
         page,
         sortField,
-        sortOrder
+        sortOrder,
       );
       return res as {
         data: IHRModule[];
@@ -59,7 +62,7 @@ export const fetchHRModule = createAsyncThunk(
     } catch (error: any) {
       return rejectWithValue(error || '');
     }
-  }
+  },
 );
 
 export const fetchDepartmentHRModule = createAsyncThunk(
@@ -71,7 +74,7 @@ export const fetchDepartmentHRModule = createAsyncThunk(
     } catch (error: any) {
       return rejectWithValue(error || '');
     }
-  }
+  },
 );
 
 export const updateHRModule = createAsyncThunk(
@@ -86,19 +89,19 @@ export const updateHRModule = createAsyncThunk(
       currentAddress: string;
       transportationMethod: string;
     },
-    { rejectWithValue }
+    { rejectWithValue },
   ) => {
     try {
       const res = await hrModuleAPi.updateHRModule(
         id,
         currentAddress,
-        transportationMethod
+        transportationMethod,
       );
       return res;
     } catch (error: any) {
       return rejectWithValue(error || '');
     }
-  }
+  },
 );
 
 export const importExcelHRModule = createAsyncThunk(
@@ -109,10 +112,10 @@ export const importExcelHRModule = createAsyncThunk(
       return res;
     } catch (error: any) {
       return rejectWithValue(
-        error?.response?.data?.message || 'Import failed!'
+        error?.response?.data?.message || 'Import failed!',
       );
     }
-  }
+  },
 );
 
 const initialState: IHrModuleState = {
@@ -161,7 +164,7 @@ const hrmoduleSlice = createSlice({
         state.loading = false;
         const updatedItem = action.payload;
         const index = state.hrmodule.findIndex(
-          (item) => item.ID === updatedItem.id
+          (item) => item.ID === updatedItem.id,
         );
         if (index !== -1) {
           state.hrmodule[index] = {
@@ -186,7 +189,7 @@ const hrmoduleSlice = createSlice({
         if (updatedData && Array.isArray(updatedData)) {
           updatedData.forEach((newItem: any) => {
             const index = state.hrmodule.findIndex(
-              (item) => item.ID === newItem.id
+              (item) => item.ID === newItem.id,
             );
             if (index !== -1) {
               state.hrmodule[index] = {

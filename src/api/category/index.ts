@@ -5,9 +5,10 @@ const categoryApi = {
     dateFrom: string,
     dateTo: string,
     factory: string,
+    ry: string,
     page: number,
     sortField: string,
-    sortOrder: string
+    sortOrder: string,
   ) => {
     const res = await axiosConfig.get(
       'cat9-and-cat12/get-data-cat9-and-cat12',
@@ -16,12 +17,13 @@ const categoryApi = {
           dateFrom,
           dateTo,
           factory,
+          ry,
           page,
           limit: 20,
           sortField,
           sortOrder,
         },
-      }
+      },
     );
     return res.data;
   },
@@ -31,7 +33,7 @@ const categoryApi = {
     factory: string,
     page: number,
     sortField: string,
-    sortOrder: string
+    sortOrder: string,
   ) => {
     const res = await axiosConfig.get('cat5/get-data-cat5', {
       params: {
@@ -52,7 +54,7 @@ const categoryApi = {
     factory: string,
     page: number,
     sortField: string,
-    sortOrder: string
+    sortOrder: string,
   ) => {
     const res = await axiosConfig.get('cat7/get-data-cat7', {
       params: {
@@ -74,7 +76,7 @@ const categoryApi = {
     page: number,
     sortField: string,
     sortOrder: string,
-    checkedDormShuttle: boolean
+    checkedDormShuttle: boolean,
   ) => {
     const res = await axiosConfig.get('cat6/get-data-cat6', {
       params: {
@@ -100,7 +102,7 @@ const categoryApi = {
     departure: boolean,
     page: number,
     sortField: string,
-    sortOrder: string
+    sortOrder: string,
   ) => {
     const res = await axiosConfig.get('cat1andcat4/get-data-cat1-and-cat4', {
       params: {
@@ -154,12 +156,14 @@ const categoryApi = {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
-      }
+      },
     );
     return res.data;
   },
   deleteStyleAutoFill: async (id: string) => {
-    const response = await axiosConfig.delete(`cat1andcat4/style-auto-fill/${id}`);
+    const response = await axiosConfig.delete(
+      `cat1andcat4/style-auto-fill/${id}`,
+    );
     return response.data;
   },
   updateTaxFreeZoneAddress: async (id: string, taxFreeZoneAddress: string) => {
@@ -167,7 +171,7 @@ const categoryApi = {
       `cat1andcat4/tax-free-zone-address/${id}`,
       {
         TaxFreeZoneAddress: taxFreeZoneAddress,
-      }
+      },
     );
     return response.data;
   },
@@ -182,7 +186,7 @@ const categoryApi = {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
-      }
+      },
     );
     return res.data;
   },
@@ -197,7 +201,7 @@ const categoryApi = {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
-      }
+      },
     );
     return res.data;
   },
@@ -212,7 +216,7 @@ const categoryApi = {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
-      }
+      },
     );
     return res.data;
   },
@@ -222,7 +226,7 @@ const categoryApi = {
     factory: string,
     page: number,
     sortField: string,
-    sortOrder: string
+    sortOrder: string,
   ) => {
     const res = await axiosConfig.get('cat7/custom-export', {
       params: {
@@ -242,7 +246,7 @@ const categoryApi = {
     dateFrom: string,
     dateTo: string,
     factory: string,
-    dockey: string
+    dockey: string,
   ) => {
     const res = await axiosConfig.get('cat1andcat4/export-preview-payload', {
       params: {

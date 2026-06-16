@@ -21,7 +21,7 @@ export const getData = createAsyncThunk(
       sortField: string;
       sortOrder: string;
     },
-    { rejectWithValue }
+    { rejectWithValue },
   ) => {
     try {
       const res = await fileManagementApi.getData({
@@ -35,7 +35,7 @@ export const getData = createAsyncThunk(
     } catch (error: any) {
       return rejectWithValue(error);
     }
-  }
+  },
 );
 
 export const generateFileExcel = createAsyncThunk(
@@ -46,6 +46,7 @@ export const generateFileExcel = createAsyncThunk(
       dateFrom,
       dateTo,
       factory,
+      ry,
       field,
       usage,
       unitWeight,
@@ -56,13 +57,14 @@ export const generateFileExcel = createAsyncThunk(
       dateFrom: string;
       dateTo: string;
       factory: string;
+      ry?: string;
       field?: string[];
       usage?: boolean;
       unitWeight?: boolean;
       weight?: boolean;
       departure?: boolean;
     },
-    { rejectWithValue }
+    { rejectWithValue },
   ) => {
     try {
       const res = await fileManagementApi.generateFileExcel({
@@ -70,6 +72,7 @@ export const generateFileExcel = createAsyncThunk(
         dateFrom,
         dateTo,
         factory,
+        ry,
         field,
         usage,
         unitWeight,
@@ -80,7 +83,7 @@ export const generateFileExcel = createAsyncThunk(
     } catch (error: any) {
       return rejectWithValue(error);
     }
-  }
+  },
 );
 
 export const previewPayload = createAsyncThunk(
@@ -91,15 +94,17 @@ export const previewPayload = createAsyncThunk(
       dateFrom,
       dateTo,
       factory,
+      ry,
       dockeyCMS,
     }: {
       module: string;
       dateFrom: string;
       dateTo: string;
       factory: string;
+      ry: string;
       dockeyCMS?: string;
     },
-    { rejectWithValue }
+    { rejectWithValue },
   ) => {
     try {
       const res = await fileManagementApi.previewPayload({
@@ -107,13 +112,14 @@ export const previewPayload = createAsyncThunk(
         dateFrom,
         dateTo,
         factory,
+        ry,
         dockeyCMS,
       });
       return res;
     } catch (error: any) {
       return rejectWithValue(error);
     }
-  }
+  },
 );
 
 const initialState: IFileState = {

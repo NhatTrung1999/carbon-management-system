@@ -3,7 +3,10 @@ import { HEADER } from '../../../types/cat9andcat12';
 import Search from '../../../components/Category/CategoryNineAndCategoryTwelve/Search';
 import Table from '../../../components/Category/CategoryNineAndCategoryTwelve/Table';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { getDataCat9AndCat12, resetDataCat9AndCat12 } from '../../../features/categorySlice';
+import {
+  getDataCat9AndCat12,
+  resetDataCat9AndCat12,
+} from '../../../features/categorySlice';
 import { fetchDataAutoSendCMSCat9AndCat12 } from '../../../features/autosendcmsSlice';
 
 // type Props = {
@@ -29,9 +32,8 @@ import { fetchDataAutoSendCMSCat9AndCat12 } from '../../../features/autosendcmsS
 // };
 
 const Cat9AndCat12 = () => {
-
-const { cat9andcat12, page, hasMore, loading } = useAppSelector(
-    (state) => state.category
+  const { cat9andcat12, page, hasMore, loading } = useAppSelector(
+    (state) => state.category,
   );
   const tableRef = useRef<HTMLDivElement | null>(null);
   const didFetch = useRef(false);
@@ -41,14 +43,15 @@ const { cat9andcat12, page, hasMore, loading } = useAppSelector(
     sortOrder: 'asc',
   });
   const [dateFrom, setDateFrom] = useState<string>(
-    new Date().toISOString().slice(0, 10)
+    new Date().toISOString().slice(0, 10),
   );
   const [dateTo, setDateTo] = useState<string>(
-    new Date().toISOString().slice(0, 10)
+    new Date().toISOString().slice(0, 10),
   );
 
   const [dockey, setDockey] = useState<string>('3.2');
   const [factory, setFactory] = useState<string>('LYV');
+  const [ry, setRY] = useState<string>('ALL');
   const [loadingFetch, setLoadingFetch] = useState<boolean>(false);
 
   useEffect(() => {
@@ -60,16 +63,23 @@ const { cat9andcat12, page, hasMore, loading } = useAppSelector(
         dateFrom,
         dateTo,
         factory,
+        ry,
         page: 1,
         sortField: activeSort.sortField,
         sortOrder: activeSort.sortOrder,
-      })
+      }),
     );
     setLoadingFetch(true);
     dispatch(
-      fetchDataAutoSendCMSCat9AndCat12({ dateFrom, dateTo, factory, dockey })
+      fetchDataAutoSendCMSCat9AndCat12({
+        dateFrom,
+        dateTo,
+        factory,
+        ry,
+        dockey,
+      }),
     ).finally(() => setLoadingFetch(false));
-  }, [dispatch, activeSort, dateFrom, dateTo, factory]);
+  }, [dispatch, activeSort, dateFrom, dateTo, factory, ry]);
   // }, [dispatch, activeSort, date]);
 
   const onScroll = useCallback(() => {
@@ -83,13 +93,24 @@ const { cat9andcat12, page, hasMore, loading } = useAppSelector(
           dateFrom,
           dateTo,
           factory,
+          ry,
           page,
           sortField: activeSort.sortField,
           sortOrder: activeSort.sortOrder,
-        })
+        }),
       );
     }
-  }, [dispatch, loading, hasMore, page, activeSort, dateFrom, dateTo, factory]);
+  }, [
+    dispatch,
+    loading,
+    hasMore,
+    page,
+    activeSort,
+    dateFrom,
+    dateTo,
+    factory,
+    ry,
+  ]);
   // }, [dispatch, loading, hasMore, page, date, activeSort]);
 
   return (
@@ -105,6 +126,8 @@ const { cat9andcat12, page, hasMore, loading } = useAppSelector(
           activeSort={activeSort}
           dockey={dockey}
           setDockey={setDockey}
+          ry={ry}
+          setRY={setRY}
           loadingFetch={loadingFetch}
           setLoadingFetch={setLoadingFetch}
         />

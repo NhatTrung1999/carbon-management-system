@@ -27,7 +27,7 @@
   "cat1andcat4": {
     "cat_1_4": "CAT 1 & 4",
     "purchase_and_upstream": "Purchased Goods and Services & Upstream Transportation and Distribution",
-    
+
     "no": "No.",
     "date": "Date",
     "purchase_order": "Purchase Order",
@@ -57,9 +57,9 @@
     "port_code": "Port Code",
     "supplier_id": "Supplier ID",
     "created_by": "Created by",
-    "created_date":"Created Date",
+    "created_date": "Created Date",
 
-    "logging":"Logging",
+    "logging": "Logging",
     "system": "System",
     "corporation": "Corporation",
     "factory": "Factory",
@@ -71,7 +71,7 @@
     "data_type": "Data Type",
     "document_type": "Document Type",
     "document_flow": "Document Flow",
-    "document_date":"Document Date",
+    "document_date": "Document Date",
     "document_date_2": "Document Date (2)",
     "document_no": "Document No.",
     "cust_ven_name": "Customer Vendor Name",
@@ -88,8 +88,8 @@
     "created_date_time": "Created Date Time",
     "creator": "Creator",
     "created_user": "Created User",
-    "created_factory":"Created Factory",
-    "created_at":"Created at"
+    "created_factory": "Created Factory",
+    "created_at": "Created at"
   },
   "cat5": {
     "cat_5": "CAT 5",
@@ -121,7 +121,7 @@
     "data_type": "Data Type",
     "document_type": "Document Type",
     "document_flow": "Document Flow",
-    "document_date":"Document Date",
+    "document_date": "Document Date",
     "document_date_2": "Document Date (2)",
     "document_no": "Document No.",
     "cust_ven_name": "Customer Vendor Name",
@@ -138,13 +138,13 @@
     "created_date_time": "Created Date Time",
     "creator": "Creator",
     "created_user": "Created User",
-    "created_factory":"Created Factory",
+    "created_factory": "Created Factory",
     "created_at": "CreatedAt"
   },
   "cat6": {
     "cat_6": "CAT 6",
     "business_travel": "Business Travel",
-    "document_date": "Document Date",
+    "document_date": "Application Day",
     "document_number": "Document Number",
     "staff_id": "Staff ID",
     "round_trip_one_way": "Round trip / One-way",
@@ -198,7 +198,7 @@
     "created_date_time": "Created Date Time",
     "creator": "Creator",
     "created_user": "Created User",
-    "created_factory":"Created Factory",
+    "created_factory": "Created Factory",
     "created_at": "Created at"
   },
   "cat7": {
@@ -217,10 +217,10 @@
     "custom_export": "Custom Export",
     "no": "No.",
     "factory": "Factory",
-    "department":"Department",
-    "id":"ID",
+    "department": "Department",
+    "id": "ID",
     "fullname": "Fullname",
-    "current_address":"Current Address",
+    "current_address": "Current Address",
     "transport_mode": "Transportation Mode",
     "bus_route": "Bus Route",
     "pickup_point": "Pick-up Point",
@@ -254,7 +254,7 @@
     "created_date_time": "Created Date Time",
     "creator": "Creator",
     "created_user": "Created User",
-    "created_factory":"Created Factory",
+    "created_factory": "Created Factory",
     "created_at": "Created at"
   },
   "cat9andcat12": {
@@ -317,7 +317,7 @@
     "created_date_time": "Created Date Time",
     "creator": "Creator",
     "created_user": "Created User",
-    "created_factory":"Created Factory"
+    "created_factory": "Created Factory"
   },
   "usermmt": {
     "user_management": "User Management",
@@ -363,29 +363,10 @@
     "permanent_address": "Permanent Address",
     "current_address": "Current Address",
     "transport_method": "Transportation Method",
-    "number_of_working_days":"Number of working days",
+    "number_of_working_days": "Number of working days",
     "action": "Action"
-  }, 
+  },
   "system_decentral": {
     "system_decentralization": "System Decentralization"
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

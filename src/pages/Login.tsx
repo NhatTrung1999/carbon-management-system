@@ -49,7 +49,7 @@ const Login = () => {
         login({
           userid,
           password,
-        })
+        }),
       );
 
       if (login.fulfilled.match(result)) {

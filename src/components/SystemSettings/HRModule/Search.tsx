@@ -30,8 +30,10 @@ type Props = {
   setId: (val: string) => void;
   department: string;
   setDepartment: (val: string) => void;
-  joinDate: string;
-  setJoinDate: (val: string) => void;
+  joinDateFrom: string;
+  setJoinDateFrom: (val: string) => void;
+  joinDateTo: string;
+  setJoinDateTo: (val: string) => void;
 };
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
@@ -64,8 +66,10 @@ const Search = ({
   setId,
   department,
   setDepartment,
-  joinDate,
-  setJoinDate,
+  joinDateFrom,
+  setJoinDateFrom,
+  joinDateTo,
+  setJoinDateTo,
 }: Props) => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
@@ -88,7 +92,15 @@ const Search = ({
 
   // ── Formik ────────────────────────────────────────────────────────────────
   const formik = useFormik({
-    initialValues: { fullName, id, department, dateFrom, dateTo, joinDate },
+    initialValues: {
+      fullName,
+      id,
+      department,
+      dateFrom,
+      dateTo,
+      joinDateFrom,
+      joinDateTo,
+    },
     onSubmit: (data) => {
       dispatch(resetDataHRModule());
       setDateFrom(data.dateFrom);
@@ -96,7 +108,8 @@ const Search = ({
       setFullName(data.fullName);
       setId(data.id);
       setDepartment(data.department);
-      setJoinDate(data.joinDate);
+      setJoinDateFrom(data.joinDateFrom);
+      setJoinDateTo(data.joinDateTo);
       dispatch(
         fetchHRModule({
           dateFrom: data.dateFrom,
@@ -104,11 +117,12 @@ const Search = ({
           fullName: data.fullName,
           id: data.id,
           department: normalizeDepartment(data.department),
-          joinDate: data.joinDate,
+          joinDateFrom: data.joinDateFrom,
+          joinDateTo: data.joinDateTo,
           page: 1,
           sortField: activeSort.sortField,
           sortOrder: activeSort.sortOrder,
-        })
+        }),
       );
     },
   });
@@ -122,7 +136,8 @@ const Search = ({
         formik.values.fullName,
         formik.values.id,
         normalizeDepartment(formik.values.department),
-        formik.values.joinDate
+        formik.values.joinDateFrom,
+        formik.values.joinDateTo,
       );
       downloadBlob(new Blob([res]), 'danh_sach.xlsx');
     } catch {
@@ -176,10 +191,17 @@ const Search = ({
           />
 
           <Input
-            label="Join Date"
+            label="Join Date From"
             type="date"
-            name="joinDate"
-            value={formik.values.joinDate}
+            name="joinDateFrom"
+            value={formik.values.joinDateFrom}
+            onChange={formik.handleChange}
+          />
+          <Input
+            label="Join Date To"
+            type="date"
+            name="joinDateTo"
+            value={formik.values.joinDateTo}
             onChange={formik.handleChange}
           />
         </div>
