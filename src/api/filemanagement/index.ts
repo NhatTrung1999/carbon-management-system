@@ -77,7 +77,7 @@ const fileManagementApi = {
     dateFrom: string;
     dateTo: string;
     factory: string;
-    ry: string;
+    ry?: string;
     dockeyCMS?: string;
   }) => {
     const url = `previewpayload/preview-excel`;

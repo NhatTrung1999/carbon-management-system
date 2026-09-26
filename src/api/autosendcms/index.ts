@@ -40,6 +40,18 @@ const autosendcmsApi = {
     });
     return res.data;
   },
+  fetchDataAutoSentCMSCat6Accommodation: async (payload: {
+    dateFrom: string;
+    dateTo: string;
+    factory: string;
+  }) => {
+    const res = await axiosConfig.get(`cat6/auto-sent-cms-accommodation`, {
+      params: {
+        ...payload,
+      },
+    });
+    return res.data;
+  },
   fetchDataAutoSentCMSCat7: async (payload: {
     dateFrom: string;
     dateTo: string;

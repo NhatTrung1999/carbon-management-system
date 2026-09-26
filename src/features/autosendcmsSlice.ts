@@ -5,6 +5,7 @@ interface IAutoSendCMSState {
   autoSendCMSCat1AndCat4: any[];
   autoSendCMSCat5: any[];
   autoSendCMSCat6: any[];
+  autoSendCMSCat6Accommodation: any[];
   autoSendCMSCat7: any[];
   autoSendCMSCat9AndCat12: any[];
   loading: boolean;
@@ -68,6 +69,23 @@ export const fetchDataAutoSendCMSCat6 = createAsyncThunk(
   },
 );
 
+export const fetchDataAutoSendCMSCat6Accommodation = createAsyncThunk(
+  'autosendcms/fetch-data-auto-send-cms-cat6-accommodation',
+  async (
+    payload: { dateFrom: string; dateTo: string; factory: string },
+    { rejectWithValue },
+  ) => {
+    try {
+      const res = await autosendcmsApi.fetchDataAutoSentCMSCat6Accommodation({
+        ...payload,
+      });
+      return res;
+    } catch (error) {
+      return rejectWithValue(error || 'Error!');
+    }
+  },
+);
+
 export const fetchDataAutoSendCMSCat7 = createAsyncThunk(
   'autosendcms/fetch-data-auto-send-cms-cat7',
   async (
@@ -110,6 +128,7 @@ const initialState: IAutoSendCMSState = {
   autoSendCMSCat1AndCat4: [],
   autoSendCMSCat5: [],
   autoSendCMSCat6: [],
+  autoSendCMSCat6Accommodation: [],
   autoSendCMSCat7: [],
   autoSendCMSCat9AndCat12: [],
   loading: false,
@@ -162,6 +181,26 @@ const autosendcmsSlice = createSlice({
         state.loading = false;
         state.error = action.payload as string;
       });
+
+    builder
+      .addCase(fetchDataAutoSendCMSCat6Accommodation.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(
+        fetchDataAutoSendCMSCat6Accommodation.fulfilled,
+        (state, action) => {
+          state.loading = false;
+          state.autoSendCMSCat6Accommodation = action.payload;
+        },
+      )
+      .addCase(
+        fetchDataAutoSendCMSCat6Accommodation.rejected,
+        (state, action) => {
+          state.loading = false;
+          state.error = action.payload as string;
+        },
+      );
 
     builder
       .addCase(fetchDataAutoSendCMSCat7.pending, (state) => {

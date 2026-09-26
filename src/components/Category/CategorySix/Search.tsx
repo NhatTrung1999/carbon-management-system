@@ -6,12 +6,37 @@ import ExcelIcon from '../../../assets/images/excel-icon.png';
 import SendIcon from '../../../assets/images/send-to-CMS.png';
 import Select from '../../common/Select';
 import Checkbox from '../../common/Checkbox';
-import { useAppDispatch } from '../../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { generateFileExcel, previewPayload } from '../../../features/fileSlice';
+import {
+  fetchDataAutoSendCMSCat6,
+  fetchDataAutoSendCMSCat6Accommodation,
+} from '../../../features/autosendcmsSlice';
+import {
+  createLogCat6BusinessTravel,
+  createLogCat6Accommodation,
+} from '../../../features/logcatSlice';
+import cmsApi from '../../../api/cms';
 import { Toast } from '../../../utils/Toast';
 import { FACTORIES } from '../../../utils/constanst';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
+
+const CMS_TOAST_BASE = {
+  confirmButtonText: 'OK',
+  toast: false,
+  position: 'center' as const,
+  showConfirmButton: true,
+  timerProgressBar: false,
+  timer: undefined,
+  allowOutsideClick: false,
+  allowEscapeKey: false,
+};
+
+const CAT6_PAYLOAD_TYPES = [
+  { name: 'Business Travel', value: 'business_travel' },
+  { name: 'Accommodation', value: 'accommodation' },
+];
 
 type Props = {
   dateFrom: string;
@@ -40,6 +65,14 @@ const Search = ({
   const {t} = useTranslation()
   const [loadingExport, setLoadingExport] = useState(false);
   const [loadingPreview, setLoadingPreview] = useState(false);
+  const [loadingCMS, setLoadingCMS] = useState(false);
+  const [payloadType, setPayloadType] = useState<
+    'business_travel' | 'accommodation'
+  >('business_travel');
+
+  const { autoSendCMSCat6, autoSendCMSCat6Accommodation } = useAppSelector(
+    (state) => state.autosendcms
+  );
 
   const formik = useFormik({
     initialValues: {
@@ -54,11 +87,52 @@ const Search = ({
         setDateTo(data.dateTo);
         setFactory(data.factory);
         onSearch();
+        if (payloadType === 'accommodation') {
+          dispatch(
+            fetchDataAutoSendCMSCat6Accommodation({
+              dateFrom: data.dateFrom,
+              dateTo: data.dateTo,
+              factory: data.factory,
+            })
+          );
+        } else {
+          dispatch(
+            fetchDataAutoSendCMSCat6({
+              dateFrom: data.dateFrom,
+              dateTo: data.dateTo,
+              factory: data.factory,
+            })
+          );
+        }
       } catch (error: unknown) {
         console.log(error);
       }
     },
   });
+
+  const onPayloadTypeChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const nextType = event.target.value as 'business_travel' | 'accommodation';
+    setPayloadType(nextType);
+    if (nextType === 'accommodation') {
+      dispatch(
+        fetchDataAutoSendCMSCat6Accommodation({
+          dateFrom: formik.values.dateFrom,
+          dateTo: formik.values.dateTo,
+          factory: formik.values.factory,
+        })
+      );
+    } else {
+      dispatch(
+        fetchDataAutoSendCMSCat6({
+          dateFrom: formik.values.dateFrom,
+          dateTo: formik.values.dateTo,
+          factory: formik.values.factory,
+        })
+      );
+    }
+  };
 
   //Export Excel
   const onExportExcel = async () => {
@@ -66,7 +140,10 @@ const Search = ({
       setLoadingExport(true);
       const result = await dispatch(
         generateFileExcel({
-          module: 'Cat6',
+          module:
+            payloadType === 'accommodation'
+              ? 'Cat6Accommodation'
+              : 'Cat6BusinessTravel',
           dateFrom: formik.values.dateFrom,
           dateTo: formik.values.dateTo,
           factory: formik.values.factory,
@@ -97,7 +174,7 @@ const Search = ({
           dateFrom: formik.values.dateFrom,
           dateTo: formik.values.dateTo,
           factory: formik.values.factory,
-          dockeyCMS: '3.6',
+          dockeyCMS: payloadType === 'accommodation' ? '3.5.5' : '3.5',
         })
       );
       if (previewPayload.fulfilled.match(result)) {
@@ -116,7 +193,34 @@ const Search = ({
   };
 
   const onSendToCMS = async () => {
-
+    setLoadingCMS(true);
+    try {
+      const payload =
+        payloadType === 'accommodation'
+          ? autoSendCMSCat6Accommodation
+          : autoSendCMSCat6;
+      const response = await cmsApi.createCMS(payload);
+      if (response.std_data.execution.code === '0') {
+        const logThunk =
+          payloadType === 'accommodation'
+            ? createLogCat6Accommodation
+            : createLogCat6BusinessTravel;
+        const result = await dispatch(logThunk(payload as any));
+        Toast.fire({
+          title: result.payload.message,
+          icon: result.payload.success ? 'success' : 'error',
+          ...CMS_TOAST_BASE,
+        });
+      } else {
+        Toast.fire({
+          title: 'Send to CMS failed!',
+          icon: 'error',
+          ...CMS_TOAST_BASE,
+        });
+      }
+    } finally {
+      setLoadingCMS(false);
+    }
   };
 
   return (
@@ -124,7 +228,7 @@ const Search = ({
       className="mb-4 sm:mb-5 space-y-4"
       onSubmit={formik.handleSubmit}
     >
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         <div>
           <Input
             label={t('main.date_from')}
@@ -145,7 +249,7 @@ const Search = ({
             onChange={formik.handleChange}
           />
         </div>
-        <div className="sm:col-span-2 lg:col-span-1">
+        <div>
           <Select
             label={t('main.factory')}
             name="factory"
@@ -155,6 +259,16 @@ const Search = ({
             isShowAllSelect={true}
             showAllSelect={true}
             options={FACTORIES}
+          />
+        </div>
+        <div>
+          <Select
+            label="Type"
+            name="payloadType"
+            classNameLabel="mb-2 text-sm sm:text-base"
+            value={payloadType}
+            onChange={onPayloadTypeChange}
+            options={CAT6_PAYLOAD_TYPES}
           />
         </div>
       </div>
@@ -167,7 +281,7 @@ const Search = ({
         />
         <Checkbox
           id="cat6-dorm-shuttle-check"
-          title="Check"
+          title="Dorm + Shuttle Car"
           checked={checkedDormShuttle}
           onChange={(event) => {
             setDateFrom(formik.values.dateFrom);
@@ -178,11 +292,20 @@ const Search = ({
           }}
         />
         <Button
-          label={t('Send to CMS')}
+          label={
+            loadingCMS
+              ? 'Loading...'
+              : `${t('Send to CMS')} (${
+                  payloadType === 'accommodation'
+                    ? autoSendCMSCat6Accommodation?.length ?? 0
+                    : autoSendCMSCat6?.length ?? 0
+                })`
+          }
           type='button'
           onClick={onSendToCMS}
           className="w-full sm:w-auto flex flex-row gap-2 items-center justify-center sm:justify-start cursor-pointer px-4 py-2 rounded-lg text-white bg-[#FFB619] hover:bg-[#FFB619]/80 transition-colors duration-300"
           imgSrc={SendIcon}
+          disabled={loadingCMS}
         />
         <Button
           label={loadingExport ? 'Loading...' : t('Export Excel file')}
@@ -202,34 +325,6 @@ const Search = ({
           imgSrc={ExcelIcon}
           disabled={loadingPreview}
         />
-        {/* <button
-          type="button"
-          className="w-full sm:w-auto flex flex-row gap-2 items-center justify-center sm:justify-start cursor-pointer px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors duration-300"
-          onClick={() => onExportExcel()}
-        >
-          <img
-            src={ExcelIcon}
-            alt="excel-icon"
-            className="w-8 sm:w-10 object-contain"
-          />
-          <span className="whitespace-nowrap text-sm sm:text-base">
-            {t('main.export_excel_file')}
-          </span>
-        </button> */}
-        {/* <button
-          type="button"
-          className="w-full sm:w-auto flex flex-row gap-2 items-center justify-center sm:justify-start cursor-pointer px-4 py-2 rounded-lg text-white bg-[#FFB619] hover:bg-[#FFB619]/80 transition-colors duration-300"
-          onClick={() => onSendToCMS}
-        >
-          <img
-            src={SendIcon}
-            alt="excel-icon"
-            className="w-8 sm:w-10 object-contain"
-          />
-          <span className="whitespace-nowrap text-sm sm:text-base">
-            {t('Send to CMS')}
-          </span>
-        </button> */}
       </div>
     </form>
   );

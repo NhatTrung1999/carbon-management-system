@@ -151,6 +151,9 @@
     "start_time": "Waktu Mulai",
     "end_time": "Waktu Selesai",
     "business_trip_type": "Jenis Perjalanan Dinas",
+    "departure": "Keberangkatan",
+    "destination": "Tujuan",
+    "transport": "Transportasi",
     "place_of_departure": "Tempat Keberangkatan",
     "departure_airport": "Bandara Keberangkatan",
     "land_transport_distance_km_a": "Jarak Transportasi Darat (km) (A)",
@@ -168,7 +171,7 @@
     "land_transport_distance_km": "Jarak Transportasi Darat (km)",
     "land_transportation_type": "Jenis Transportasi Darat",
     "air_transport_distance_km": "Jarak Transportasi Udara (km)",
-    "number_of_nights_stayed": "Jumlah Malam Menginap",
+    "number_of_nights_stayed": "Jumlah Malam Menginap (Hotel)",
 
     "logging":"Catatan harian",
     "system": "Sistem",

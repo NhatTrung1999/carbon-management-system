@@ -149,13 +149,24 @@ export const fetchLogCat5 = createAsyncThunk(
   }
 );
 
-export const createLogCat6 = createAsyncThunk(
-  'logcat/create-log-cat6',
-  async (data: ILogCat5Payload, { rejectWithValue }) => {
+export const createLogCat6BusinessTravel = createAsyncThunk(
+  'logcat/create-log-cat6-business-travel',
+  async (data: any[], { rejectWithValue }) => {
     try {
-      console.log(data);
-      // const res = await logcatApi.createLogCat5(data);
-      // return res;
+      const res = await logcatApi.createLogCat6BusinessTravel(data);
+      return res;
+    } catch (error) {
+      return rejectWithValue(error || 'Error!');
+    }
+  }
+);
+
+export const createLogCat6Accommodation = createAsyncThunk(
+  'logcat/create-log-cat6-accommodation',
+  async (data: any[], { rejectWithValue }) => {
+    try {
+      const res = await logcatApi.createLogCat6Accommodation(data);
+      return res;
     } catch (error) {
       return rejectWithValue(error || 'Error!');
     }

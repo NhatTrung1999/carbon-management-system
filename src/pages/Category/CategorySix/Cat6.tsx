@@ -29,21 +29,7 @@ const Cat6 = () => {
   const [searchSeq, setSearchSeq] = useState(0);
   const [checkedDormShuttle, setCheckedDormShuttle] = useState(false);
 
-  const maxPlaceCount = Math.max(
-    0,
-    ...cat6.map((row) =>
-      Object.keys(row).filter((key) => /^Place\d+$/.test(key)).length
-    )
-  );
-  const placeCount = Math.max(maxPlaceCount, 1);
-  const transportCount = Math.max(
-    0,
-    placeCount - 1,
-    ...cat6.map((row) =>
-      Object.keys(row).filter((key) => /^Transport_\d+$/.test(key)).length
-    )
-  );
-  const header = getCat6Header(placeCount, transportCount);
+  const header = getCat6Header();
 
   const handleSearch = () => {
     setSearchSeq((value) => value + 1);

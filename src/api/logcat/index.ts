@@ -72,6 +72,20 @@ const logcatApi = {
 
     return res.data;
   },
+  createLogCat6BusinessTravel: async (data: any) => {
+    const response = await axiosConfig.post(
+      `logcat/create-log-cat6-business-travel`,
+      data,
+    );
+    return response.data;
+  },
+  createLogCat6Accommodation: async (data: any) => {
+    const response = await axiosConfig.post(
+      `logcat/create-log-cat6-accommodation`,
+      data,
+    );
+    return response.data;
+  },
   createLogCat7: async (data: ILogCat7Payload) => {
     const response = await axiosConfig.post(`logcat/create-log-cat7`, data);
     return response.data;

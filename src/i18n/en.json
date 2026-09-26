@@ -151,6 +151,9 @@
     "start_time": "Start Time",
     "end_time": "End Time",
     "business_trip_type": "Business Trip Type",
+    "departure": "Departure",
+    "destination": "Destination",
+    "transport": "Transport",
     "place_of_departure": "Place of Departure",
     "departure_airport": "Departure Airport",
     "land_transport_distance_km_a": "Land Transport Distance (km) (A)",
@@ -168,7 +171,7 @@
     "land_transport_distance_km": "Land Transport Distance (km)",
     "land_transportation_type": "Land Transportation Type",
     "air_transport_distance_km": "Air Transport Distance (km)",
-    "number_of_nights_stayed": "Number of nights stayed",
+    "number_of_nights_stayed": "Number of nights stayed (Hotel)",
 
     "logging": "Logging",
     "system": "System",

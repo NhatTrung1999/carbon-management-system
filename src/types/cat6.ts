@@ -43,13 +43,9 @@ export interface ICat6Data {
   Start_Time: string;
   End_Time: string;
   Business_Trip_Type: string;
-  Place1: string;
-  Place2: string;
-  Place3: string;
-  Place4: string;
-  Transport_1: string;
-  Transport_2: string;
-  Transport_3: string;
+  Departure: string;
+  Destination: string;
+  Transport: string;
   Number_of_nights_stayed: number;
   TotalRow: number;
   [key: string]: string | number | undefined;
@@ -98,27 +94,22 @@ const fixedCat6Header = [
   },
 ] as const;
 
-export const getCat6Header = (placeCount: number, transportCount: number) => [
+export const getCat6Header = () => [
   ...fixedCat6Header,
   {
-    name: 'Route list',
-    state: 'Route_list',
+    name: 'cat6.departure',
+    state: 'Departure',
     sort: true,
-    children: Array.from({ length: placeCount }, (_, index) => ({
-      name: `Place ${index + 1}`,
-      state: `Place${index + 1}`,
-      sort: true,
-    })),
   },
   {
-    name: 'Transport',
+    name: 'cat6.destination',
+    state: 'Destination',
+    sort: true,
+  },
+  {
+    name: 'cat6.transport',
     state: 'Transport',
     sort: true,
-    children: Array.from({ length: transportCount }, (_, index) => ({
-      name: `Transport ${index + 1}`,
-      state: `Transport_${index + 1}`,
-      sort: true,
-    })),
   },
   {
     name: 'cat6.number_of_nights_stayed',

@@ -154,6 +154,9 @@
     "start_time": "Thời gian bắt đầu",
     "end_time": "Thời gian kết thúc",
     "business_trip_type": "Loại hình công tác",
+    "departure": "Điểm đi",
+    "destination": "Điểm đến",
+    "transport": "Phương tiện",
     "place_of_departure": "Địa điểm xuất phát",
     "departure_airport": "Sân bay đi",
     "land_transport_distance_km_a": "Quãng đường di chuyển đường bộ (A)",
@@ -171,7 +174,7 @@
     "land_transport_distance_km": "Quãng đường di chuyển đường bộ",
     "land_transportation_type": "Phương tiện di chuyển đường bộ",
     "air_transport_distance_km": "Quãng đường di chuyển hàng không (km)",
-    "number_of_nights_stayed": "Số đêm lưu trú",
+    "number_of_nights_stayed": "Số đêm lưu trú (Hotel)",
 
     "logging":"Nhật ký",
     "system": "Hệ thống",

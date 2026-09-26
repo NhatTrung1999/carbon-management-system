@@ -151,6 +151,9 @@
     "start_time": "開始時間",
     "end_time": "結束時間",
     "business_trip_type": "出差類型",
+    "departure": "出發地",
+    "destination": "目的地",
+    "transport": "交通方式",
     "place_of_departure": "出發地點",
     "departure_airport": "出發機場",
     "land_transport_distance_km_a": "陸運距離（公里）（A）",
@@ -168,7 +171,7 @@
     "land_transport_distance_km": "陸運距離（公里）",
     "land_transportation_type": "陸運方式",
     "air_transport_distance_km": "空運距離（公里）",
-    "number_of_nights_stayed": "住宿晚數",
+    "number_of_nights_stayed": "住宿晚數 (Hotel)",
 
     "logging":"日記",
     "system": "體系",

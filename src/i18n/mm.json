@@ -151,6 +151,9 @@
     "start_time": "စတင်သည့်အချိန်",
     "end_time": "ပြီးသည့်အချိန်",
     "business_trip_type": "စီးပွားရေးခရီးစဉ်အမျိုအစား",
+    "departure": "ထွက်ခွာရာ",
+    "destination": "ခရီးဆုံး",
+    "transport": "သယ်ယူပို့ဆောင်ရေး",
     "place_of_departure": "ထွက်ခွာသည့်နေရာ",
     "departure_airport": "ထွက်ခွာသည့် လေဆိပ်",
     "land_transport_distance_km_a": "ကုန်လမ်းပို့ဆောင်မှု အကွာအဝေး (ကီလိုမီတာ) (က)",
@@ -168,7 +171,7 @@
     "land_transport_distance_km": "ကုန်လမ်းပို့ဆောင်မှု အကွာအဝေး (ကီလိုမီတာ)",
     "land_transportation_type": "ကုန်လမ်းပို့ဆောင်မှု အမျိုးအစား",
     "air_transport_distance_km": "လေကြောင်းလမ်းပို့ဆောင်မှု အကွာအဝေး (ကီလိုမီတာ)",
-    "number_of_nights_stayed": "ညအိပ်ရက် စုစုပေါင်း",
+    "number_of_nights_stayed": "ညအိပ်ရက် စုစုပေါင်း (Hotel)",
 
     "logging":"နေ့စဉ်မှတ်တမ်း",
     "system": "စနစ်",
