@@ -21,37 +21,37 @@ export interface InfoFactoryData {
 
 export const HEADER = [
   {
-    name: 'COMID',
+    name: 'facinfo.comid',
     state: 'COMID',
     sort: true,
   },
   {
-    name: 'Company Name',
+    name: 'facinfo.com_name',
     state: 'Company_Name',
     sort: true,
   },
   {
-    name: 'Address',
+    name: 'facinfo.address',
     state: 'Address',
     sort: true,
   },
   {
-    name: 'City',
+    name: 'facinfo.city',
     state: 'City',
     sort: true,
   },
   {
-    name: 'Tel',
+    name: 'facinfo.tel',
     state: 'Tel',
     sort: true,
   },
   {
-    name: 'Fax',
+    name: 'facinfo.fax',
     state: 'Fax',
     sort: true,
   },
   {
-    name: 'Account No',
+    name: 'facinfo.account_no',
     state: 'Account_No',
     sort: true,
   },
@@ -61,37 +61,37 @@ export const HEADER = [
     sort: true,
   },
   {
-    name: 'Name VN',
+    name: 'facinfo.name_vn',
     state: 'Name_VN',
     sort: true,
   },
   {
-    name: 'Created User',
+    name: 'facinfo.created_user',
     state: 'CreatedUser',
     sort: true,
   },
   {
-    name: 'Created Factory',
+    name: 'facinfo.created_factory',
     state: 'CreatedFactory',
     sort: true,
   },
   {
-    name: 'Created Date',
+    name: 'facinfo.created_date',
     state: 'CreatedDate',
     sort: true,
   },
   {
-    name: 'Updated User',
+    name: 'facinfo.updated_user',
     state: 'UpdatedUser',
     sort: true,
   },
   {
-    name: 'Updated Factory',
+    name: 'facinfo.updated_factory',
     state: 'UpdatedFactory',
     sort: true,
   },
   {
-    name: 'Updated Date',
+    name: 'facinfo.updated_date',
     state: 'UpdatedDate',
     sort: true,
   },

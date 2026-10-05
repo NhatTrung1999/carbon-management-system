@@ -1,29 +1,21 @@
 import { Outlet } from 'react-router';
 import Header from '../components/common/Header';
 import Sidebar from '../components/common/Sidebar';
-import { useEffect, useState } from 'react';
-import Loading from '../components/common/Loading';
+import { Suspense, useState } from 'react';
+import backgroundDashboard from '../assets/images/background-dashboard.webp';
 
 const MainLayout = () => {
-  const [loading, setLoading] = useState(true);
   const [isOpenSideBar, setIsOpenSideBar] = useState(
     () => typeof window !== 'undefined' && window.innerWidth < 768,
   );
 
-  useEffect(() => {
-    setTimeout(() => setLoading(false), 3000);
-  }, []);
-
-  if (loading) return <Loading />;
-
   return (
     <div className="relative h-screen overflow-hidden">
-
       {/* ── Background layer ── */}
       <div className="fixed inset-0 -z-10">
         {/* Ảnh nền */}
         <img
-          src="https://images.pexels.com/photos/957024/forest-trees-perspective-bright-957024.jpeg"
+          src={backgroundDashboard}
           alt=""
           aria-hidden="true"
           className="h-full w-full object-cover object-center"
@@ -63,7 +55,16 @@ const MainLayout = () => {
             px-3 pt-[78px] pb-3 sm:px-4 sm:pt-[85px] md:pr-5
             ${isOpenSideBar ? 'md:pl-[78px]' : 'md:pl-[300px]'}`}
         >
-          <Outlet />
+          {/* Header and sidebar stay visible while the page chunk loads. */}
+          <Suspense
+            fallback={
+              <div className="flex h-full items-center justify-center">
+                <span className="h-8 w-8 animate-spin rounded-full border-2 border-emerald-400 border-t-transparent" />
+              </div>
+            }
+          >
+            <Outlet />
+          </Suspense>
         </main>
       </div>
 

@@ -1,47 +1,25 @@
 import { useFormik } from 'formik';
 import Button from '../../common/Button';
 import Input from '../../common/Input';
-import { useAppDispatch } from '../../../app/hooks';
-import { getData } from '../../../features/fileSlice';
 import { useTranslation } from 'react-i18next';
 
+export type FileFilter = { module: string; file_name: string };
+
 type Props = {
-  activeSort: {
-    sortField: string;
-    sortOrder: string;
-  };
+  /** Called on submit; the page reloads the list with these filters. */
+  onSearch: (filter: FileFilter) => void;
 };
 
-const Search = ({ activeSort }: Props) => {
-  const dispatch = useAppDispatch();
+const Search = ({ onSearch }: Props) => {
   const { t } = useTranslation();
-  
+
   const formik = useFormik({
-    initialValues: {
-      module: '',
-      file_name: '',
-    },
-    onSubmit: async (data) => {
-      try {
-        dispatch(
-          getData({
-            module: data.module,
-            file_name: data.file_name,
-            sortField: activeSort.sortField,
-            sortOrder: activeSort.sortOrder,
-          })
-        );
-      } catch (error: any) {
-        console.log(error);
-      }
-    },
+    initialValues: { module: '', file_name: '' },
+    onSubmit: (data) => onSearch({ ...data }),
   });
 
   return (
-    <form
-      className="mb-4 sm:mb-5 space-y-4"
-      onSubmit={formik.handleSubmit}
-    >
+    <form className="mb-4 sm:mb-5 space-y-4" onSubmit={formik.handleSubmit}>
       {/* Search Inputs Section */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4">
         <div>
@@ -52,7 +30,7 @@ const Search = ({ activeSort }: Props) => {
             classNameLabel="mb-2 text-sm sm:text-base"
             value={formik.values.module}
             onChange={formik.handleChange}
-            placeholder="Enter module..."
+            placeholder={t('filemmt.enter_module')}
           />
         </div>
         <div>
@@ -63,7 +41,7 @@ const Search = ({ activeSort }: Props) => {
             classNameLabel="mb-2 text-sm sm:text-base"
             value={formik.values.file_name}
             onChange={formik.handleChange}
-            placeholder="Enter file name..."
+            placeholder={t('filemmt.enter_file_name')}
           />
         </div>
       </div>
@@ -73,7 +51,8 @@ const Search = ({ activeSort }: Props) => {
         <Button
           label={t('main.search')}
           type="submit"
-          className="w-full sm:w-auto text-white bg-[#FF9119] hover:bg-[#FF9119]/80 focus:ring-4 focus:outline-none focus:ring-[#FF9119]/50 font-medium rounded-lg text-sm px-5 py-2.5 dark:hover:bg-[#FF9119]/80 dark:focus:ring-[#FF9119]/40 cursor-pointer transition-colors duration-300"
+          variant="search"
+          className="w-full sm:w-auto"
         />
       </div>
     </form>

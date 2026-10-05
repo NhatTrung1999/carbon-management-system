@@ -8,33 +8,6 @@ export interface ICat6RouteItem {
 }
 
 export interface ICat6Data {
-  // Application_Day: string;
-  // Document_Number: string;
-  // Staff_ID: string;
-  // Round_trip_One_way: string;
-  // Start_Time: string;
-  // End_Time: string;
-  // Business_Trip_Type: string;
-  // Place_of_Departure: string;
-  // Land_Trasportation_Type_A: string;
-  // Land_Transport_Distance_km_A: string;
-  // Departure_Airport: string;
-  // Destination_Airport: string;
-  // Air_Transport_Distance_km: string;
-  // Third_country_transfer_Destination: string;
-  // Land_Transportation_Type_B: string;
-  // Land_Transport_Distance_km_B: string;
-  // Destination_2: string;
-  // Destination_3: string;
-  // Destination_4: string;
-  // Destination_5: string;
-  // Destination_6: string;
-  // Land_Transportation_Type: string;
-  // Land_Transport_Distance_km: string;
-  // Routes?: ICat6RouteItem[];
-  // Accommodation?: any[];
-  // Number_of_nights_stayed: number;
-  // TotalRow: number;
   Application_Day: string;
   Document_Number: string;
   Staff_ID: string;
@@ -68,7 +41,7 @@ const fixedCat6Header = [
     sort: true,
   },
   {
-    name: 'Dept',
+    name: 'cat6.dept',
     state: 'Dept',
     sort: true,
   },
@@ -118,155 +91,6 @@ export const getCat6Header = () => [
   },
 ];
 
-// export const HEADER: {
-//   name: string;
-//   state: string;
-//   sort: boolean;
-//   children?: { name: string; state: string; sort: boolean }[];
-// }[] = [
-//   {
-//     name: 'cat6.document_date',
-//     state: 'Application_Day',
-//     sort: true,
-//     children: [],
-//   },
-//   {
-//     name: 'cat6.document_number',
-//     state: 'Document_Number',
-//     sort: true,
-//     children: [],
-//   },
-//   {
-//     name: 'cat6.staff_id',
-//     state: 'Staff_ID',
-//     sort: true,
-//     children: [],
-//   },
-//   {
-//     name: 'cat6.round_trip_one_way',
-//     state: 'Round_trip_One_way',
-//     sort: true,
-//     children: [],
-//   },
-//   {
-//     name: 'cat6.start_time',
-//     state: 'Start_Time',
-//     sort: true,
-//     children: [],
-//   },
-//   {
-//     name: 'cat6.end_time',
-//     state: 'End_Time',
-//     sort: true,
-//     children: [],
-//   },
-//   {
-//     name: 'cat6.business_trip_type',
-//     state: 'Business_Trip_Type',
-//     sort: true,
-//     children: [],
-//   },
-//   {
-//     name: 'cat6.place_of_departure',
-//     state: 'Place_of_Departure',
-//     sort: true,
-//     children: [],
-//   },
-//   {
-//     name: 'cat6.departure_airport',
-//     state: 'Departure_Airport',
-//     sort: true,
-//     children: [],
-//   },
-//   {
-//     name: 'cat6.land_transport_distance_km_a',
-//     state: 'Land_Transport_Distance_km_A',
-//     sort: true,
-//     children: [],
-//   },
-//   {
-//     name: 'cat6.land_trasportation_type_a',
-//     state: 'Land_Trasportation_Type_A',
-//     sort: true,
-//     children: [],
-//   },
-//   {
-//     name: 'cat6.destination_airport',
-//     state: 'Destination_Airport',
-//     sort: true,
-//     children: [],
-//   },
-//   {
-//     name: 'cat6.third_country_transfer_destination',
-//     state: 'Third_country_transfer_Destination',
-//     sort: true,
-//     children: [],
-//   },
-//   {
-//     name: 'cat6.land_transport_distance_km_b',
-//     state: 'Land_Transport_Distance_km_B',
-//     sort: true,
-//     children: [],
-//   },
-//   {
-//     name: 'cat6.land_transportation_type_b',
-//     state: 'Land_Transportation_Type_B',
-//     sort: true,
-//     children: [],
-//   },
-//   {
-//     name: 'cat6.third_country_transfer',
-//     state: 'Third_country_transfer',
-//     sort: true,
-//     children: [
-//       { name: 'cat6.destination_2',
-//         state: 'Destination_2',
-//         sort: true
-//       },
-//       { name: 'cat6.destination_3',
-//         state: 'Destination_3',
-//         sort: true
-//       },
-//       { name: 'cat6.destination_4',
-//         state: 'Destination_4',
-//         sort: true
-//       },
-//       { name: 'cat6.destination_5',
-//         state: 'Destination_5',
-//         sort: true
-//       },
-//       { name: 'cat6.destination_6',
-//         state: 'Destination_6',
-//         sort: true
-//       },
-//     ],
-//   },
-//   {
-//     name: 'cat6.land_transport_distance_km',
-//     state: 'Land_Transport_Distance_km',
-//     sort: true,
-//     children: [],
-//   },
-//   {
-//     name: 'cat6.land_transportation_type',
-//     state: 'Land_Transportation_Type',
-//     sort: true,
-//     children: [],
-//   },
-//   {
-//     name: 'cat6.air_transport_distance_km',
-//     state: 'Air_Transport_Distance_km',
-//     sort: true,
-//     children: [],
-//   },
-//   {
-//     name: 'cat6.number_of_nights_stayed',
-//     state: 'Number_of_nights_stayed',
-//     sort: true,
-//     children: [],
-//   },
-// ];
-
 export const HEADER: {
   name: string;
   state: string;
@@ -289,7 +113,7 @@ export const HEADER: {
     sort: true,
   },
   {
-    name: 'Dept',
+    name: 'cat6.dept',
     state: 'Dept',
     sort: true,
   },
@@ -314,24 +138,24 @@ export const HEADER: {
     sort: true,
   },
   {
-    name: 'Route list',
+    name: 'cat6.route_list',
     state: 'Route_list',
     sort: true,
     children: [
-      { name: 'Place 1', state: 'Place1', sort: true },
-      { name: 'Place 2', state: 'Place2', sort: true },
-      { name: 'Place 3', state: 'Place3', sort: true },
-      { name: 'Place 4', state: 'Place4', sort: true },
+      { name: 'cat6.place_1', state: 'Place1', sort: true },
+      { name: 'cat6.place_2', state: 'Place2', sort: true },
+      { name: 'cat6.place_3', state: 'Place3', sort: true },
+      { name: 'cat6.place_4', state: 'Place4', sort: true },
     ],
   },
   {
-    name: 'Transport',
+    name: 'cat6.transport',
     state: 'Transport',
     sort: true,
     children: [
-      { name: 'Transport 1', state: 'Transport_1', sort: true },
-      { name: 'Transport 2', state: 'Transport_2', sort: true },
-      { name: 'Transport 3', state: 'Transport_3', sort: true },
+      { name: 'cat6.transport_1', state: 'Transport_1', sort: true },
+      { name: 'cat6.transport_2', state: 'Transport_2', sort: true },
+      { name: 'cat6.transport_3', state: 'Transport_3', sort: true },
     ],
   },
   {

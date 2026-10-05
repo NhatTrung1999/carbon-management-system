@@ -6,7 +6,6 @@ export interface ICat1AndCat4Data {
   ReceivedNo: string;
   MatID: string;
   MatName: string;
-  // QtyUsage: number;
   QtyReceive: number;
   UnitWeight: number;
   WeightUnitkg: number;
@@ -73,270 +72,69 @@ export interface IStyleAutoFill {
   UpdatedAt: string;
 }
 
-// export const HEADER = [
-//   {
-//     name: 'cat1andcat4.no',
-//     state: 'No',
-//     sort: true,
-//   },
-//   {
-//     name: 'cat1andcat4.date',
-//     state: 'Date',
-//     sort: true,
-//   },
-//   {
-//     name: 'cat1andcat4.purchase_order',
-//     state: 'Purchase_Order',
-//     sort: true,
-//   },
-//   {
-//     name: 'cat1andcat4.material_no',
-//     state: 'Material_No',
-//     sort: true,
-//   },
-//   {
-//     name: 'cat1andcat4.weight',
-//     state: 'Weight',
-//     sort: true,
-//   },
-//   {
-//     name: 'cat1andcat4.supplier_code',
-//     state: 'Supplier_Code',
-//     sort: true,
-//   },
-//   {
-//     name: 'cat1andcat4.third_country_land_transport',
-//     state: 'Thirdcountry_Land_Transport',
-//     sort: true,
-//   },
-//   {
-//     name: 'cat1andcat4.port_of_departure',
-//     state: 'Port_Of_Departure',
-//     sort: true,
-//   },
-//   {
-//     name: 'cat1andcat4.port_of_arrival',
-//     state: 'Port_Of_Arrival',
-//     sort: true,
-//   },
-//   {
-//     name: 'cat1andcat4.factory_domestic_land_transport_b',
-//     state: 'Factory_Domestic_Land_Transport',
-//     sort: true,
-//   },
-//   {
-//     name: 'cat1andcat4.land_transport_distance_a_b',
-//     state: 'Land_Transport_Distance',
-//     sort: true,
-//   },
-//   {
-//     name: 'cat1andcat4.sea_transport_distance',
-//     state: 'Sea_Transport_Distance',
-//     sort: true,
-//   },
-//   {
-//     name: 'cat1andcat4.air_transport_distance',
-//     state: 'Air_Transport_Distance',
-//     sort: true,
-//   },
-//   {
-//     name: 'cat1andcat4.land_transport_ton_kilometers',
-//     state: 'Land_Transport_Ton_Kilometers',
-//     sort: true,
-//   },
-//   {
-//     name: 'cat1andcat4.sea_transport_ton_kilometers',
-//     state: 'Sea_Transport_Ton_Kilometers',
-//     sort: true,
-//   },
-//   {
-//     name: 'cat1andcat4.air_transport_ton_kilometers',
-//     state: 'Air_Transport_Ton_Kilometers',
-//     sort: true,
-//   },
-// ];
-
-// export const HEADER = [
-//   {
-//     name: 'cat1andcat4.no',
-//     state: 'No',
-//     sort: true,
-//   },
-//   {
-//     name: 'cat1andcat4.date',
-//     state: 'PurDate',
-//     sort: true,
-//   },
-//   {
-//     name: 'RK Date',
-//     state: 'RKDate',
-//     sort: true,
-//   },
-//   {
-//     name: 'cat1andcat4.purchase_order',
-//     state: 'PurchaseOrder',
-//     sort: true,
-//   },
-//   {
-//     name: 'cat1andcat4.received_no',
-//     state: 'ReceivedNo',
-//     sort: true,
-//   },
-//   {
-//     name: 'cat1andcat4.material_no',
-//     state: 'MaterialNo',
-//     sort: true,
-//   },
-//   {
-//     name: 'cat1andcat4.qty_usage',
-//     state: 'QtyUsage',
-//     sort: true,
-//   },
-//   {
-//     name: 'cat1andcat4.qty_receive',
-//     state: 'QtyReceive',
-//     sort: true,
-//   },
-//   {
-//     name: 'cat1andcat4.unit_weight',
-//     state: 'UnitWeight',
-//     sort: true,
-//   },
-//   {
-//     name: 'cat1andcat4.weight',
-//     state: 'Weight',
-//     sort: true,
-//   },
-//   {
-//     name: 'cat1andcat4.supplier_code',
-//     state: 'SupplierCode',
-//     sort: true,
-//   },
-//   {
-//     name: 'cat1andcat4.factory_code',
-//     state: 'FactoryCode',
-//     sort: true,
-//   },
-//   {
-//     name: 'cat1andcat4.style',
-//     state: 'Style',
-//     sort: true,
-//   },
-//   {
-//     name: 'cat1andcat4.transport_method',
-//     state: 'TransportationMethod',
-//     sort: true,
-//   },
-//   {
-//     name: 'cat1andcat4.departure',
-//     state: 'Departure',
-//     sort: true,
-//   },
-//   {
-//     name: 'cat1andcat4.third_country_land_transport',
-//     state: 'ThirdcountryLandTransportA',
-//     sort: true,
-//   },
-//   {
-//     name: 'cat1andcat4.port_of_departure',
-//     state: 'PortofDeparture',
-//     sort: true,
-//   },
-//   {
-//     name: 'cat1andcat4.port_of_arrival',
-//     state: 'PortofArrival',
-//     sort: true,
-//   },
-//   {
-//     name: 'cat1andcat4.factory_domestic_land_transport_b',
-//     state: 'FactoryDomesticLandTransportB',
-//     sort: true,
-//   },
-//   {
-//     name: 'cat1andcat4.destination',
-//     state: 'Destination',
-//     sort: true,
-//   },
-//   {
-//     name: 'cat1andcat4.land_transport_distance_a_b',
-//     state: 'LandTransportDistanceAB',
-//     sort: true,
-//   },
-//   {
-//     name: 'cat1andcat4.sea_transport_distance',
-//     state: 'SeaTransportDistance',
-//     sort: true,
-//   },
-//   {
-//     name: 'cat1andcat4.air_transport_distance',
-//     state: 'AirTransportDistance',
-//     sort: true,
-//   },
-//   {
-//     name: 'cat1andcat4.land_transport_ton_kilometers',
-//     state: 'LandTransportTonKilometers',
-//     sort: true,
-//   },
-//   {
-//     name: 'cat1andcat4.sea_transport_ton_kilometers',
-//     state: 'SeaTransportTonKilometers',
-//     sort: true,
-//   },
-//   {
-//     name: 'cat1andcat4.air_transport_ton_kilometers',
-//     state: 'AirTransportTonKilometers',
-//     sort: true,
-//   },
-// ];
-
 export const HEADER = [
-  { name: 'No.', state: 'No', sort: true },
-  { name: 'Factory Code', state: 'FactoryCode', sort: true },
-  { name: 'Pur Date', state: 'PurDate', sort: true },
-  { name: 'RK Date', state: 'RKDate', sort: true },
-  { name: 'Purchase Order', state: 'PurNo', sort: true },
-  { name: 'Received No.', state: 'ReceivedNo', sort: true },
-  { name: 'Material No.', state: 'MatID', sort: true },
-  // { name: 'Qty.(Usage)', state: 'QtyUsage', sort: true },
-  { name: 'Qty.(receive)', state: 'QtyReceive', sort: true },
-  { name: 'Unit weight', state: 'UnitWeight', sort: true },
-  { name: 'Weight (Unit：KG)', state: 'Weight_Unitkg', sort: true },
-  { name: 'Supplier Code', state: 'SupplierCode', sort: true },
-  { name: 'Style', state: 'Style', sort: true },
-  { name: 'Transportation Method', state: 'TransportationMethod', sort: true },
-  { name: 'Departure', state: 'Departure', sort: true },
+  { name: 'cat1andcat4.no', state: 'No', sort: true },
+  { name: 'cat1andcat4.factory_code', state: 'FactoryCode', sort: true },
+  { name: 'cat1andcat4.pur_date', state: 'PurDate', sort: true },
+  { name: 'cat1andcat4.rk_date', state: 'RKDate', sort: true },
+  { name: 'cat1andcat4.purchase_order', state: 'PurNo', sort: true },
+  { name: 'cat1andcat4.received_no', state: 'ReceivedNo', sort: true },
+  { name: 'cat1andcat4.material_no', state: 'MatID', sort: true },
+  { name: 'cat1andcat4.qty_receive', state: 'QtyReceive', sort: true },
+  { name: 'cat1andcat4.unit_weight', state: 'UnitWeight', sort: true },
+  { name: 'cat1andcat4.weight', state: 'Weight_Unitkg', sort: true },
+  { name: 'cat1andcat4.supplier_code', state: 'SupplierCode', sort: true },
+  { name: 'cat1andcat4.style', state: 'Style', sort: true },
   {
-    name: 'Third-country Land Transport (A)',
+    name: 'dataHRCollecMod.transport_method',
+    state: 'TransportationMethod',
+    sort: true,
+  },
+  { name: 'cat1andcat4.departure', state: 'Departure', sort: true },
+  {
+    name: 'cat1andcat4.third_country_land_transport',
     state: 'ThirdCountryLandTransport',
     sort: true,
   },
-  { name: 'Port of Departure', state: 'PortOfDeparture', sort: true },
-  { name: 'Port of Arrival', state: 'PortOfArrival', sort: true },
   {
-    name: 'Factory (Domestic Land Transport)(B)',
+    name: 'cat1andcat4.port_of_departure',
+    state: 'PortOfDeparture',
+    sort: true,
+  },
+  { name: 'cat1andcat4.port_of_arrival', state: 'PortOfArrival', sort: true },
+  {
+    name: 'cat1andcat4.factory_domestic_land_transport_b',
     state: 'FactoryDomesticLandTransport',
     sort: true,
   },
-  { name: 'Destination', state: 'Destination', sort: true },
+  { name: 'cat1andcat4.destination', state: 'Destination', sort: true },
   {
-    name: 'Land Transport Distance (A+B)',
+    name: 'cat1andcat4.land_transport_distance_a_b',
     state: 'LandTransportDistance',
     sort: true,
   },
-  { name: 'Sea Transport Distance', state: 'SeaTransportDistance', sort: true },
-  { name: 'Air Transport Distanc', state: 'AirTransportDistance', sort: true },
   {
-    name: 'Land Transport Ton-Kilometer',
+    name: 'cat1andcat4.sea_transport_distance',
+    state: 'SeaTransportDistance',
+    sort: true,
+  },
+  {
+    name: 'cat1andcat4.air_transport_distance',
+    state: 'AirTransportDistance',
+    sort: true,
+  },
+  {
+    name: 'cat1andcat4.land_transport_ton_km',
     state: 'LandTransportTonKilometers',
     sort: true,
   },
   {
-    name: 'Sea Transport Ton-Kilometers',
+    name: 'cat1andcat4.sea_transport_ton_kilometers',
     state: 'SeaTransportTonKilometers',
     sort: true,
   },
   {
-    name: '	Air Transport Ton-Kilomete',
+    name: 'cat1andcat4.air_transport_ton_km',
     state: 'AirTransportTonKilometers',
     sort: true,
   },
@@ -377,52 +175,52 @@ export const HEADER_PORTCODE = [
 
 export const HEADER_TAX_FREE_ZONE_ADDRESS = [
   {
-    name: 'No',
+    name: 'cat1andcat4.no',
     state: 'No',
     sort: true,
   },
   {
-    name: 'Factory',
+    name: 'cat1andcat4.factory',
     state: 'Factory',
     sort: true,
   },
   {
-    name: 'Supplier ID',
+    name: 'cat1andcat4.supplier_id',
     state: 'SupplierID',
     sort: true,
   },
   {
-    name: 'Country',
+    name: 'cat1andcat4.country',
     state: 'Country',
     sort: true,
   },
   {
-    name: 'Tax-Free Zone Address',
+    name: 'tabs.tax_free_zone_address',
     state: 'TaxFreeZoneAddress',
     sort: true,
   },
   {
-    name: 'Created By',
+    name: 'cat1andcat4.created_by',
     state: 'CreatedBy',
     sort: true,
   },
   {
-    name: 'Created At',
+    name: 'cat1andcat4.created_at',
     state: 'CreatedAt',
     sort: true,
   },
   {
-    name: 'Updated By',
+    name: 'cat1andcat4.updated_by',
     state: 'UpdatedBy',
     sort: true,
   },
   {
-    name: 'Updated At',
+    name: 'usermmt.updated_at',
     state: 'UpdatedAt',
     sort: true,
   },
   {
-    name: 'Action',
+    name: 'dataHRCollecMod.action',
     state: 'Action',
     sort: false,
   },
@@ -430,81 +228,43 @@ export const HEADER_TAX_FREE_ZONE_ADDRESS = [
 
 export const HEADER_STYLE_AUTO_FILL = [
   {
-    name: 'No.',
+    name: 'cat1andcat4.no',
     state: 'No',
     sort: true,
   },
   {
-    name: 'Prefix of Mat. Code',
+    name: 'cat1andcat4.prefix_mat_code',
     state: 'PrefixOfMatCode',
     sort: true,
   },
   {
-    name: 'Style',
+    name: 'cat1andcat4.style',
     state: 'Style',
     sort: true,
   },
   {
-    name: 'Created By',
+    name: 'cat1andcat4.created_by',
     state: 'CreatedBy',
     sort: true,
   },
   {
-    name: 'Created At',
+    name: 'cat1andcat4.created_at',
     state: 'CreatedAt',
     sort: true,
   },
   {
-    name: 'Updated By',
+    name: 'cat1andcat4.updated_by',
     state: 'UpdatedBy',
     sort: true,
   },
   {
-    name: 'Updated At',
+    name: 'usermmt.updated_at',
     state: 'UpdatedAt',
     sort: true,
   },
   {
-    name: 'Action',
+    name: 'dataHRCollecMod.action',
     state: 'Action',
     sort: false,
   },
 ];
-
-export interface ILogCat1AndCat4Payload {
-  System: string;
-  Corporation: string;
-  Factory: string;
-  Department: string;
-  DocKey: string;
-  SPeriodData: string;
-  EPeriodData: string;
-  ActivityType: string;
-  DataType: string;
-  DocType: string;
-  UndDoc: string;
-  DocFlow: string;
-  DocDate: string;
-  DocDate2: string;
-  DocNo: string;
-  UndDocNo: string;
-  CustVenName: string;
-  InvoiceNo: string;
-  TransType: string;
-  Departure: string;
-  Destination: string;
-  PortType: string;
-  StPort: string;
-  ThPort: string;
-  EndPort: string;
-  Product: string;
-  Quity: string;
-  Amount: string;
-  ActivityData: number;
-  ActivityUnit: string;
-  Unit: string;
-  UnitWeight: string;
-  Memo: string;
-  CreateDateTime: string;
-  Creator: string;
-}

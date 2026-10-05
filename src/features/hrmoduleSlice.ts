@@ -1,210 +1,91 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import hrModuleAPi from '../api/hr';
+import { createSlice } from '@reduxjs/toolkit';
+import hrApi, { type HRQuery } from '../api/hr';
 import type { IHRModule } from '../types/hrmodule';
+import {
+  addLoadingMatchers,
+  addPagedListCases,
+  createApiThunk,
+  createPagedList,
+  createPagedThunk,
+  resetPagedList,
+  type PagedList,
+} from './helpers';
 
-interface IHrModuleState {
-  hrmodule: IHRModule[];
+type HRUpdate = {
+  id: string;
+  CurrentAddress: string;
+  TransportationMethod: string;
+};
+
+interface HRModuleState {
+  list: PagedList<IHRModule>;
+  /** Saving / importing (the list has its own loading flag). */
   loading: boolean;
   error: string | null;
-  page: number;
-  limit: number;
-  hasMore: boolean;
 }
 
-export const fetchHRModule = createAsyncThunk(
-  'hrmodule/fetch-hrmodule',
-  async (
-    {
-      dateFrom,
-      dateTo,
-      fullName,
-      id,
-      department,
-      joinDateFrom,
-      joinDateTo,
-      page,
-      sortField,
-      sortOrder,
-    }: {
-      dateFrom: string;
-      dateTo: string;
-      fullName: string;
-      id: string;
-      department: string;
-      joinDateFrom: string;
-      joinDateTo: string;
-      page: number;
-      sortField: string;
-      sortOrder: string;
-    },
-    { rejectWithValue },
-  ) => {
-    try {
-      const res = await hrModuleAPi.fetchHRModule(
-        dateFrom,
-        dateTo,
-        fullName,
-        id,
-        department,
-        joinDateFrom,
-        joinDateTo,
-        page,
-        sortField,
-        sortOrder,
-      );
-      return res as {
-        data: IHRModule[];
-        page: number;
-        limit: number;
-        total: number;
-        hasMore: boolean;
-      };
-    } catch (error: any) {
-      return rejectWithValue(error || '');
-    }
-  },
-);
-
-export const fetchDepartmentHRModule = createAsyncThunk(
-  'hrmodule/fetch-department-hrmodule',
-  async (_, { rejectWithValue }) => {
-    try {
-      const res = await hrModuleAPi.fetchDepartmentHRModule();
-      return res;
-    } catch (error: any) {
-      return rejectWithValue(error || '');
-    }
-  },
-);
-
-export const updateHRModule = createAsyncThunk(
-  'hrmodule/update-hrmodule',
-  async (
-    {
-      id,
-      currentAddress,
-      transportationMethod,
-    }: {
-      id: string;
-      currentAddress: string;
-      transportationMethod: string;
-    },
-    { rejectWithValue },
-  ) => {
-    try {
-      const res = await hrModuleAPi.updateHRModule(
-        id,
-        currentAddress,
-        transportationMethod,
-      );
-      return res;
-    } catch (error: any) {
-      return rejectWithValue(error || '');
-    }
-  },
-);
-
-export const importExcelHRModule = createAsyncThunk(
-  'hrmodule/import-excel-hrmodule',
-  async (file: File, { rejectWithValue }) => {
-    try {
-      const res = await hrModuleAPi.importFromExcel(file);
-      return res;
-    } catch (error: any) {
-      return rejectWithValue(
-        error?.response?.data?.message || 'Import failed!',
-      );
-    }
-  },
-);
-
-const initialState: IHrModuleState = {
-  hrmodule: [],
+const initialState: HRModuleState = {
+  list: createPagedList(),
   loading: false,
   error: null,
-  page: 1,
-  limit: 20,
-  hasMore: true,
+};
+
+export const fetchHRModule = createPagedThunk<IHRModule, HRQuery>(
+  'hrmodule/fetch-hrmodule',
+  hrApi.fetchHRModule,
+);
+
+export const fetchDepartmentHRModule = createApiThunk<
+  { label: string; value: string }[]
+>('hrmodule/fetch-department-hrmodule', hrApi.fetchDepartmentHRModule);
+
+export const updateHRModule = createApiThunk<
+  HRUpdate,
+  { id: string; currentAddress: string; transportationMethod: string }
+>(
+  'hrmodule/update-hrmodule',
+  ({ id, currentAddress, transportationMethod }) =>
+    hrApi.updateHRModule(id, currentAddress, transportationMethod),
+  'Update failed!',
+);
+
+export const importExcelHRModule = createApiThunk<
+  { message: string; updatedData?: HRUpdate[] },
+  File
+>('hrmodule/import-excel-hrmodule', hrApi.importFromExcel, 'Import failed!');
+
+/** Applies saved address/transport values to the rows already loaded (API returns lowercase `id`). */
+const applyUpdate = (rows: IHRModule[], update: HRUpdate) => {
+  const index = rows.findIndex((item) => item.ID === update.id);
+  if (index !== -1) {
+    rows[index] = {
+      ...rows[index],
+      CurrentAddress: update.CurrentAddress,
+      TransportationMethod: update.TransportationMethod,
+    };
+  }
 };
 
 const hrmoduleSlice = createSlice({
   name: 'hrmodule',
   initialState,
   reducers: {
-    resetDataHRModule: (state) => {
-      state.hrmodule = [];
-      state.page = 1;
-      state.hasMore = true;
-      state.error = null;
-    },
+    resetDataHRModule: (state) => resetPagedList(state.list),
   },
   extraReducers: (builder) => {
-    builder
-      .addCase(fetchHRModule.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(fetchHRModule.fulfilled, (state, action) => {
-        state.loading = false;
-        state.hrmodule.push(...action.payload.data);
-        state.page += 1;
-        state.hasMore = action.payload.hasMore;
-      })
-      .addCase(fetchHRModule.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload as string;
-      });
+    addPagedListCases(builder, fetchHRModule, (s) => s.list);
 
     builder
-      .addCase(updateHRModule.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
       .addCase(updateHRModule.fulfilled, (state, action) => {
-        state.loading = false;
-        const updatedItem = action.payload;
-        const index = state.hrmodule.findIndex(
-          (item) => item.ID === updatedItem.id,
-        );
-        if (index !== -1) {
-          state.hrmodule[index] = {
-            ...state.hrmodule[index],
-            ...updatedItem,
-          };
-        }
-      })
-      .addCase(updateHRModule.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload as string;
-      });
-
-    builder
-      .addCase(importExcelHRModule.pending, (state) => {
-        state.loading = true;
-        state.error = null;
+        applyUpdate(state.list.items, action.payload);
       })
       .addCase(importExcelHRModule.fulfilled, (state, action) => {
-        state.loading = false;
-        const { updatedData } = action.payload;
-        if (updatedData && Array.isArray(updatedData)) {
-          updatedData.forEach((newItem: any) => {
-            const index = state.hrmodule.findIndex(
-              (item) => item.ID === newItem.id,
-            );
-            if (index !== -1) {
-              state.hrmodule[index] = {
-                ...state.hrmodule[index],
-                CurrentAddress: newItem.CurrentAddress,
-                TransportationMethod: newItem.TransportationMethod,
-              };
-            }
-          });
-        }
-      })
-      .addCase(importExcelHRModule.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload as string;
+        action.payload.updatedData?.forEach((update) =>
+          applyUpdate(state.list.items, update),
+        );
       });
+
+    addLoadingMatchers(builder, updateHRModule, importExcelHRModule);
   },
 });
 

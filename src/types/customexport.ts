@@ -17,58 +17,53 @@ export const HEADER_CUSTOM_EXPORT: {
   sort: boolean;
 }[] = [
   {
-    name: 'No.',
+    name: 'cat7.no',
     state: 'No',
     sort: true,
   },
   {
-    name: 'Factory',
+    name: 'cat7.factory',
     state: 'Factory',
     sort: true,
   },
   {
-    name: 'Department',
+    name: 'cat7.department',
     state: 'Department',
     sort: true,
   },
   {
-    name: 'ID',
+    name: 'cat7.id',
     state: 'ID',
     sort: true,
   },
   {
-    name: 'Full Name',
+    name: 'cat7.fullname',
     state: 'Full_Name',
     sort: true,
   },
   {
-    name: 'Current Address',
+    name: 'cat7.current_address',
     state: 'Current_Address',
     sort: true,
   },
   {
-    name: 'Transportation Mode',
+    name: 'cat7.transport_mode',
     state: 'Transportation_Mode',
     sort: true,
   },
   {
-    name: 'Bus Route',
+    name: 'cat7.bus_route',
     state: 'Bus_Route',
     sort: true,
   },
   {
-    name: 'Pickup Point',
+    name: 'cat7.pickup_point',
     state: 'Pickup_Point',
     sort: true,
   },
   {
-    name: 'Number of Working Days',
+    name: 'cat7.number_of_working_days',
     state: 'Number_of_Working_Days',
     sort: true,
   },
-  // {
-  //   name: 'Number of Working Days (Rounded)',
-  //   state: 'Number_of_Working_Days_Rounded',
-  //   sort: true,
-  // },
 ];

@@ -10,18 +10,14 @@ const Breadcrumb = ({ items }: Props) => {
   return (
     <nav aria-label="Breadcrumb" className="mb-4 flex items-center gap-1.5">
       {items?.map((item, index) => {
-        const isLast    = index === items.length - 1;
-        const isFirst   = index === 0;
+        const isLast = index === items.length - 1;
+        const isFirst = index === 0;
 
         return (
           <span key={item.name || index} className="flex items-center gap-1.5">
-
             {/* Separator — skip trước item đầu */}
             {!isFirst && (
-              <IoIosArrowForward
-                size={11}
-                className="shrink-0 text-white/20"
-              />
+              <IoIosArrowForward size={11} className="shrink-0 text-white/20" />
             )}
 
             {/* Item */}
@@ -36,15 +32,11 @@ const Breadcrumb = ({ items }: Props) => {
             ) : (
               <span
                 className={`whitespace-nowrap text-xs font-semibold
-                  ${isLast
-                    ? 'text-emerald-400'
-                    : 'text-white/40'
-                  }`}
+                  ${isLast ? 'text-emerald-400' : 'text-white/40'}`}
               >
                 {item.name}
               </span>
             )}
-
           </span>
         );
       })}

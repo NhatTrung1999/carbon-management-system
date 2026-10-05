@@ -5,7 +5,7 @@ import Input from '../common/Input';
 import Select from '../common/Select';
 import ExcelIcon from '../../assets/images/excel-icon.png';
 import SendIcon from '../../assets/images/send-to-CMS.png';
-import { FACTORIES } from '../../utils/constanst';
+import { FACTORIES } from '../../utils/constants';
 
 type SelectOption = { name: string; value: string };
 
@@ -15,7 +15,7 @@ export type CategorySearchFormProps = {
   dateFrom: string;
   dateTo: string;
   factory: string;
-  handleChange: (e: ChangeEvent<any>) => void;
+  handleChange: (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
 
   dockeyOptions?: SelectOption[];
   dockey?: string;
@@ -132,41 +132,43 @@ const CategorySearchForm = ({
         <Button
           label={t('main.search')}
           type="submit"
-          className="w-full sm:w-auto text-white bg-[#FF9119] hover:bg-[#FF9119]/80 focus:ring-4 focus:outline-none focus:ring-[#FF9119]/50 font-medium rounded-lg text-sm px-5 py-2.5 dark:hover:bg-[#FF9119]/80 dark:focus:ring-[#FF9119]/40 cursor-pointer transition-colors duration-300"
+          variant="search"
+          className="w-full sm:w-auto"
         />
         <Button
           label={
             loadingFetch
-              ? 'loading from ERP...'
+              ? t('common.loading_erp')
               : loadingCMS
-                ? 'Loading...'
-                : `${t('Send to CMS')} (${cmsCount})`
+                ? t('common.loading')
+                : `${t('main.send_to_CMS')} (${cmsCount})`
           }
           type="button"
           onClick={onSendToCMS}
-          className={`w-full sm:w-auto flex flex-row gap-2 items-center justify-center sm:justify-start cursor-pointer px-4 py-2 rounded-lg text-white bg-[#FFB619] hover:bg-[#FFB619]/80 transition-colors duration-300 ${
-            loadingCMS || loadingFetch ? 'hover:cursor-not-allowed' : ''
-          }`}
+          variant="cms"
+          className="w-full sm:w-auto"
           imgSrc={SendIcon}
-          disabled={loadingCMS || loadingFetch}
+          disabled={loadingCMS || loadingFetch || cmsCount === 0}
         />
         <Button
-          label={loadingExcel ? 'Loading...' : t('Export Excel file')}
+          label={
+            loadingExcel ? t('common.loading') : t('main.export_excel_file')
+          }
           type="button"
           onClick={onExportExcel}
-          className={`w-full sm:w-auto bg-green-500/20 border-green-400/40 hover:bg-green-500 text-white ${
-            loadingExcel ? 'hover:cursor-not-allowed' : ''
-          }`}
+          variant="excel"
+          className="w-full sm:w-auto"
           imgSrc={ExcelIcon}
           disabled={loadingExcel}
         />
         <Button
-          label={loadingPreview ? 'Loading...' : 'Preview Payload'}
+          label={
+            loadingPreview ? t('common.loading') : t('common.preview_payload')
+          }
           type="button"
           onClick={onPreviewPayload}
-          className={`w-full sm:w-auto bg-green-500/20 border-green-400/40 hover:bg-green-500 text-white ${
-            loadingPreview ? 'hover:cursor-not-allowed' : ''
-          }`}
+          variant="excel"
+          className="w-full sm:w-auto"
           imgSrc={ExcelIcon}
           disabled={loadingPreview}
         />

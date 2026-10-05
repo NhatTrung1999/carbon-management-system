@@ -9,6 +9,8 @@ import Input from '../../common/Input';
 import Select from '../../common/Select';
 import Button from '../../common/Button';
 import type { Item } from '../../../types/users';
+import { useTranslation } from 'react-i18next';
+import i18n from '../../../i18n';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -21,14 +23,17 @@ type Props = {
 
 // ─── Validation ───────────────────────────────────────────────────────────────
 
+// Messages are functions so they follow the language selected at validation time.
+const required = () => i18n.t('common.required');
+
 const schema = Yup.object({
-  userid: Yup.string().required('Please do not leave it blank!'),
-  name: Yup.string().required('Please do not leave it blank!'),
+  userid: Yup.string().required(required),
+  name: Yup.string().required(required),
   email: Yup.string()
-    .email('Invalid email')
-    .required('Please do not leave it blank!'),
-  role: Yup.string().required('Please do not leave it blank!'),
-  status: Yup.string().required('Please do not leave it blank!'),
+    .email(() => i18n.t('common.invalid_email'))
+    .required(required),
+  role: Yup.string().required(required),
+  status: Yup.string().required(required),
 });
 
 // ─── FieldError ───────────────────────────────────────────────────────────────
@@ -53,6 +58,7 @@ const FieldError = ({ msg }: { msg?: string }) =>
 const ModalUser = ({ mode, isOpen, item, setIsOpen }: Props) => {
   const { user } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
   const isAdd = mode === 'add';
 
   const formik = useFormik({
@@ -77,7 +83,7 @@ const ModalUser = ({ mode, isOpen, item, setIsOpen }: Props) => {
             role,
             status,
             createdAt: user?.UserID ?? '',
-          })
+          }),
         );
       } else {
         dispatch(
@@ -89,7 +95,7 @@ const ModalUser = ({ mode, isOpen, item, setIsOpen }: Props) => {
             role,
             status,
             updatedAt: user?.UserID ?? '',
-          })
+          }),
         );
       }
       setIsOpen(false);
@@ -97,9 +103,10 @@ const ModalUser = ({ mode, isOpen, item, setIsOpen }: Props) => {
   });
 
   // Reset form when opening in add mode
+  const { resetForm } = formik;
   useEffect(() => {
     if (isOpen && isAdd) {
-      formik.resetForm({
+      resetForm({
         values: {
           id: '',
           userid: '',
@@ -110,7 +117,7 @@ const ModalUser = ({ mode, isOpen, item, setIsOpen }: Props) => {
         },
       });
     }
-  }, [isOpen, mode]);
+  }, [isOpen, isAdd, resetForm]);
 
   if (!isOpen) return null;
 
@@ -139,7 +146,7 @@ const ModalUser = ({ mode, isOpen, item, setIsOpen }: Props) => {
           {/* ── Header ── */}
           <div className="flex items-center justify-between border-b border-white/[0.08] px-5 py-4">
             <h2 className="text-base font-semibold text-white">
-              {isAdd ? 'Add User' : 'Edit User'}
+              {isAdd ? t('usermmt.add_user') : t('usermmt.edit_user')}
             </h2>
             <button
               type="button"
@@ -163,8 +170,8 @@ const ModalUser = ({ mode, isOpen, item, setIsOpen }: Props) => {
               <Input
                 name="userid"
                 type="text"
-                label="UserID"
-                placeholder="Enter UserID..."
+                label={t('usermmt.userid')}
+                placeholder={t('usermmt.enter_userid')}
                 value={formik.values.userid}
                 onChange={formik.handleChange}
                 disabled={!isAdd}
@@ -179,8 +186,8 @@ const ModalUser = ({ mode, isOpen, item, setIsOpen }: Props) => {
               <Input
                 name="name"
                 type="text"
-                label="Name"
-                placeholder="Enter name..."
+                label={t('usermmt.name')}
+                placeholder={t('usermmt.enter_name')}
                 value={formik.values.name}
                 onChange={formik.handleChange}
               />
@@ -194,8 +201,8 @@ const ModalUser = ({ mode, isOpen, item, setIsOpen }: Props) => {
               <Input
                 name="email"
                 type="email"
-                label="Email"
-                placeholder="Enter email..."
+                label={t('usermmt.email')}
+                placeholder={t('usermmt.enter_email')}
                 value={formik.values.email}
                 onChange={formik.handleChange}
               />
@@ -207,12 +214,12 @@ const ModalUser = ({ mode, isOpen, item, setIsOpen }: Props) => {
             {/* Role */}
             <div>
               <Select
-                label="Role"
+                label={t('usermmt.role')}
                 name="role"
                 value={formik.values.role}
                 onChange={formik.handleChange}
                 options={[
-                  { name: 'Choose option', value: '' },
+                  { name: t('common.choose_option'), value: '' },
                   { name: 'Admin', value: 'Admin' },
                   { name: 'User', value: 'User' },
                 ]}
@@ -225,12 +232,12 @@ const ModalUser = ({ mode, isOpen, item, setIsOpen }: Props) => {
             {/* Status */}
             <div>
               <Select
-                label="Status"
+                label={t('usermmt.status')}
                 name="status"
                 value={formik.values.status}
                 onChange={formik.handleChange}
                 options={[
-                  { name: 'Choose option', value: '' },
+                  { name: t('common.choose_option'), value: '' },
                   { name: 'Active', value: 'Active' },
                   { name: 'Inactive', value: 'Inactive' },
                 ]}
@@ -247,12 +254,12 @@ const ModalUser = ({ mode, isOpen, item, setIsOpen }: Props) => {
             border-t border-white/[0.08] px-5 py-4"
           >
             <Button
-              label="Cancel"
+              label={t('common.cancel')}
               type="button"
               variant="secondary"
               onClick={() => setIsOpen(false)}
             />
-            <Button label="Save" type="submit" variant="primary" />
+            <Button label={t('common.save')} type="submit" variant="primary" />
           </div>
         </form>
       </div>

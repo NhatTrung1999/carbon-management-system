@@ -1,4 +1,4 @@
-import axiosConfig from '../../lib/axiosConfig';
+import { get } from '../client';
 
 const infofactoryApi = {
   getInfoFactory: async ({
@@ -12,9 +12,12 @@ const infofactoryApi = {
     sortField: string;
     sortOrder: string;
   }) => {
-    const url = `infofactory/get-info-factory?companyName=${companyName}&city=${city}&sortField=${sortField}&sortOrder=${sortOrder}`;
-    const response = await axiosConfig.get(url);
-    return response.data;
+    return get('infofactory/get-info-factory', {
+      companyName,
+      city,
+      sortField,
+      sortOrder,
+    });
   },
 };
 

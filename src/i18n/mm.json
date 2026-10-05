@@ -22,12 +22,15 @@
     "delete": "ဖြတ်ရန်",
     "login_invalid": "ဝင်ရောက်မှုမအောင်မြင်ပါ",
     "login_failed": "စနစ်အတွင်း ဤအကောင့်မရှိပါ။",
-    "close": "ပိတ်ရန်"
+    "close": "ပိတ်ရန်",
+    "sign_in_to_continue": "ဆက်လက်ရန် အကောင့်ဝင်ပါ",
+    "enter_user_id": "သင့် user id ထည့်ပါ",
+    "enter_password": "သင့်စကားဝှက် ထည့်ပါ",
+    "app_description": "LY App၊ BPM၊ WMS နှင့် ERP မှ ထုတ်လွှတ်မှု စာရင်းဒေတာများကို အလိုအလျောက် စုစည်းပေးပြီး ပြင်ပ Carbon Management System (CMS) နှင့် ချိတ်ဆက်ပေးသော ဗဟိုချုပ်ကိုင် အတွင်းပိုင်း ပလက်ဖောင်း။"
   },
   "cat1andcat4": {
     "cat_1_4": "အမျိုးအစား ၁ နှင့် ၄",
     "purchase_and_upstream": "ဝယ်ယူခဲ့သည့် ကုန်ပစ္စည်းနှင့် ဝန်ဆောင်မှုများ၊ လုပ်ငန်းအတွင်းသို့ ကုန်ကြမ်းပစ္စည်းများကို သယ်ယူပို့ဆောင်ခြင်းနှင့် ဖြန့်ဖြူးခြင်း",
-    
     "no": "စဉ်",
     "date": "ရက်စွဲ",
     "purchase_order": "အဝယ်အမှာစာ",
@@ -53,13 +56,11 @@
     "land_transport_ton_kilometers": "ကုန်လမ်းပို့ဆောင်မှု တန်-ကီလိုမီတာ",
     "sea_transport_ton_kilometers": "ရေကြောင်းလမ်းပို့ဆောင်မှု တန်-ကီလိုမီတာ",
     "air_transport_ton_kilometers": "လေကြောင်းလမ်းပို့ဆောင်မှု တန်-ကီလိုမီတာ",
-
     "port_code": "ဆိပ်ကမ်းကုဒ်",
     "supplier_id": "ပေးသွင်းသူ ID",
     "created_by": "ဖန်တီးသည်။",
-    "created_date":"ဖန်တီးရက်စွဲ",
-
-    "logging":"နေ့စဉ်မှတ်တမ်း",
+    "created_date": "ဖန်တီးရက်စွဲ",
+    "logging": "နေ့စဉ်မှတ်တမ်း",
     "system": "စနစ်",
     "corporation": "ကော်ပိုရေးရှင်း",
     "factory": "အလုပ်ရုံ",
@@ -71,7 +72,7 @@
     "data_type": "ဒေတာအမျိုးအစား",
     "document_type": "စာရွက်စာတမ်းအမျိုးအစား",
     "document_flow": "စာရွက်စာတမ်းစီးဆင်းမှု",
-    "document_date":"စာရွက်စာတမ်းရက်စွဲ",
+    "document_date": "စာရွက်စာတမ်းရက်စွဲ",
     "document_date_2": "စာရွက်စာတမ်းရက်စွဲ (2)",
     "document_no": "စာရွက်စာတမ်းနံပါတ်",
     "cust_ven_name": "ဖောက်သည်ရောင်းချသူအမည်",
@@ -88,8 +89,21 @@
     "created_date_time": "ရက်စွဲအချိန်ကိုဖန်တီးခဲ့သည်။",
     "creator": "ဖန်တီးသူ",
     "created_user": "ဖန်တီးအသုံးပြုသူ",
-    "created_factory":"စက်ရုံကိုဖန်တီးခဲ့သည်။",
-    "created_at":"တွင်ဖန်တီးခဲ့သည်။"
+    "created_factory": "စက်ရုံကိုဖန်တီးခဲ့သည်။",
+    "created_at": "တွင်ဖန်တီးခဲ့သည်။",
+    "preview_date_from": "အစမ်းကြည့် ရက်စွဲ မှ",
+    "preview_date_to": "အစမ်းကြည့် ရက်စွဲ အထိ",
+    "logging_date_from": "မှတ်တမ်း ရက်စွဲ မှ",
+    "logging_date_to": "မှတ်တမ်း ရက်စွဲ အထိ",
+    "verification_desc": "Preview Payload dockey `{{dockey}}` ကို Logging နှင့် နှိုင်းယှဉ်ခြင်း။",
+    "compare_hint": "အခြေအနေများ ရွေးပြီး <hl>{{button}}</hl> ကို နှိပ်၍ ဒေတာ နှိုင်းယှဉ်ပါ။",
+    "pur_date": "ဝယ်ယူသည့်ရက်",
+    "rk_date": "ဂိုဒေါင်ဝင်ရက်",
+    "land_transport_ton_km": "ကုန်းလမ်း တန်-ကီလိုမီတာ",
+    "air_transport_ton_km": "လေကြောင်း တန်-ကီလိုမီတာ",
+    "country": "နိုင်ငံ",
+    "updated_by": "ပြင်ဆင်သူ",
+    "prefix_mat_code": "ပစ္စည်းကုဒ် ရှေ့ဆက်"
   },
   "cat5": {
     "cat_5": "အမျိုးစား ၅",
@@ -108,8 +122,7 @@
     "treatment_method_id": "Treatment လုပ်သည့်နည်းလမ်း၏ ID",
     "weight_of_waste_treated_unit_kg)": "*Treatment လုပ်လိုက်သည့် အမှိုက်အလေးချိန် (ယူနစ်- ကီလိုဂရမ်)",
     "tkt_ton_km": "TKT (Ton-km)",
-
-    "logging":"နေ့စဉ်မှတ်တမ်း",
+    "logging": "နေ့စဉ်မှတ်တမ်း",
     "system": "စနစ်",
     "corporation": "ကော်ပိုရေးရှင်း",
     "factory": "အလုပ်ရုံ",
@@ -121,7 +134,7 @@
     "data_type": "ဒေတာအမျိုးအစား",
     "document_type": "စာရွက်စာတမ်းအမျိုးအစား",
     "document_flow": "စာရွက်စာတမ်းစီးဆင်းမှု",
-    "document_date":"စာရွက်စာတမ်းရက်စွဲ",
+    "document_date": "စာရွက်စာတမ်းရက်စွဲ",
     "document_date_2": "စာရွက်စာတမ်းရက်စွဲ (2)",
     "document_no": "စာရွက်စာတမ်းနံပါတ်",
     "cust_ven_name": "ဖောက်သည်ရောင်းချသူအမည်",
@@ -138,8 +151,8 @@
     "created_date_time": "ရက်စွဲအချိန်ကိုဖန်တီးခဲ့သည်။",
     "creator": "ဖန်တီးသူ",
     "created_user": "ဖန်တီးအသုံးပြုသူ",
-    "created_factory":"စက်ရုံကိုဖန်တီးခဲ့သည်။",
-    "created_at":"တွင်ဖန်တီးခဲ့သည်။"
+    "created_factory": "စက်ရုံကိုဖန်တီးခဲ့သည်။",
+    "created_at": "တွင်ဖန်တီးခဲ့သည်။"
   },
   "cat6": {
     "cat_6": "အမျိုးစား ၆",
@@ -172,8 +185,7 @@
     "land_transportation_type": "ကုန်လမ်းပို့ဆောင်မှု အမျိုးအစား",
     "air_transport_distance_km": "လေကြောင်းလမ်းပို့ဆောင်မှု အကွာအဝေး (ကီလိုမီတာ)",
     "number_of_nights_stayed": "ညအိပ်ရက် စုစုပေါင်း (Hotel)",
-
-    "logging":"နေ့စဉ်မှတ်တမ်း",
+    "logging": "နေ့စဉ်မှတ်တမ်း",
     "system": "စနစ်",
     "corporation": "ကော်ပိုရေးရှင်း",
     "factory": "အလုပ်ရုံ",
@@ -201,13 +213,23 @@
     "created_date_time": "ရက်စွဲအချိန်ကိုဖန်တီးခဲ့သည်။",
     "creator": "ဖန်တီးသူ",
     "created_user": "ဖန်တီးအသုံးပြုသူ",
-    "created_factory":"စက်ရုံကိုဖန်တီးခဲ့သည်။",
-    "created_at":"တွင်ဖန်တီးခဲ့သည်။"
+    "created_factory": "စက်ရုံကိုဖန်တီးခဲ့သည်။",
+    "created_at": "တွင်ဖန်တီးခဲ့သည်။",
+    "dorm_shuttle": "အဆောင် + အကြိုအပို့ကား",
+    "dept": "ဌာန",
+    "route_list": "လမ်းကြောင်းစာရင်း",
+    "place_1": "နေရာ 1",
+    "place_2": "နေရာ 2",
+    "place_3": "နေရာ 3",
+    "place_4": "နေရာ 4",
+    "transport_1": "သယ်ယူပို့ဆောင်ရေး 1",
+    "transport_2": "သယ်ယူပို့ဆောင်ရေး 2",
+    "transport_3": "သယ်ယူပို့ဆောင်ရေး 3",
+    "accommodation": "တည်းခိုခြင်း"
   },
   "cat7": {
     "cat_7": "အမျိုးစား ၇",
     "employee_commuting": "ဝန်ထမ်း သွားလာရေး / ဝန်ထမ်း အလုပ်တက်/ဆင်း",
-    
     "GHG_inventory_template": "GHG စာရင်းပုံစံပုံစံ",
     "staff_id": "ဝန်ထမ်း ကတ်နံပါတ် / ဝန်ထမ်း အမှတ်စဉ်",
     "residential_address": "နေရပ်လိပ်စာ / Pickup point (Company shuttle bus)",
@@ -216,17 +238,15 @@
     "number_of_working_days": "အလုပ်လုပ်ရက် အရေအတွက်",
     "number_of_working_days_rounded": "အလုပ်လုပ်ရက် အရေအတွက် (ပတ်လည် သတ်မှတ်ထားသော)",
     "pkt_p_km": "PKT (ပီ-ကီလိုမီတာ)",
-
     "custom_export": "ဖောက်သည်တင်ပို့ခြင်း။",
     "no": "ဂဏန်း",
-    "id":"ID",
+    "id": "ID",
     "fullname": "နာမည်အပြည့်အစုံ",
-    "current_address":"လက်ရှိလိပ်စာ",
+    "current_address": "လက်ရှိလိပ်စာ",
     "transport_mode": "သယ်ယူပို့ဆောင်ရေးမုဒ်",
     "bus_route": "ဘတ်စ်ကားလမ်းကြောင်း",
     "pickup_point": "ပစ်ကပ်မှတ်",
-
-    "logging":"နေ့စဉ်မှတ်တမ်း",
+    "logging": "နေ့စဉ်မှတ်တမ်း",
     "system": "စနစ်",
     "corporation": "ကော်ပိုရေးရှင်း",
     "factory": "အလုပ်ရုံ",
@@ -238,7 +258,7 @@
     "data_type": "ဒေတာအမျိုးအစား",
     "document_type": "စာရွက်စာတမ်းအမျိုးအစား",
     "document_flow": "စာရွက်စာတမ်းစီးဆင်းမှု",
-    "document_date":"စာရွက်စာတမ်းရက်စွဲ",
+    "document_date": "စာရွက်စာတမ်းရက်စွဲ",
     "document_date_2": "စာရွက်စာတမ်းရက်စွဲ (2)",
     "document_no": "စာရွက်စာတမ်းနံပါတ်",
     "cust_ven_name": "ဖောက်သည်ရောင်းချသူအမည်",
@@ -255,8 +275,9 @@
     "created_date_time": "ရက်စွဲအချိန်ကိုဖန်တီးခဲ့သည်။",
     "creator": "ဖန်တီးသူ",
     "created_user": "ဖန်တီးအသုံးပြုသူ",
-    "created_factory":"စက်ရုံကိုဖန်တီးခဲ့သည်။",
-    "created_at":"တွင်ဖန်တီးခဲ့သည်။"
+    "created_factory": "စက်ရုံကိုဖန်တီးခဲ့သည်။",
+    "created_at": "တွင်ဖန်တီးခဲ့သည်။",
+    "updated_by": "ပြင်ဆင်သူ"
   },
   "cat9andcat12": {
     "cat_9_12": "အမျိုးအစား ၉နှင့်၁၂",
@@ -288,8 +309,7 @@
     "example_file": "ဥပမာဖိုင်",
     "close": "ပိတ်မည်",
     "import": "ထည့်သွင်းမည်",
-
-    "logging":"နေ့စဉ်မှတ်တမ်း",
+    "logging": "နေ့စဉ်မှတ်တမ်း",
     "system": "စနစ်",
     "corporation": "ကော်ပိုရေးရှင်း",
     "factory": "အလုပ်ရုံ",
@@ -301,7 +321,7 @@
     "data_type": "ဒေတာအမျိုးအစား",
     "document_type": "စာရွက်စာတမ်းအမျိုးအစား",
     "document_flow": "စာရွက်စာတမ်းစီးဆင်းမှု",
-    "document_date":"စာရွက်စာတမ်းရက်စွဲ",
+    "document_date": "စာရွက်စာတမ်းရက်စွဲ",
     "document_date_2": "စာရွက်စာတမ်းရက်စွဲ (2)",
     "document_no": "စာရွက်စာတမ်းနံပါတ်",
     "cust_ven_name": "ဖောက်သည်ရောင်းချသူအမည်",
@@ -318,7 +338,12 @@
     "created_date_time": "ရက်စွဲအချိန်ကိုဖန်တီးခဲ့သည်။",
     "creator": "ဖန်တီးသူ",
     "created_user": "ဖန်တီးအသုံးပြုသူ",
-    "created_factory":"စက်ရုံကိုဖန်တီးခဲ့သည်။"
+    "created_factory": "စက်ရုံကိုဖန်တီးခဲ့သည်။",
+    "invoice_date": "ပြေစာ ရက်စွဲ",
+    "ry_product": "RY ထုတ်ကုန်",
+    "ry_component": "RY အစိတ်အပိုင်း",
+    "component_name": "အစိတ်အပိုင်း အမည်",
+    "booking_no": "ဘွတ်ကင် နံပါတ်"
   },
   "usermmt": {
     "user_management": "အသုံးပြုသူ စီမံခန့်ခွဲမှု",
@@ -327,10 +352,15 @@
     "email": "အီးမေးလ်",
     "role": "အခန်းကဏ္ဍ / တာဝန်",
     "status": "အခြေအနေ",
-    "created_at":"ဖန်တီးခဲ့သည့် ရက်စွဲ/အချိန်",
-    "created_date":"ဖန်တီးခဲ့သည့် ရက်စွဲ",
+    "created_at": "ဖန်တီးခဲ့သည့် ရက်စွဲ/အချိန်",
+    "created_date": "ဖန်တီးခဲ့သည့် ရက်စွဲ",
     "updated_at": "တွင် မွမ်းမံထားသည်။",
-    "updated_date": "အပ်ဒိတ်ရက်စွဲ"
+    "updated_date": "အပ်ဒိတ်ရက်စွဲ",
+    "enter_userid": "UserID ထည့်ပါ...",
+    "enter_name": "အမည် ထည့်ပါ...",
+    "enter_email": "အီးမေးလ် ထည့်ပါ...",
+    "add_user": "အသုံးပြုသူ ထည့်ရန်",
+    "edit_user": "အသုံးပြုသူ ပြင်ရန်"
   },
   "filemmt": {
     "file_management": "ဖိုင်စီမံခန့်ခွဲမှု",
@@ -338,7 +368,9 @@
     "file_name": "ဖိုင်အမည်",
     "status": "အခြေအနေ",
     "created_by_user": "အသုံးပြုသူက ဖန်တီးခဲ့ခြင်း",
-    "created_date": "အသုံးပြုသူက မှတ်တမ်းတင်ခဲ့သည့် ရက်စွဲ"
+    "created_date": "အသုံးပြုသူက မှတ်တမ်းတင်ခဲ့သည့် ရက်စွဲ",
+    "enter_module": "module ထည့်ပါ...",
+    "enter_file_name": "ဖိုင်အမည် ထည့်ပါ..."
   },
   "facinfo": {
     "facinfo": "စက်ရုံအချက်အလက်",
@@ -349,131 +381,117 @@
     "tel": "ဖုန်းဖုန်းနံပါတ်",
     "fax": "ဖက်စ်နံပါတ်",
     "name_vn": "ဗီယက်နမ်အမည်",
-    "created_user":"ဖန်တီးအသုံးပြုသူ",
-    "created_factory":"စက်ရုံကိုဖန်တီးခဲ့သည်။",
-    "created_date":"ဖန်တီးခဲ့သည့် ရက်စွဲ",
+    "created_user": "ဖန်တီးအသုံးပြုသူ",
+    "created_factory": "စက်ရုံကိုဖန်တီးခဲ့သည်။",
+    "created_date": "ဖန်တီးခဲ့သည့် ရက်စွဲ",
     "updated_user": "အပ်ဒိတ်လုပ်ထားသောအသုံးပြုသူ",
     "updated_factory": "မွမ်းမံထားသော စက်ရုံ",
-    "updated_date":"အပ်ဒိတ်ရက်စွဲ"
+    "updated_date": "အပ်ဒိတ်ရက်စွဲ",
+    "info_factory_management": "စက်ရုံ အချက်အလက် စီမံခန့်ခွဲမှု",
+    "enter_company_name": "ကုမ္ပဏီအမည် ထည့်ပါ...",
+    "enter_city": "မြို့ ထည့်ပါ...",
+    "account_no": "အကောင့် နံပါတ်"
   },
   "dataHRCollecMod": {
     "dataCollection_HR_Module": "ဒေတာစုဆောင်းမှု HR မော်ဂျူး",
     "id": "ID",
-    "fullname":"နာမည်အပြည့်အစုံ",
-    "department":"ဌာန",
+    "fullname": "နာမည်အပြည့်အစုံ",
+    "department": "ဌာန",
     "permanent_address": "အမြဲတမ်းလိပ်စာ",
-    "current_address":"လက်ရှိလိပ်စာ",
-    "transport_method":"သယ်ယူပို့ဆောင်ရေး နည်းလမ်း",
-    "number_of_working_days":"အလုပ်လုပ်ရက် အရေအတွက်",
-    "action": "လုပ်ဆောင်ချက်"
+    "current_address": "လက်ရှိလိပ်စာ",
+    "transport_method": "သယ်ယူပို့ဆောင်ရေး နည်းလမ်း",
+    "number_of_working_days": "အလုပ်လုပ်ရက် အရေအတွက်",
+    "action": "လုပ်ဆောင်ချက်",
+    "join_date_from": "အလုပ်ဝင်ရက် မှ",
+    "join_date_to": "အလုပ်ဝင်ရက် အထိ",
+    "join_date": "အလုပ်ဝင်ရက်",
+    "bus_station": "ဘတ်စ်ကား မှတ်တိုင်"
+  },
+  "common": {
+    "search_placeholder": "ရှာဖွေရန်...",
+    "all": "အားလုံး",
+    "clear_selection": "ရွေးချယ်မှု ဖယ်ရန်",
+    "clear": "ဖျက်ရန်",
+    "apply": "အသုံးပြုရန်",
+    "filter": "စစ်ထုတ်ရန်",
+    "no_results": "ရလဒ် မရှိပါ",
+    "no_data": "ဒေတာ မရှိပါ",
+    "loading": "ဖွင့်နေသည်...",
+    "today": "ယနေ့",
+    "save": "သိမ်းရန်",
+    "cancel": "မလုပ်တော့ပါ",
+    "edit": "ပြင်ရန်",
+    "delete": "ဖျက်ရန်",
+    "close": "ပိတ်ရန်",
+    "sync": "ချိန်ညှိရန်",
+    "import": "တင်သွင်းရန်",
+    "done": "ပြီးဆုံး",
+    "pending": "လုပ်ဆောင်နေသည်",
+    "download_example": "နမူနာဖိုင် ဒေါင်းလုဒ်ရန်",
+    "choose_file": "ဖိုင် ရွေးရန်",
+    "no_file_chosen": "ဖိုင် မရွေးရသေးပါ",
+    "clear_file": "ဖိုင် ဖယ်ရန်",
+    "choose_file_first": "တင်သွင်းမီ ဖိုင်ကို ရွေးချယ်ပါ!",
+    "importing": "တင်သွင်းနေသည်...",
+    "error": "အမှား ဖြစ်ပွားခဲ့သည်!",
+    "load_failed": "ဒေတာ ဖွင့်၍မရပါ",
+    "export_failed": "Excel ထုတ်ယူမှု မအောင်မြင်ပါ!",
+    "update_failed": "ပြင်ဆင်မှု မအောင်မြင်ပါ!",
+    "send_cms_failed": "CMS သို့ ပို့ခြင်း မအောင်မြင်ပါ!",
+    "file_pending": "Excel ဖိုင်ကို ပြင်ဆင်နေဆဲ ဖြစ်သည်!",
+    "file_not_found": "ဖိုင် ရှာမတွေ့ပါ!",
+    "confirm_title": "သေချာပါသလား?",
+    "cannot_undo": "ဤလုပ်ဆောင်ချက်ကို ပြန်ပြင်၍ မရပါ။",
+    "confirm": "အတည်ပြုရန်",
+    "delete_confirm": "ဤအရာကို ဖျက်မလား?",
+    "delete_prefix_confirm": "Prefix \"{{prefix}}\" ကို ဖျက်မလား?",
+    "select_language": "စနစ် ဘာသာစကား ရွေးရန်",
+    "collapse": "ချုံ့ရန်",
+    "page_not_found": "အိုး",
+    "go_back": "နောက်သို့",
+    "logging": "မှတ်တမ်း",
+    "choose_row": "အတန်းတစ်ခု ရွေးပါ",
+    "choose_user": "အသုံးပြုသူ ရွေးပါ",
+    "deleted_success": "ဖျက်ပြီးပါပြီ!",
+    "saved_success": "သိမ်းပြီးပါပြီ!",
+    "load_permissions_failed": "ခွင့်ပြုချက်များ ဖွင့်၍ မရပါ",
+    "save_permissions_failed": "ခွင့်ပြုချက်များ သိမ်း၍ မရပါ",
+    "loading_erp": "ERP မှ ဖွင့်နေသည်...",
+    "preview_payload": "Payload အစမ်းကြည့်ရန်",
+    "compare_data": "ဒေတာ နှိုင်းယှဉ်ရန်",
+    "type": "အမျိုးအစား",
+    "status": "အခြေအနေ",
+    "required": "ကျေးဇူးပြု၍ ကွက်လပ် မထားပါနှင့်!",
+    "invalid_email": "အီးမေးလ် မမှန်ကန်ပါ",
+    "select_all": "အားလုံး ရွေးရန်",
+    "preview": "အစမ်းကြည့်",
+    "matched": "ကိုက်ညီ",
+    "missing": "ပျောက်နေ",
+    "extra": "ပိုလျှံ",
+    "page_not_found_desc": "သင်ရှာနေသော စာမျက်နှာ မရှိပါ။",
+    "no_preview_data": "{{title}} အတွက် အစမ်းကြည့် ဒေတာ မတွေ့ပါ။",
+    "choose_option": "ရွေးချယ်ပါ",
+    "saving": "သိမ်းဆည်းနေသည်...",
+    "select_placeholder": "ရွေးချယ်ပါ…"
+  },
+  "tabs": {
+    "wg_in_operations": "လုပ်ငန်းစွန့်ပစ်ပစ္စည်း",
+    "logging_business_travel": "ခရီးစဉ် မှတ်တမ်း",
+    "logging_accommodation": "တည်းခို မှတ်တမ်း",
+    "tax_free_zone_address": "အခွန်ကင်းဇုန် လိပ်စာ",
+    "verification_report": "စိစစ်ချက် အစီရင်ခံစာ",
+    "style_auto_fill": "Style အလိုအလျောက်ဖြည့်",
+    "default_address": "ပုံသေ လိပ်စာ"
+  },
+  "system_decentral": {
+    "system_decentralization": "စနစ် ခွင့်ပြုချက် ခွဲဝေမှု",
+    "user": "အသုံးပြုသူ",
+    "search_user": "အသုံးပြုသူ ရှာရန်...",
+    "no_users": "အသုံးပြုသူ မတွေ့ပါ",
+    "loading_permissions": "ခွင့်ပြုချက်များ ဖွင့်နေသည်...",
+    "choose_user": "အသုံးပြုသူ ရွေးပါ",
+    "modules_enabled": "မော်ဂျူး {{enabled}}/{{total}} ခု ဖွင့်ထားသည်",
+    "default_rules": "သင် သိမ်းဆည်းသည်အထိ ဤအသုံးပြုသူသည် မူလ အခန်းကဏ္ဍ စည်းမျဉ်းများကို အသုံးပြုနေသည်။",
+    "select_user_hint": "မော်ဂျူး မြင်နိုင်မှု သတ်မှတ်ရန် အသုံးပြုသူ ရွေးပါ။"
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

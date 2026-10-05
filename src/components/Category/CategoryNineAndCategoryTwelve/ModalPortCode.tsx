@@ -1,7 +1,8 @@
 import { useAppDispatch } from '../../../app/hooks';
-import { importExcelPortCode } from '../../../features/categorySlice';
+import { importExcelPortCode } from '../../../features/masterDataSlice';
 import ModalFileImport from '../ModalFileImport';
 import { useTranslation } from 'react-i18next';
+import { resultToastOptions } from '../../../utils/toastResult';
 
 type Props = {
   setIsOpen: (isOpen: boolean) => void;
@@ -9,7 +10,7 @@ type Props = {
 
 const ModalPortCode = ({ setIsOpen }: Props) => {
   const dispatch = useAppDispatch();
-  const { t }    = useTranslation();
+  const { t } = useTranslation();
 
   return (
     <ModalFileImport
@@ -18,11 +19,7 @@ const ModalPortCode = ({ setIsOpen }: Props) => {
       setIsOpen={setIsOpen}
       onImport={async (file) => {
         const res = await dispatch(importExcelPortCode(file));
-        const ok  = importExcelPortCode.fulfilled.match(res);
-        return {
-          icon : ok ? 'success' : 'error',
-          title: ok ? (res.payload as { message: string }).message : (res.payload as string),
-        };
+        return resultToastOptions(res);
       }}
     />
   );

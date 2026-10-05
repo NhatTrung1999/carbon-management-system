@@ -1,5 +1,4 @@
-// import { type RefObject, type UIEventHandler } from 'react';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import Search from '../../../components/Category/CategorySeven/CustomExport/Search';
 import Table from '../../../components/Category/CategorySeven/CustomExport/Table';
 import { HEADER_CUSTOM_EXPORT } from '../../../types/customexport';
@@ -8,84 +7,42 @@ import {
   getCustomExport,
   resetDataCustomExport,
 } from '../../../features/categorySlice';
-// import type { TableHeaderProps } from '../../../types/table';
-// import type { ICat7Data } from '../../../types/cat7';
-
-// type Props = {
-//   header: TableHeaderProps[];
-//   activeSort: {
-//     sortField: string;
-//     sortOrder: string;
-//   };
-//   dateFrom: string;
-//   setDateFrom: (dateVal: string) => void;
-//   dateTo: string;
-//   setDateTo: (dateVal: string) => void;
-//   factory: string;
-//   setFactory: (factoryVal: string) => void;
-//   setActiveSort: (data: any) => void;
-//   data: ICat7Data[];
-//   tableRef: RefObject<HTMLDivElement | null>;
-//   onScroll: UIEventHandler<HTMLDivElement>;
-// };
+import { todayLocal } from '../../../utils/formatDate';
+import { useInfiniteList } from '../../../hooks/useInfiniteList';
+import { DEFAULT_FACTORY } from '../../../utils/constants';
 
 const CustomExport = () => {
-  const tableRef = useRef<HTMLDivElement | null>(null);
-  const didFetch = useRef(false);
-  const [activeSort, setActiveSort] = useState({
-    sortField: HEADER_CUSTOM_EXPORT[0].state,
-    sortOrder: 'asc',
-  });
+  const [dateFrom, setDateFrom] = useState<string>(todayLocal());
+  const [dateTo, setDateTo] = useState<string>(todayLocal());
 
-  const [dateFrom, setDateFrom] = useState<string>(
-    new Date().toISOString().slice(0, 10)
-  );
-  const [dateTo, setDateTo] = useState<string>(
-    new Date().toISOString().slice(0, 10)
-  );
-
-  const [factory, setFactory] = useState<string>('LYV');
+  const [factory, setFactory] = useState<string>(DEFAULT_FACTORY);
   const [field, setField] = useState<string[]>([]);
 
-  const { customExport, page, loading, hasMore } = useAppSelector(
-    (state) => state.category
-  );
+  const {
+    items: customExport,
+    page,
+    loading,
+    hasMore,
+  } = useAppSelector((state) => state.category.customExport);
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    if (didFetch.current) return;
-    didFetch.current = true;
-    dispatch(resetDataCustomExport());
-    dispatch(
-      getCustomExport({
-        dateFrom,
-        dateTo,
-        factory,
-        page: 1,
-        sortField: activeSort.sortField,
-        sortOrder: activeSort.sortOrder,
-      })
-    );
-  }, [dispatch, activeSort, dateFrom, dateTo, factory]);
-
-  const onScroll = useCallback(() => {
-    const el = tableRef.current;
-    if (!el || loading || !hasMore) return;
-    const bottomReached =
-      el.scrollTop + el.clientHeight >= el.scrollHeight - 20;
-    if (bottomReached) {
+  const { tableRef, activeSort, setActiveSort, onScroll } = useInfiniteList({
+    initialSort: { sortField: HEADER_CUSTOM_EXPORT[0].state, sortOrder: 'asc' },
+    page,
+    loading,
+    hasMore,
+    reset: () => dispatch(resetDataCustomExport()),
+    fetchPage: (page, sort) =>
       dispatch(
         getCustomExport({
           dateFrom,
           dateTo,
           factory,
           page,
-          sortField: activeSort.sortField,
-          sortOrder: activeSort.sortOrder,
-        })
-      );
-    }
-  }, [dispatch, loading, hasMore, page, activeSort, dateFrom, dateTo, factory]);
+          ...sort,
+        }),
+      ),
+  });
 
   return (
     <div className="flex min-h-full min-w-0 flex-col xl:h-full xl:min-h-0">

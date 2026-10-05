@@ -1,74 +1,87 @@
-import axios from 'axios';
-import {apiConfig} from './apiConfig';
-import storage from '../utils/storage';
+import axios, { type InternalAxiosRequestConfig } from 'axios';
+import { apiConfig } from './apiConfig';
+import { session } from '../utils/session';
+import type { Session } from '../types/login';
 
 const axiosConfig = axios.create({
   baseURL: apiConfig.baseUrl,
   headers: {
     'Content-Type': 'application/json',
   },
-  timeout: 1800000,
+  // Excel exports and CMS payloads can take several minutes.
+  timeout: 30 * 60 * 1000,
 });
 
-axiosConfig.interceptors.request.use(
-  function (config) {
-    const accessToken = storage.get<string>('token');
-
-    if (accessToken) {
-      config.headers.Authorization = `Bearer ${accessToken}`;
-    }
-    return config;
-  },
-  function (error) {
-    return Promise.reject(error);
+axiosConfig.interceptors.request.use((config) => {
+  const accessToken = session.getToken();
+  if (accessToken) {
+    config.headers.Authorization = `Bearer ${accessToken}`;
   }
-);
+  return config;
+});
+
+// ── Token refresh ─────────────────────────────────────────────────────────────
+
+let onSessionRefreshed: ((s: Session) => void) | null = null;
+
+/** Lets the app update its state (e.g. Redux) after a silent token refresh. */
+export const setOnSessionRefreshed = (listener: (s: Session) => void) => {
+  onSessionRefreshed = listener;
+};
+
+// One refresh shared by all requests that fail with 401 at the same time.
+let refreshing: Promise<Session> | null = null;
+
+const refreshSession = async (refreshToken: string): Promise<Session> => {
+  const refreshUrl = `${apiConfig.baseUrl.replace(/\/?$/, '/')}auth/refresh`;
+  const { data } = await axios.post(refreshUrl, {
+    refresh_token: refreshToken,
+  });
+  const next: Session = {
+    token: data.access_token,
+    refreshToken: data.refresh_token,
+    user: data.payload,
+  };
+  session.save(next);
+  onSessionRefreshed?.(next);
+  return next;
+};
+
+type RetryableRequest = InternalAxiosRequestConfig & { _retry?: boolean };
 
 axiosConfig.interceptors.response.use(
-  function (response) {
-    return response;
-  },
-  async function (error) {
-    const originalRequest = error.config;
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config as RetryableRequest | undefined;
+    const refreshToken = session.getRefreshToken();
+    const isAuthCall =
+      originalRequest?.url?.includes('auth/login') ||
+      originalRequest?.url?.includes('auth/refresh');
 
     if (
-      error.response?.status === 401 &&
-      originalRequest &&
-      !originalRequest._retry &&
-      !originalRequest.url?.includes('auth/login') &&
-      !originalRequest.url?.includes('auth/refresh')
+      error.response?.status !== 401 ||
+      !originalRequest ||
+      originalRequest._retry ||
+      isAuthCall ||
+      !refreshToken
     ) {
-      originalRequest._retry = true;
-
-      const refreshToken = storage.get<string>('refreshToken');
-
-      if (refreshToken) {
-        try {
-          const refreshUrl = `${apiConfig.baseUrl.replace(/\/?$/, '/')}auth/refresh`;
-          const { data } = await axios.post(
-            refreshUrl,
-            { refresh_token: refreshToken },
-            { headers: { 'Content-Type': 'application/json' } }
-          );
-
-          sessionStorage.setItem('token', data.access_token);
-          sessionStorage.setItem('refreshToken', data.refresh_token);
-          sessionStorage.setItem('user', JSON.stringify(data.payload));
-
-          originalRequest.headers = originalRequest.headers ?? {};
-          originalRequest.headers.Authorization = `Bearer ${data.access_token}`;
-          return axiosConfig(originalRequest);
-        } catch {
-          sessionStorage.removeItem('token');
-          sessionStorage.removeItem('refreshToken');
-          sessionStorage.removeItem('user');
-          window.location.href = '/login';
-        }
-      }
+      return Promise.reject(error);
     }
 
-    return Promise.reject(error);
-  }
+    originalRequest._retry = true;
+    try {
+      refreshing ??= refreshSession(refreshToken).finally(() => {
+        refreshing = null;
+      });
+      const { token } = await refreshing;
+      originalRequest.headers.Authorization = `Bearer ${token}`;
+      return axiosConfig(originalRequest);
+    } catch {
+      session.clear();
+      window.location.href = '/login';
+      return Promise.reject(error);
+    }
+  },
 );
 
-export default axiosConfig
+export default axiosConfig;

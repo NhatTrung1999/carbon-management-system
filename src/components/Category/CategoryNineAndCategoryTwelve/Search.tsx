@@ -1,6 +1,5 @@
 import { useFormik } from 'formik';
 import { useState } from 'react';
-// import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import {
   getDataCat9AndCat12,
@@ -12,6 +11,8 @@ import { createLogCat9AndCat12 } from '../../../features/logcatSlice';
 import cmsApi from '../../../api/cms';
 import { Toast } from '../../../utils/Toast';
 import CategorySearchForm from '../CategorySearchForm';
+import { toastStatus, logResultToastOptions } from '../../../utils/toastResult';
+import i18n from '../../../i18n';
 
 const DOCKEY_OPTIONS = [
   { name: '3.2 (CAT9)', value: '3.2' },
@@ -73,43 +74,38 @@ const Search = ({
   const [loadingExcel, setLoadingExcel] = useState(false);
   const [loadingPreview, setLoadingPreview] = useState(false);
   const dispatch = useAppDispatch();
-  // const { t } = useTranslation();
 
   const formik = useFormik({
     initialValues: { dateFrom, dateTo, factory, dockey, ry },
     onSubmit: async (data) => {
-      try {
-        dispatch(resetDataCat9AndCat12());
-        setDateFrom(data.dateFrom);
-        setDateTo(data.dateTo);
-        setFactory(data.factory);
-        setDockey(data.dockey);
-        setRY(data.ry);
-        dispatch(
-          getDataCat9AndCat12({
-            dateFrom: data.dateFrom,
-            dateTo: data.dateTo,
-            factory: data.factory,
-            ry: data.ry,
-            page: 1,
-            sortField: activeSort.sortField,
-            sortOrder: activeSort.sortOrder,
-          }),
-        );
-        setLoadingFetch(true);
-        await dispatch(
-          fetchDataAutoSendCMSCat9AndCat12({
-            dateFrom: data.dateFrom,
-            dateTo: data.dateTo,
-            factory: data.factory,
-            ry: data.ry,
-            dockey: data.dockey,
-          }),
-        );
-        setLoadingFetch(false);
-      } catch (error) {
-        console.log(error);
-      }
+      dispatch(resetDataCat9AndCat12());
+      setDateFrom(data.dateFrom);
+      setDateTo(data.dateTo);
+      setFactory(data.factory);
+      setDockey(data.dockey);
+      setRY(data.ry);
+      dispatch(
+        getDataCat9AndCat12({
+          dateFrom: data.dateFrom,
+          dateTo: data.dateTo,
+          factory: data.factory,
+          ry: data.ry,
+          page: 1,
+          sortField: activeSort.sortField,
+          sortOrder: activeSort.sortOrder,
+        }),
+      );
+      setLoadingFetch(true);
+      await dispatch(
+        fetchDataAutoSendCMSCat9AndCat12({
+          dateFrom: data.dateFrom,
+          dateTo: data.dateTo,
+          factory: data.factory,
+          ry: data.ry,
+          dockey: data.dockey,
+        }),
+      );
+      setLoadingFetch(false);
     },
   });
 
@@ -125,14 +121,7 @@ const Search = ({
       }),
     );
     if (generateFileExcel.fulfilled.match(result)) {
-      const { statusCode, message } = result.payload as {
-        statusCode: number;
-        message: string;
-      };
-      Toast.fire({
-        title: message,
-        icon: statusCode === 200 ? 'success' : 'error',
-      });
+      toastStatus(result.payload);
     }
     setLoadingExcel(false);
   };
@@ -150,14 +139,7 @@ const Search = ({
       }),
     );
     if (previewPayload.fulfilled.match(result)) {
-      const { statusCode, message } = result.payload as {
-        statusCode: number;
-        message: string;
-      };
-      Toast.fire({
-        title: message,
-        icon: statusCode === 200 ? 'success' : 'error',
-      });
+      toastStatus(result.payload);
     }
     setLoadingPreview(false);
   };
@@ -167,16 +149,15 @@ const Search = ({
     const response = await cmsApi.createCMS(autoSendCMSCat9AndCat12);
     if (response.std_data.execution.code === '0') {
       const result = await dispatch(
-        createLogCat9AndCat12(autoSendCMSCat9AndCat12 as any),
+        createLogCat9AndCat12(autoSendCMSCat9AndCat12),
       );
       Toast.fire({
-        title: result.payload.message,
-        icon: result.payload.success ? 'success' : 'error',
+        ...logResultToastOptions(result),
         ...CMS_TOAST_BASE,
       });
     } else {
       Toast.fire({
-        title: 'Send to CMS failed!',
+        title: i18n.t('common.send_cms_failed'),
         icon: 'error',
         ...CMS_TOAST_BASE,
       });

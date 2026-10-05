@@ -6,17 +6,19 @@ import Button from '../../common/Button';
 import Input from '../../common/Input';
 import Select from '../../common/Select';
 import ModalHR from './ModalHR';
-import hrModuleAPi from '../../../api/hr';
+import hrApi from '../../../api/hr';
 import {
   fetchDepartmentHRModule,
   fetchHRModule,
   resetDataHRModule,
 } from '../../../features/hrmoduleSlice';
 import ExcelIcon from '../../../assets/images/excel-icon.png';
+import type { SortState } from '../../../types/table';
+import { downloadBlob } from '../../../utils/download';
+import { Toast } from '../../../utils/Toast';
+import i18n from '../../../i18n';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
-
-type SortState = { sortField: string; sortOrder: string };
 
 type Props = {
   activeSort: SortState;
@@ -40,17 +42,6 @@ type Props = {
 
 const normalizeDepartment = (val: string) =>
   val.toLowerCase().trim() === 'all' ? '' : val;
-
-const downloadBlob = (blob: Blob, fileName: string) => {
-  const url = window.URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = fileName;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  window.URL.revokeObjectURL(url);
-};
 
 // ─── Component ───────────────────────────────────────────────────────────────
 
@@ -83,12 +74,14 @@ const Search = ({
   useEffect(() => {
     const load = async () => {
       const res = await dispatch(fetchDepartmentHRModule());
+      if (!fetchDepartmentHRModule.fulfilled.match(res)) return;
       // API returns { label, value }[] — remap to { name, value }[] for our Select
-      const raw = res.payload as { label: string; value: string }[];
-      setDepartmentOpts(raw.map((o) => ({ name: o.label, value: o.value })));
+      setDepartmentOpts(
+        res.payload.map((o) => ({ name: o.label, value: o.value })),
+      );
     };
     load();
-  }, []);
+  }, [dispatch]);
 
   // ── Formik ────────────────────────────────────────────────────────────────
   const formik = useFormik({
@@ -130,18 +123,13 @@ const Search = ({
   // ── Export ────────────────────────────────────────────────────────────────
   const handleExport = async () => {
     try {
-      const res = await hrModuleAPi.exportToExcel(
-        formik.values.dateFrom,
-        formik.values.dateTo,
-        formik.values.fullName,
-        formik.values.id,
-        normalizeDepartment(formik.values.department),
-        formik.values.joinDateFrom,
-        formik.values.joinDateTo,
-      );
-      downloadBlob(new Blob([res]), 'danh_sach.xlsx');
+      const res = await hrApi.exportToExcel({
+        ...formik.values,
+        department: normalizeDepartment(formik.values.department),
+      });
+      downloadBlob(res, 'danh_sach.xlsx');
     } catch {
-      alert('Không thể tải file Excel!');
+      Toast.fire({ icon: 'error', title: i18n.t('common.export_failed') });
     }
   };
 
@@ -151,28 +139,28 @@ const Search = ({
         {/* Filter grid */}
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-6">
           <Input
-            label="Date From"
+            label={t('main.date_from')}
             type="date"
             name="dateFrom"
             value={formik.values.dateFrom}
             onChange={formik.handleChange}
           />
           <Input
-            label="Date To"
+            label={t('main.date_to')}
             type="date"
             name="dateTo"
             value={formik.values.dateTo}
             onChange={formik.handleChange}
           />
           <Input
-            label="Full Name"
+            label={t('dataHRCollecMod.fullname')}
             type="text"
             name="fullName"
             value={formik.values.fullName}
             onChange={formik.handleChange}
           />
           <Input
-            label="ID"
+            label={t('dataHRCollecMod.id')}
             type="text"
             name="id"
             value={formik.values.id}
@@ -181,7 +169,7 @@ const Search = ({
 
           {/* Department — custom Select thay react-select */}
           <Select
-            label="Department"
+            label={t('dataHRCollecMod.department')}
             name="department"
             value={formik.values.department}
             onChange={(e) => formik.setFieldValue('department', e.target.value)}
@@ -191,14 +179,14 @@ const Search = ({
           />
 
           <Input
-            label="Join Date From"
+            label={t('dataHRCollecMod.join_date_from')}
             type="date"
             name="joinDateFrom"
             value={formik.values.joinDateFrom}
             onChange={formik.handleChange}
           />
           <Input
-            label="Join Date To"
+            label={t('dataHRCollecMod.join_date_to')}
             type="date"
             name="joinDateTo"
             value={formik.values.joinDateTo}
@@ -210,14 +198,14 @@ const Search = ({
         <div className="flex flex-wrap gap-2">
           <Button label={t('main.search')} type="submit" variant="primary" />
           <Button
-            label={t('Export Excel file')}
+            label={t('main.export_excel_file')}
             type="button"
             variant="primary"
             imgSrc={ExcelIcon}
             onClick={handleExport}
           />
           <Button
-            label={t('Import Excel file')}
+            label={t('main.import_excel_file')}
             type="button"
             variant="primary"
             imgSrc={ExcelIcon}

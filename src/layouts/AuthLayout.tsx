@@ -1,13 +1,10 @@
 import { Navigate, Outlet } from 'react-router';
+import { useAppSelector } from '../app/hooks';
 
 const AuthLayout = () => {
-  const token = sessionStorage.getItem('token');
+  const token = useAppSelector((state) => state.auth.token);
 
-  if (token) {
-    return <Navigate to={'/'} replace />;
-  }
-
-  return <Outlet />;
+  return token ? <Navigate to="/" replace /> : <Outlet />;
 };
 
 export default AuthLayout;

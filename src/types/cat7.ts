@@ -1,5 +1,3 @@
-
-
 export interface ICat7Data {
   Staff_ID: string;
   Residential_address: string;
@@ -35,11 +33,6 @@ export const HEADER: { name: string; state: string; sort: boolean }[] = [
     state: 'Number_of_working_days',
     sort: true,
   },
-  // {
-  //   name: 'cat7.number_of_working_days_rounded',
-  //   state: 'Number_of_working_days_rounded',
-  //   sort: false,
-  // },
   {
     name: 'cat7.pkt_p_km',
     state: 'PKT_p_km',

@@ -4,8 +4,10 @@ import { IoIosArrowBack } from 'react-icons/io';
 import { IoLogOutOutline } from 'react-icons/io5';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { useTranslation } from 'react-i18next';
-import { MENU_SIDEBAR } from '../../utils/constanst';
+import { MENU_SIDEBAR, type MenuItem } from '../../utils/menu';
 import { logout } from '../../features/authSlice';
+import { canAccessPath } from '../../utils/permissions';
+import { EASE } from '../../utils/constants';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -16,17 +18,6 @@ type Props = {
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
-const ADMIN_ONLY_PATHS = new Set([
-  '/dashboard/user-management',
-  '/dashboard/info-factory-management',
-  '/dashboard/system-decentralization',
-]);
-
-const HR_ONLY_PATH = '/dashboard/data-collection-hr-module';
-
-// Easing dùng chung — material-style standard curve
-const EASE = 'cubic-bezier(0.4, 0, 0.2, 1)';
-
 // ─── Component ───────────────────────────────────────────────────────────────
 
 const Sidebar = ({ isOpenSideBar, setIsOpenSideBar }: Props) => {
@@ -36,35 +27,16 @@ const Sidebar = ({ isOpenSideBar, setIsOpenSideBar }: Props) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
-  const role       = user?.Role?.toLowerCase().trim();
-  const department = user?.Department?.toLowerCase().trim();
-  const permissionsConfigured = Boolean(user?.permissionsConfigured);
-  const modulePermissionSet = useMemo(
-    () => new Set<string>(user?.modulePermissions ?? []),
-    [user?.modulePermissions],
-  );
-
-  const visibleMenu = useMemo(() => {
-    const canSeeItem = (path: string): boolean => {
-      if (permissionsConfigured) {
-        return (
-          modulePermissionSet.has(path) ||
-          (role === 'admin' && path === '/dashboard/system-decentralization')
-        );
-      }
-
-      if (department === 'hr') return path === HR_ONLY_PATH;
-      if (ADMIN_ONLY_PATHS.has(path)) return role === 'admin';
-      if (path === HR_ONLY_PATH) return department === 'esg' || role === 'admin';
-      return true;
-    };
-    return MENU_SIDEBAR
-      .map((group) => ({
+  const visibleMenu = useMemo(
+    () =>
+      MENU_SIDEBAR.map((group) => ({
         ...group,
-        sidebarItem: group.sidebarItem.filter((item) => canSeeItem(item.path)),
-      }))
-      .filter((group) => group.sidebarItem.length > 0);
-  }, [role, department, permissionsConfigured, modulePermissionSet]);
+        sidebarItem: group.sidebarItem.filter((item) =>
+          canAccessPath(item.path, user),
+        ),
+      })).filter((group) => group.sidebarItem.length > 0),
+    [user],
+  );
 
   const toggleSidebar = useCallback(
     () => setIsOpenSideBar(!isOpenSideBar),
@@ -105,28 +77,27 @@ const Sidebar = ({ isOpenSideBar, setIsOpenSideBar }: Props) => {
           border-r border-white/[0.12] bg-[#11211d]/70
           backdrop-blur-[40px] shadow-[0_10px_50px_rgba(0,0,0,0.20)]
           top-[78px]
-          ${collapsed
-            ? '-translate-x-full w-[300px] md:translate-x-0 md:w-[78px]'
-            : 'translate-x-0 w-[300px]'}`}
+          ${
+            collapsed
+              ? '-translate-x-full w-[300px] md:translate-x-0 md:w-[78px]'
+              : 'translate-x-0 w-[300px]'
+          }`}
       >
         {/* Ambient gradient */}
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b
-          from-white/[0.06] via-emerald-400/[0.03] to-transparent" />
+        <div
+          className="pointer-events-none absolute inset-0 bg-gradient-to-b
+          from-white/[0.06] via-emerald-400/[0.03] to-transparent"
+        />
 
         <div className="relative flex h-full flex-col">
-
           {/* ── Scrollable nav ── */}
-          <nav className="min-h-[320px] xl:min-h-0 xl:flex-1 overflow-y-auto px-3 py-4
-            [scrollbar-width:thin] [scrollbar-color:rgba(52,211,153,0.2)_transparent]
-            [&::-webkit-scrollbar]:w-[3px]
-            [&::-webkit-scrollbar-track]:bg-transparent
-            [&::-webkit-scrollbar-thumb]:rounded-full
-            [&::-webkit-scrollbar-thumb]:bg-emerald-400/20
-            hover:[&::-webkit-scrollbar-thumb]:bg-emerald-400/40">
-
+          <nav
+            className="min-h-[320px] xl:min-h-0 xl:flex-1 overflow-y-auto px-3 py-4
+            scrollbar-thin-emerald
+            hover:[&::-webkit-scrollbar-thumb]:bg-emerald-400/40"
+          >
             {visibleMenu.map((group, gi) => (
               <div key={gi} className="mb-1 last:mb-0">
-
                 {/*
                   Group label — max-height + opacity thay vì unmount.
                   Tạo hiệu ứng slide-up khi collapse, slide-down khi expand.
@@ -137,9 +108,11 @@ const Sidebar = ({ isOpenSideBar, setIsOpenSideBar }: Props) => {
                   }}
                   className={`overflow-hidden px-3 text-[10px] font-bold
                     uppercase tracking-[0.18em] text-emerald-200/50
-                    ${collapsed
-                      ? 'max-h-0 opacity-0 mb-0 mt-0'
-                      : 'max-h-6 opacity-100 mb-1 mt-4 first:mt-0'}`}
+                    ${
+                      collapsed
+                        ? 'max-h-0 opacity-0 mb-0 mt-0'
+                        : 'max-h-6 opacity-100 mb-1 mt-4 first:mt-0'
+                    }`}
                 >
                   {t(group.name)}
                 </div>
@@ -171,9 +144,7 @@ const Sidebar = ({ isOpenSideBar, setIsOpenSideBar }: Props) => {
                 <IoLogOutOutline size={20} />
               </span>
 
-              <span className="min-w-0 truncate">
-                {t('main.logout')}
-              </span>
+              <span className="min-w-0 truncate">{t('main.logout')}</span>
             </button>
 
             <button
@@ -203,11 +174,10 @@ const Sidebar = ({ isOpenSideBar, setIsOpenSideBar }: Props) => {
                   text-xs font-semibold tracking-wide
                   ${collapsed ? 'max-w-0 opacity-0' : 'max-w-[160px] opacity-100'}`}
               >
-                Narraw
+                {t('common.collapse')}
               </span>
             </button>
           </div>
-
         </div>
       </aside>
     </>
@@ -217,7 +187,7 @@ const Sidebar = ({ isOpenSideBar, setIsOpenSideBar }: Props) => {
 // ─── NavItem ─────────────────────────────────────────────────────────────────
 
 type NavItemProps = {
-  item: (typeof MENU_SIDEBAR)[number]['sidebarItem'][number];
+  item: MenuItem;
   isActive: boolean;
   isCollapsed: boolean;
   label: string;
@@ -235,9 +205,11 @@ const NavItem = ({
     <div
       className={`group relative flex items-center gap-3 overflow-hidden
         rounded-xl px-3 py-2.5 transition-colors duration-200
-        ${isActive
-          ? 'bg-emerald-400/20 text-white shadow-[0_4px_16px_rgba(16,185,129,0.10)]'
-          : 'text-slate-300 hover:bg-white/[0.07] hover:text-white'}`}
+        ${
+          isActive
+            ? 'bg-emerald-400/20 text-white shadow-[0_4px_16px_rgba(16,185,129,0.10)]'
+            : 'text-slate-300 hover:bg-white/[0.07] hover:text-white'
+        }`}
     >
       {/* Active bar — slide in từ trái */}
       <div
@@ -250,11 +222,17 @@ const NavItem = ({
       <div
         className={`relative z-10 flex h-9 w-9 shrink-0 items-center justify-center
           rounded-lg transition-colors duration-200
-          ${isActive
-            ? 'bg-emerald-400/25 text-emerald-100'
-            : 'bg-white/[0.06] group-hover:bg-white/[0.10]'}`}
+          ${
+            isActive
+              ? 'bg-emerald-400/25 text-emerald-100'
+              : 'bg-white/[0.06] group-hover:bg-white/[0.10]'
+          }`}
       >
-        {isActive && item.activeIcon ? item.activeIcon : item.icon}
+        <item.icon
+          className={`h-5 w-5 transition-colors duration-200 ${
+            isActive ? 'text-emerald-300' : 'text-white/50'
+          }`}
+        />
       </div>
 
       {/*
@@ -274,8 +252,10 @@ const NavItem = ({
       </span>
 
       {/* Hover shimmer */}
-      <div className="absolute inset-0 bg-gradient-to-r from-white/[0.05] to-transparent
-        opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+      <div
+        className="absolute inset-0 bg-gradient-to-r from-white/[0.05] to-transparent
+        opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+      />
     </div>
   </Link>
 );

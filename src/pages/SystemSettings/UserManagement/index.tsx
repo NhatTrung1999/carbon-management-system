@@ -3,20 +3,22 @@ import { useTranslation } from 'react-i18next';
 import { BreadcrumbData } from '../../../types/breadcrumb';
 import Breadcrumb from '../../../components/common/Breadcrumb';
 import Table from '../../../components/SystemSettings/UserManagement/Table';
-import Search from '../../../components/SystemSettings/UserManagement/Search';
+import Search, {
+  type UserFilter,
+} from '../../../components/SystemSettings/UserManagement/Search';
 import ActionButton from '../../../components/SystemSettings/UserManagement/ActionButton';
 import ModalUser from '../../../components/SystemSettings/UserManagement/ModalUser';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { deleteUser, getSearch } from '../../../features/userSlice';
 import { HEADER, type IUserManagement } from '../../../types/users';
-import { BREADCRUMB } from '../../../utils/constanst';
+import { BREADCRUMB } from '../../../utils/constants';
 import { Toast } from '../../../utils/Toast';
-// import Swal from 'sweetalert2';
 import ConfirmDialog from '../../../utils/ConfirmDialog';
+import type { SortState } from '../../../types/table';
+import i18n from '../../../i18n';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
-type SortState = { sortField: string; sortOrder: string };
 type Mode = 'add' | 'edit';
 
 // ─── Component ───────────────────────────────────────────────────────────────
@@ -35,15 +37,12 @@ const UserManagement = () => {
     sortOrder: 'asc',
   });
   const [confirmOpen, setConfirmOpen] = useState(false);
+  const [filter, setFilter] = useState<UserFilter>({ userid: '', name: '' });
 
+  // Search and sort both reload through here, so neither drops the other.
   useEffect(() => {
-    dispatch(
-      getSearch({
-        sortField: activeSort.sortField,
-        sortOrder: activeSort.sortOrder,
-      })
-    );
-  }, [activeSort]);
+    dispatch(getSearch({ ...filter, ...activeSort }));
+  }, [dispatch, filter, activeSort]);
 
   // ── Handlers ────────────────────────────────────────────────────────────────
 
@@ -56,21 +55,27 @@ const UserManagement = () => {
 
   const handleEdit = () => {
     if (!activeRow)
-      return Toast.fire({ icon: 'warning', title: 'Please choose row' });
+      return Toast.fire({
+        icon: 'warning',
+        title: i18n.t('common.choose_row'),
+      });
     setMode('edit');
     setIsOpen(true);
   };
 
   const handleDelete = () => {
     if (!activeRow)
-      return Toast.fire({ icon: 'warning', title: 'Please choose row' });
+      return Toast.fire({
+        icon: 'warning',
+        title: i18n.t('common.choose_row'),
+      });
     setConfirmOpen(true);
   };
 
   const handleConfirmDelete = async () => {
     setConfirmOpen(false);
     await dispatch(deleteUser(item?.ID as string));
-    Toast.fire({ icon: 'success', title: 'Deleted successfully!' });
+    Toast.fire({ icon: 'success', title: i18n.t('common.deleted_success') });
   };
 
   return (
@@ -86,10 +91,7 @@ const UserManagement = () => {
       </div>
 
       {/* Glass panel */}
-      <div
-        className="relative flex min-w-0 flex-col overflow-hidden xl:min-h-0 xl:flex-1 rounded-2xl border border-white/[0.10]
-        bg-white/[0.05] shadow-[0_8px_40px_rgba(0,0,0,0.30)] backdrop-blur-[32px]"
-      >
+      <div className="relative flex min-w-0 flex-col overflow-hidden xl:min-h-0 xl:flex-1 glass-panel">
         {/* Top shimmer */}
         <div
           className="absolute inset-x-0 top-0 h-px
@@ -100,7 +102,7 @@ const UserManagement = () => {
           {/* Toolbar row */}
           <div className="flex shrink-0 flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
             <div className="w-full lg:max-w-lg">
-              <Search activeSort={activeSort} />
+              <Search onSearch={setFilter} />
             </div>
             <ActionButton
               handleAddUser={handleAdd}
@@ -130,9 +132,8 @@ const UserManagement = () => {
       />
       <ConfirmDialog
         isOpen={confirmOpen}
-        title="Delete user?"
-        description="This action cannot be undone."
-        confirmText="Delete"
+        title={t('common.delete_confirm')}
+        confirmText={t('common.delete')}
         variant="danger"
         onConfirm={handleConfirmDelete}
         onCancel={() => setConfirmOpen(false)}

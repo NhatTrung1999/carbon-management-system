@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { HEADER } from '../../../types/cat9andcat12';
 import Search from '../../../components/Category/CategoryNineAndCategoryTwelve/Search';
 import Table from '../../../components/Category/CategoryNineAndCategoryTwelve/Table';
@@ -8,86 +8,33 @@ import {
   resetDataCat9AndCat12,
 } from '../../../features/categorySlice';
 import { fetchDataAutoSendCMSCat9AndCat12 } from '../../../features/autosendcmsSlice';
-
-// type Props = {
-//   header: TableHeaderProps[];
-//   activeSort: {
-//     sortField: string;
-//     sortOrder: string;
-//   };
-//   dateFrom: string;
-//   setDateFrom: (dateVal: string) => void;
-//   dateTo: string;
-//   setDateTo: (dateVal: string) => void;
-//   factory: string;
-//   setFactory: (factoryVal: string) => void;
-//   dockey: string;
-//   setDockey: (factoryVal: string) => void;
-//   loadingFetch: boolean;
-//   setLoadingFetch: (val: boolean) => void;
-//   setActiveSort: (data: any) => void;
-//   data: ICat9AndCat12Data[];
-//   tableRef: RefObject<HTMLDivElement | null>;
-//   onScroll: UIEventHandler<HTMLDivElement>;
-// };
+import { todayLocal } from '../../../utils/formatDate';
+import { useInfiniteList } from '../../../hooks/useInfiniteList';
+import { DEFAULT_FACTORY } from '../../../utils/constants';
 
 const Cat9AndCat12 = () => {
-  const { cat9andcat12, page, hasMore, loading } = useAppSelector(
-    (state) => state.category,
-  );
-  const tableRef = useRef<HTMLDivElement | null>(null);
-  const didFetch = useRef(false);
+  const {
+    items: cat9andcat12,
+    page,
+    hasMore,
+    loading,
+  } = useAppSelector((state) => state.category.cat9andcat12);
   const dispatch = useAppDispatch();
-  const [activeSort, setActiveSort] = useState({
-    sortField: HEADER[0].state,
-    sortOrder: 'asc',
-  });
-  const [dateFrom, setDateFrom] = useState<string>(
-    new Date().toISOString().slice(0, 10),
-  );
-  const [dateTo, setDateTo] = useState<string>(
-    new Date().toISOString().slice(0, 10),
-  );
+  const [dateFrom, setDateFrom] = useState<string>(todayLocal());
+  const [dateTo, setDateTo] = useState<string>(todayLocal());
 
   const [dockey, setDockey] = useState<string>('3.2');
-  const [factory, setFactory] = useState<string>('LYV');
+  const [factory, setFactory] = useState<string>(DEFAULT_FACTORY);
   const [ry, setRY] = useState<string>('ALL');
   const [loadingFetch, setLoadingFetch] = useState<boolean>(false);
 
-  useEffect(() => {
-    if (didFetch.current) return;
-    didFetch.current = true;
-    dispatch(resetDataCat9AndCat12());
-    dispatch(
-      getDataCat9AndCat12({
-        dateFrom,
-        dateTo,
-        factory,
-        ry,
-        page: 1,
-        sortField: activeSort.sortField,
-        sortOrder: activeSort.sortOrder,
-      }),
-    );
-    setLoadingFetch(true);
-    dispatch(
-      fetchDataAutoSendCMSCat9AndCat12({
-        dateFrom,
-        dateTo,
-        factory,
-        ry,
-        dockey,
-      }),
-    ).finally(() => setLoadingFetch(false));
-  }, [dispatch, activeSort, dateFrom, dateTo, factory, ry]);
-  // }, [dispatch, activeSort, date]);
-
-  const onScroll = useCallback(() => {
-    const el = tableRef.current;
-    if (!el || loading || !hasMore) return;
-    const bottomReached =
-      el.scrollTop + el.clientHeight >= el.scrollHeight - 20;
-    if (bottomReached) {
+  const { tableRef, activeSort, setActiveSort, onScroll } = useInfiniteList({
+    initialSort: { sortField: HEADER[0].state, sortOrder: 'asc' },
+    page,
+    loading,
+    hasMore,
+    reset: () => dispatch(resetDataCat9AndCat12()),
+    fetchPage: (page, sort) =>
       dispatch(
         getDataCat9AndCat12({
           dateFrom,
@@ -95,23 +42,22 @@ const Cat9AndCat12 = () => {
           factory,
           ry,
           page,
-          sortField: activeSort.sortField,
-          sortOrder: activeSort.sortOrder,
+          ...sort,
         }),
-      );
-    }
-  }, [
-    dispatch,
-    loading,
-    hasMore,
-    page,
-    activeSort,
-    dateFrom,
-    dateTo,
-    factory,
-    ry,
-  ]);
-  // }, [dispatch, loading, hasMore, page, date, activeSort]);
+      ),
+    onFirstLoad: () => {
+      setLoadingFetch(true);
+      dispatch(
+        fetchDataAutoSendCMSCat9AndCat12({
+          dateFrom,
+          dateTo,
+          factory,
+          ry,
+          dockey,
+        }),
+      ).finally(() => setLoadingFetch(false));
+    },
+  });
 
   return (
     <div className="flex min-h-full min-w-0 flex-col xl:h-full xl:min-h-0">

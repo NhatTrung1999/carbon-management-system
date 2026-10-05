@@ -1,9 +1,36 @@
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap');
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
   --color-primary: #76838f;
-  --font-sans: "Quicksand", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Quicksand', ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Thin emerald scrollbar used by tables and dropdowns. */
+@utility scrollbar-thin-emerald {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(52 211 153 / 0.2) transparent;
+
+  &::-webkit-scrollbar {
+    width: 3px;
+    height: 3px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 9999px;
+    background: rgb(52 211 153 / 0.2);
+  }
+}
+
+/* Frosted-glass container of page content. */
+@utility glass-panel {
+  border-radius: 1rem;
+  border: 1px solid rgb(255 255 255 / 0.1);
+  background: rgb(255 255 255 / 0.05);
+  box-shadow: 0 8px 40px rgb(0 0 0 / 0.3);
+  backdrop-filter: blur(32px);
 }
 
 @layer base {
@@ -11,7 +38,6 @@
     @apply bg-gray-800 text-white;
   }
 }
-
 
 html,
 body,
@@ -23,7 +49,7 @@ body {
   margin: 0;
   padding: 0;
   color: var(--color-primary);
-  font-family: "Quicksand", ui-sans-serif, system-ui, sans-serif;
+  font-family: 'Quicksand', ui-sans-serif, system-ui, sans-serif;
   font-size: 16px;
   line-height: 1.5;
   overflow: hidden;

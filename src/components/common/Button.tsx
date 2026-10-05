@@ -1,14 +1,14 @@
-// import { type ButtonProps } from '../../types/button';
-export type ButtonVariant = 'primary' | 'secondary' | 'danger';
- 
+export type ButtonVariant =
+  'primary' | 'secondary' | 'danger' | 'search' | 'excel' | 'cms';
+
 export type ButtonProps = {
-  label       : React.ReactNode;
-  type       ?: 'button' | 'submit' | 'reset';
-  className  ?: string;
-  onClick    ?: () => void;
-  imgSrc     ?: string;
-  disabled   ?: boolean;
-  variant    ?: ButtonVariant;   // ← thêm mới
+  label: React.ReactNode;
+  type?: 'button' | 'submit' | 'reset';
+  className?: string;
+  onClick?: () => void;
+  imgSrc?: string;
+  disabled?: boolean;
+  variant?: ButtonVariant;
 };
 
 // ─── Variant styles ───────────────────────────────────────────────────────────
@@ -28,6 +28,24 @@ const VARIANTS = {
     hover:bg-red-500/25 hover:border-red-400/50 hover:text-red-200
     focus-visible:ring-red-400/40
     disabled:bg-red-900/10 disabled:border-red-900/20 disabled:text-red-800`,
+
+  /** Orange submit button of search forms. */
+  search: `bg-[#FF9119] border-[#FF9119]/60 text-white
+    hover:bg-[#FF9119]/80
+    focus-visible:ring-[#FF9119]/50
+    disabled:opacity-50`,
+
+  /** Excel import / export. */
+  excel: `bg-green-500/20 border-green-400/40 text-white
+    hover:bg-green-500
+    focus-visible:ring-green-400/40
+    disabled:opacity-50`,
+
+  /** Send to CMS. */
+  cms: `bg-[#FFB619] border-[#FFB619]/60 text-white
+    hover:bg-[#FFB619]/80
+    focus-visible:ring-[#FFB619]/50
+    disabled:opacity-50`,
 } as const;
 
 const BASE = `relative inline-flex items-center justify-center gap-2 overflow-hidden
@@ -43,7 +61,7 @@ const BASE = `relative inline-flex items-center justify-center gap-2 overflow-hi
 const Button = (props: ButtonProps) => {
   const {
     label,
-    type    = 'button',
+    type = 'button',
     className,
     onClick,
     imgSrc,
@@ -56,7 +74,7 @@ const Button = (props: ButtonProps) => {
       type={type}
       onClick={onClick}
       disabled={disabled}
-      className={`${BASE} ${VARIANTS[variant as keyof typeof VARIANTS] ?? VARIANTS.primary} ${className ?? ''}`}
+      className={`${BASE} ${VARIANTS[variant]} ${className ?? ''}`}
     >
       {/* Shimmer overlay */}
       <span
@@ -67,7 +85,12 @@ const Button = (props: ButtonProps) => {
       />
 
       {imgSrc && (
-        <img src={imgSrc} alt="" aria-hidden="true" className="h-5 w-5 shrink-0 object-contain" />
+        <img
+          src={imgSrc}
+          alt=""
+          aria-hidden="true"
+          className="h-5 w-5 shrink-0 object-contain"
+        />
       )}
 
       <span className="relative z-10">{label}</span>

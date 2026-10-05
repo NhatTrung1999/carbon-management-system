@@ -1,5 +1,5 @@
 import axiosConfig from '../../lib/axiosConfig';
-import qs from 'qs';
+import { get } from '../client';
 
 const fileManagementApi = {
   getData: async ({
@@ -13,9 +13,12 @@ const fileManagementApi = {
     sortField: string;
     sortOrder: string;
   }) => {
-    const url = `filemanagement/get-data?Module=${module}&File_Name=${file_name}&sortField=${sortField}&sortOrder=${sortOrder}`;
-    const res = await axiosConfig.get(url);
-    return res.data;
+    return get('filemanagement/get-data', {
+      Module: module,
+      File_Name: file_name,
+      sortField,
+      sortOrder,
+    });
   },
   generateFileExcel: async ({
     module,
@@ -40,7 +43,6 @@ const fileManagementApi = {
     weight?: boolean;
     departure?: boolean;
   }) => {
-    // console.log(field);
     const url = `filemanagement/generate-file-excel`;
     const res = await axiosConfig.get(url, {
       params: {
@@ -55,8 +57,8 @@ const fileManagementApi = {
         Weight: weight,
         Departure: departure,
       },
-      paramsSerializer: (params) =>
-        qs.stringify(params, { arrayFormat: 'repeat' }),
+      // Arrays as repeated keys (Fields=a&Fields=b), which the backend expects.
+      paramsSerializer: { indexes: null },
     });
     return res.data;
   },

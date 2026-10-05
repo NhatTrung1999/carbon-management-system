@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import Search from '../../../components/Category/CategoryOneAndCategoryFour/Search';
 import Table from '../../../components/Category/CategoryOneAndCategoryFour/Table';
 import { HEADER } from '../../../types/cat1andcat4';
@@ -8,23 +8,15 @@ import {
   resetDataCat1AndCat4,
 } from '../../../features/categorySlice';
 import { fetchDataAutoSendCMSCat1AndCat4 } from '../../../features/autosendcmsSlice';
+import { todayLocal } from '../../../utils/formatDate';
+import { useInfiniteList } from '../../../hooks/useInfiniteList';
+import { DEFAULT_FACTORY } from '../../../utils/constants';
 
 const Cat1AndCat4 = () => {
-  const tableRef = useRef<HTMLDivElement | null>(null);
-  const didFetch = useRef(false);
-  const [activeSort, setActiveSort] = useState({
-    sortField: HEADER[0].state,
-    sortOrder: 'asc',
-  });
+  const [dateFrom, setDateFrom] = useState<string>(todayLocal());
+  const [dateTo, setDateTo] = useState<string>(todayLocal());
 
-  const [dateFrom, setDateFrom] = useState<string>(
-    new Date().toISOString().slice(0, 10)
-  );
-  const [dateTo, setDateTo] = useState<string>(
-    new Date().toISOString().slice(0, 10)
-  );
-
-  const [factory, setFactory] = useState<string>('LYV');
+  const [factory, setFactory] = useState<string>(DEFAULT_FACTORY);
   const [dockey, setDockey] = useState<string>('4.1');
 
   const [usage, setUsage] = useState<boolean>(false);
@@ -33,56 +25,21 @@ const Cat1AndCat4 = () => {
   const [departure, setDeparture] = useState<boolean>(false);
   const [loadingFetch, setLoadingFetch] = useState<boolean>(false);
 
-  const { cat1andcat4, page, loading, hasMore } = useAppSelector(
-    (state) => state.category
-  );
+  const {
+    items: cat1andcat4,
+    page,
+    loading,
+    hasMore,
+  } = useAppSelector((state) => state.category.cat1andcat4);
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    if (didFetch.current) return;
-    didFetch.current = true;
-    dispatch(resetDataCat1AndCat4());
-    dispatch(
-      getDataCat1AndCat4({
-        dateFrom,
-        dateTo,
-        factory,
-        usage,
-        unitWeight,
-        weight,
-        departure,
-        page: 1,
-        sortField: activeSort.sortField,
-        sortOrder: activeSort.sortOrder,
-      })
-    );
-    setLoadingFetch(true);
-    dispatch(
-      fetchDataAutoSendCMSCat1AndCat4({
-        dateFrom,
-        dateTo,
-        factory,
-        dockey,
-      })
-    ).finally(() => setLoadingFetch(false));
-  }, [
-    dispatch,
-    activeSort,
-    dateFrom,
-    dateTo,
-    factory,
-    usage,
-    unitWeight,
-    weight,
-    departure,
-  ]);
-
-  const onScroll = useCallback(() => {
-    const el = tableRef.current;
-    if (!el || loading || !hasMore) return;
-    const bottomReached =
-      el.scrollTop + el.clientHeight >= el.scrollHeight - 20;
-    if (bottomReached) {
+  const { tableRef, activeSort, setActiveSort, onScroll } = useInfiniteList({
+    initialSort: { sortField: HEADER[0].state, sortOrder: 'asc' },
+    page,
+    loading,
+    hasMore,
+    reset: () => dispatch(resetDataCat1AndCat4()),
+    fetchPage: (page, sort) =>
       dispatch(
         getDataCat1AndCat4({
           dateFrom,
@@ -93,25 +50,21 @@ const Cat1AndCat4 = () => {
           weight,
           departure,
           page,
-          sortField: activeSort.sortField,
-          sortOrder: activeSort.sortOrder,
-        })
-      );
-    }
-  }, [
-    dispatch,
-    loading,
-    hasMore,
-    page,
-    activeSort,
-    dateFrom,
-    dateTo,
-    factory,
-    usage,
-    unitWeight,
-    weight,
-    departure,
-  ]);
+          ...sort,
+        }),
+      ),
+    onFirstLoad: () => {
+      setLoadingFetch(true);
+      dispatch(
+        fetchDataAutoSendCMSCat1AndCat4({
+          dateFrom,
+          dateTo,
+          factory,
+          dockey,
+        }),
+      ).finally(() => setLoadingFetch(false));
+    },
+  });
 
   return (
     <div className="flex min-h-full min-w-0 flex-col xl:h-full xl:min-h-0">

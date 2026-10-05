@@ -17,42 +17,42 @@ export const HEADER_DEFAULT_ADDRESS: {
   sort: boolean;
 }[] = [
   {
-    name: 'No.',
+    name: 'cat7.no',
     state: 'No',
     sort: true,
   },
   {
-    name: 'Factory',
+    name: 'cat7.factory',
     state: 'Factory',
     sort: true,
   },
   {
-    name: 'Default Address',
+    name: 'tabs.default_address',
     state: 'DefaultAddress',
     sort: true,
   },
   {
-    name: 'CreatedBy',
+    name: 'cat1andcat4.created_by',
     state: 'CreatedBy',
     sort: true,
   },
   {
-    name: 'CreatedAt',
+    name: 'cat7.created_at',
     state: 'CreatedAt',
     sort: true,
   },
   {
-    name: 'UpdatedBy',
+    name: 'cat7.updated_by',
     state: 'UpdatedBy',
     sort: true,
   },
   {
-    name: 'UpdatedAt',
+    name: 'usermmt.updated_at',
     state: 'UpdatedAt',
     sort: true,
   },
   {
-    name: 'Action',
+    name: 'dataHRCollecMod.action',
     state: 'Action',
     sort: false,
   },

@@ -1,4 +1,5 @@
 import axiosConfig from '../../lib/axiosConfig';
+import { get } from '../client';
 import type {
   SearchPayload,
   UpdateUserPayload,
@@ -9,10 +10,7 @@ import type {
 const usersApi = {
   getSearch: async (payload: SearchPayload) => {
     const { userid = '', name = '', sortField, sortOrder } = payload;
-    const res = await axiosConfig.get(
-      `users/get-search?userid=${userid}&name=${name}&sortField=${sortField}&sortOrder=${sortOrder}`
-    );
-    return res.data;
+    return get('users/get-search', { userid, name, sortField, sortOrder });
   },
   addUser: async (payload: UserPayload) => {
     const res = await axiosConfig.post('users/add-user', payload);
@@ -26,9 +24,11 @@ const usersApi = {
     const res = await axiosConfig.delete(`users/${id}`);
     return res.data;
   },
-  getModulePermissions: async (userid: string): Promise<ModulePermissionState> => {
+  getModulePermissions: async (
+    userid: string,
+  ): Promise<ModulePermissionState> => {
     const res = await axiosConfig.get(
-      `users/${encodeURIComponent(userid)}/module-permissions`
+      `users/${encodeURIComponent(userid)}/module-permissions`,
     );
     return res.data;
   },
@@ -36,7 +36,7 @@ const usersApi = {
     userid: string,
     modulePaths: string[],
     allModulePaths: string[],
-    updatedAt?: string
+    updatedAt?: string,
   ): Promise<ModulePermissionState> => {
     const res = await axiosConfig.patch(
       `users/${encodeURIComponent(userid)}/module-permissions`,
@@ -44,7 +44,7 @@ const usersApi = {
         modulePaths,
         allModulePaths,
         updatedAt,
-      }
+      },
     );
     return res.data;
   },

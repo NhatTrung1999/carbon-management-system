@@ -1,7 +1,6 @@
 import { useFormik } from 'formik';
 
 import ExcelIcon from '../../../../assets/images/excel-icon.png';
-// import SendIcon from '../../../../assets/images/send-to-CMS.png';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch } from '../../../../app/hooks';
@@ -10,11 +9,11 @@ import {
   resetDataCustomExport,
 } from '../../../../features/categorySlice';
 import { generateFileExcel } from '../../../../features/fileSlice';
-import { Toast } from '../../../../utils/Toast';
 import Input from '../../../common/Input';
 import Select from '../../../common/Select';
-import { FACTORIES } from '../../../../utils/constanst';
+import { FACTORIES } from '../../../../utils/constants';
 import Button from '../../../common/Button';
+import { toastStatus } from '../../../../utils/toastResult';
 
 type Props = {
   field: string[];
@@ -51,30 +50,25 @@ const Search = ({
       factory: factory,
     },
     onSubmit: async (data) => {
-      try {
-        dispatch(resetDataCustomExport());
-        setDateFrom(data.dateFrom);
-        setDateTo(data.dateTo);
-        setFactory(data.factory);
-        dispatch(
-          getCustomExport({
-            dateFrom: data.dateFrom,
-            dateTo: data.dateTo,
-            factory: data.factory,
-            page: 1,
-            sortField: activeSort.sortField,
-            sortOrder: activeSort.sortOrder,
-          })
-        );
-      } catch (error: any) {
-        console.log(error);
-      }
+      dispatch(resetDataCustomExport());
+      setDateFrom(data.dateFrom);
+      setDateTo(data.dateTo);
+      setFactory(data.factory);
+      dispatch(
+        getCustomExport({
+          dateFrom: data.dateFrom,
+          dateTo: data.dateTo,
+          factory: data.factory,
+          page: 1,
+          sortField: activeSort.sortField,
+          sortOrder: activeSort.sortOrder,
+        }),
+      );
     },
   });
 
   useEffect(() => {}, []);
 
-  //Export Excel
   const onExportExcel = async () => {
     setLoadingExcel(true);
     const result = await dispatch(
@@ -84,23 +78,13 @@ const Search = ({
         dateTo: formik.values.dateTo,
         factory: formik.values.factory,
         field: field,
-      })
+      }),
     );
+    setLoadingExcel(false);
     if (generateFileExcel.fulfilled.match(result)) {
-      const { statusCode, message } = result.payload as {
-        statusCode: number;
-        message: string;
-      };
-      setLoadingExcel(false);
-      Toast.fire({
-        title: message,
-        icon: statusCode === 200 ? 'success' : 'error',
-      });
+      toastStatus(result.payload);
     }
   };
-  //Export Excel
-
-  // const onSendToCMS = async () => {};
 
   return (
     <form className="mb-4 sm:mb-5 space-y-4" onSubmit={formik.handleSubmit}>
@@ -143,39 +127,20 @@ const Search = ({
         <Button
           label={t('main.search')}
           type="submit"
-          className="w-full sm:w-auto text-white bg-[#FF9119] hover:bg-[#FF9119]/80 focus:ring-4 focus:outline-none focus:ring-[#FF9119]/50 font-medium rounded-lg text-sm px-5 py-2.5 dark:hover:bg-[#FF9119]/80 dark:focus:ring-[#FF9119]/40 cursor-pointer transition-colors duration-300"
+          variant="search"
+          className="w-full sm:w-auto"
         />
-        {/* <Button
-          label={t('Send to CMS')}
-          type="button"
-          onClick={onSendToCMS}
-          className="w-full sm:w-auto flex flex-row gap-2 items-center justify-center sm:justify-start cursor-pointer px-4 py-2 rounded-lg text-white bg-[#FFB619] hover:bg-[#FFB619]/80 transition-colors duration-300"
-          imgSrc={SendIcon}
-        /> */}
         <Button
-          label={loadingExcel ? 'Loading...' : t('Export Excel file')}
+          label={
+            loadingExcel ? t('common.loading') : t('main.export_excel_file')
+          }
           type="button"
           onClick={onExportExcel}
-          className={`w-full sm:w-auto bg-green-500/20 border-green-400/40 hover:bg-green-500 text-white ${
-            loadingExcel ? 'hover:cursor-not-allowed' : ''
-          }`}
+          variant="excel"
+          className="w-full sm:w-auto"
           imgSrc={ExcelIcon}
           disabled={loadingExcel}
         />
-        {/* <button
-          type="button"
-          className="w-full sm:w-auto flex flex-row gap-2 items-center justify-center sm:justify-start cursor-pointer px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors duration-300"
-          onClick={() => onExportExcel()}
-        >
-          <img
-            src={ExcelIcon}
-            alt="excel-icon"
-            className="w-8 sm:w-10 object-contain"
-          />
-          <span className="whitespace-nowrap text-sm sm:text-base">
-            {t('main.export_excel_file')}
-          </span>
-        </button> */}
       </div>
     </form>
   );

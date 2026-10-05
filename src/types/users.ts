@@ -82,22 +82,22 @@ export const HEADER: TableHeaderProps[] = [
     sort: true,
   },
   {
-    name: 'CreatedAt',
+    name: 'usermmt.created_at',
     state: 'CreatedAt',
     sort: true,
   },
   {
-    name: 'CreatedDate',
+    name: 'usermmt.created_date',
     state: 'CreatedDate',
     sort: true,
   },
   {
-    name: 'UpdatedAt',
+    name: 'usermmt.updated_at',
     state: 'UpdatedAt',
     sort: true,
   },
   {
-    name: 'UpdatedDate',
+    name: 'usermmt.updated_date',
     state: 'UpdatedDate',
     sort: true,
   },

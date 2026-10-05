@@ -1,37 +1,21 @@
 import { useFormik } from 'formik';
 import Button from '../../common/Button';
 import Input from '../../common/Input';
-import { useAppDispatch } from '../../../app/hooks';
-import { getSearch } from '../../../features/userSlice';
 import { useTranslation } from 'react-i18next';
 
+export type UserFilter = { userid: string; name: string };
+
 type Props = {
-  activeSort: {
-    sortField: string;
-    sortOrder: string;
-  };
+  /** Called on submit; the page reloads the list with these filters. */
+  onSearch: (filter: UserFilter) => void;
 };
 
-const Search = ({ activeSort }: Props) => {
-  const dispatch = useAppDispatch();
+const Search = ({ onSearch }: Props) => {
   const { t } = useTranslation();
 
   const formik = useFormik({
-    initialValues: {
-      userid: '',
-      name: '',
-    },
-    onSubmit: (data) => {
-      const { userid, name } = data;
-      dispatch(
-        getSearch({
-          userid,
-          name,
-          sortField: activeSort.sortField,
-          sortOrder: activeSort.sortOrder,
-        })
-      );
-    },
+    initialValues: { userid: '', name: '' },
+    onSubmit: (data) => onSearch({ ...data }),
   });
 
   return (
@@ -46,7 +30,7 @@ const Search = ({ activeSort }: Props) => {
             customClassNameInput="outline-none"
             value={formik.values.userid}
             onChange={formik.handleChange}
-            placeholder="Enter user ID..."
+            placeholder={t('usermmt.enter_userid')}
           />
         </div>
 
@@ -59,26 +43,22 @@ const Search = ({ activeSort }: Props) => {
             customClassNameInput="outline-none"
             value={formik.values.name}
             onChange={formik.handleChange}
-            placeholder="Enter name..."
+            placeholder={t('usermmt.enter_name')}
           />
         </div>
       </div>
 
-    
       <div className="lg:hidden">
         <Button
           label={t('main.search')}
           type="submit"
-          className="w-full text-white bg-[#FF9119] hover:bg-[#FF9119]/80 focus:ring-4 focus:outline-none focus:ring-[#FF9119]/50 font-medium rounded-lg text-sm px-5 py-2.5 dark:hover:bg-[#FF9119]/80 dark:focus:ring-[#FF9119]/40 cursor-pointer transition-colors duration-300"
+          variant="search"
+          className="w-full"
         />
       </div>
 
       <div className="hidden lg:block">
-        <Button
-          label={t('main.search')}
-          type="submit"
-          className="text-white bg-[#FF9119] hover:bg-[#FF9119]/80 focus:ring-4 focus:outline-none focus:ring-[#FF9119]/50 font-medium rounded-lg text-sm px-5 py-2.5 dark:hover:bg-[#FF9119]/80 dark:focus:ring-[#FF9119]/40 cursor-pointer transition-colors duration-300"
-        />
+        <Button label={t('main.search')} type="submit" variant="search" />
       </div>
     </form>
   );

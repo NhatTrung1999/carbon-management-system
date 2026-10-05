@@ -22,12 +22,15 @@
     "delete": "Delete",
     "login_invalid": "Account or password is not valid",
     "login_failed": "Login failed! This account has not been set up on the system!",
-    "close": "Close"
+    "close": "Close",
+    "sign_in_to_continue": "Please sign in to continue",
+    "enter_user_id": "Enter your user id",
+    "enter_password": "Enter your password",
+    "app_description": "An internal, centralized platform that automatically aggregates emissions inventory data from LY App, BPM, WMS, and ERP — enabling seamless integration with our external Carbon Management System (CMS)."
   },
   "cat1andcat4": {
     "cat_1_4": "CAT 1 & 4",
     "purchase_and_upstream": "Purchased Goods and Services & Upstream Transportation and Distribution",
-
     "no": "No.",
     "date": "Date",
     "purchase_order": "Purchase Order",
@@ -53,12 +56,10 @@
     "land_transport_ton_kilometers": "Land Transport Ton-Kilometers",
     "sea_transport_ton_kilometers": "Sea Transport Ton-Kilometers",
     "air_transport_ton_kilometers": "Air Transport Ton-Kilometers",
-
     "port_code": "Port Code",
     "supplier_id": "Supplier ID",
     "created_by": "Created by",
     "created_date": "Created Date",
-
     "logging": "Logging",
     "system": "System",
     "corporation": "Corporation",
@@ -89,7 +90,20 @@
     "creator": "Creator",
     "created_user": "Created User",
     "created_factory": "Created Factory",
-    "created_at": "Created at"
+    "created_at": "Created at",
+    "preview_date_from": "Preview Date From",
+    "preview_date_to": "Preview Date To",
+    "logging_date_from": "Logging Date From",
+    "logging_date_to": "Logging Date To",
+    "verification_desc": "Preview Payload dockey `{{dockey}}` compared with Logging.",
+    "compare_hint": "Choose the conditions and click <hl>{{button}}</hl> to start comparing data.",
+    "pur_date": "Pur Date",
+    "rk_date": "RK Date",
+    "land_transport_ton_km": "Land Transport Ton-Kilometers",
+    "air_transport_ton_km": "Air Transport Ton-Kilometers",
+    "country": "Country",
+    "updated_by": "Updated By",
+    "prefix_mat_code": "Prefix of Mat. Code"
   },
   "cat5": {
     "cat_5": "CAT 5",
@@ -108,7 +122,6 @@
     "treatment_method_id": "Treatment Method ID",
     "weight_of_waste_treated_unit_kg)": "*Weight of waste treated (Unit：kg)",
     "tkt_ton_km": "TKT (Ton-km)",
-
     "logging": "Logging",
     "system": "System",
     "corporation": "Corporation",
@@ -172,7 +185,6 @@
     "land_transportation_type": "Land Transportation Type",
     "air_transport_distance_km": "Air Transport Distance (km)",
     "number_of_nights_stayed": "Number of nights stayed (Hotel)",
-
     "logging": "Logging",
     "system": "System",
     "corporation": "Corporation",
@@ -202,12 +214,22 @@
     "creator": "Creator",
     "created_user": "Created User",
     "created_factory": "Created Factory",
-    "created_at": "Created at"
+    "created_at": "Created at",
+    "dorm_shuttle": "Dorm + Shuttle Car",
+    "dept": "Dept",
+    "route_list": "Route list",
+    "place_1": "Place 1",
+    "place_2": "Place 2",
+    "place_3": "Place 3",
+    "place_4": "Place 4",
+    "transport_1": "Transport 1",
+    "transport_2": "Transport 2",
+    "transport_3": "Transport 3",
+    "accommodation": "Accommodation"
   },
   "cat7": {
     "cat_7": "CAT 7",
     "employee_commuting": "Employee Commuting",
-
     "GHG_inventory_template": "GHG Inventory Template",
     "staff_id": "Staff ID",
     "residential_address": "Residential address / Pickup point (Company shuttle bus)",
@@ -216,18 +238,16 @@
     "number_of_working_days": "Number of working days",
     "number_of_working_days_rounded": "Number of working days (Rounded)",
     "pkt_p_km": "PKT (p-km)",
-
     "custom_export": "Custom Export",
     "no": "No.",
     "factory": "Factory",
     "department": "Department",
     "id": "ID",
-    "fullname": "Fullname",
+    "fullname": "Full Name",
     "current_address": "Current Address",
     "transport_mode": "Transportation Mode",
     "bus_route": "Bus Route",
     "pickup_point": "Pick-up Point",
-
     "logging": "Logging",
     "system": "System",
     "corporation": "Corporation",
@@ -258,7 +278,8 @@
     "creator": "Creator",
     "created_user": "Created User",
     "created_factory": "Created Factory",
-    "created_at": "Created at"
+    "created_at": "Created at",
+    "updated_by": "UpdatedBy"
   },
   "cat9andcat12": {
     "cat_9_12": "CAT 9 & 12",
@@ -290,7 +311,6 @@
     "example_file": "Example File",
     "close": "Close",
     "import": "Import",
-
     "logging": "Logging",
     "system": "System",
     "corporation": "Corporation",
@@ -320,7 +340,12 @@
     "created_date_time": "Created Date Time",
     "creator": "Creator",
     "created_user": "Created User",
-    "created_factory": "Created Factory"
+    "created_factory": "Created Factory",
+    "invoice_date": "Invoice Date",
+    "ry_product": "RY Product",
+    "ry_component": "RY Component",
+    "component_name": "Component Name",
+    "booking_no": "Booking No"
   },
   "usermmt": {
     "user_management": "User Management",
@@ -332,7 +357,12 @@
     "created_at": "Created at",
     "created_date": "Created Date",
     "updated_at": "Updated at",
-    "updated_date": "Updated Date"
+    "updated_date": "Updated Date",
+    "enter_userid": "Enter UserID...",
+    "enter_name": "Enter name...",
+    "enter_email": "Enter email...",
+    "add_user": "Add User",
+    "edit_user": "Edit User"
   },
   "filemmt": {
     "file_management": "File Management",
@@ -340,7 +370,9 @@
     "file_name": "File Name",
     "status": "Status",
     "created_by_user": "Created by User",
-    "created_date": "Created Date"
+    "created_date": "Created Date",
+    "enter_module": "Enter module...",
+    "enter_file_name": "Enter file name..."
   },
   "facinfo": {
     "facinfo": "Factory Infomation",
@@ -356,20 +388,112 @@
     "created_date": "Created Date",
     "updated_user": "Updated User",
     "updated_factory": "Updated Factory",
-    "updated_date": "Updated Date"
+    "updated_date": "Updated Date",
+    "info_factory_management": "Info Factory Management",
+    "enter_company_name": "Enter company name...",
+    "enter_city": "Enter city...",
+    "account_no": "Account No"
   },
   "dataHRCollecMod": {
     "dataCollection_HR_Module": "Data Collection HR Module",
     "id": "ID",
-    "fullname": "Fullname",
+    "fullname": "Full Name",
     "department": "Department",
     "permanent_address": "Permanent Address",
     "current_address": "Current Address",
     "transport_method": "Transportation Method",
     "number_of_working_days": "Number of working days",
-    "action": "Action"
+    "action": "Action",
+    "join_date_from": "Join Date From",
+    "join_date_to": "Join Date To",
+    "join_date": "Join Date",
+    "bus_station": "Bus Station"
   },
   "system_decentral": {
-    "system_decentralization": "System Decentralization"
+    "system_decentralization": "System Decentralization",
+    "user": "User",
+    "search_user": "Search user...",
+    "no_users": "No users found",
+    "loading_permissions": "Loading permissions...",
+    "choose_user": "Choose a user",
+    "modules_enabled": "{{enabled}}/{{total}} modules enabled",
+    "default_rules": "This user is using default role rules until you save.",
+    "select_user_hint": "Select a user to configure module visibility."
+  },
+  "common": {
+    "search_placeholder": "Search...",
+    "all": "All",
+    "clear_selection": "Clear",
+    "clear": "Clear",
+    "apply": "Apply",
+    "filter": "Filter",
+    "no_results": "No results",
+    "no_data": "No data available",
+    "loading": "Loading...",
+    "today": "Today",
+    "save": "Save",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "delete": "Delete",
+    "close": "Close",
+    "sync": "Sync",
+    "import": "Import",
+    "done": "Done",
+    "pending": "Pending",
+    "download_example": "Download example file",
+    "choose_file": "Choose file",
+    "no_file_chosen": "No file chosen",
+    "clear_file": "Clear file",
+    "choose_file_first": "Please choose a file before importing!",
+    "importing": "Importing...",
+    "error": "Error!",
+    "load_failed": "Could not load data",
+    "export_failed": "Export Excel failed!",
+    "update_failed": "Update failed!",
+    "send_cms_failed": "Send to CMS failed!",
+    "file_pending": "File excel is still pending!",
+    "file_not_found": "File not found!",
+    "confirm_title": "Are you sure?",
+    "cannot_undo": "This action cannot be undone.",
+    "confirm": "Confirm",
+    "delete_confirm": "Delete this item?",
+    "delete_prefix_confirm": "Do you want to delete prefix \"{{prefix}}\"?",
+    "select_language": "Select system language",
+    "collapse": "Collapse",
+    "page_not_found": "Oops",
+    "go_back": "Go back",
+    "logging": "Logging",
+    "choose_row": "Please choose a row",
+    "choose_user": "Please choose a user",
+    "deleted_success": "Deleted successfully!",
+    "saved_success": "Saved successfully!",
+    "load_permissions_failed": "Cannot load permissions",
+    "save_permissions_failed": "Cannot save permissions",
+    "loading_erp": "Loading from ERP...",
+    "preview_payload": "Preview Payload",
+    "compare_data": "Compare Data",
+    "type": "Type",
+    "status": "Status",
+    "required": "Please do not leave it blank!",
+    "invalid_email": "Invalid email",
+    "select_all": "Select all",
+    "preview": "Preview",
+    "matched": "Matched",
+    "missing": "Missing",
+    "extra": "Extra",
+    "page_not_found_desc": "The page you were looking for doesn't exist.",
+    "no_preview_data": "No preview payload data found for {{title}}.",
+    "choose_option": "Choose option",
+    "saving": "Saving...",
+    "select_placeholder": "Select…"
+  },
+  "tabs": {
+    "wg_in_operations": "WG in Operations",
+    "logging_business_travel": "Logging Business Travel",
+    "logging_accommodation": "Logging Accommodation",
+    "tax_free_zone_address": "Tax-Free Zone Address",
+    "verification_report": "Verification Report",
+    "style_auto_fill": "Style Auto-fill",
+    "default_address": "Default Address"
   }
 }

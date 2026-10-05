@@ -1,31 +1,31 @@
 import { GrLanguage } from 'react-icons/gr';
 import { FaUser, FaLock, FaArrowRight } from 'react-icons/fa6';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 
-import { useNavigate } from 'react-router-dom';
-import Loading from '../components/common/Loading';
+import { useNavigate } from 'react-router';
 
-import { LANGUAGES } from '../utils/constanst';
+import { LANGUAGES } from '../utils/constants';
 import { useAppDispatch } from '../app/hooks';
 import { login } from '../features/authSlice';
 
-// import Swal from 'sweetalert2';
 import { useTranslation } from 'react-i18next';
-import backgroundLogin from '../assets/images/background-login.jpg';
+import backgroundLogin from '../assets/images/background-login.webp';
 import { Toast } from '../utils/Toast';
+import appI18n from '../i18n';
+
+// Message is a function so it follows the language selected at validation time.
+const required = () => appI18n.t('common.required');
 
 const validationSchema = Yup.object().shape({
-  userid: Yup.string().required('Please do not leave it blank!'),
+  userid: Yup.string().required(required),
 
-  password: Yup.string().required('Please do not leave it blank!'),
+  password: Yup.string().required(required),
 });
 
 const Login = () => {
   const navigate = useNavigate();
-
-  const [loading, setLoading] = useState(true);
 
   const dispatch = useAppDispatch();
 
@@ -65,15 +65,7 @@ const Login = () => {
 
   useEffect(() => {
     i18n.changeLanguage(savedLang);
-  }, []);
-
-  useEffect(() => {
-    setTimeout(() => setLoading(false), 3000);
-  }, []);
-
-  if (loading) {
-    return <Loading />;
-  }
+  }, [i18n, savedLang]);
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-[#07110c]">
@@ -128,14 +120,11 @@ const Login = () => {
 
           <div className="max-w-[520px]">
             <div className="mb-4 text-sm font-bold uppercase tracking-[0.25em] text-emerald-300">
-              Carbon Management Website
+              {t('main.carbon_management_website')}
             </div>
 
             <p className="text-sm leading-8 text-slate-100">
-              An internal centralized platform that automatically aggregates
-              emissions inventory data from LY App, BPM, WMS, and ERP — enabling
-              seamless integration with our external Carbon Management System
-              (CMS).
+              {t('main.app_description')}
             </p>
           </div>
         </div>
@@ -159,7 +148,7 @@ const Login = () => {
                 </h2>
 
                 <p className="mt-2 text-center text-sm text-slate-100">
-                  Please sign in to continue
+                  {t('main.sign_in_to_continue')}
                 </p>
               </div>
 
@@ -179,7 +168,7 @@ const Login = () => {
                       value={formik.values.userid}
                       onChange={formik.handleChange}
                       autoComplete="off"
-                      placeholder="Enter your user id"
+                      placeholder={t('main.enter_user_id')}
                     />
 
                     <div className="px-5 text-slate-200">
@@ -208,7 +197,7 @@ const Login = () => {
                       value={formik.values.password}
                       onChange={formik.handleChange}
                       autoComplete="off"
-                      placeholder="Enter your password"
+                      placeholder={t('main.enter_password')}
                     />
 
                     <div className="px-5 text-slate-200">

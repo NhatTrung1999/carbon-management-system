@@ -4,6 +4,8 @@ import Table from '../../../components/Category/CategorySix/Table';
 import { getCat6Header } from '../../../types/cat6';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { getDataCat6, resetDataCat6 } from '../../../features/categorySlice';
+import { todayLocal } from '../../../utils/formatDate';
+import { DEFAULT_FACTORY } from '../../../utils/constants';
 
 const Cat6 = () => {
   const tableRef = useRef<HTMLDivElement | null>(null);
@@ -13,19 +15,18 @@ const Cat6 = () => {
     sortOrder: 'asc',
   });
 
-  const { cat6, page, loading, hasMore } = useAppSelector(
-    (state) => state.category
-  );
+  const {
+    items: cat6,
+    page,
+    loading,
+    hasMore,
+  } = useAppSelector((state) => state.category.cat6);
   const dispatch = useAppDispatch();
 
-  const [dateFrom, setDateFrom] = useState<string>(
-    new Date().toISOString().slice(0, 10)
-  );
-  const [dateTo, setDateTo] = useState<string>(
-    new Date().toISOString().slice(0, 10)
-  );
+  const [dateFrom, setDateFrom] = useState<string>(todayLocal());
+  const [dateTo, setDateTo] = useState<string>(todayLocal());
 
-  const [factory, setFactory] = useState<string>('LYV');
+  const [factory, setFactory] = useState<string>(DEFAULT_FACTORY);
   const [searchSeq, setSearchSeq] = useState(0);
   const [checkedDormShuttle, setCheckedDormShuttle] = useState(false);
 
@@ -61,7 +62,7 @@ const Cat6 = () => {
         sortField: activeSort.sortField,
         sortOrder: activeSort.sortOrder,
         checkedDormShuttle,
-      })
+      }),
     );
   }, [
     dispatch,
@@ -89,7 +90,7 @@ const Cat6 = () => {
           sortField: activeSort.sortField,
           sortOrder: activeSort.sortOrder,
           checkedDormShuttle,
-        })
+        }),
       );
     }
   }, [

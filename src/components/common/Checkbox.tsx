@@ -1,10 +1,10 @@
 import type React from 'react';
 
 type Props = {
-  title    : string;
-  id       : string;
-  name    ?: string;
-  checked ?: boolean;
+  title: string;
+  id: string;
+  name?: string;
+  checked?: boolean;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
@@ -53,11 +53,13 @@ const Checkbox = ({ title, id, name, checked, onChange }: Props) => (
     </span>
 
     {/* Label */}
-    <span className="select-none text-sm font-medium text-white
+    <span
+      className="select-none text-sm font-medium text-white
       transition-colors duration-200
       group-hover:text-white/80
       peer-checked:text-white/90
-      [.peer:checked~span+&]:text-white/90">
+      [.peer:checked~span+&]:text-white/90"
+    >
       {title}
     </span>
   </label>

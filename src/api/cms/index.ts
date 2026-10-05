@@ -1,7 +1,8 @@
 import axiosConfig from '../../lib/axiosConfig';
 
 const cmsApi = {
-  createCMS: async (data: any) => {
+  /** Forwards rows to the CMS integration API (via the backend). */
+  createCMS: async (data: unknown) => {
     const res = await axiosConfig.post(`cms/create`, data);
     return res.data;
   },

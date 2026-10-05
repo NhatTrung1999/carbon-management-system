@@ -18,9 +18,11 @@ import {
 } from '../../../features/logcatSlice';
 import cmsApi from '../../../api/cms';
 import { Toast } from '../../../utils/Toast';
-import { FACTORIES } from '../../../utils/constanst';
+import { FACTORIES } from '../../../utils/constants';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
+import { toastStatus, logResultToastOptions } from '../../../utils/toastResult';
+import i18n from '../../../i18n';
 
 const CMS_TOAST_BASE = {
   confirmButtonText: 'OK',
@@ -34,8 +36,8 @@ const CMS_TOAST_BASE = {
 };
 
 const CAT6_PAYLOAD_TYPES = [
-  { name: 'Business Travel', value: 'business_travel' },
-  { name: 'Accommodation', value: 'accommodation' },
+  { name: 'cat6.business_travel', value: 'business_travel' },
+  { name: 'cat6.accommodation', value: 'accommodation' },
 ];
 
 type Props = {
@@ -60,9 +62,9 @@ const Search = ({
   onSearch,
   checkedDormShuttle,
   setCheckedDormShuttle,
-  }: Props) => {
+}: Props) => {
   const dispatch = useAppDispatch();
-  const {t} = useTranslation()
+  const { t } = useTranslation();
   const [loadingExport, setLoadingExport] = useState(false);
   const [loadingPreview, setLoadingPreview] = useState(false);
   const [loadingCMS, setLoadingCMS] = useState(false);
@@ -71,8 +73,12 @@ const Search = ({
   >('business_travel');
 
   const { autoSendCMSCat6, autoSendCMSCat6Accommodation } = useAppSelector(
-    (state) => state.autosendcms
+    (state) => state.autosendcms,
   );
+  const cmsPayload =
+    payloadType === 'accommodation'
+      ? autoSendCMSCat6Accommodation
+      : autoSendCMSCat6;
 
   const formik = useFormik({
     initialValues: {
@@ -82,37 +88,31 @@ const Search = ({
     },
 
     onSubmit: async (data) => {
-      try {
-        setDateFrom(data.dateFrom);
-        setDateTo(data.dateTo);
-        setFactory(data.factory);
-        onSearch();
-        if (payloadType === 'accommodation') {
-          dispatch(
-            fetchDataAutoSendCMSCat6Accommodation({
-              dateFrom: data.dateFrom,
-              dateTo: data.dateTo,
-              factory: data.factory,
-            })
-          );
-        } else {
-          dispatch(
-            fetchDataAutoSendCMSCat6({
-              dateFrom: data.dateFrom,
-              dateTo: data.dateTo,
-              factory: data.factory,
-            })
-          );
-        }
-      } catch (error: unknown) {
-        console.log(error);
+      setDateFrom(data.dateFrom);
+      setDateTo(data.dateTo);
+      setFactory(data.factory);
+      onSearch();
+      if (payloadType === 'accommodation') {
+        dispatch(
+          fetchDataAutoSendCMSCat6Accommodation({
+            dateFrom: data.dateFrom,
+            dateTo: data.dateTo,
+            factory: data.factory,
+          }),
+        );
+      } else {
+        dispatch(
+          fetchDataAutoSendCMSCat6({
+            dateFrom: data.dateFrom,
+            dateTo: data.dateTo,
+            factory: data.factory,
+          }),
+        );
       }
     },
   });
 
-  const onPayloadTypeChange = (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
+  const onPayloadTypeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const nextType = event.target.value as 'business_travel' | 'accommodation';
     setPayloadType(nextType);
     if (nextType === 'accommodation') {
@@ -121,7 +121,7 @@ const Search = ({
           dateFrom: formik.values.dateFrom,
           dateTo: formik.values.dateTo,
           factory: formik.values.factory,
-        })
+        }),
       );
     } else {
       dispatch(
@@ -129,12 +129,11 @@ const Search = ({
           dateFrom: formik.values.dateFrom,
           dateTo: formik.values.dateTo,
           factory: formik.values.factory,
-        })
+        }),
       );
     }
   };
 
-  //Export Excel
   const onExportExcel = async () => {
     try {
       setLoadingExport(true);
@@ -147,23 +146,15 @@ const Search = ({
           dateFrom: formik.values.dateFrom,
           dateTo: formik.values.dateTo,
           factory: formik.values.factory,
-        })
+        }),
       );
       if (generateFileExcel.fulfilled.match(result)) {
-        const { statusCode, message } = result.payload as {
-          statusCode: number;
-          message: string;
-        };
-        Toast.fire({
-          title: message,
-          icon: statusCode === 200 ? 'success' : 'error',
-        });
+        toastStatus(result.payload);
       }
     } finally {
       setLoadingExport(false);
     }
   };
-  //Export Excel
 
   const onPreviewPayload = async () => {
     try {
@@ -175,17 +166,10 @@ const Search = ({
           dateTo: formik.values.dateTo,
           factory: formik.values.factory,
           dockeyCMS: payloadType === 'accommodation' ? '3.5.5' : '3.5',
-        })
+        }),
       );
       if (previewPayload.fulfilled.match(result)) {
-        const { statusCode, message } = result.payload as {
-          statusCode: number;
-          message: string;
-        };
-        Toast.fire({
-          title: message,
-          icon: statusCode === 200 ? 'success' : 'error',
-        });
+        toastStatus(result.payload);
       }
     } finally {
       setLoadingPreview(false);
@@ -195,25 +179,20 @@ const Search = ({
   const onSendToCMS = async () => {
     setLoadingCMS(true);
     try {
-      const payload =
-        payloadType === 'accommodation'
-          ? autoSendCMSCat6Accommodation
-          : autoSendCMSCat6;
-      const response = await cmsApi.createCMS(payload);
+      const response = await cmsApi.createCMS(cmsPayload);
       if (response.std_data.execution.code === '0') {
         const logThunk =
           payloadType === 'accommodation'
             ? createLogCat6Accommodation
             : createLogCat6BusinessTravel;
-        const result = await dispatch(logThunk(payload as any));
+        const result = await dispatch(logThunk(cmsPayload));
         Toast.fire({
-          title: result.payload.message,
-          icon: result.payload.success ? 'success' : 'error',
+          ...logResultToastOptions(result),
           ...CMS_TOAST_BASE,
         });
       } else {
         Toast.fire({
-          title: 'Send to CMS failed!',
+          title: i18n.t('common.send_cms_failed'),
           icon: 'error',
           ...CMS_TOAST_BASE,
         });
@@ -224,10 +203,7 @@ const Search = ({
   };
 
   return (
-    <form
-      className="mb-4 sm:mb-5 space-y-4"
-      onSubmit={formik.handleSubmit}
-    >
+    <form className="mb-4 sm:mb-5 space-y-4" onSubmit={formik.handleSubmit}>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         <div>
           <Input
@@ -263,12 +239,12 @@ const Search = ({
         </div>
         <div>
           <Select
-            label="Type"
+            label={t('common.type')}
             name="payloadType"
             classNameLabel="mb-2 text-sm sm:text-base"
             value={payloadType}
             onChange={onPayloadTypeChange}
-            options={CAT6_PAYLOAD_TYPES}
+            options={CAT6_PAYLOAD_TYPES.map((o) => ({ ...o, name: t(o.name) }))}
           />
         </div>
       </div>
@@ -277,11 +253,12 @@ const Search = ({
         <Button
           label={t('main.search')}
           type="submit"
-          className="w-full sm:w-auto text-white bg-[#FF9119] hover:bg-[#FF9119]/80 focus:ring-4 focus:outline-none focus:ring-[#FF9119]/50 font-medium rounded-lg text-sm px-5 py-2.5 dark:hover:bg-[#FF9119]/80 dark:focus:ring-[#FF9119]/40 cursor-pointer transition-colors duration-300"
+          variant="search"
+          className="w-full sm:w-auto"
         />
         <Checkbox
           id="cat6-dorm-shuttle-check"
-          title="Dorm + Shuttle Car"
+          title={t('cat6.dorm_shuttle')}
           checked={checkedDormShuttle}
           onChange={(event) => {
             setDateFrom(formik.values.dateFrom);
@@ -294,34 +271,35 @@ const Search = ({
         <Button
           label={
             loadingCMS
-              ? 'Loading...'
-              : `${t('Send to CMS')} (${
-                  payloadType === 'accommodation'
-                    ? autoSendCMSCat6Accommodation?.length ?? 0
-                    : autoSendCMSCat6?.length ?? 0
-                })`
+              ? t('common.loading')
+              : `${t('main.send_to_CMS')} (${cmsPayload.length})`
           }
-          type='button'
+          type="button"
           onClick={onSendToCMS}
-          className="w-full sm:w-auto flex flex-row gap-2 items-center justify-center sm:justify-start cursor-pointer px-4 py-2 rounded-lg text-white bg-[#FFB619] hover:bg-[#FFB619]/80 transition-colors duration-300"
+          variant="cms"
+          className="w-full sm:w-auto"
           imgSrc={SendIcon}
-          disabled={loadingCMS}
+          disabled={loadingCMS || cmsPayload.length === 0}
         />
         <Button
-          label={loadingExport ? 'Loading...' : t('Export Excel file')}
-          type='button'
+          label={
+            loadingExport ? t('common.loading') : t('main.export_excel_file')
+          }
+          type="button"
           onClick={onExportExcel}
-          className="w-full sm:w-auto bg-green-500/20 border-green-400/40 hover:bg-green-500 text-white"
+          variant="excel"
+          className="w-full sm:w-auto"
           imgSrc={ExcelIcon}
           disabled={loadingExport}
         />
         <Button
-          label={loadingPreview ? 'Loading...' : 'Preview Payload'}
-          type='button'
+          label={
+            loadingPreview ? t('common.loading') : t('common.preview_payload')
+          }
+          type="button"
           onClick={onPreviewPayload}
-          className={`w-full sm:w-auto bg-green-500/20 border-green-400/40 hover:bg-green-500 text-white ${
-            loadingPreview ? 'hover:cursor-not-allowed' : ''
-          }`}
+          variant="excel"
+          className="w-full sm:w-auto"
           imgSrc={ExcelIcon}
           disabled={loadingPreview}
         />

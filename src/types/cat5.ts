@@ -15,7 +15,12 @@ export interface ICat5Data {
   TKT_Ton_km: string;
 }
 
-export const HEADER: { name: string; state: string; sort: boolean, filterable?: boolean }[] = [
+export const HEADER: {
+  name: string;
+  state: string;
+  sort: boolean;
+  filterable?: boolean;
+}[] = [
   {
     name: 'cat5.waste_disposal_date',
     state: 'Waste_disposal_date',
@@ -23,13 +28,13 @@ export const HEADER: { name: string; state: string; sort: boolean, filterable?: 
     filterable: true,
   },
   {
-    name: 'Consolidated Waste',
+    name: 'cat5.consolidated_waste',
     state: 'Consolidated_Waste',
     sort: true,
     filterable: true,
   },
   {
-    name: 'Waste Code',
+    name: 'cat5.waste_code',
     state: 'Waste_Code',
     sort: true,
     filterable: true,
@@ -53,7 +58,7 @@ export const HEADER: { name: string; state: string; sort: boolean, filterable?: 
     filterable: true,
   },
   {
-    name: 'Location Code',
+    name: 'cat5.location_code',
     state: 'Location_Code',
     sort: true,
     filterable: true,

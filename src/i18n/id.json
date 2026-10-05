@@ -22,12 +22,15 @@
     "delete": "Hapus",
     "login_invalid": "Akun atau kata sandi tidak valid",
     "login_failed": "Login gagal! Akun ini belum terdaftar di sistem!",
-    "close": "Tutup"
+    "close": "Tutup",
+    "sign_in_to_continue": "Silakan masuk untuk melanjutkan",
+    "enter_user_id": "Masukkan ID pengguna",
+    "enter_password": "Masukkan kata sandi",
+    "app_description": "Platform internal terpusat yang secara otomatis menghimpun data inventaris emisi dari LY App, BPM, WMS, dan ERP — terintegrasi mulus dengan Carbon Management System (CMS) eksternal kami."
   },
   "cat1andcat4": {
     "cat_1_4": "Kategori 1 & 4",
     "purchase_and_upstream": "Barang dan Jasa yang Dibeli & Transportasi serta Distribusi Hulu",
-    
     "no": "No.",
     "date": "Tanggal",
     "purchase_order": "Pesanan Pembelian (PO)",
@@ -53,13 +56,11 @@
     "land_transport_ton_kilometers": "Ton-Kilometer Transportasi Darat",
     "sea_transport_ton_kilometers": "Ton-Kilometer Transportasi Laut",
     "air_transport_ton_kilometers": "Ton-Kilometer Transportasi Udara",
-
     "port_code": "Kode pelabuhan",
     "supplier_id": "ID Pemasok",
     "created_by": "Dibuat oleh",
-    "created_date":"Tanggal dibuat",
-
-    "logging":"Catatan harian",
+    "created_date": "Tanggal dibuat",
+    "logging": "Catatan harian",
     "system": "Sistem",
     "corporation": "Perusahaan",
     "factory": "Pabrik",
@@ -71,7 +72,7 @@
     "data_type": "Tipe data",
     "document_type": "Jenis dokumen",
     "document_flow": "Aliran dokumen",
-    "document_date":"Tanggal dokumen",
+    "document_date": "Tanggal dokumen",
     "document_date_2": "Tanggal dokumen (2)",
     "document_no": "Nomor dokumen",
     "cust_ven_name": "Nama vendor pelanggan",
@@ -88,8 +89,21 @@
     "created_date_time": "Tanggal waktu dibuat",
     "creator": "Pencipta",
     "created_user": "Pengguna yang dibuat",
-    "created_factory":"Pabrik yang dibuat",
-    "created_at":"Dibuat di"
+    "created_factory": "Pabrik yang dibuat",
+    "created_at": "Dibuat di",
+    "preview_date_from": "Tanggal Pratinjau Dari",
+    "preview_date_to": "Tanggal Pratinjau Sampai",
+    "logging_date_from": "Tanggal Log Dari",
+    "logging_date_to": "Tanggal Log Sampai",
+    "verification_desc": "Preview Payload dockey `{{dockey}}` dibandingkan dengan Logging.",
+    "compare_hint": "Pilih kondisi lalu klik <hl>{{button}}</hl> untuk mulai membandingkan data.",
+    "pur_date": "Tanggal Beli",
+    "rk_date": "Tanggal Masuk Gudang",
+    "land_transport_ton_km": "Ton-Kilometer Transportasi Darat",
+    "air_transport_ton_km": "Ton-Kilometer Transportasi Udara",
+    "country": "Negara",
+    "updated_by": "Diperbarui Oleh",
+    "prefix_mat_code": "Prefiks Kode Material"
   },
   "cat5": {
     "cat_5": "Kategori 5",
@@ -108,8 +122,7 @@
     "treatment_method_id": "ID Metode Pengolahan",
     "weight_of_waste_treated_unit_kg)": "*Berat Limbah yang Diolah (Satuan: kg)",
     "tkt_ton_km": "TKT (Ton-km)",
-
-    "logging":"Catatan harian",
+    "logging": "Catatan harian",
     "system": "Sistem",
     "corporation": "Perusahaan",
     "factory": "Pabrik",
@@ -121,7 +134,7 @@
     "data_type": "Tipe data",
     "document_type": "Jenis dokumen",
     "document_flow": "Aliran dokumen",
-    "document_date":"Tanggal dokumen",
+    "document_date": "Tanggal dokumen",
     "document_date_2": "Tanggal dokumen (2)",
     "document_no": "Nomor dokumen",
     "cust_ven_name": "Nama vendor pelanggan",
@@ -138,8 +151,8 @@
     "created_date_time": "Tanggal waktu dibuat",
     "creator": "Pencipta",
     "created_user": "Pengguna yang dibuat",
-    "created_factory":"Pabrik yang dibuat",
-    "created_at":"Dibuat di"
+    "created_factory": "Pabrik yang dibuat",
+    "created_at": "Dibuat di"
   },
   "cat6": {
     "cat_6": "Kategori 6",
@@ -172,8 +185,7 @@
     "land_transportation_type": "Jenis Transportasi Darat",
     "air_transport_distance_km": "Jarak Transportasi Udara (km)",
     "number_of_nights_stayed": "Jumlah Malam Menginap (Hotel)",
-
-    "logging":"Catatan harian",
+    "logging": "Catatan harian",
     "system": "Sistem",
     "corporation": "Perusahaan",
     "factory": "Pabrik",
@@ -201,8 +213,19 @@
     "created_date_time": "Tanggal waktu dibuat",
     "creator": "Pencipta",
     "created_user": "Pengguna yang dibuat",
-    "created_factory":"Pabrik yang dibuat",
-    "created_at":"Dibuat di"
+    "created_factory": "Pabrik yang dibuat",
+    "created_at": "Dibuat di",
+    "dorm_shuttle": "Asrama + Mobil Antar-Jemput",
+    "dept": "Dept",
+    "route_list": "Daftar Rute",
+    "place_1": "Tempat 1",
+    "place_2": "Tempat 2",
+    "place_3": "Tempat 3",
+    "place_4": "Tempat 4",
+    "transport_1": "Transportasi 1",
+    "transport_2": "Transportasi 2",
+    "transport_3": "Transportasi 3",
+    "accommodation": "Akomodasi"
   },
   "cat7": {
     "cat_7": "Kategori 7",
@@ -214,17 +237,15 @@
     "number_of_working_days": "Jumlah Hari Kerja",
     "number_of_working_days_rounded": "Jumlah Hari Kerja (Dibulatkan)",
     "pkt_p_km": "PKT (p-km)",
-
     "custom_export": "Ekspor Pelanggan",
     "no": "Nomor",
-    "id":"ID",
+    "id": "ID",
     "fullname": "Nama lengkap",
     "current_address": "Alamat saat ini",
     "transport_mode": "Moda transportasi",
     "bus_route": "Rute bus",
     "pickup_point": "Titik penjemputan",
-
-    "logging":"Catatan harian",
+    "logging": "Catatan harian",
     "system": "Sistem",
     "corporation": "Perusahaan",
     "factory": "Pabrik",
@@ -236,7 +257,7 @@
     "data_type": "Tipe data",
     "document_type": "Jenis dokumen",
     "document_flow": "Aliran dokumen",
-    "document_date":"Tanggal dokumen",
+    "document_date": "Tanggal dokumen",
     "document_date_2": "Tanggal dokumen (2)",
     "document_no": "Nomor dokumen",
     "cust_ven_name": "Nama vendor pelanggan",
@@ -253,8 +274,10 @@
     "created_date_time": "Tanggal waktu dibuat",
     "creator": "Pencipta",
     "created_user": "Pengguna yang dibuat",
-    "created_factory":"Pabrik yang dibuat",
-    "created_at":"Dibuat di"
+    "created_factory": "Pabrik yang dibuat",
+    "created_at": "Dibuat di",
+    "GHG_inventory_template": "Templat Inventaris GRK",
+    "updated_by": "Diperbarui Oleh"
   },
   "cat9andcat12": {
     "cat_9_12": "Kategori 9 & 12",
@@ -287,8 +310,7 @@
     "example_file": "Contoh Berkas",
     "close": "Tutup",
     "import": "Impor",
-
-    "logging":"Catatan harian",
+    "logging": "Catatan harian",
     "system": "Sistem",
     "corporation": "Perusahaan",
     "factory": "Pabrik",
@@ -300,7 +322,7 @@
     "data_type": "Tipe data",
     "document_type": "Jenis dokumen",
     "document_flow": "Aliran dokumen",
-    "document_date":"Tanggal dokumen",
+    "document_date": "Tanggal dokumen",
     "document_date_2": "Tanggal dokumen (2)",
     "document_no": "Nomor dokumen",
     "cust_ven_name": "Nama vendor pelanggan",
@@ -317,7 +339,12 @@
     "created_date_time": "Tanggal waktu dibuat",
     "creator": "Pencipta",
     "created_user": "Pengguna yang dibuat",
-    "created_factory":"Pabrik yang dibuat"
+    "created_factory": "Pabrik yang dibuat",
+    "invoice_date": "Tanggal Faktur",
+    "ry_product": "Produk RY",
+    "ry_component": "Komponen RY",
+    "component_name": "Nama Komponen",
+    "booking_no": "No. Booking"
   },
   "usermmt": {
     "user_management": "Manajemen Pengguna",
@@ -326,10 +353,15 @@
     "email": "Email",
     "role": "Peran",
     "status": "Status",
-    "created_at":"Dibuat di",
-    "created_date":"Tanggal Dibuat",
+    "created_at": "Dibuat di",
+    "created_date": "Tanggal Dibuat",
     "updated_at": "Diperbarui pada",
-    "updated_date": "Tanggal diperbarui"
+    "updated_date": "Tanggal diperbarui",
+    "enter_userid": "Masukkan UserID...",
+    "enter_name": "Masukkan nama...",
+    "enter_email": "Masukkan email...",
+    "add_user": "Tambah Pengguna",
+    "edit_user": "Ubah Pengguna"
   },
   "filemmt": {
     "file_management": "Manajemen file",
@@ -337,7 +369,9 @@
     "file_name": "Nama Berkas",
     "status": "Status",
     "created_by_user": "Dibuat oleh Pengguna",
-    "created_date": "Tanggal Dicatat oleh Pengguna"
+    "created_date": "Tanggal Dicatat oleh Pengguna",
+    "enter_module": "Masukkan modul...",
+    "enter_file_name": "Masukkan nama file..."
   },
   "facinfo": {
     "facinfo": "Informasi pabrik",
@@ -348,142 +382,117 @@
     "tel": "Nomor telepon",
     "fax": "Nomor faks",
     "name_vn": "Nama Vietnam",
-    "created_user":"Pengguna yang dibuat",
-    "created_factory":"Pabrik yang dibuat",
-    "created_date":"Tanggal Dibuat",
+    "created_user": "Pengguna yang dibuat",
+    "created_factory": "Pabrik yang dibuat",
+    "created_date": "Tanggal Dibuat",
     "updated_user": "Pengguna yang diperbarui",
     "updated_factory": "Pabrik yang diperbarui",
-    "updated_date":"Tanggal diperbarui"
+    "updated_date": "Tanggal diperbarui",
+    "info_factory_management": "Manajemen Info Pabrik",
+    "enter_company_name": "Masukkan nama perusahaan...",
+    "enter_city": "Masukkan kota...",
+    "account_no": "No. Rekening"
   },
   "dataHRCollecMod": {
     "dataCollection_HR_Module": "HR Pengumpulan Data",
     "id": "ID",
-    "fullname":"Nama lengkap",
-    "department":"Departemen",
+    "fullname": "Nama lengkap",
+    "department": "Departemen",
     "permanent_address": "Alamat permanen",
     "current_address": "Alamat saat ini",
-    "transport_method":"Metode Transportasi",
-    "number_of_working_days":"Jumlah Hari Kerja",
-    "action": "Langkah"
+    "transport_method": "Metode Transportasi",
+    "number_of_working_days": "Jumlah Hari Kerja",
+    "action": "Langkah",
+    "join_date_from": "Tanggal Bergabung Dari",
+    "join_date_to": "Tanggal Bergabung Sampai",
+    "join_date": "Tanggal Bergabung",
+    "bus_station": "Halte Bus"
+  },
+  "common": {
+    "search_placeholder": "Cari...",
+    "all": "Semua",
+    "clear_selection": "Hapus pilihan",
+    "clear": "Hapus",
+    "apply": "Terapkan",
+    "filter": "Filter",
+    "no_results": "Tidak ada hasil",
+    "no_data": "Tidak ada data",
+    "loading": "Memuat...",
+    "today": "Hari ini",
+    "save": "Simpan",
+    "cancel": "Batal",
+    "edit": "Ubah",
+    "delete": "Hapus",
+    "close": "Tutup",
+    "sync": "Sinkronkan",
+    "import": "Impor",
+    "done": "Selesai",
+    "pending": "Diproses",
+    "download_example": "Unduh file contoh",
+    "choose_file": "Pilih file",
+    "no_file_chosen": "Belum ada file",
+    "clear_file": "Hapus file",
+    "choose_file_first": "Silakan pilih file sebelum mengimpor!",
+    "importing": "Mengimpor...",
+    "error": "Terjadi kesalahan!",
+    "load_failed": "Gagal memuat data",
+    "export_failed": "Ekspor Excel gagal!",
+    "update_failed": "Pembaruan gagal!",
+    "send_cms_failed": "Gagal mengirim ke CMS!",
+    "file_pending": "File Excel masih diproses!",
+    "file_not_found": "File tidak ditemukan!",
+    "confirm_title": "Apakah Anda yakin?",
+    "cannot_undo": "Tindakan ini tidak dapat dibatalkan.",
+    "confirm": "Konfirmasi",
+    "delete_confirm": "Hapus item ini?",
+    "delete_prefix_confirm": "Hapus prefix \"{{prefix}}\"?",
+    "select_language": "Pilih bahasa sistem",
+    "collapse": "Ciutkan",
+    "page_not_found": "Ups",
+    "go_back": "Kembali",
+    "logging": "Log",
+    "choose_row": "Silakan pilih satu baris",
+    "choose_user": "Silakan pilih pengguna",
+    "deleted_success": "Berhasil dihapus!",
+    "saved_success": "Berhasil disimpan!",
+    "load_permissions_failed": "Gagal memuat izin",
+    "save_permissions_failed": "Gagal menyimpan izin",
+    "loading_erp": "Memuat dari ERP...",
+    "preview_payload": "Pratinjau Payload",
+    "compare_data": "Bandingkan Data",
+    "type": "Tipe",
+    "status": "Status",
+    "required": "Harap jangan dikosongkan!",
+    "invalid_email": "Email tidak valid",
+    "select_all": "Pilih semua",
+    "preview": "Pratinjau",
+    "matched": "Cocok",
+    "missing": "Hilang",
+    "extra": "Kelebihan",
+    "page_not_found_desc": "Halaman yang Anda cari tidak ada.",
+    "no_preview_data": "Tidak ada data pratinjau untuk {{title}}.",
+    "choose_option": "Pilih opsi",
+    "saving": "Menyimpan...",
+    "select_placeholder": "Pilih…"
+  },
+  "tabs": {
+    "wg_in_operations": "Limbah Operasional",
+    "logging_business_travel": "Log Perjalanan Dinas",
+    "logging_accommodation": "Log Akomodasi",
+    "tax_free_zone_address": "Alamat Kawasan Bebas Pajak",
+    "verification_report": "Laporan Verifikasi",
+    "style_auto_fill": "Isi Otomatis Style",
+    "default_address": "Alamat Default"
+  },
+  "system_decentral": {
+    "system_decentralization": "Pengaturan Hak Akses Sistem",
+    "user": "Pengguna",
+    "search_user": "Cari pengguna...",
+    "no_users": "Pengguna tidak ditemukan",
+    "loading_permissions": "Memuat izin...",
+    "choose_user": "Pilih pengguna",
+    "modules_enabled": "{{enabled}}/{{total}} modul aktif",
+    "default_rules": "Pengguna ini memakai aturan peran bawaan sampai Anda menyimpan.",
+    "select_user_hint": "Pilih pengguna untuk mengatur modul yang terlihat."
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

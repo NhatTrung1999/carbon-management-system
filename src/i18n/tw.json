@@ -22,12 +22,15 @@
     "delete": "刪除",
     "login_invalid": "帳號或密碼無效",
     "login_failed": "登入失敗：此帳號尚未在系統中建立",
-    "close": "關閉"
+    "close": "關閉",
+    "sign_in_to_continue": "請登入以繼續",
+    "enter_user_id": "請輸入使用者帳號",
+    "enter_password": "請輸入密碼",
+    "app_description": "內部集中式平台，自動彙整來自 LY App、BPM、WMS 與 ERP 的排放盤查資料，並與外部碳管理系統（CMS）無縫整合。"
   },
   "cat1andcat4": {
     "cat_1_4": "類別 1 & 4",
     "purchase_and_upstream": "採購的商品與服務 & 上游運輸與配送",
-    
     "no": "序號",
     "date": "日期",
     "purchase_order": "採購訂單（PO）",
@@ -53,13 +56,11 @@
     "land_transport_ton_kilometers": "陸運(噸公里)",
     "sea_transport_ton_kilometers": "海運(噸公里)",
     "air_transport_ton_kilometers": "空運(噸公里)",
-
     "port_code": "港口代碼",
     "supplier_id": "供應商 ID",
     "created_by": "創建者：",
-    "created_date":"建立日期",
-
-    "logging":"日記",
+    "created_date": "建立日期",
+    "logging": "日記",
     "system": "體系",
     "corporation": "大公司",
     "factory": "廠區",
@@ -71,7 +72,7 @@
     "data_type": "資料類型",
     "document_type": "文件類型",
     "document_flow": "文件流",
-    "document_date":"文件日期",
+    "document_date": "文件日期",
     "document_date_2": "文件日期（2）",
     "document_no": "文件編號",
     "cust_ven_name": "客戶供應商名稱",
@@ -88,8 +89,21 @@
     "created_date_time": "建立日期時間",
     "creator": "創造者",
     "created_user": "創建的用戶",
-    "created_factory":"創建工廠",
-    "created_at":"創建時間"
+    "created_factory": "創建工廠",
+    "created_at": "創建時間",
+    "preview_date_from": "預覽日期從",
+    "preview_date_to": "預覽日期至",
+    "logging_date_from": "記錄日期從",
+    "logging_date_to": "記錄日期至",
+    "verification_desc": "Preview Payload dockey `{{dockey}}` 與 Logging 比對。",
+    "compare_hint": "選擇條件後按 <hl>{{button}}</hl> 開始比對資料。",
+    "pur_date": "採購日期",
+    "rk_date": "入庫日期",
+    "land_transport_ton_km": "陸運噸公里",
+    "air_transport_ton_km": "空運噸公里",
+    "country": "國家",
+    "updated_by": "更新者",
+    "prefix_mat_code": "物料代碼前綴"
   },
   "cat5": {
     "cat_5": "類別 5",
@@ -108,8 +122,7 @@
     "treatment_method_id": "處理方式代碼",
     "weight_of_waste_treated_unit_kg)": "處理廢棄物重量（單位：公斤）",
     "tkt_ton_km": "噸公里（Ton-km）",
-
-    "logging":"日記",
+    "logging": "日記",
     "system": "體系",
     "corporation": "大公司",
     "factory": "廠區",
@@ -121,7 +134,7 @@
     "data_type": "資料類型",
     "document_type": "文件類型",
     "document_flow": "文件流",
-    "document_date":"文件日期",
+    "document_date": "文件日期",
     "document_date_2": "文件日期（2）",
     "document_no": "文件編號",
     "cust_ven_name": "客戶供應商名稱",
@@ -138,7 +151,7 @@
     "created_date_time": "建立日期時間",
     "creator": "創造者",
     "created_user": "創建的用戶",
-    "created_factory":"創建工廠",
+    "created_factory": "創建工廠",
     "created_at": "創建時間"
   },
   "cat6": {
@@ -172,8 +185,7 @@
     "land_transportation_type": "陸運方式",
     "air_transport_distance_km": "空運距離（公里）",
     "number_of_nights_stayed": "住宿晚數 (Hotel)",
-
-    "logging":"日記",
+    "logging": "日記",
     "system": "體系",
     "corporation": "大公司",
     "factory": "廠區",
@@ -201,13 +213,23 @@
     "created_date_time": "建立日期時間",
     "creator": "創造者",
     "created_user": "創建的用戶",
-    "created_factory":"創建工廠",
-    "created_at": "創建時間"
+    "created_factory": "創建工廠",
+    "created_at": "創建時間",
+    "dorm_shuttle": "宿舍 + 接駁車",
+    "dept": "部門",
+    "route_list": "路線清單",
+    "place_1": "地點 1",
+    "place_2": "地點 2",
+    "place_3": "地點 3",
+    "place_4": "地點 4",
+    "transport_1": "交通工具 1",
+    "transport_2": "交通工具 2",
+    "transport_3": "交通工具 3",
+    "accommodation": "住宿"
   },
   "cat7": {
     "cat_7": "類別 7",
     "employee_commuting": "員工通勤",
-
     "GHG_inventory_template": "GHG 庫存模板",
     "staff_id": "工號",
     "residential_address": "居住地址 / Pickup point (Company shuttle bus)",
@@ -216,19 +238,17 @@
     "number_of_working_days": "工作天數",
     "number_of_working_days_rounded": "工作天數（四捨五入）",
     "pkt_p_km": "PKT（人/公里）",
-
     "custom_export": "客戶出口",
     "no": "遍號碼",
     "factory": "廠區",
     "department": "處",
-    "id":"ID",
+    "id": "ID",
     "fullname": "姓名",
-    "current_address":"目前地址",
+    "current_address": "目前地址",
     "transport_mode": "運輸方式",
     "bus_route": "巴士路線",
     "pickup_point": "接送點",
-
-    "logging":"日記",
+    "logging": "日記",
     "system": "體系",
     "corporation": "大公司",
     "document_key": "文件金鑰",
@@ -238,7 +258,7 @@
     "data_type": "資料類型",
     "document_type": "文件類型",
     "document_flow": "文件流",
-    "document_date":"文件日期",
+    "document_date": "文件日期",
     "document_date_2": "文件日期（2）",
     "document_no": "文件編號",
     "cust_ven_name": "客戶供應商名稱",
@@ -255,8 +275,9 @@
     "created_date_time": "建立日期時間",
     "creator": "創造者",
     "created_user": "創建的用戶",
-    "created_factory":"創建工廠",
-    "created_at": "創建時間"
+    "created_factory": "創建工廠",
+    "created_at": "創建時間",
+    "updated_by": "更新者"
   },
   "cat9andcat12": {
     "cat_9_12": "類別 9 & 12",
@@ -288,8 +309,7 @@
     "example_file": "範例檔案",
     "close": "關閉",
     "import": "匯入",
-
-    "logging":"日記",
+    "logging": "日記",
     "system": "體系",
     "corporation": "大公司",
     "factory": "廠區",
@@ -301,7 +321,7 @@
     "data_type": "資料類型",
     "document_type": "文件類型",
     "document_flow": "文件流",
-    "document_date":"文件日期",
+    "document_date": "文件日期",
     "document_date_2": "文件日期（2）",
     "document_no": "文件編號",
     "cust_ven_name": "客戶供應商名稱",
@@ -318,7 +338,12 @@
     "created_date_time": "建立日期時間",
     "creator": "創造者",
     "created_user": "創建的用戶",
-    "created_factory":"創建工廠"
+    "created_factory": "創建工廠",
+    "invoice_date": "發票日期",
+    "ry_product": "RY 成品",
+    "ry_component": "RY 部件",
+    "component_name": "部件名稱",
+    "booking_no": "訂艙號"
   },
   "usermmt": {
     "user_management": "用戶管理",
@@ -330,7 +355,12 @@
     "created_at": "創建時間",
     "created_date": "創建日期",
     "updated_at": "更新於",
-    "updated_date": "更新日期"
+    "updated_date": "更新日期",
+    "enter_userid": "輸入 UserID...",
+    "enter_name": "輸入名稱...",
+    "enter_email": "輸入電子郵件...",
+    "add_user": "新增使用者",
+    "edit_user": "編輯使用者"
   },
   "filemmt": {
     "file_management": "文件管理",
@@ -338,7 +368,9 @@
     "file_name": "檔案名稱",
     "status": "狀態",
     "created_by_user": "創建用戶",
-    "created_date": "創建記錄日期"
+    "created_date": "創建記錄日期",
+    "enter_module": "輸入模組...",
+    "enter_file_name": "輸入檔案名稱..."
   },
   "facinfo": {
     "facinfo": "工廠資訊",
@@ -354,7 +386,11 @@
     "created_date": "創建記錄日期",
     "updated_user": "更新的用戶",
     "updated_factory": "更新工廠",
-    "updated_date": "更新日期"
+    "updated_date": "更新日期",
+    "info_factory_management": "工廠資訊管理",
+    "enter_company_name": "輸入公司名稱...",
+    "enter_city": "輸入城市...",
+    "account_no": "帳號"
   },
   "dataHRCollecMod": {
     "dataCollection_HR_Module": "數據採集 HR 模組",
@@ -365,98 +401,97 @@
     "current_address": "目前地址",
     "transport_method": "運輸方式",
     "number_of_working_days": "工作天數",
-    "action": "行為"
+    "action": "行為",
+    "join_date_from": "到職日期從",
+    "join_date_to": "到職日期至",
+    "join_date": "到職日期",
+    "bus_station": "公車站"
+  },
+  "common": {
+    "search_placeholder": "搜尋...",
+    "all": "全部",
+    "clear_selection": "清除",
+    "clear": "清除",
+    "apply": "套用",
+    "filter": "篩選",
+    "no_results": "找不到結果",
+    "no_data": "無資料",
+    "loading": "載入中...",
+    "today": "今天",
+    "save": "儲存",
+    "cancel": "取消",
+    "edit": "編輯",
+    "delete": "刪除",
+    "close": "關閉",
+    "sync": "同步",
+    "import": "匯入",
+    "done": "完成",
+    "pending": "處理中",
+    "download_example": "下載範例檔案",
+    "choose_file": "選擇檔案",
+    "no_file_chosen": "未選擇檔案",
+    "clear_file": "清除檔案",
+    "choose_file_first": "匯入前請先選擇檔案！",
+    "importing": "匯入中...",
+    "error": "發生錯誤！",
+    "load_failed": "無法載入資料",
+    "export_failed": "匯出 Excel 失敗！",
+    "update_failed": "更新失敗！",
+    "send_cms_failed": "傳送至 CMS 失敗！",
+    "file_pending": "Excel 檔案仍在產生中！",
+    "file_not_found": "找不到檔案！",
+    "confirm_title": "確定嗎？",
+    "cannot_undo": "此操作無法復原。",
+    "confirm": "確認",
+    "delete_confirm": "刪除此項目？",
+    "delete_prefix_confirm": "確定要刪除前綴「{{prefix}}」嗎？",
+    "select_language": "選擇系統語言",
+    "collapse": "收合",
+    "page_not_found": "糟糕",
+    "go_back": "返回",
+    "logging": "紀錄",
+    "choose_row": "請選擇一列",
+    "choose_user": "請選擇使用者",
+    "deleted_success": "刪除成功！",
+    "saved_success": "儲存成功！",
+    "load_permissions_failed": "無法載入權限",
+    "save_permissions_failed": "無法儲存權限",
+    "loading_erp": "正在從 ERP 載入...",
+    "preview_payload": "預覽資料",
+    "compare_data": "比對資料",
+    "type": "類型",
+    "status": "狀態",
+    "required": "請勿留空！",
+    "invalid_email": "電子郵件格式無效",
+    "select_all": "全選",
+    "preview": "預覽",
+    "matched": "相符",
+    "missing": "缺少",
+    "extra": "多餘",
+    "page_not_found_desc": "您要找的頁面不存在。",
+    "no_preview_data": "找不到 {{title}} 的預覽資料。",
+    "choose_option": "請選擇",
+    "saving": "儲存中...",
+    "select_placeholder": "請選擇…"
+  },
+  "tabs": {
+    "wg_in_operations": "營運廢棄物",
+    "logging_business_travel": "出差紀錄",
+    "logging_accommodation": "住宿紀錄",
+    "tax_free_zone_address": "免稅區地址",
+    "verification_report": "驗證報告",
+    "style_auto_fill": "款式自動填入",
+    "default_address": "預設地址"
+  },
+  "system_decentral": {
+    "system_decentralization": "系統權限分配",
+    "user": "使用者",
+    "search_user": "搜尋使用者...",
+    "no_users": "找不到使用者",
+    "loading_permissions": "正在載入權限...",
+    "choose_user": "請選擇使用者",
+    "modules_enabled": "已啟用 {{enabled}}/{{total}} 個模組",
+    "default_rules": "在您儲存前，此使用者使用預設角色規則。",
+    "select_user_hint": "請選擇使用者以設定可見的模組。"
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

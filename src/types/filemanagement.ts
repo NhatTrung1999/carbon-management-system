@@ -35,26 +35,3 @@ export const HEADER = [
     sort: true,
   },
 ];
-
-export const MODULE_DATA = [
-  {
-    name: "Cat 1 & Cat 4",
-    value: "Cat_1_4",
-  },
-  {
-    name: "Cat 5",
-    value: "Cat_5",
-  },
-  {
-    name: "Cat 6",
-    value: "Cat_6",
-  },
-  {
-    name: "Cat 7",
-    value: "Cat_7",
-  },
-  {
-    name: "Cat 9 & Cat 11",
-    value: "Cat_9_11",
-  },
-];

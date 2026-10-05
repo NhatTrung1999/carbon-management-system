@@ -22,12 +22,15 @@
     "delete": "Xóa",
     "login_invalid": "Tài khoản hoặc mật khẩu không hợp lệ",
     "login_failed": "Đăng nhập thất bại: Tài khoản này vẫn chưa tồn tại trên hệ thống",
-    "close": "Đóng"
+    "close": "Đóng",
+    "sign_in_to_continue": "Vui lòng đăng nhập để tiếp tục",
+    "enter_user_id": "Nhập mã người dùng",
+    "enter_password": "Nhập mật khẩu",
+    "app_description": "Nền tảng nội bộ tập trung, tự động tổng hợp dữ liệu kiểm kê phát thải từ LY App, BPM, WMS và ERP — tích hợp liền mạch với Hệ thống Quản lý Carbon (CMS) bên ngoài."
   },
   "cat1andcat4": {
     "cat_1_4": "Hạng mục 1 & 4",
     "purchase_and_upstream": "Hàng hóa & dịch vụ mua vào & Vận chuyển đầu vào",
-    
     "no": "STT",
     "date": "Ngày",
     "purchase_order": "Đơn mua hàng (PO)",
@@ -46,20 +49,18 @@
     "port_of_departure": "Cảng xuất phát",
     "port_of_arrival": "Cảng đến",
     "factory_domestic_land_transport_b": "Vận chuyển nội địa đến nhà máy (B)",
-    "destination":  "Điểm đến",
+    "destination": "Điểm đến",
     "land_transport_distance_a_b": "Quãng đường vận chuyển đường bộ (A+B)",
     "sea_transport_distance": "Quãng đường vận chuyển đường biển",
     "air_transport_distance": "Quãng đường vận chuyển đường hàng không",
     "land_transport_ton_kilometers": "Tấn/km vận chuyển đường bộ",
     "sea_transport_ton_kilometers": "Tấn/km vận chuyển đường biển",
     "air_transport_ton_kilometers": "Tấn/km vận chuyển đường hàng không",
-
     "port_code": "Mã cảng",
     "supplier_id": "Mã nhà cung cấp",
     "created_by": "Người tạo",
-    "created_date":"Ngày tạo",
-
-    "logging":"Nhật ký",
+    "created_date": "Ngày tạo",
+    "logging": "Nhật ký",
     "system": "Hệ thống",
     "corporation": "Tập đoàn",
     "factory": "Nhà máy",
@@ -71,7 +72,7 @@
     "data_type": "Loại dữ liệu",
     "document_type": "Loại phiếu",
     "document_flow": "Luồng phiếu",
-    "document_date":"Ngày làm phiếu",
+    "document_date": "Ngày làm phiếu",
     "document_date_2": "Ngày làm phiếu (2)",
     "document_no": "Số phiếu",
     "cust_ven_name": "Tên nhà cung cấp",
@@ -88,8 +89,21 @@
     "created_date_time": "Ngày giờ tạo",
     "creator": "Chủ quản",
     "created_user": "Người tạo",
-    "created_factory":"Nhà máy tạo",
-    "created_at":"Thời điểm tạo"
+    "created_factory": "Nhà máy tạo",
+    "created_at": "Thời điểm tạo",
+    "preview_date_from": "Xem trước từ ngày",
+    "preview_date_to": "Xem trước đến ngày",
+    "logging_date_from": "Ghi log từ ngày",
+    "logging_date_to": "Ghi log đến ngày",
+    "verification_desc": "Preview Payload dockey `{{dockey}}` so sánh với Logging.",
+    "compare_hint": "Chọn điều kiện và bấm <hl>{{button}}</hl> để bắt đầu đối chiếu dữ liệu.",
+    "pur_date": "Ngày mua",
+    "rk_date": "Ngày nhập kho",
+    "land_transport_ton_km": "Tấn-km vận chuyển đường bộ",
+    "air_transport_ton_km": "Tấn-km vận chuyển hàng không",
+    "country": "Quốc gia",
+    "updated_by": "Người cập nhật",
+    "prefix_mat_code": "Tiền tố mã vật tư"
   },
   "cat5": {
     "cat_5": "Hạng mục 5",
@@ -108,8 +122,7 @@
     "treatment_method_id": "Mã phương pháp xử lý",
     "weight_of_waste_treated_unit_kg)": "Khối lưattendanceợng chất thải được xử lý (Đơn vị: kg)",
     "tkt_ton_km": "Tấn-km vận chuyển",
-
-    "logging":"Nhật ký",
+    "logging": "Nhật ký",
     "system": "Hệ thống",
     "corporation": "Tập đoàn",
     "factory": "Nhà máy",
@@ -121,7 +134,7 @@
     "data_type": "Loại dữ liệu",
     "document_type": "Loại phiếu",
     "document_flow": "Luồng phiếu",
-    "document_date":"Ngày làm phiếu",
+    "document_date": "Ngày làm phiếu",
     "document_date_2": "Ngày làm phiếu (2)",
     "document_no": "Số phiếu",
     "cust_ven_name": "Tên nhà cung cấp",
@@ -141,7 +154,7 @@
     "created_date_time": "Ngày giờ tạo",
     "creator": "Chủ quản",
     "created_user": "Người tạo",
-    "created_factory":"Nhà máy tạo",
+    "created_factory": "Nhà máy tạo",
     "created_at": "Thời điểm tạo"
   },
   "cat6": {
@@ -154,7 +167,7 @@
     "start_time": "Thời gian bắt đầu",
     "end_time": "Thời gian kết thúc",
     "business_trip_type": "Loại hình công tác",
-    "departure": "Điểm đi",
+    "departure": "Điểm khởi hành",
     "destination": "Điểm đến",
     "transport": "Phương tiện",
     "place_of_departure": "Địa điểm xuất phát",
@@ -175,8 +188,7 @@
     "land_transportation_type": "Phương tiện di chuyển đường bộ",
     "air_transport_distance_km": "Quãng đường di chuyển hàng không (km)",
     "number_of_nights_stayed": "Số đêm lưu trú (Hotel)",
-
-    "logging":"Nhật ký",
+    "logging": "Nhật ký",
     "system": "Hệ thống",
     "corporation": "Tập đoàn",
     "factory": "Nhà máy",
@@ -193,8 +205,6 @@
     "cust_ven_name": "Tên nhà cung cấp",
     "invoice_no": "Số hóa đơn",
     "transport_type": "Phương thức vận chuyển",
-    "departure": "Điểm khởi hành",
-    "destination": "Điểm đến",
     "port_type": "Loại cảng",
     "product": "Sản phẩm",
     "quity": "Số lượng",
@@ -207,13 +217,23 @@
     "created_date_time": "Ngày giờ tạo",
     "creator": "Chủ quản",
     "created_user": "Người tạo",
-    "created_factory":"Nhà máy tạo",
-    "created_at": "Thời điểm tạo"
+    "created_factory": "Nhà máy tạo",
+    "created_at": "Thời điểm tạo",
+    "dorm_shuttle": "Ký túc xá + Xe đưa đón",
+    "dept": "Bộ phận",
+    "route_list": "Lộ trình",
+    "place_1": "Địa điểm 1",
+    "place_2": "Địa điểm 2",
+    "place_3": "Địa điểm 3",
+    "place_4": "Địa điểm 4",
+    "transport_1": "Phương tiện 1",
+    "transport_2": "Phương tiện 2",
+    "transport_3": "Phương tiện 3",
+    "accommodation": "Lưu trú"
   },
   "cat7": {
     "cat_7": "Hạng mục 7",
     "employee_commuting": "Dữ liệu việc đi lại của nhân viên",
-    
     "GHG_inventory_template": "Mẫu kiểm kho GHG",
     "staff_id": "Mã nhân viên",
     "residential_address": "Địa chỉ nơi ở / Pickup point (Company shuttle bus)",
@@ -222,18 +242,16 @@
     "number_of_working_days": "Số ngày đi làm",
     "number_of_working_days_rounded": "Số ngày đi làm (làm tròn)",
     "pkt_p_km": "PKT (p/km)",
-
     "custom_export": "Xuất hàng",
     "no": "STT",
     "factory": "Nhà máy",
-    "department":"Phòng ban",
-    "id":"Mã nhân viên",
+    "department": "Phòng ban",
+    "id": "Mã nhân viên",
     "fullname": "Họ tên",
-    "current_address":"Địa chỉ hiện tại",
+    "current_address": "Địa chỉ hiện tại",
     "transport_mode": "Phương tiện vận chuyển",
     "bus_route": "Tuyến xe buýt",
     "pickup_point": "Điểm đón",
-
     "logging": "Nhật ký",
     "system": "Hệ thống",
     "corporation": "Tập đoàn",
@@ -243,7 +261,7 @@
     "activity_type": "Loại hoạt động",
     "data_type": "Loại dữ liệu",
     "document_type": "Loại phiếu",
-    "document_date":"Ngày làm phiếu",
+    "document_date": "Ngày làm phiếu",
     "document_date_2": "Ngày làm phiếu (2)",
     "transport_type": "Phương thức vận chuyển",
     "departure": "Điểm khởi hành",
@@ -253,8 +271,9 @@
     "created_date_time": "Ngày giờ tạo",
     "creator": "Chủ quản",
     "created_user": "Người tạo",
-    "created_factory":"Nhà máy tạo",
-    "created_at":"Thời điểm tạo"
+    "created_factory": "Nhà máy tạo",
+    "created_at": "Thời điểm tạo",
+    "updated_by": "Người cập nhật"
   },
   "cat9andcat12": {
     "cat_9_12": "Hạng mục 9 & 12",
@@ -286,7 +305,6 @@
     "example_file": "File mẫu",
     "close": "Đóng",
     "import": "Nhập",
-    
     "logging": "Nhật ký",
     "system": "Hệ thống",
     "corporation": "Tập đoàn",
@@ -299,7 +317,7 @@
     "data_type": "Loại dữ liệu",
     "document_type": "Loại phiếu",
     "document_flow": "Luồng phiếu",
-    "document_date":"Ngày làm phiếu",
+    "document_date": "Ngày làm phiếu",
     "document_date_2": "Ngày làm phiếu (2)",
     "document_no": "Số phiếu",
     "cust_ven_name": "Tên nhà cung cấp",
@@ -319,7 +337,12 @@
     "created_date_time": "Ngày giờ tạo",
     "creator": "Chủ quản",
     "created_user": "Người tạo",
-    "created_factory":"Nhà máy tạo"
+    "created_factory": "Nhà máy tạo",
+    "invoice_date": "Ngày hóa đơn",
+    "ry_product": "Thành phẩm RY",
+    "ry_component": "Bán thành phẩm RY",
+    "component_name": "Tên bán thành phẩm",
+    "booking_no": "Số booking"
   },
   "usermmt": {
     "user_management": "Quản lý người dùng",
@@ -331,7 +354,12 @@
     "created_at": "Người tạo",
     "created_date": "Ngày tạo",
     "updated_at": "Người sửa",
-    "updated_date": "Ngày sửa"
+    "updated_date": "Ngày sửa",
+    "enter_userid": "Nhập UserID...",
+    "enter_name": "Nhập tên...",
+    "enter_email": "Nhập email...",
+    "add_user": "Thêm người dùng",
+    "edit_user": "Sửa người dùng"
   },
   "filemmt": {
     "file_management": "Quản lý tệp",
@@ -339,7 +367,9 @@
     "file_name": "Tên file",
     "status": "Trạng thái",
     "created_by_user": "Người tạo",
-    "created_date": "Ngày tạo"
+    "created_date": "Ngày tạo",
+    "enter_module": "Nhập module...",
+    "enter_file_name": "Nhập tên file..."
   },
   "facinfo": {
     "facinfo": "Thông tin Nhà máy",
@@ -355,7 +385,11 @@
     "created_date": "Ngày tạo",
     "updated_user": "Người sửa",
     "updated_factory": "Nhà máy sửa",
-    "updated_date": "Ngày sửa"
+    "updated_date": "Ngày sửa",
+    "info_factory_management": "Quản lý thông tin nhà máy",
+    "enter_company_name": "Nhập tên công ty...",
+    "enter_city": "Nhập thành phố...",
+    "account_no": "Số tài khoản"
   },
   "dataHRCollecMod": {
     "dataCollection_HR_Module": "Thu thập dữ liệu Nhân sự",
@@ -365,121 +399,98 @@
     "permanent_address": "Địa chỉ thường trú",
     "current_address": "Địa chỉ hiện tại",
     "transport_method": "Phương tiện đi lại chính",
-    "number_of_working_days":"Số ngày đi làm",
-    "action": "Hành động"
+    "number_of_working_days": "Số ngày đi làm",
+    "action": "Hành động",
+    "join_date_from": "Ngày vào làm từ",
+    "join_date_to": "Ngày vào làm đến",
+    "join_date": "Ngày vào làm",
+    "bus_station": "Trạm xe buýt"
   },
   "system_decentral": {
-    "system_decentralization": "Phân quyền hệ thống"
+    "system_decentralization": "Phân quyền hệ thống",
+    "user": "Người dùng",
+    "search_user": "Tìm người dùng...",
+    "no_users": "Không tìm thấy người dùng",
+    "loading_permissions": "Đang tải quyền...",
+    "choose_user": "Chọn người dùng",
+    "modules_enabled": "Đã bật {{enabled}}/{{total}} module",
+    "default_rules": "Người dùng này đang dùng quyền mặc định theo vai trò cho đến khi bạn lưu.",
+    "select_user_hint": "Chọn một người dùng để cấu hình các module được hiển thị."
+  },
+  "common": {
+    "search_placeholder": "Tìm...",
+    "all": "Tất cả",
+    "clear_selection": "Bỏ chọn",
+    "clear": "Xóa",
+    "apply": "Áp dụng",
+    "filter": "Lọc",
+    "no_results": "Không tìm thấy",
+    "no_data": "Không có dữ liệu",
+    "loading": "Đang tải...",
+    "today": "Hôm nay",
+    "save": "Lưu",
+    "cancel": "Hủy",
+    "edit": "Sửa",
+    "delete": "Xóa",
+    "close": "Đóng",
+    "sync": "Đồng bộ",
+    "import": "Import",
+    "done": "Hoàn thành",
+    "pending": "Đang xử lý",
+    "download_example": "Tải file mẫu",
+    "choose_file": "Chọn file",
+    "no_file_chosen": "Chưa chọn file",
+    "clear_file": "Bỏ file",
+    "choose_file_first": "Vui lòng chọn file trước khi import!",
+    "importing": "Đang import...",
+    "error": "Có lỗi xảy ra!",
+    "load_failed": "Không tải được dữ liệu",
+    "export_failed": "Xuất Excel thất bại!",
+    "update_failed": "Cập nhật thất bại!",
+    "send_cms_failed": "Gửi CMS thất bại!",
+    "file_pending": "File Excel vẫn đang được tạo!",
+    "file_not_found": "Không tìm thấy file!",
+    "confirm_title": "Bạn có chắc không?",
+    "cannot_undo": "Thao tác này không thể hoàn tác.",
+    "confirm": "Xác nhận",
+    "delete_confirm": "Xóa mục này?",
+    "delete_prefix_confirm": "Bạn có muốn xóa prefix \"{{prefix}}\"?",
+    "select_language": "Chọn ngôn ngữ hệ thống",
+    "collapse": "Thu gọn",
+    "page_not_found": "Ối",
+    "go_back": "Quay lại",
+    "logging": "Nhật ký",
+    "choose_row": "Vui lòng chọn một dòng",
+    "choose_user": "Vui lòng chọn người dùng",
+    "deleted_success": "Xóa thành công!",
+    "saved_success": "Lưu thành công!",
+    "load_permissions_failed": "Không tải được phân quyền",
+    "save_permissions_failed": "Không lưu được phân quyền",
+    "loading_erp": "Đang tải từ ERP...",
+    "preview_payload": "Xem trước dữ liệu",
+    "compare_data": "So sánh dữ liệu",
+    "type": "Loại",
+    "status": "Trạng thái",
+    "required": "Vui lòng không để trống!",
+    "invalid_email": "Email không hợp lệ",
+    "select_all": "Chọn tất cả",
+    "preview": "Xem trước",
+    "matched": "Khớp",
+    "missing": "Thiếu",
+    "extra": "Dư",
+    "page_not_found_desc": "Trang bạn tìm không tồn tại.",
+    "no_preview_data": "Không có dữ liệu preview payload cho {{title}}.",
+    "choose_option": "Chọn một mục",
+    "saving": "Đang lưu...",
+    "select_placeholder": "Chọn…"
+  },
+  "tabs": {
+    "wg_in_operations": "Chất thải trong vận hành",
+    "logging_business_travel": "Nhật ký công tác",
+    "logging_accommodation": "Nhật ký lưu trú",
+    "tax_free_zone_address": "Địa chỉ khu phi thuế quan",
+    "verification_report": "Báo cáo đối chiếu",
+    "style_auto_fill": "Tự điền Style",
+    "default_address": "Địa chỉ mặc định"
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

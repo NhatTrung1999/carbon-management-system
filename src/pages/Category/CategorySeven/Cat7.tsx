@@ -1,97 +1,56 @@
-// import { type RefObject, type UIEventHandler } from 'react';
-// import type { TableHeaderProps } from '../../../types/table';
-// import type { ICat7Data } from '../../../types/cat7';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import Search from '../../../components/Category/CategorySeven/Search';
 import Table from '../../../components/Category/CategorySeven/Table';
 import { HEADER } from '../../../types/cat7';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { getDataCat7, resetDataCat7 } from '../../../features/categorySlice';
 import { fetchDataAutoSendCMSCat7 } from '../../../features/autosendcmsSlice';
-
-// type Props = {
-//   header: TableHeaderProps[];
-//   activeSort: {
-//     sortField: string;
-//     sortOrder: string;
-//   };
-//   dateFrom: string;
-//   setDateFrom: (dateVal: string) => void;
-//   dateTo: string;
-//   setDateTo: (dateVal: string) => void;
-//   factory: string;
-//   setFactory: (factoryVal: string) => void;
-//   setActiveSort: (data: any) => void;
-//   data: ICat7Data[];
-//   tableRef: RefObject<HTMLDivElement | null>;
-//   onScroll: UIEventHandler<HTMLDivElement>;
-// };
+import { todayLocal } from '../../../utils/formatDate';
+import { useInfiniteList } from '../../../hooks/useInfiniteList';
+import { DEFAULT_FACTORY } from '../../../utils/constants';
 
 const Cat7 = () => {
-  const tableRef = useRef<HTMLDivElement | null>(null);
-  const didFetch = useRef(false);
-  const [activeSort, setActiveSort] = useState({
-    sortField: HEADER[0].state,
-    sortOrder: 'asc',
-  });
+  const [dateFrom, setDateFrom] = useState<string>(todayLocal());
+  const [dateTo, setDateTo] = useState<string>(todayLocal());
 
-  const [dateFrom, setDateFrom] = useState<string>(
-    new Date().toISOString().slice(0, 10)
-  );
-  const [dateTo, setDateTo] = useState<string>(
-    new Date().toISOString().slice(0, 10)
-  );
-
-  const [factory, setFactory] = useState<string>('LYV');
+  const [factory, setFactory] = useState<string>(DEFAULT_FACTORY);
   const [loadingFetch, setLoadingFetch] = useState<boolean>(false);
 
-  const { cat7, page, loading, hasMore } = useAppSelector(
-    (state) => state.category
-  );
+  const {
+    items: cat7,
+    page,
+    loading,
+    hasMore,
+  } = useAppSelector((state) => state.category.cat7);
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    if (didFetch.current) return;
-    didFetch.current = true;
-    dispatch(resetDataCat7());
-    dispatch(
-      getDataCat7({
-        dateFrom,
-        dateTo,
-        factory,
-        page: 1,
-        sortField: activeSort.sortField,
-        sortOrder: activeSort.sortOrder,
-      })
-    );
-    setLoadingFetch(true);
-    dispatch(
-      fetchDataAutoSendCMSCat7({
-        dateFrom,
-        dateTo,
-        factory,
-      })
-    ).finally(() => setLoadingFetch(false));
-  }, [dispatch, activeSort, dateFrom, dateTo, factory]);
-
-  const onScroll = useCallback(() => {
-    const el = tableRef.current;
-    if (!el || loading || !hasMore) return;
-    const bottomReached =
-      el.scrollTop + el.clientHeight >= el.scrollHeight - 20;
-    if (bottomReached) {
+  const { tableRef, activeSort, setActiveSort, onScroll } = useInfiniteList({
+    initialSort: { sortField: HEADER[0].state, sortOrder: 'asc' },
+    page,
+    loading,
+    hasMore,
+    reset: () => dispatch(resetDataCat7()),
+    fetchPage: (page, sort) =>
       dispatch(
         getDataCat7({
           dateFrom,
           dateTo,
           factory,
           page,
-          sortField: activeSort.sortField,
-          sortOrder: activeSort.sortOrder,
-        })
-      );
-    }
-  }, [dispatch, loading, hasMore, page, activeSort, dateFrom, dateTo, factory]);
+          ...sort,
+        }),
+      ),
+    onFirstLoad: () => {
+      setLoadingFetch(true);
+      dispatch(
+        fetchDataAutoSendCMSCat7({
+          dateFrom,
+          dateTo,
+          factory,
+        }),
+      ).finally(() => setLoadingFetch(false));
+    },
+  });
 
   return (
     <div className="flex min-h-full min-w-0 flex-col xl:h-full xl:min-h-0">

@@ -1,38 +1,44 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import authApi from '../api/auth';
-import type { LoginPayload } from '../types/login';
+import type { AuthUser, LoginPayload, Session } from '../types/login';
+import { session } from '../utils/session';
+import { createApiThunk } from './helpers';
 
 export interface AuthState {
-  user: any;
+  user: AuthUser | null;
   token: string | null;
   refreshToken: string | null;
   loading: boolean;
   error: string | null;
 }
 
-export const login = createAsyncThunk(
+export const login = createApiThunk<Session, LoginPayload>(
   'auth/login',
-  async ({ userid, password, factory }: LoginPayload, { rejectWithValue }) => {
-    try {
-      const { data } = await authApi.login({ userid, password, factory });
-      const token = data.access_token;
-      const refreshToken = data.refresh_token;
-      sessionStorage.setItem('token', token);
-      sessionStorage.setItem('refreshToken', refreshToken);
-      sessionStorage.setItem('user', JSON.stringify(data.payload));
-      return { token, refreshToken, user: data.payload };
-    } catch (error: any) {
-      return rejectWithValue(error.response.data.message || 'Login failed!');
-    }
-  }
+  async (payload) => {
+    const { data } = await authApi.login(payload);
+    const next: Session = {
+      token: data.access_token,
+      refreshToken: data.refresh_token,
+      user: data.payload,
+    };
+    session.save(next);
+    return next;
+  },
+  'Login failed!',
 );
 
 const initialState: AuthState = {
-  user: JSON.parse(sessionStorage.getItem('user') ?? 'null'),
-  token: sessionStorage.getItem('token'),
-  refreshToken: sessionStorage.getItem('refreshToken'),
+  user: session.getUser(),
+  token: session.getToken(),
+  refreshToken: session.getRefreshToken(),
   loading: false,
   error: null,
+};
+
+const applySession = (state: AuthState, next: Session) => {
+  state.token = next.token;
+  state.refreshToken = next.refreshToken;
+  state.user = next.user;
 };
 
 export const authSlice = createSlice({
@@ -45,32 +51,30 @@ export const authSlice = createSlice({
       state.refreshToken = null;
       state.user = null;
       state.error = null;
-      sessionStorage.removeItem('token');
-      sessionStorage.removeItem('refreshToken');
-      sessionStorage.removeItem('user');
+      session.clear();
+    },
+    /** Called after the axios interceptor refreshed the tokens. */
+    sessionRefreshed: (state, action: PayloadAction<Session>) => {
+      applySession(state, action.payload);
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(login.pending, (state) => {
         state.loading = true;
+        state.error = null;
       })
       .addCase(login.fulfilled, (state, action) => {
         state.loading = false;
-        state.token = action.payload?.token || sessionStorage.getItem('token');
-        state.refreshToken =
-          action.payload?.refreshToken || sessionStorage.getItem('refreshToken');
-        state.user =
-          action.payload?.user ||
-          JSON.parse(sessionStorage.getItem('user') ?? 'null');
+        applySession(state, action.payload);
       })
       .addCase(login.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload as string;
+        state.error = action.payload ?? 'Login failed!';
       });
   },
 });
 
-export const { logout } = authSlice.actions;
+export const { logout, sessionRefreshed } = authSlice.actions;
 
 export default authSlice.reducer;

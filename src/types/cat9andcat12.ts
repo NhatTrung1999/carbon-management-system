@@ -48,25 +48,25 @@ export const HEADER = [
     filterable: true,
   },
   {
-    name: 'Invoice Date',
+    name: 'cat9andcat12.invoice_date',
     state: 'Date',
     sort: true,
     filterable: true,
   },
   {
-    name: 'RY Product',
+    name: 'cat9andcat12.ry_product',
     state: 'RYProduct',
     sort: true,
     filterable: true,
   },
   {
-    name: 'RY Component',
+    name: 'cat9andcat12.ry_component',
     state: 'RYComponent',
     sort: true,
     filterable: true,
   },
   {
-    name: 'Component Name',
+    name: 'cat9andcat12.component_name',
     state: 'ComponentName',
     sort: true,
     filterable: true,
@@ -78,7 +78,7 @@ export const HEADER = [
     filterable: true,
   },
   {
-    name: 'Booking No',
+    name: 'cat9andcat12.booking_no',
     state: 'Booking_No',
     sort: true,
     filterable: true,

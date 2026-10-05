@@ -3,17 +3,21 @@ import type { RefObject, UIEventHandler, ReactNode } from 'react';
 import { useEffect, useRef, useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import NoData from '../../assets/images/no-data.png';
-import type { TableHeaderProps } from '../../types/table';
+import type { TableHeaderProps, SortState } from '../../types/table';
+import { useClickOutside } from '../../hooks/useClickOutside';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
-
-export type SortState = { sortField: string; sortOrder: string };
 
 export type TableProps<T> = {
   header: TableHeaderProps[];
   data: T[];
   loading: boolean;
   renderRow: (item: T, index: number) => ReactNode;
+  /** Replaces the default row hover class. */
+  rowClassName?: (item: T, index: number) => string | undefined;
+  onRowClick?: (item: T, index: number) => void;
+  /** Extra content shown in a header cell, after the title. */
+  renderHeaderExtra?: (item: TableHeaderProps) => ReactNode;
 
   activeSort?: SortState;
   onSortChange?: (sort: SortState) => void;
@@ -113,6 +117,7 @@ const FilterDropdown = ({
   onApply: (field: string, selected: Set<string>) => void;
   onClose: () => void;
 }) => {
+  const { t } = useTranslation();
   const [search, setSearch] = useState('');
   const [selected, setSelected] = useState<Set<string>>(
     active ?? new Set(values),
@@ -126,7 +131,8 @@ const FilterDropdown = ({
   const toggle = (v: string) => {
     setSelected((prev) => {
       const next = new Set(prev);
-      next.has(v) ? next.delete(v) : next.add(v);
+      if (next.has(v)) next.delete(v);
+      else next.add(v);
       return next;
     });
   };
@@ -134,13 +140,7 @@ const FilterDropdown = ({
   const selectAll = () => setSelected(new Set(values));
   const clearAll = () => setSelected(new Set());
 
-  useEffect(() => {
-    const handler = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) onClose();
-    };
-    document.addEventListener('mousedown', handler);
-    return () => document.removeEventListener('mousedown', handler);
-  }, [onClose]);
+  useClickOutside([ref], onClose);
 
   return (
     <div
@@ -154,7 +154,7 @@ const FilterDropdown = ({
           autoFocus
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          placeholder="Tìm..."
+          placeholder={t('common.search_placeholder')}
           className="w-full rounded-md border border-white/10 bg-white/5 px-2 py-1.5
             text-xs text-white/80 placeholder-white/30 outline-none
             focus:border-emerald-400/40 focus:ring-0"
@@ -168,21 +168,23 @@ const FilterDropdown = ({
           className="flex-1 rounded px-2 py-1 text-[11px] text-white/40
             hover:bg-white/5 hover:text-white/70 transition-colors"
         >
-          Tất cả
+          {t('common.all')}
         </button>
         <button
           onClick={clearAll}
           className="flex-1 rounded px-2 py-1 text-[11px] text-white/40
             hover:bg-white/5 hover:text-white/70 transition-colors"
         >
-          Bỏ chọn
+          {t('common.clear_selection')}
         </button>
       </div>
 
       {/* Checkbox list */}
-      <div className="max-h-44 overflow-y-auto py-1 [scrollbar-width:thin] [scrollbar-color:rgba(52,211,153,0.2)_transparent]">
+      <div className="max-h-44 overflow-y-auto py-1 scrollbar-thin-emerald">
         {filtered.length === 0 ? (
-          <p className="px-3 py-2 text-[11px] text-white/30">Không tìm thấy</p>
+          <p className="px-3 py-2 text-[11px] text-white/30">
+            {t('common.no_results')}
+          </p>
         ) : (
           filtered.map((v) => (
             <label
@@ -205,11 +207,14 @@ const FilterDropdown = ({
       {/* Apply */}
       <div className="border-t border-white/[0.06] p-2">
         <button
-          onClick={() => { onApply(field, selected); onClose(); }}
+          onClick={() => {
+            onApply(field, selected);
+            onClose();
+          }}
           className="w-full rounded-md bg-emerald-500/20 py-1.5 text-[11px]
             font-medium text-emerald-300 transition-colors hover:bg-emerald-500/30"
         >
-          Áp dụng
+          {t('common.apply')}
         </button>
       </div>
     </div>
@@ -225,7 +230,7 @@ const FilterIcon = ({
   onClose,
   onApply,
 }: {
-  item: TableHeaderProps & { filterable?: boolean };
+  item: TableHeaderProps;
   filters: Record<string, Set<string>>;
   allValues: Record<string, string[]>;
   openFilter: string | null;
@@ -233,6 +238,7 @@ const FilterIcon = ({
   onClose: () => void;
   onApply: (field: string, selected: Set<string>) => void;
 }) => {
+  const { t } = useTranslation();
   if (!item.filterable) return null;
 
   const isActive =
@@ -245,14 +251,14 @@ const FilterIcon = ({
       <button
         onClick={(e) => {
           e.stopPropagation();
-          isOpen ? onClose() : onOpen(item.state);
+          if (isOpen) onClose();
+          else onOpen(item.state);
         }}
         className={`flex h-4 w-4 items-center justify-center rounded transition-colors
-          ${isActive
-            ? 'text-emerald-300'
-            : 'text-white/25 hover:text-white/60'
+          ${
+            isActive ? 'text-emerald-300' : 'text-white/25 hover:text-white/60'
           }`}
-        title="Filter"
+        title={t('common.filter')}
       >
         {/* Funnel icon */}
         <svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12">
@@ -280,12 +286,15 @@ const Table = <T,>({
   data,
   loading,
   renderRow,
+  rowClassName,
+  onRowClick,
+  renderHeaderExtra,
   activeSort,
   onSortChange,
   tableRef,
   onScroll,
   maxHeight,
-  noDataText = 'No data available',
+  noDataText,
   className,
   headerClassName,
 }: TableProps<T>) => {
@@ -319,10 +328,14 @@ const Table = <T,>({
       /^\d{4}-\d{2}-\d{2}T/.test(val) ? val.slice(0, 10) : val;
     const result: Record<string, string[]> = {};
     flatColumns.forEach((col) => {
-      if ((col as any).filterable) {
+      if (col.filterable) {
         result[col.state] = [
           ...new Set(
-            data.map((item) => formatValue(String((item as any)[col.state] ?? '')))
+            data.map((item) =>
+              formatValue(
+                String((item as Record<string, unknown>)[col.state] ?? ''),
+              ),
+            ),
           ),
         ].sort(smartSort);
       }
@@ -357,7 +370,9 @@ const Table = <T,>({
         const active = filters[col.state];
         if (!active) return true;
         // trim date khi so sánh để khớp với giá trị hiển thị trong dropdown
-        const val = trimDate(String((item as any)[col.state] ?? ''));
+        const val = trimDate(
+          String((item as Record<string, unknown>)[col.state] ?? ''),
+        );
         return active.has(val);
       }),
     );
@@ -404,11 +419,7 @@ const Table = <T,>({
         relative w-full min-w-0 overflow-auto rounded-xl
         border border-white/[0.08] bg-white/[0.03]
         backdrop-blur-sm transition-all duration-300
-        [scrollbar-width:thin] [scrollbar-color:rgba(52,211,153,0.2)_transparent]
-        [&::-webkit-scrollbar]:h-[3px] [&::-webkit-scrollbar]:w-[3px]
-        [&::-webkit-scrollbar-track]:bg-transparent
-        [&::-webkit-scrollbar-thumb]:rounded-full
-        [&::-webkit-scrollbar-thumb]:bg-emerald-400/20
+        scrollbar-thin-emerald
         ${className ?? ''}`}
     >
       {loading && data.length === 0 && (
@@ -455,8 +466,9 @@ const Table = <T,>({
                   <th key={i} rowSpan={2} className={TH}>
                     <div className="flex items-center gap-1">
                       {t(item.name)}
+                      {renderHeaderExtra?.(item)}
                       <FilterIcon
-                        item={item as any}
+                        item={item}
                         filters={filters}
                         allValues={allValues}
                         openFilter={openFilter}
@@ -482,8 +494,9 @@ const Table = <T,>({
                   <th key={child.state} className={TH}>
                     <div className="flex items-center gap-1">
                       {t(child.name)}
+                      {renderHeaderExtra?.(child)}
                       <FilterIcon
-                        item={child as any}
+                        item={child}
                         filters={filters}
                         allValues={allValues}
                         openFilter={openFilter}
@@ -518,8 +531,9 @@ const Table = <T,>({
                 <th key={i} className={TH}>
                   <div className="flex items-center gap-1">
                     {t(item.name)}
+                    {renderHeaderExtra?.(item)}
                     <FilterIcon
-                      item={item as any}
+                      item={item}
                       filters={filters}
                       allValues={allValues}
                       openFilter={openFilter}
@@ -546,8 +560,9 @@ const Table = <T,>({
           {filteredData.map((item, i) => (
             <tr
               key={i}
-              className="border-b border-white/[0.05] transition-colors duration-150
-                hover:bg-white/[0.04]"
+              onClick={onRowClick ? () => onRowClick(item, i) : undefined}
+              className={`border-b border-white/[0.05] transition-colors duration-150
+                ${rowClassName?.(item, i) ?? 'hover:bg-white/[0.04]'}`}
             >
               {renderRow(item, i)}
             </tr>
@@ -569,11 +584,11 @@ const Table = <T,>({
                 <div className="flex flex-col items-center gap-3">
                   <img
                     src={NoData}
-                    alt="No data"
+                    alt=""
                     className="h-20 w-20 object-contain opacity-40 sm:h-24 sm:w-24"
                   />
                   <p className="text-sm font-medium text-white/30">
-                    {noDataText}
+                    {noDataText ?? t('common.no_data')}
                   </p>
                 </div>
               </td>

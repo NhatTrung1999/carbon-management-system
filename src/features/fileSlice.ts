@@ -1,151 +1,56 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import fileManagementApi from '../api/filemanagement';
+import type { IFileManagement } from '../types/filemanagement';
+import { addLoadingMatchers, createApiThunk } from './helpers';
 
-interface IFileState {
-  file: any[];
+/** Backend reply for actions that only report success or failure. */
+type StatusResponse = { statusCode: number; message: string };
+
+type GenerateExcelArgs = Parameters<
+  typeof fileManagementApi.generateFileExcel
+>[0];
+type PreviewPayloadArgs = Parameters<
+  typeof fileManagementApi.previewPayload
+>[0];
+
+interface FileState {
+  file: IFileManagement[];
   loading: boolean;
   error: string | null;
 }
 
-export const getData = createAsyncThunk(
-  'file/get-data',
-  async (
-    {
-      module,
-      file_name,
-      sortField,
-      sortOrder,
-    }: {
-      module: string;
-      file_name: string;
-      sortField: string;
-      sortOrder: string;
-    },
-    { rejectWithValue },
-  ) => {
-    try {
-      const res = await fileManagementApi.getData({
-        module,
-        file_name,
-        sortField,
-        sortOrder,
-      });
-      // console.log(res);
-      return res;
-    } catch (error: any) {
-      return rejectWithValue(error);
-    }
-  },
-);
-
-export const generateFileExcel = createAsyncThunk(
-  'file/generate-file-excel',
-  async (
-    {
-      module,
-      dateFrom,
-      dateTo,
-      factory,
-      ry,
-      field,
-      usage,
-      unitWeight,
-      weight,
-      departure,
-    }: {
-      module: string;
-      dateFrom: string;
-      dateTo: string;
-      factory: string;
-      ry?: string;
-      field?: string[];
-      usage?: boolean;
-      unitWeight?: boolean;
-      weight?: boolean;
-      departure?: boolean;
-    },
-    { rejectWithValue },
-  ) => {
-    try {
-      const res = await fileManagementApi.generateFileExcel({
-        module,
-        dateFrom,
-        dateTo,
-        factory,
-        ry,
-        field,
-        usage,
-        unitWeight,
-        weight,
-        departure,
-      });
-      return res;
-    } catch (error: any) {
-      return rejectWithValue(error);
-    }
-  },
-);
-
-export const previewPayload = createAsyncThunk(
-  'file/preview-payload',
-  async (
-    {
-      module,
-      dateFrom,
-      dateTo,
-      factory,
-      ry,
-      dockeyCMS,
-    }: {
-      module: string;
-      dateFrom: string;
-      dateTo: string;
-      factory: string;
-      ry?: string;
-      dockeyCMS?: string;
-    },
-    { rejectWithValue },
-  ) => {
-    try {
-      const res = await fileManagementApi.previewPayload({
-        module,
-        dateFrom,
-        dateTo,
-        factory,
-        ry,
-        dockeyCMS,
-      });
-      return res;
-    } catch (error: any) {
-      return rejectWithValue(error);
-    }
-  },
-);
-
-const initialState: IFileState = {
+const initialState: FileState = {
   file: [],
   loading: false,
   error: null,
 };
+
+export const getData = createApiThunk<
+  { data: IFileManagement[] },
+  Parameters<typeof fileManagementApi.getData>[0]
+>('file/get-data', fileManagementApi.getData);
+
+/** Queues an Excel export on the server; the file appears in File Management when ready. */
+export const generateFileExcel = createApiThunk<
+  StatusResponse,
+  GenerateExcelArgs
+>('file/generate-file-excel', fileManagementApi.generateFileExcel);
+
+export const previewPayload = createApiThunk<
+  StatusResponse,
+  PreviewPayloadArgs
+>('file/preview-payload', fileManagementApi.previewPayload);
 
 const fileSlice = createSlice({
   name: 'file',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder
-      .addCase(getData.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(getData.fulfilled, (state, action) => {
-        state.loading = false;
-        state.file = action.payload.data;
-      })
-      .addCase(getData.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload as string;
-      });
+    builder.addCase(getData.fulfilled, (state, action) => {
+      state.file = action.payload.data;
+    });
+
+    addLoadingMatchers(builder, getData);
   },
 });
 

@@ -1,21 +1,27 @@
 import type { RefObject, UIEventHandler } from 'react';
 import { useAppSelector } from '../../../app/hooks';
 import type { ICat5Data } from '../../../types/cat5';
-import type { TableHeaderProps } from '../../../types/table';
+import type { TableHeaderProps, SortState } from '../../../types/table';
 import CommonTable, { Td } from '../../common/Table';
-import type { SortState } from '../../common/Table';
 
 type Props = {
-  header       : TableHeaderProps[];
-  activeSort   : SortState;
+  header: TableHeaderProps[];
+  activeSort: SortState;
   setActiveSort: (data: SortState) => void;
-  data         : ICat5Data[];
-  tableRef    ?: RefObject<HTMLDivElement | null>;
-  onScroll     : UIEventHandler<HTMLDivElement>;
+  data: ICat5Data[];
+  tableRef?: RefObject<HTMLDivElement | null>;
+  onScroll: UIEventHandler<HTMLDivElement>;
 };
 
-const Table = ({ header, activeSort, setActiveSort, data, tableRef, onScroll }: Props) => {
-  const { loading } = useAppSelector((state) => state.category);
+const Table = ({
+  header,
+  activeSort,
+  setActiveSort,
+  data,
+  tableRef,
+  onScroll,
+}: Props) => {
+  const { loading } = useAppSelector((state) => state.category.cat5);
 
   return (
     <CommonTable

@@ -8,12 +8,15 @@ import hrmoduleReducer from '../features/hrmoduleSlice';
 import autosendcmsReducer from '../features/autosendcmsSlice';
 import logcatReducer from '../features/logcatSlice';
 import defaultaddressReducer from '../features/defaultaddressSlice';
+import masterDataReducer from '../features/masterDataSlice';
+import { loadErrorToast } from './loadErrorToast';
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
     user: userReducer,
     category: categoryReducer,
+    masterData: masterDataReducer,
     file: fileReducer,
     infofactory: infofactoryReducer,
     hrmodule: hrmoduleReducer,
@@ -21,6 +24,8 @@ export const store = configureStore({
     logcat: logcatReducer,
     defaultaddress: defaultaddressReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().prepend(loadErrorToast.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

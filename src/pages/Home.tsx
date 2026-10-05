@@ -1,27 +1,13 @@
-import { useState, useEffect } from 'react';
-import Loading from '../components/common/Loading';
-
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import Header from '../components/common/Header';
 import { useTranslation } from 'react-i18next';
 import { FaArrowRight } from 'react-icons/fa6';
-import backgroundHome from '../assets/images/background-home.jpg'
+import backgroundHome from '../assets/images/background-home.webp';
 
 const Home = () => {
   const navigate = useNavigate();
 
-  const [loading, setLoading] =
-    useState(true);
-
   const { t } = useTranslation();
-
-  useEffect(() => {
-    setTimeout(() => setLoading(false), 1500);
-  }, []);
-
-  if (loading) {
-    return <Loading />;
-  }
 
   const onDashboardPage = () => {
     navigate('/dashboard');
@@ -35,8 +21,7 @@ const Home = () => {
         <div
           className="absolute inset-0 scale-110 bg-cover bg-center blur-[3px] opacity-[0.65]"
           style={{
-            backgroundImage:
-              `url(${backgroundHome})`,
+            backgroundImage: `url(${backgroundHome})`,
           }}
         />
 
@@ -97,20 +82,11 @@ const Home = () => {
                 {/* DESCRIPTION */}
                 <div className="mt-10 max-w-3xl">
                   <div className="mb-5 text-sm font-bold uppercase tracking-[0.28em] text-emerald-300">
-                    {t(
-                      'main.carbon_management_website'
-                    )}
+                    {t('main.carbon_management_website')}
                   </div>
 
                   <p className="text-sm leading-8 text-slate-100 sm:text-base md:text-lg md:leading-9">
-                    An internal, centralized
-                    platform that automatically
-                    aggregates emissions inventory
-                    data from LY App, BPM, WMS,
-                    and ERP — enabling seamless
-                    integration with our external
-                    Carbon Management System
-                    (CMS).
+                    {t('main.app_description')}
                   </p>
                 </div>
 
@@ -118,14 +94,10 @@ const Home = () => {
                 <div className="mt-12">
                   <button
                     type="button"
-                    onClick={() =>
-                      onDashboardPage()
-                    }
+                    onClick={() => onDashboardPage()}
                     className="group flex items-center gap-3 rounded-2xl border border-emerald-300/20 bg-emerald-500/70 px-7 py-4 text-sm font-semibold text-white shadow-[0_8px_30px_rgba(16,185,129,0.28)] backdrop-blur-2xl transition-all duration-300 hover:scale-[1.02] hover:bg-emerald-400/80 hover:shadow-[0_10px_40px_rgba(16,185,129,0.40)] active:scale-[0.98]"
                   >
-                    {t(
-                      'main.go_to_dashboard'
-                    )}
+                    {t('main.go_to_dashboard')}
 
                     <FaArrowRight className="transition-transform duration-300 group-hover:translate-x-1" />
                   </button>

@@ -1,10 +1,9 @@
 import type { RefObject, UIEventHandler } from 'react';
 import { useAppSelector } from '../../../app/hooks';
 import type { ICat9AndCat12Data } from '../../../types/cat9andcat12';
-import type { TableHeaderProps } from '../../../types/table';
+import type { TableHeaderProps, SortState } from '../../../types/table';
 import { formatDate } from '../../../utils/formatDate';
 import CommonTable, { Td } from '../../common/Table';
-import type { SortState } from '../../common/Table';
 
 type Props = {
   header: TableHeaderProps[];
@@ -23,7 +22,7 @@ const Table = ({
   tableRef,
   onScroll,
 }: Props) => {
-  const { loading } = useAppSelector((state) => state.category);
+  const { loading } = useAppSelector((state) => state.category.cat9andcat12);
 
   return (
     <CommonTable

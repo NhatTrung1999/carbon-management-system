@@ -8,9 +8,11 @@ import Input from '../../../components/common/Input';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { getSearch } from '../../../features/userSlice';
 import type { IUserManagement } from '../../../types/users';
-import { BREADCRUMB, MENU_SIDEBAR } from '../../../utils/constanst';
+import { BREADCRUMB } from '../../../utils/constants';
+import { MENU_SIDEBAR } from '../../../utils/menu';
 import usersApi from '../../../api/users';
 import { Toast } from '../../../utils/Toast';
+import i18n from '../../../i18n';
 
 type ModuleOption = {
   group: string;
@@ -23,7 +25,7 @@ const moduleOptions: ModuleOption[] = MENU_SIDEBAR.flatMap((group) =>
     group: group.name,
     label: item.text,
     path: item.path,
-  }))
+  })),
 );
 
 const allModulePaths = moduleOptions.map((item) => item.path);
@@ -35,7 +37,9 @@ const SystemDecentralization = () => {
   const { t } = useTranslation();
 
   const [keyword, setKeyword] = useState('');
-  const [selectedUser, setSelectedUser] = useState<IUserManagement | null>(null);
+  const [selectedUser, setSelectedUser] = useState<IUserManagement | null>(
+    null,
+  );
   const [selectedPaths, setSelectedPaths] = useState<string[]>([]);
   const [configured, setConfigured] = useState(false);
   const [loadingPermission, setLoadingPermission] = useState(false);
@@ -47,7 +51,7 @@ const SystemDecentralization = () => {
     return users.filter((item) =>
       [item.UserID, item.Name, item.Email, item.Role]
         .filter(Boolean)
-        .some((field) => field.toLowerCase().includes(value))
+        .some((field) => field.toLowerCase().includes(value)),
     );
   }, [keyword, users]);
 
@@ -58,7 +62,7 @@ const SystemDecentralization = () => {
       getSearch({
         sortField: 'UserID',
         sortOrder: 'asc',
-      })
+      }),
     );
   }, [dispatch]);
 
@@ -70,7 +74,10 @@ const SystemDecentralization = () => {
       setConfigured(res.permissionsConfigured);
       setSelectedPaths(res.modulePermissions);
     } catch {
-      Toast.fire({ icon: 'error', title: 'Cannot load permissions' });
+      Toast.fire({
+        icon: 'error',
+        title: i18n.t('common.load_permissions_failed'),
+      });
     } finally {
       setLoadingPermission(false);
     }
@@ -80,7 +87,7 @@ const SystemDecentralization = () => {
     setSelectedPaths((current) =>
       current.includes(path)
         ? current.filter((item) => item !== path)
-        : [...current, path]
+        : [...current, path],
     );
   };
 
@@ -105,7 +112,7 @@ const SystemDecentralization = () => {
 
   const handleSave = async () => {
     if (!selectedUser) {
-      Toast.fire({ icon: 'warning', title: 'Please choose user' });
+      Toast.fire({ icon: 'warning', title: i18n.t('common.choose_user') });
       return;
     }
 
@@ -115,13 +122,16 @@ const SystemDecentralization = () => {
         selectedUser.UserID,
         selectedPaths,
         allModulePaths,
-        user?.UserID
+        user?.UserID,
       );
       setConfigured(res.permissionsConfigured);
       setSelectedPaths(res.modulePermissions);
-      Toast.fire({ icon: 'success', title: 'Saved successfully!' });
+      Toast.fire({ icon: 'success', title: i18n.t('common.saved_success') });
     } catch {
-      Toast.fire({ icon: 'error', title: 'Cannot save permissions' });
+      Toast.fire({
+        icon: 'error',
+        title: i18n.t('common.save_permissions_failed'),
+      });
     } finally {
       setSaving(false);
     }
@@ -133,7 +143,7 @@ const SystemDecentralization = () => {
         <Breadcrumb
           items={BreadcrumbData(
             t(BREADCRUMB),
-            t('system_decentral.system_decentralization')
+            t('system_decentral.system_decentralization'),
           )}
         />
         <h1 className="text-2xl font-bold tracking-tight text-white/90 sm:text-3xl">
@@ -142,19 +152,18 @@ const SystemDecentralization = () => {
       </div>
 
       <div
-        className="relative grid min-w-0 gap-4 overflow-hidden rounded-2xl border border-white/[0.10]
-        bg-white/[0.05] p-4 shadow-[0_8px_40px_rgba(0,0,0,0.30)] backdrop-blur-[32px]
+        className="relative grid min-w-0 gap-4 overflow-hidden glass-panel p-4
         lg:grid-cols-[360px_minmax(0,1fr)] xl:min-h-0 xl:flex-1"
       >
         <div className="flex min-h-[360px] min-w-0 flex-col overflow-hidden rounded-xl border border-white/[0.08] bg-white/[0.03]">
           <div className="shrink-0 border-b border-white/[0.08] p-4">
             <Input
-              label="User"
+              label={t('system_decentral.user')}
               name="keyword"
               type="text"
               value={keyword}
               onChange={(event) => setKeyword(event.target.value)}
-              placeholder="Search user..."
+              placeholder={t('system_decentral.search_user')}
             />
           </div>
 
@@ -190,7 +199,7 @@ const SystemDecentralization = () => {
 
             {filteredUsers.length === 0 && (
               <div className="px-3 py-10 text-center text-sm text-white/35">
-                No users found
+                {t('system_decentral.no_users')}
               </div>
             )}
           </div>
@@ -204,35 +213,38 @@ const SystemDecentralization = () => {
                 <span className="font-semibold">
                   {selectedUser
                     ? `${selectedUser.UserID} - ${selectedUser.Name}`
-                    : 'Choose a user'}
+                    : t('system_decentral.choose_user')}
                 </span>
               </div>
               <p className="mt-1 text-sm text-white/45">
                 {selectedUser
                   ? configured
-                    ? `${selectedPaths.length}/${allModulePaths.length} modules enabled`
-                    : 'This user is using default role rules until you save.'
-                  : 'Select a user to configure module visibility.'}
+                    ? t('system_decentral.modules_enabled', {
+                        enabled: selectedPaths.length,
+                        total: allModulePaths.length,
+                      })
+                    : t('system_decentral.default_rules')
+                  : t('system_decentral.select_user_hint')}
               </p>
             </div>
 
             <div className="flex flex-wrap gap-2">
               <Button
-                label="Select all"
+                label={t('common.select_all')}
                 type="button"
                 variant="secondary"
                 onClick={handleSelectAll}
                 disabled={!selectedUser || loadingPermission || saving}
               />
               <Button
-                label="Clear"
+                label={t('common.clear')}
                 type="button"
                 variant="secondary"
                 onClick={handleClearAll}
                 disabled={!selectedUser || loadingPermission || saving}
               />
               <Button
-                label={saving ? 'Saving...' : 'Save'}
+                label={saving ? t('common.saving') : t('common.save')}
                 type="button"
                 variant="primary"
                 onClick={handleSave}
@@ -244,14 +256,14 @@ const SystemDecentralization = () => {
           <div className="min-h-0 flex-1 overflow-auto p-4 [scrollbar-width:thin]">
             {loadingPermission ? (
               <div className="py-14 text-center text-sm text-white/40">
-                Loading permissions...
+                {t('system_decentral.loading_permissions')}
               </div>
             ) : (
               <div className="space-y-4">
                 {MENU_SIDEBAR.map((group) => {
                   const groupPaths = group.sidebarItem.map((item) => item.path);
                   const checkedCount = groupPaths.filter((path) =>
-                    selectedSet.has(path)
+                    selectedSet.has(path),
                   ).length;
 
                   return (
